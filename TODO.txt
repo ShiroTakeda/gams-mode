@@ -1,0 +1,23 @@
+Author: Shiro Takeda
+Maintainer: Shiro Takeda
+Time-stamp: <2011-09-09 22:25:44 Shiro Takeda>
+------------------------------------------------------------
+
+* A list of TODO for GAMS mode.
+
+** TODO Info file.
+
+** TODO File name completion for $include, and $libinclude etc.
+
+** TODO A command that converts equations to LaTeX format.
+
+
+
+
+
+
+------------------
+Local variables:
+mode: org
+fill-column:65
+End:

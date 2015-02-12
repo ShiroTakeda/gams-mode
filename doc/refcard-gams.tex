@@ -1,0 +1,230 @@
+% Reference Card for GAMS mode.
+
+% $Id: refcard-gams.tex,v 1.10 2009/06/15 17:15:12 st Exp $
+
+% This file is based on gnusref.tex distriubted with T-Gnus.  Shiro Takeda
+% has modified it and created this file.
+
+% Use latex2e.
+\documentclass{article}
+
+\usepackage{mathpazo}
+
+% Layout.
+\textwidth 6.66in \textheight 10.4in \topmargin -1.1in
+
+% the same settings work for A4, although there is a bit of space at the
+% top and bottom of the page.
+\oddsidemargin -0.2in \evensidemargin -0.3in
+
+\begin{document}
+
+% Width between two columns.
+\setlength{\columnsep}{1cm}
+
+% Two columns, footnote size.
+\twocolumn\footnotesize\pagestyle{empty}
+
+\def\version{4.0}
+\def\date{September, 2012}
+\def\year{2001--2012\ }
+
+\def\author{Shiro Takeda \\{\tt shiro.takeda@gmail.com}}
+
+\raggedbottom\raggedright
+
+\newenvironment{keys}[1]% #1 is the widest key
+  {\noindent
+%   {\nopagebreak%\noindent%
+   \settowidth{\keycolwidth}{#1}%
+   \addtolength{\keycolwidth}{\tabcolsep}%
+   \addtolength{\keycolwidth}{-\columnwidth}%
+   \begin{tabular}{@{}l@{\hspace{\tabcolsep}}p{-\keycolwidth}@{}}}%
+  {\end{tabular}\\}
+
+\newdimen\defwidth \defwidth=0.25\hsize
+\def\hang{\hangindent\defwidth}
+\def\textindent#1{\noindent\llap{\hbox to \defwidth{\tt#1\hfil}}\ignorespaces}
+\def\key{\par\hangafter=0\hang\textindent}
+
+\font\headingfont=cmss10
+\def\sec#1{\par
+  \vskip 3ex plus 2ex minus 2ex
+  {\headingfont #1}\mark{#1}%
+  \vskip 2ex plus 1ex minus 1.5ex}
+
+\catcode`\^=12 % allow ^ to be typed literally
+\catcode`\~=12 % allow ~ to be typed literally
+
+\newcommand{\B}[1]{{\bf#1})}    % bold l)etter
+\newcommand{\kbd}[1]{{\tt#1}}
+
+\def\cr{
+\begin{center}
+Copyright \copyright \ \year \ \author.\vspace*{1em}\\
+
+Permission is granted to make and distribute copies of this card
+provided the copyright notice and this permission notice are preserved
+on all copies.
+\end{center}
+}
+
+
+%%% Title.
+
+\begin{center}
+ {\sf
+ {\large Reference Card for GAMS mode} \vspace*{0.5em}\\
+ {\small for gams.el version \version, \date.}
+ }
+\end{center}
+
+%%%%%% Notes
+
+\sec{Notes}
+In the following, \kbd{C-c} means hit the `\kbd{c}' key while holding down
+the \kbd{Ctrl} key. \kbd{M-z} means hit the `\kbd{z}' key while hitting
+the \kbd{Meta} (labeled \kbd{Alt} on some keyboards) or after hitting
+\kbd{Esc} key.  The slash `\kbd{/}' means `or'.  Of course, these are
+the {\it default} key-bidndings and you can change them freely.
+
+%%%%%% GAMS mode.
+
+\sec{GAMS mode}
+
+\key{C-c C-k} Insert GAMS statement.
+\key{C-u C-c C-k} Replace the existing statement with new one.
+\key{C-c C-d} Insert GAMS dollar control.
+\key{C-u C-c C-d} Replace the existing dollar control with new one.
+\key{C-c C-n} Insert GAMS statement (extended).
+\key{C-c C-o} Insert a comment template.
+\key{C-c C-e} Start the GAMS-TEMPLATE mode.
+\key{C-c C-w} Open the included subroutine file.
+\key{} 
+\key{C-c C-v/F10} Switch to the LST file and show errors.
+\key{C-c C-j} Switch to the LST file.
+\key{C-c C-i/F11}  Switch to the OUTLINE buffer.
+\key{} 
+\key{C-c C-t}  Start GAMS process menu.
+\key{C-c C-s/F9}  Run GAMS.
+\key{C-c C-l}  Popup GAMS process buffer.
+\key{} 
+\key{C-c C-c}  Insert an ontext-offtext pair.
+\key{C-c C-g}  Jump between an ontext-offtext pair.
+\key{C-c M-c}  (Un)comment an ontext-offtext pair.
+\key{C-c M-g}  Remove an ontext-offtext pair.
+\key{} 
+\key{(C-u)C-cC-.}  Show the declaration part of an identifier.
+\key{\ \ \ \ \ \ or F7}
+\key{C-c C-a}  Show the list of all identifiers in the buffer.
+\key{F8}  Jump between the matched parenthesis.
+\key{C-c C-f}  Choose font-lock level.
+\key{M-g M-g}  Fontify block.
+\key{C-l}  Recentering and recoloring.
+\key{TAB}  Indent line.
+\key{} Indent region is \verb|`M-C-\'|
+\key{C-c C-m}  View GAMS pdf manuals.
+\key{C-c C-z}  View GAMS model library.
+\key{M-;}  Insert end-of-line comment.
+\key{C-c M-;}  Insert inline comment.
+\key{C-c C-;}  Comment out a region.
+\key{C-c C-h}  Hide (show) comment region.
+\key{C-c C-x}  Start GAMS-LXI mode.
+\key{C-c C-y}  Align blocks.
+
+%%%%%%
+
+\sec{GAMS--LST mode}
+
+\key{y}   Jump to the error and show its number and meaning.
+\key{u}  Jump back to the error place in the program file.
+\key{i}  Jump to the input (gms) file.
+\key{o}  Start the GAMS-OUTLINE mode.
+\key{.}  Show the Included File Summary
+\key{} 
+\key{q}  Close the buffer.
+\key{?}  Display the help.
+\key{} 
+\key{s(S)}  Jump to the next (previous) SOLVE SUMMARY.
+\key{r(R)}  Jump to the next (previous) REPORT SUMMARY.
+\key{v(V)}  Jump to the next (previous) VAR entry.
+\key{e(E)}  Jump to the next (previous) EQU entry.
+\key{p(P)}  Jump to the next (previous) PARAMETER entry.
+\key{x(X)}  Jump to the next (previous) Equation Listing entry.
+\key{c(C)}  Jump to the next (previous) Column Listing entry.
+\key{L}  Jump to a line you specify.
+\key{l}  Jump to a line.
+\key{} 
+\key{SPC}  Scroll up.
+\key{M-v/DEL}  Scroll down.
+\key{1}  Widen the window.
+\key{2}  Split the window.
+\key{m}  Move frame.
+\key{w}  Resize frame.
+\key{z}  Move a cursor to the other window.
+\key{} 
+\key{d,f,g,h,j,k}          Scroll commands.
+
+%%%%%%
+
+\sec{GAMS--OUTLINE mode}
+
+\key{SPC}  Show the content of the item on the current line.
+\key{N}  Show the content of the next item.
+\key{P}  Show the content of the previous item.
+\key{t}  Select viewable items.
+\key{T}  Select registered viewable item combination.
+\key{c}  Toggle the follow mode.
+\key{x}  Toggle the display style.
+\key{} 
+\key{m}  Mark an item.
+\key{u}  Unmark an item.
+\key{y}  Jump to the marked line.
+\key{} 
+\key{i}  Switch back to the LST buffer.
+\key{;}  Switch back to the gms file buffer.
+\key{?}  Show the help.
+\key{q}  Quit.
+\key{} 
+\key{l}  Widen the window with one line.
+\key{o}  Narrow the window with one line.
+\key{1}  Widen the window.
+\key{C-l}  Recenter.
+\key{C-v/ENT}  Scroll up the OUTLINE buffer.
+\key{M-v/DEL}  Scroll down the OUTLINE buffer.
+\key{} 
+\key{n}          Next line.
+\key{p}          Previous line.
+\key{w}          Resize frame.
+\key{e}          Move frame.
+\key{} 
+\key{d,f,g,h,j,k}          Scroll commands.
+
+%%%%%%
+
+\sec{GAMS--TEMPLATE mode}
+
+\key{SPC}  Show the content of a template.
+\key{ENT}  Insert a template.
+\key{a}  Add a new template.
+\key{d}  Delete a template.
+\key{e}  Re-edit a template.
+\key{r}  Rename a template.
+\key{u}  Move a template up.
+\key{j}  Move a template down.
+\key{g}  Show the gms file.
+\key{q}  Quit.
+\key{} 
+\key{s(S)}       Scroll up (down) *Template Content* buffer.
+\key{h}  Show the help.
+\key{o}  Save the content of gams-user-template-alist.
+\key{p}  Show the previous template.
+\key{n}   Show the next template.
+
+
+%%%%% Copyright.
+
+\vspace*{\fill}
+\cr
+
+\end{document}

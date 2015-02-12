@@ -1,0 +1,2894 @@
+(setq gams-user-template-alist '(
+
+("commnet large" . "*	======================================================================
+*	%c
+*	======================================================================
+")
+
+("my comment" . "*	----------------------------------------------------------------------
+*	%c
+")
+
+("Introduction of the GAMS-TEMPLATE mode." . "*	----------------------------------------------------------------------
+
+*	Introduction of the GAMS-TEMPLATE mode.
+*	----------------------------------------------------------------------
+$ontext
+$Id: .gams-template,v 1.2 2008/07/22 03:15:14 st Exp $
+
+GAMS-TEMPLATE mode enables you to handle templates easily.  You can easily
+insert, re-edit, delete, rename, order, and add templates.  You can of course
+make any change on this sample template file.  Try it!
+
+
+See the help for commands.  Type `h' in the *Template List* buffer.  To scroll
+this buffer, type `k' or `l'.
+
+
+Most of the examples in this sample `gams-template-file' are taken from Tom
+Rutherford's web page and Rob Dellink's GAMS Tips and Tricks.  I would like to
+thank them.
+
+
+`gams-template' stores templates in a template file defined by the variable
+`gams-template-file'.  Its default value is \"~/gams-template.txt\".
+
+
+Double-quoations and backslashes are escaped in `gams-template-file':
+
+ What is inserted in a buffer         What is written in `gams-template-file'
+                \\               ==>                \\\\ 
+                \"               ==>                \\\"
+
+You will see this if you open `gams-template-file' and look at the template
+which includes double-quoations and backslashes.  You must take care of this
+when you edit `gams-template-file' manually by yourself.
+
+
+If your Emacs often crashes, you had better set the variable
+`gams-save-template-change' to non-nil.  Then the content of
+`gams-user-template-alist' is saved into `gams-template-file' every time you
+make a change (add, reedit and delete).
+
+
+When you encounter an error that you can't resolve, please delete all buffers
+relating GAMS-TEMPLATE mode, i.e. *Template List*, *Template Content*,
+*GAMS-EDIT* buffers (but you may lose what you have modified).
+
+
+You had better backup `gams-template-file' regularly!  Its content is likey to
+be destroyed because of some bugs in \"gams.el\" :-)
+
+
+If you have useful templates, please send them to me.  I will add them to this
+file.
+$offtext
+")
+
+("Commands in the GAMS-TEMPLATE mode." . "*	----------------------------------------------------------------------
+
+*	Commands in the GAMS-TEMPLATE mode.
+*	----------------------------------------------------------------------
+$ontext
+The following commands are available in this mode.
+
+SPC	Show a content of a template.
+RET	Insert a template.
+q	Quit.
+a	Add a new template.
+
+d	Delete a template.
+e	Re-edit a template.
+r	Rename a template.
+u	Move a template up.
+j	Move a template down.
+g	Show the gms file.
+s(S)	Scroll up (down) *Template Content* buffer.
+h	Show this help.
+o	Save the content of gams-user-template-alist.
+
+p	Show the previous template.
+n	Show the next template.
+$offtext
+")
+
+("Comment No.1" . "*	----------------------------------------------------------------------
+
+*	%c
+*	----------------------------------------------------------------------
+
+*	% + c indicate the cursor place.
+")
+
+("Comment No.2" . "*	======================================================================
+
+*	%c
+*	======================================================================
+
+*	% + c indicate the cursor place.
+")
+
+("Comment for Benchmark replication." . "*	======================================================================
+
+*	Benchmark replication.
+*	======================================================================
+")
+
+("Comment No.3" . "*	----------------------------------------------------------------------
+*	%c
+
+*	% + c indicate the cursor place.
+")
+
+("Comment for the GAMS-OUTLINE mode." . "*	----------------------------------------------------------------------
+
+*	Comment for the GAMS-OUTLINE mode.
+*	----------------------------------------------------------------------
+
+display \"com: %c\";
+")
+
+("Comment for Clean up Calculation." . "*	======================================================================
+
+*	Clean up calculation.
+*	======================================================================
+")
+
+("Comment for Counter factual Experiment." . "*	======================================================================
+
+*	Counter factual experiment.
+*	======================================================================
+")
+
+("Comment for Cleanup calculation (small)" . "*	----------------------------------------------------------------------
+*	Cleanup calculation.
+")
+
+("Comment for Counter factual experiment (small)" . "*	----------------------------------------------------------------------
+*	Counter-factual
+")
+
+("Comment for Benchmark replication (small)" . "*	----------------------------------------------------------------------
+*	Benchmark replication.
+")
+
+("batinclude ex.1" . "*	----------------------------------------------------------------------
+
+*	$batinclude.
+*	----------------------------------------------------------------------
+
+$batinclude  filename  arg1  arg2
+")
+
+("Solve the model by MPSGE" . "$include %c.gen
+solve xxx using mcp;
+")
+
+("MPSGE debug options" . "
+option sysout = on;
+
+$ontext
+$model:model_name
+
+*	Debug options for MPSGE
+* $echop:.true.
+* $datech:.true.
+* $funlog:.true.
+")
+
+("Limit iteration." . "%c.iterlim = 0;
+* <modelname>.iterlim = 0;
+")
+
+("mpsgeset" . "$offtext
+$sysinclude mpsgeset %c
+")
+
+("set definition ex.1" . "*	----------------------------------------------------------------------
+
+*	set definition.
+*	----------------------------------------------------------------------
+
+set	iter	Index of iteration	/iter1*iter10/;
+")
+
+("put statement ex.1" . "*	----------------------------------------------------------------------
+
+*	put ex.1
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	----------------------------------------------------------------------
+
+* 13. You can use some identifiers of sets in put statements:set element label:
+* <setname>.tl (useful in loops)set element * associated text: <setname>.te(index)
+   
+*  set associated text: <setname>.ts
+
+*  Example:
+
+file out /\"results.out\"/; put out;
+
+set i associated text of set /i1 first element, i2 second element, i3/;
+
+put i.ts /;
+
+loop(i, put i.tl, i.te(i) /);
+
+* The resulting file results.out will look like:
+
+* associated text of set
+
+* i1	first element
+
+* i2	second element
+  
+* i3	I3
+  
+* {Contributed by Rob Dellink}
+
+")
+
+("if statement ex.1" . "*	----------------------------------------------------------------------
+
+*	if statements ex.1.
+*	----------------------------------------------------------------------
+
+if(f <= 0,
+	p(i) = -1;
+	q(j) = -1;
+else
+	p(i) = p(i)**2;
+	q(j) = q(j)**2;
+);
+
+")
+
+("if statement ex.2" . "*	----------------------------------------------------------------------
+
+*	if statements ex.2.
+*	----------------------------------------------------------------------
+
+if(f <= 0,
+	p(i) = -1;
+	q(j) = -1;
+elseif((f > 0) and (f < 1)),
+	p(i) = p(i);
+	q(j) = q(j);
+else
+	p(i) = p(i)**2;
+	q(j) = q(j)**2;
+);
+
+")
+
+("Model explanation." . "*	----------------------------------------------------------------------
+
+*	Model explanation.
+*	----------------------------------------------------------------------
+
+$ontext
+
+
+
+
+
+
+$offtext
+")
+
+("Limit the output listing." . "*	----------------------------------------------------------------------
+
+*	Limit the output listing.
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	----------------------------------------------------------------------
+
+*  8. You can limit the output listing file by including the following
+*  statements:
+   
+$offsymxref	
+
+*  {This stops the print of a complete cros-reference list of symbols }
+
+$offlisting
+
+*  {This stops the echo print of the input file}
+
+option limcol = 0;
+
+*  {This stops the print of the column listing}
+
+option limrow = 0;
+
+*  {This stops the print of the equation listing}
+
+*  {Contributed by Rob Dellink}
+")
+
+("loop statement ex.1" . "*	----------------------------------------------------------------------
+
+*	LOOP.
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	----------------------------------------------------------------------
+
+* 14. To get a good insight of the impacts of a parameter value on the model
+* results (i.e. a sensitivity analysis), build a loop of solves for different
+* parameter values; for example:
+   
+set	iter	/iter0*iter10/;
+
+scalars
+	count
+	lowest		/0.1/
+	highest		/0.9/;
+
+parameter
+	xvalue(iter)	 Parameter subject to sensitivity analysis
+	results(iter)	 Model results;
+
+* <  insert model declaration etcetera here  >
+
+loop(iter,
+
+	count = (ord(iter)-1)/(card(iter)-1);
+	xvalue(iter) = (1-count) * lowest + count * highest;
+
+solve <modelname> using <solver> maximising <optimand>;
+
+	results(iter) = ...;
+);
+
+display results;
+
+* {Contributed by Rob Dellink}
+")
+
+("MODELSTAT and SOLVESTAT check." . "*	----------------------------------------------------------------------
+
+*	MODELSTAT and SOLVESTAT check.
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	----------------------------------------------------------------------
+
+*  5. Always check whether your model has been normally completed and found an
+*  optimal solution:
+   
+display <modelname>.MODELSTAT, <modelname>.SOLVESTAT;
+
+*  Both should equal 1 if the model is linear; solvestat should equal 2 for
+*  non-linear models. You can use an abort statement if one or both is
+*  incorrect:
+
+abort$(<modelname>.MODELSTAT <> 1) \"Model not normally completed\", <modelname.MODELSTAT;
+
+abort$(<modelname>.SOLVESTAT <> 2) \"No local optimum found\", <modelname.SOLVESTAT;
+
+* {Contributed by Rob Dellink}
+")
+
+("Model consistency check." . "*	----------------------------------------------------------------------
+
+*	Model consistency check.
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	----------------------------------------------------------------------
+
+*  4. Use the abort statement if the model specification is incorrect, that is,
+* if you end up with a solution that does not satisfy some condition you know
+* that has to be satisfied; for example, if the benchmark does not replicate,
+* you can use:
+   
+abort$(<modelname>.OBJVAL GT 1E-6) \"DATA CALIBRATION ERROR! LARGEST ERROR: \", <modelname>.OBJVAL;
+
+* Or in case you know (by Walras Ålaw) that the level of C2 has to equal the
+* level of X2:
+
+abort$((C2.L-X2.L)**2 gt 1E-20) \"Walras law not obeyed!\";
+
+* {Contributed by Rob Dellink}
+")
+
+("Avoid division by zero." . "*	------------------------------------------------------------------------
+
+*	Avoid division by zero.
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	------------------------------------------------------------------------
+
+* 21. If you want to have an equation where you divide the righthand side by
+* another variable, you may encounter Åedivision by zeroÅf errors. Suppose you
+* have the equation
+   
+vv1(x,y).. v1(x,y) =e= a(x,y);
+
+vv2(x,y)$(a(x,y) ne 0).. v2(x,y) =e= rhs/v1(x,y);
+
+* Note that the second equation can only be made conditional upon the parameter
+* a, not on variable v1.
+
+* In this straighforward case, you can solve the error as follows:
+
+vv1(x,y).. v1(x,y) =e= a(x,y);
+
+vv2(x,y)$(a(x,y) ne 0).. v2(x,y)*v1(x,y) =e= rhs;
+
+* {Contributed by Rob Dellink}
+")
+
+("Save and restart feature." . "*	------------------------------------------------------------------------
+
+*	Save and restart feature.
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	------------------------------------------------------------------------
+
+* 18. If you have a model that costs a lot of time to calculate, then think
+* about using the save and restart feature. This is especially handy if you have
+* solved your model and are thinking about ways to organise the output. You caan
+* run your model, save the work files from this run and restart from these
+* workfiles for output handling. For example, if you have a GAMS-file (say,
+* part1.gms) in which the data is read, the variables and equations are
+* specified and your model is solved, then save the workfiles as, say,
+* model1. Then, write the output handling code in a separate file (say,
+* part2.gms), using the restart option. If you want to change anything in
+* part2.gms, you do not have to solve the model again, you can just include the
+* workfiles. This can save a lot of time (especially for larger models) and you
+* can play around with how you want your output organised at little cost. Note
+* that this save and restart feature can also be handy in other circumstances,
+* like saving after solving a base scenario and then solving several scenarios
+* using the restarted base. The code in the example above looks like this:
+   
+GAMS part1 s=model1
+
+GAMS part2 r=model1
+
+* {Contributed by Rob Dellink}
+")
+
+("Pass a parameter to include file." . "*	------------------------------------------------------------------------
+
+*	Pass a parameter to include file.
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	------------------------------------------------------------------------
+
+* 17. Many users know the $INCLUDE command to include pieces of GAMS code, but
+* if you want to pass a parameter to the file that is to be included, use the
+* $batinclude command.
+   
+$batinclude FILES.INC \"versionX\"
+
+* and FILES.INC may look like:
+
+* $CALL 'MD %1'
+
+* file results /\"%1\\results.out\"/;
+
+* set Version /%1/;
+
+* When running the program, \"%1\" will be automatically substituted by
+* \"versionX\". In this example, a subdirectory ÅeversionxÅf will be made and
+* output directed to the file results will be written to the file Åeresults.outÅf 
+* in this subdirectory; finally, a set with only one element \"versionx\" is
+* declared.
+
+* {Contributed by Rob Dellink}
+")
+
+("Get information in run-time." . "*	------------------------------------------------------------------------
+
+*	Get information in run-time.
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	------------------------------------------------------------------------
+
+* 15. How to get information on your screen in run-time? If you run several
+* simulations within the same GAMS model (for instance, you do a loop of
+* solves), you can
+   
+display \"%system.filesys%/\";
+
+file screen /'con'/;
+
+loop(t,
+
+* <  include commands here  >
+
+putclose screen 'The current value of index t is ',t.tl/;
+
+);
+
+* Note: this may not work properly on a Unix or Windows NT platform.
+
+* If you use the GAMS-IDE, make sure that the DOS window is visible (select File
+* / Options / Execute and choose ÅeNormalÅf for the DOS window).
+
+* {Contributed by Rob Dellink}
+")
+
+("The dynamic sets." . "*	------------------------------------------------------------------------
+
+*	The dynamic sets.
+*	From Rob Dellink's GAMS Tips and Tricks.
+*	------------------------------------------------------------------------
+
+* 20. When using multidimensional datasets with a restricted number of allowed
+* elements, you can use dynamic sets or set mapping to limit the set
+* elements. The following example gives a full GAMS program that shows the
+* dynamic sets and mapping.
+   
+$title A simple illustration of using dynamic sets
+
+$ontext
+
+This small example illustrates how one can limit the number of elements that
+are used in parameters by using either dynamic sets or set mapping.  In this
+case, both procedures give the same results.  The example also show how the
+dynamic sets can be used.
+
+$offtext
+
+sets
+	x	/x1*x3/
+	y	/y1*y4/
+	xx(x)
+	yy(y)
+	xy(x,y);
+
+parameter
+	a(x,y)	he basis from which you retrieve the non-zero elements;
+
+* Suppose you know the values of a
+
+a(x,y) = 1;
+a('x1',y) = 0;
+a('x2','y2') = 0;
+a('x2','y3') = 0;
+a('x2','y4') = 0;
+a('x3','y2') = 0;
+
+* Determine the dynamic sets
+
+xx(x) = yes$(sum(y, a(x,y)) ne 0);
+yy(y) = yes$(sum(x, a(x,y)) ne 0);
+xy(x,y) = yes$(a(x,y) ne 0);
+
+* The same set with only non-zero elements could be retrieved through mapping
+
+set
+	yx(x,y)		/x2.y1, x3.(y1,y3*y4)/;
+
+display x, y, a, xx, yy, xy, yx;
+
+parameter
+	b(x,y)		the whole set with values regardless of zeros in a
+	c(x,y)		parameter b corrected for non-existent x
+	d(x,y)		parameter b corrected for non-existent y
+	e(x,y)		parameter b corrected for non-existent x and y
+	f(x,y)		parameter b for only existent elements based on dynamic set xy
+	g(x,y)		parameter b for only existent elements based on mapped set yx
+	h(*,*)		parameter b using the dynamic set xy
+	sumx(y)		parameter h summed over x;
+
+b(x,y) = 1;
+c(xx,y) = 1;
+d(x,yy) = 1;
+e(xx,yy) = 1;
+f(x,y)$xy(x,y) = 1;
+g(x,y)$yx(x,y) = 1;
+h(xy) = 1;
+sumx(y) = sum(x, h(x,y));
+
+display b, c, d, e, f, g, h, sumx;
+
+* {Contributed by Rob Dellink and Erik Schmieman}
+")
+
+("MPSGE: Endogenous tax multiplier." . "*	Endogenous tax multiplier.
+
+$prod:q(s)
+	o:p(s)		q:q0(s)
+	i:pf(f)		q:af0(f,s)	p:pf0(f,s)	a:cons
++	n:tau$tf(f,s)	m:tf(f,s)$tf(f,s)
+")
+
+("MPSGE: Endogenous tax." . "*	Endogenous tax.
+
+$prod:q(s)	s:1
+	o:p(s)	  q:q0(s)	p:1	     a:cons	 n:mul
+	i:pf(f)	  q:fi0(f,s)	p:pf0(f,s)   a:cons	 t:txf(f,s)
+")
+
+("Basic settings." . "*	----------------------------------------------------------------------
+
+*	Basic setting.
+*	----------------------------------------------------------------------
+
+option decimals = 8;
+option sysout=on;
+")
+
+("Turn off listing of include file." . "$offlisting
+$batinclude ..\\inclib\\mrtdata
+$onlisting
+
+")
+
+("gdxxrw: excel -> gams" . "$title  A sample program to import data from the excel file.
+$ontext
+Time-stamp: 	<2010-07-10 15:00:24 Shiro Takeda>
+First-written:	<2010/07/10>
+
+Note: before running this program, you first need to run GAMS_to_excel.gms to
+create data.xls file.
+
+Steps:
+1) Excel file -> GDX file
+2) GDX file -> GAMS.
+
+$offtext
+
+set
+    i	/ 1*10 /;
+alias(i,j);
+
+*	Parameters a and b must be declared beforehand.
+parameter
+    a(i,j)	Data A
+    b(i,j)	Data B
+;
+
+*	Export a and b to the GDX file 'data_alt.gdx' from the excel file 'data.xls'.
+$call '=gdxxrw i=data.xls o=data_alt.gdx par=a rng=sheet_a!A1:K11 rdim=1 cdim=1 par=b rng=sheet_b!A1:K11 rdim=1 cdim=1'
+
+*	Open the GDX file 'data_alt.gdx'.
+$gdxin data_alt.gdx
+
+*	Import a and b from 'data_alt.gdx'.
+$load a b
+
+*	Display the content of a and b.
+display a, b;
+
+* --------------------
+* Local Variables:
+* mode: gams
+* fill-column: 80
+* End:
+")
+
+("gdxxrw: gams -> excel" . "$title  A sample program to export GAMS data to Excel file.
+$ontext
+Time-stamp: 	<2010-07-10 14:59:31 Shiro Takeda>
+First-written:	<2010/07/10>
+
+Steps:
+1) GAMS -> GDX file
+2) GDX file -> Excel file.
+
+$offtext
+
+set
+    i	/ 1*10 /;
+alias(i,j);
+
+parameter
+    a(i,j)	Data A
+    b(i,j)	Data B
+;
+*	Random numbers to parameter a.
+a(i,j) = uniform(0,1);
+
+b(i,j) = 100;
+b(i,i) = 0;
+
+display a, b;
+
+*	Export a and b to the GDX file 'data.gdx'.
+execute_unload \"data.gdx\", a, b;
+
+*	Export a and b from data.gdx to the excel file 'data.xls'.
+execute '=gdxxrw i=data.gdx o=data.xls par=a rng=sheet_a!A1 rdim=1 cdim=1';
+execute '=gdxxrw i=data.gdx o=data.xls par=b rng=sheet_b!A1 rdim=1 cdim=1';
+
+*	The following (commented out) code does the same in the smarter way:
+$ontext
+
+$onecho > command.txt
+i = data.gdx o=data.xls
+par=a rng=sheet_a!A1 rdim=1 cdim=1
+par=b rng=sheet_b!A1 rdim=1 cdim=1
+$offecho
+
+*	The following command evokes gdxxrw with the content of command.txt as
+*	arguments.
+execute '=gdxxrw @command.txt';
+
+$offtext
+
+* --------------------
+* Local Variables:
+* mode: gams
+* fill-column: 80
+* End:
+")
+
+("gdxxrw: export parameters with zero to excel." . "$title How to export parameters with zero to excel file.
+$ontext
+Time-stamp:     <2011-02-02 21:20:50 Shiro Takeda>
+First-written:  <2010/05/22>
+
+1) First, set eps to parameters.
+2) Replace eps with zero when exporting gdx to excel.
+
+$offtext
+
+set     i Sample index / 1*100 /
+        j Sample index / 1*100 /
+;
+
+parameter a Sample parameter
+          b Sample parameter
+;         
+a(i,j) = eps;
+b(i,j) = 0;
+display a, b;
+
+*       Export parameter to results_2.gdx
+execute_unload \"results_eps.gdx\", a, b;
+
+*       ----------------------------------------------------------------------
+*       Export to excel by gdxxrw
+display \"com: Export to excel by gdxxrw\";
+$ontext
+
+The following option for gdxxrw replace eps with STRING
+
+epsout=string
+
+$offtext
+*       parameter file for gdxxrw
+$onecho > cmd.txt
+i=results_eps.gdx o=results_eps.xlsx epsout=0
+par=a rng=a!A1 rdim=1 cdim=1   
+par=b rng=b!A1 rdim=1 cdim=1   
+$offecho
+
+*       Call gdxxrw
+execute '=gdxxrw @cmd.txt';
+
+* --------------------
+* Local Variables:
+* mode: gams
+* fill-column: 80
+* End:
+")
+
+("Gnuplot No.0: Plot a one dimensional vector to the screen." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.0
+*	ex0.gms from Tom Rutherford's web page.
+*	Example 0: Plot a one dimensional vector to the screen
+*	----------------------------------------------------------------------
+
+set t /1990*2030/;
+
+parameter a(t)  Example 0: Generic output to the screen (default invocation);
+a(\"1990\") = 1;
+loop(t,  a(t+1) = a(t) * (1 + 0.04 * uniform(0.2,1.8)); );
+
+*        I know that a() is defined over set t.  The plotting package
+*       knows that the argument has one dimension, but it does not know
+*       what set defines those entry.  Three ways to pass the domain:
+
+*       (i) Let GAMS figure out which elements of A are nonzero (not a problem
+*       here because the parameter is dense:
+
+$libinclude plot A 
+
+*       (ii) Pass GAMS the domain on the call:
+
+$libinclude plot A t
+
+*       (iii) Pass GAMS the domain in an environment vaiable:
+
+$setglobal domain t
+
+$libinclude plot A 
+")
+
+("Gnuplot No.1: Generic Invocation of GNUPLOT." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.1
+*	ex1.gms from Tom Rutherford's web page.
+*	$TITLE  Example 1: Generic Invocation of GNUPLOT
+*	----------------------------------------------------------------------
+
+set t /1990*2030/, j /a,b,c,d/;
+
+parameter a(t,j)  Example 1: Generic output to the screen (default invocation);
+a(\"1990\",j) = 1;
+loop(t,  a(t+1,j) = a(t,j) * (1 + 0.04 * uniform(0.2,1.8)); );
+
+$setglobal gp_opt1 'set key top left'
+$libinclude plot A
+")
+
+("Gnuplot No.2: Directing GNUPLOT Output to File." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.2
+*	ex2.gms from Tom Rutherford's web page.
+*	$TITLE  Example 2: Directing GNUPLOT Output to File
+*	----------------------------------------------------------------------
+
+set t /1990*2030/, j /a,b,c,d/;
+
+parameter a(t,j)  Random time series with a trend; 
+a(\"1990\",j) = 1;
+loop(t,  a(t+1,j) = a(t,j) * (1 + 0.04 * uniform(0.2,1.8)); );
+
+$setglobal gp_opt1 'set key bottom right'
+$setglobal gp_opt2
+$setglobal gp_opt3
+$libinclude plot A
+
+$setglobal batch yes
+
+$setglobal gp_opt2 \"set term pslatex\"
+$setglobal gp_opt3 \"set output 'a.ps'\"
+$libinclude plot A
+
+$setglobal gp_opt2 'set term gif'
+$setglobal gp_opt3 \"set output 'ex2_37.gif'\"
+$setglobal gp_opt7 \"set size 0.8,0.8\"
+$libinclude plot A
+")
+
+("Gnuplot No.3: Graphs with Labels and Titles." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.3
+*	ex3.gms from Tom Rutherford's web page.
+*       $TITLE  Example 3: Graphs with Labels and Titles
+*	----------------------------------------------------------------------
+
+set t /0*40/, j /a,b,c,d/;
+
+*       note: where we specify descriptive text for subset elements,
+*       it is then displayed in place of the subset index on the 
+*       graph -- i.e. 1990,2000 etc. are displayed, not 0,10,...
+
+set decade(*) / 0 1990, 10 2000, 20 2010, 30 2020, 40 2030/;
+
+parameter a(t,j)  Example 3: Labels and Titles; 
+a(\"0\",j) = 1;
+loop(t,  a(t+1,j) = a(t,j) * (1 + 0.04 * uniform(0.2,1.8)); );
+
+*       ---------------------------
+*       Generic plotting commands:
+
+$setglobal labels decade
+
+$setglobal gp_opt5 \"set xlabel 'Year -- time step annual'\"
+$setglobal gp_opt6 \"set ylabel 'Value'\"
+
+*       ---------------------------
+*       GNUPLOT commands:
+
+$setglobal gp_opt1 \"set key 5,3\"
+$setglobal gp_opt2 \"set title 'Graph of Random Time Series'\"
+$libinclude plot A
+
+$setglobal batch yes
+$setglobal gp_opt3 \"set output 'ex3_37.gif'\"
+$setglobal gp_opt4 \"set term gif\"
+$setglobal gp_opt7 \"set size 0.8,0.8\"
+$libinclude plot A
+")
+
+("Gnuplot No.4: Changes the graph size, y range and location of key." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.4
+*	ex4.gms from Tom Rutherford's web page.
+*	$TITLE  Example 4: Changes the graph size, y range and location of key:
+*	----------------------------------------------------------------------
+
+set t /1990*2030/, j /a,b,c,d/;
+
+set decade(*) / 1990, 2000, 2010, 2020, 2030/;
+
+parameter a(t,j)  Example 4: Changing graph size and scaling ;
+a(\"1990\",j) = 1;
+loop(t,  a(t+1,j) = a(t,j) * (1 + 0.04 * uniform(0.2,1.8)); );
+
+$setglobal labels decade
+
+$setglobal gp_opt5 \"set xlabel 'Year -- time step annual'\"
+$setglobal gp_opt6 \"set ylabel 'Value'\"
+
+$setglobal gp_opt1 \"set size 0.8,0.8\"
+$setglobal gp_opt2 \"set key  5,2\"
+$setglobal gp_opt3 \"set grid\"
+$setglobal gp_opt4 \"set yrange [0:3]\"
+$libinclude plot A
+
+$setglobal batch yes
+$setglobal  gp_opt5 \"set output 'ex4_37.gif'\"
+$setglobal  gp_opt6 \"set term gif\"
+$libinclude plot A
+")
+
+("Gnuplot No.5: Unequally spaced data." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.5
+*	ex5.gms from Tom Rutherford's web page.
+*	$TITLE  Example 5: Unequally spaced data
+*	----------------------------------------------------------------------
+
+set t /1990*2030/, j /a,b,c,d/; 
+parameter a(t,j)  Example 5: Missing data represented by NA;
+a(\"1990\",j) = 1;
+loop(t,  a(t+1,j) = a(t,j) * (1 + 0.04 * uniform(0.2,1.8)); );
+
+set decade(*) / 1990, 2000, 2010, 2020, 2030/;
+parameter year(*); year(t) = 1989 + ord(t);
+
+* omit some data points randomly, indicating these as missing
+* by assigning values equal to na:
+
+a(t,j)$(uniform(0,1) le 0.25) = na;
+
+$setglobal labels decade
+$setglobal xvalue year
+
+$setglobal gp_opt1 \"set key    1995,2\"
+$setglobal gp_opt2 \"set data style linespoints\"
+$setglobal gp_opt3 \"set xlabel 'Year -- time step annual'\"
+$setglobal gp_opt4 \"set ylabel 'Value'\"
+$libinclude plot A
+
+$setglobal batch yes
+
+$setglobal gp_opt5 \"set size 0.7,0.6\"
+$setglobal gp_opt6 \"set output 'ex5_37.gif'\"
+$setglobal gp_opt7 \"set term gif\"
+$libinclude plot A
+
+The GIF file generated by ex5.gms:
+
+                                        [ex5_37]                                        
+
+")
+
+("Gnuplot No.6: Dealing with Zero Rows and Zero Columns." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.6
+*	ex6.gms from Tom Rutherford's web page.
+*	$TITLE  Example 6: Dealing with Zero Rows and Zero Columns
+*	----------------------------------------------------------------------
+
+set     i       evaluation points       /1990*2000/
+        j       various time seris      /a, b, c, d/;
+
+$setglobal labels i
+
+table  time_path(i,j)  Time series with holes
+
+        a       b       c       d
+1990    0       2       0       0
+1991    1       2       1       0
+1992    2       3       4       0
+1993    3       4       0       0
+1994    4       0       2       0
+1995    0       0       0       0
+1996    1       2       3       0
+1997    2       3       4       0
+1998    3       4       5       0
+1999    4       5       6       0
+2000    5       1       7       0;
+
+*       Note that time series d is all zeros, and 
+*       all of the time series equals zero in 1995.
+
+*       Problem:        Get gnuplot.gms to pass zero files
+*                       through to the plotting package.
+
+$setglobal gp_opt1 \"set size 0.7,0.6\"
+$setglobal gp_opt2 \"set key top left\"
+
+$setglobal gp_opt3 \"set title 'Problem: 1995 and series D are both zero.'\"
+$libinclude plot time_path
+
+$setglobal batch yes
+$setglobal gp_opt4 \"set term gif\"
+$setglobal gp_opt5 \"set output 'ex6a_37.gif'\"
+$libinclude plot time_path
+$setglobal gp_opt4
+$setglobal gp_opt5
+$setglobal batch no
+
+*       Define an explicit domain and series:
+
+$setglobal domain i
+$setglobal series j
+
+$setglobal gp_opt3 \"set title 'One solution: define domain and series'\"
+$libinclude plot time_path
+
+$setglobal batch yes
+$setglobal gp_opt4 \"set term gif\"
+$setglobal gp_opt5 \"set output 'ex6b_37.gif'\"
+$libinclude plot time_path
+$setglobal gp_opt4
+$setglobal gp_opt5
+$setglobal batch no
+
+*       Drop the domain and series definition:
+
+$setglobal domain
+$setglobal series 
+
+*       Method 2: replace zero by eps
+
+time_path(i,j)$(not time_path(i,j)) = eps;
+
+$setglobal gp_opt3 \"set title 'Another solution: replace zero by eps.'\"
+$libinclude plot time_path
+
+$setglobal batch yes
+$setglobal gp_opt4 \"set term gif\"
+$setglobal gp_opt5 \"set output 'ex6c_37.gif'\"
+$libinclude plot time_path
+$setglobal gp_opt4
+$setglobal gp_opt5
+$setglobal batch no
+
+")
+
+("Gnuplot No.7: Plotting Multiple Independent Series." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.7
+*	ex7.gms from Tom Rutherford's web page.
+*	$TITLE Example 7: Plotting Multiple Independent Series 
+*	----------------------------------------------------------------------
+
+set             i       observation counts /1*4/,
+                g       graphs /a, b, c/;
+
+table data(i,*,g)
+
+        x.a     y.a     x.b     y.b     x.c     y.c
+1       1       1       0       2       1       6
+2       2       2       3       2       2       4
+3       4       3       5       5       3       3
+4       10      4       7       6       4       1;
+
+*       First define a set which can hold 4 observations x 
+*       3 plot series:
+
+set     p       plot points /1*12/
+
+set pp(p);
+
+pp(\"1\") = yes;
+
+parameter       x       X coordinate for a given point,
+                y       Series values for points;
+
+*       The next statement is crucial -- initialize
+*       all plot points to NA (missing).  The package
+*       will then only plot those items which are 
+*       specified.
+
+y(p,g) = na;
+loop(g,
+        loop(i,
+          x(pp)   = data(i,\"x\",g);
+          y(pp,g) = data(i,\"y\",g);
+          pp(p+1)$pp(p) = yes;
+          pp(p)$pp(p+1) = no;
+        );
+);
+display x, y;
+
+$setglobal domain p
+$setglobal xvalue x
+
+$setglobal gp_opt1 \"set grid\"
+$setglobal gp_opt2 \"set tics\"
+
+$libinclude plot y
+
+*       the X coordinates may also be passed as a column in the matrix:
+
+y(p,\"xv\") = x(p);
+
+$setglobal xvalue xv
+$libinclude plot y
+
+$setglobal batch yes
+$setglobal gp_opt3 \"set size 0.7,0.6\"
+$setglobal gp_opt4 \"set term gif\"
+$setglobal gp_opt5 \"set output 'ex7_37.gif'\"
+$libinclude plot y
+")
+
+("Gnuplot No.8: Plotting Two-Dimensional Series." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.8
+*	ex8.gms from Tom Rutherford's web page.
+*	$TITLE Example 8: Plotting Two-Dimensional Series 
+*	----------------------------------------------------------------------
+
+set     i       Commodities     /i1*i3/,
+        r       Regions         /r1*r3/,
+        t       Time periods    /2000*2100/
+        s(i,r)  Plot series;
+
+*       Whenever generating a plot with multi-dimensional
+*       series, the user must define a tuple identifying all
+*       the series:
+
+s(i,r) = yes;
+$setglobal series s
+
+parameter       prices(t,i,r)   Commodity prices;
+
+prices(t,i,r) = 1;
+loop(t,  prices(t+1,i,r) = prices(t,i,r) * (1 + 0.04 * uniform(0.2,1.8)); );
+
+$setglobal gp_opt1 'set key top left'
+$libinclude plot prices 
+
+$setglobal batch yes
+$setglobal gp_opt2 \"set size 0.7,0.6\"
+$setglobal gp_opt3 \"set term gif\"
+$setglobal gp_opt4 \"set output 'ex8_37.gif'\"
+$libinclude plot prices 
+")
+
+("Gnuplot No.9: Contour Plotting Example." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.9
+*	ex9.gms from Tom Rutherford's web page.
+*	$TITLE Example 9: Contour Plotting Example
+*	----------------------------------------------------------------------
+
+set     i /1*20/;
+alias (i,j);
+
+parameter       a(i,j)  Evaluation of xy
+                x(i)    Ages of individuals
+                y(j)    Number of individuals;
+
+x(i) = ord(i) - 10;
+y(j) = ord(j) - 10;
+
+loop((i,j), a(i,j) = x(i) * y(j); );
+
+$setglobal gp_opt1 \"set xlabel 'value of X'\"
+$setglobal gp_opt2 \"set ylabel 'value of Y'\"
+$setglobal gp_opt3 \"set key top left\"
+$setglobal gp_opt4 \"set cntrparam levels discrete 1,10,-1,-10\"
+$setglobal gp_opt5 \"set title 'Evaluation of xy'\"
+$setglobal gp_opt6 \"set contour base\"
+
+$libinclude contour a i j
+
+$setglobal gp_opt7 \"set output 'ex9_37.gif'\"
+$setglobal gp_opt8 'set term gif'
+
+$setglobal batch yes
+$libinclude contour a i j
+")
+
+("Gnuplot No.10: Generating EPS Output (provided by Jared Carbone)." . "*	----------------------------------------------------------------------
+
+*	Gnuplot No.10
+*	ex10.gms from Tom Rutherford's web page.
+*	$TITLE Example 10: Generating EPS Output (provided by Jared Carbone)
+*	----------------------------------------------------------------------
+
+set     t /t1*t20/,
+        tl(t)   /t1     0,
+                 t11    pi
+                 t20    2 pi /;
+
+parameter       f(t)            Sine Function
+                theta(t)        Angle in radians;
+
+theta(t) = 2 * 3.141592 * (ord(t)-1)/(card(t)-1);
+f(t) = sin(theta(t));
+
+$setglobal domain t
+$setglobal labels tl
+$setglobal xvalue theta
+
+*       if you want to preview, make the call first:
+
+*.$libinclude plot f
+
+$setglobal batch yes
+$setglobal gp_opt1 \"set term postscript eps monochrome 'Times-Roman' 30\"
+$setglobal gp_opt2 \"set output 'sine.ps'\"
+$libinclude plot f
+")
+
+("xlwrite ex.1: Generic invocation." . "*	----------------------------------------------------------------------
+
+*	xlwrite No.1
+*	Example 1: generic invocation
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+set i /i1*i3/; 
+alias (i,j);
+parameter x(i,j); 
+x(i,j) = uniform(0,1);
+
+$libinclude xlwrite x 
+")
+
+("xlwrite ex.2: row and column sorting." . "*	----------------------------------------------------------------------
+
+*	xlwrite No.2
+*	Example 2: row and column sorting.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* For simplicity, xlwrite sorts row and column labels in the output
+* worksheet according to the GAMS symbol table. Here is an example
+* illustrating that when the GAMS symbol table is not order
+* alphabetically, then neither will be the row and column ordering
+* produced by xlwrite:
+
+set i /i1,i3,i2/; 
+alias (i,j);
+parameter x(i,j); 
+x(i,j) = uniform(0,1);
+
+$libinclude xlwrite x 
+")
+
+("xlwrite ex.3: specifying an output file." . "*	----------------------------------------------------------------------
+
+*	xlwrite No.3
+*	Example 3: specifying an output file.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+set i /i1,i3,i3/; 
+alias (i,j);
+parameter z(i,j); 
+z(i,j) = uniform(0,1);
+
+$libinclude xlwrite z output.xls
+")
+
+("xldump No.0: GAMS Spreadsheet Creation and Data Export Utility." . "*	----------------------------------------------------------------------
+
+*	xldump No.1
+* 	XLDUMP: GAMS Spreadsheet Creation and Data Export Utility
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* 1. XLDUMP: GAMS Spreadsheet Creation and Data Export Utility
+
+* Usage:
+
+* $libinclude XLDUMP ident[.suffix] wbfile[.xls] [worksheet]
+* N.B.! Data transfer occurs at execution time.
+
+* N.B.! If a new file is to be created, the \".xls\" extension must be specified.
+
+* N.B.! By default, zero values are not transfered. If you need to move zeros into the
+* spreadsheet cells, assign values of EPS.
+
+* Other Comments:
+   
+*  A new workbook is created when wbfile does not exist.
+   
+*  The data is written to the upper left corner of the target worksheet.
+   
+*  Data are written to the default worksheet of an existing workbook if no target
+*  worksheet is specified.
+
+$libinclude XLDUMP A REPORT.XLS
+   
+*  Generate an error if parameter A not declared/defined.
+*  Create new Excel workbook if REPORT.XLS does not exist.
+*  Copy parameter A into the northwest corner of the default worksheet.
+
+$libinclude XLDUMP A echoprt.xls Sheet2
+   
+*  Generate an error if parameter A is not declared/defined.
+*  Copy parameter A into a range with northwest corner of Sheet2.
+
+$libinclude XLDUMP E.M RESULTS.XLS 
+   
+*  Generate an error if E is not declared/defined as a variable or equation.
+*  Create a new Excel workbook if RESULTS.XLS does not exist.
+*  Copy the values of margins E.M into a range in the northwest corner of the default
+*  worksheet.
+")
+
+("xldump No.1: XLDUMP of a 2-dimensional array." . "*	----------------------------------------------------------------------
+
+*	xldump No.1
+*	Example #1: XLDUMP of a 2-dimensional array
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #1: XLDUMP of a 2-dimensional array
+set     i       /1*3/,
+        j       /a,b,c/;
+
+parameter a(i,j)  Randomly generated array;
+
+a(i,j)$(uniform(0,1) gt 0.6) = uniform(0,1);
+
+$libinclude xldump a ex1.xls
+
+display a;
+")
+
+("xldump No.2: XLDUMP of a 1-dimensional array." . "*	----------------------------------------------------------------------
+
+*	xldump No.2
+*	Example #2: XLDUMP of a 1-dimensional array
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #2: XLDUMP of a 1-dimensional array
+
+set j /a,b,c,d,e/;
+
+parameter a(j)  Randomly generated vector (sparse);
+a(j)$(uniform(0,1) gt 0.25) = uniform(0,1);
+
+$libinclude xldump a ex2.xls
+
+display a;
+")
+
+("xldump No.3: XLDUMP of a 3-dimensional array." . "*	----------------------------------------------------------------------
+
+*	xldump No.3
+*	Example #3: XLDUMP of a 3-dimensional array
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #3: XLDUMP of a 3-dimensional array
+
+set i /i1*i3/, j /j1*j2/, k/k1*k4/;
+
+parameter a(i,j,k)  Randomly generated sparse array;
+a(i,j,k)$(uniform(0,1) gt 0.1) = uniform(0,1);
+
+$libinclude xldump a ex3.xls a
+
+display a;
+")
+
+("xldump No.4: XLDUMP of an array including zeros." . "*	----------------------------------------------------------------------
+
+*	xldump No.4
+*	Example #4: XLDUMP of an array including zeros
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #4: XLDUMP of an array including zeros
+
+set i /i1*i6/;
+
+parameter a(i)  Randomly generated array;
+
+a(i)$(uniform(0,1) gt 0.5) = uniform(0,1);
+
+*       Replace zeros by eps to force output of zeros:
+
+a(i)$(not a(i)) = eps;
+
+$libinclude xldump a ex4.xls
+
+display a;
+")
+
+("xldump No.5: Set Labels as Worksheet Names." . "*	----------------------------------------------------------------------
+
+*	xldump No.5
+*	Example #5: Set Labels as Worksheet Names 
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #5: Set Labels as Worksheet Names 
+
+$ontext
+
+This example illustrates two syntax issues.  The first concerns
+invocations of xldump with a loop.  This is permitted, provided that
+xldump has already been initialized in a context which permits file
+and parameter declarations.  The initialization call requires no
+arguments. 
+
+The second programming issue addressed in this example concerns the
+use of a set index to reference a worksheet name.  This is possible
+when the sheet name set label is enclosed in two sets of quotes, with
+double quotes on the outside and single quotes on the inside.
+(This only works when the double quotes are outside!).
+
+$offtext
+
+*       Initialize xldump:
+
+$libinclude xldump
+
+set sc /sc1*sc3/;
+set i /1*3/;
+
+parameter       a(i)    Current solution values;
+
+loop(sc,
+        
+        a(i) = uniform(0,1);
+
+$libinclude xldump a ex5.xls \"'sc.tl'\" 
+
+);
+")
+
+("xlexport No.0: A GAMS to Spreadsheet Ordered Data Export Utility." . "*	----------------------------------------------------------------------
+
+*	xlexport No.0
+*	XLEXPORT: A GAMS to Spreadsheet Ordered Data Export Utility.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* 2. xlexport: A GAMS to Spreadsheet Ordered Data Export Utility
+
+* usage:
+* $libinclude xlexport ident[.suffix] ssfile range [/m]
+* N.B.! Data transfer takes place at execution time.
+
+* N.B.! Zero columns or rows are not transfered. The user must assign a value of EPS to an
+* array element to force a zero to be written into the spreadsheet.
+
+* Some examples of XLEXPORT invocations:
+
+$libinclude xlexport A OUTPUT.XLS Solution!A1:D20
+   
+*  Generate an error if parameter A not declared/defined.
+*  Generate an error if OUTPUT.XLS does not exist.
+*  Erase the target range A1:D20.
+*  Copy nonzero elements of parameter A for which matching labels are found in target
+*  range A1:D20 of the worksheet named \"Solution\".
+*  Do not transfer data for unspecified labels (only requested data is inserted).
+
+$libinclude xlexport X.L SOLUTION XLEVELS
+   
+*  Generate an error if SOLUTION.XLS does not exist.
+*  Generate an error if X is not declared/defined as an equation or variable.
+*  Generate an error if range XLEVELS is not defined in SOLUTION.XLS.
+*  Erase the target range XLEVELS.
+*  Write nonzero elements of array X.L for which matching labels are found in target
+*  range XLEVELS.
+
+a(i,j)$(not a(i,j)) = eps;
+
+$libinclude xlexport A my_wb A1:D20 /m
+   
+*  Generate an error if my_wb.xls does not exist.
+*  Generate an error if parameter A not declared/defined.
+*  Do not erase existing entries. (/m = Merge)
+*  Write EPS values as zero and all nonzero elements of parameter A for which
+*  matching labels are found in target range A1:D20
+")
+
+("xlexport No.1: XLEXPORT of a two dimensional array." . "*	----------------------------------------------------------------------
+
+*	xlexport No.1
+*	Example #6: XLEXPORT of a two dimensional array
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #6: XLEXPORT of a two dimensional array
+
+set i /i1*i3/, j/j1*j3/;
+
+parameter a(i,j)  Randomly generated array;
+
+a(i,j)$(uniform(0,1) gt 0.5) = uniform(0,1);
+
+$libinclude xlexport a ex5.xls b2:e5
+
+display a;
+")
+
+("xlexport No.2: XLEXPORT using the Merge option." . "*	----------------------------------------------------------------------
+
+*	xlexport No.2
+*	Example #7: XLEXPORT using the Merge option.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #7: XLEXPORT using the Merge option
+
+set i /i1*i3/, j/j1*j3/;
+
+parameter a(i,j)  Randomly generated array;
+
+a(i,j)$(uniform(0,1) gt 0.5) = uniform(0,1);
+
+$libinclude xlexport a ex6.xls b2:e5 /m
+
+display a;
+")
+
+("xlexport No.3: Use set labels to reference ranges with XLWRITE." . "*	----------------------------------------------------------------------
+
+*	xlexport No.3
+*	Example #8: Use set labels to reference ranges with XLWRITE
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #8: Use set labels to reference ranges with XLWRITE
+
+*       make an initialization call:
+
+$libinclude xlexport
+
+set sc /sc1*sc3/;
+set i /1*3/;
+
+parameter       a(i)    Current solution values;
+
+loop(sc,
+        
+        a(i) = uniform(0,1);
+
+*       Specify the range with an embedded text label defining
+*       the worksheet.  Double quotes on the outside, single
+*       quotes inside around the label reference:
+
+$libinclude xlexport a ex8.xls \"'sc.tl'!a1:c2\" 
+
+);
+")
+
+("xlimport No.0: A Spreadsheet Data Import Utility for GAMS." . "*	----------------------------------------------------------------------
+
+*	xlimport No.0
+*	XLIMPORT: A Spreadsheet Data Import Utility for GAMS
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* 3. XLIMPORT: A Spreadsheet Data Import Utility for GAMS
+
+* Usage:
+
+* $libinclude xlimport parameter wbfile range
+
+* N.B.! Data import occurs at compile time. Parameter must be declared prior to import
+* with explicit dimension.
+
+* Some examples of XLIMPORT invocations:
+
+* $libinclude xlimport A A.WK1 A1:D20
+   
+*  Generate an error if parameter A not declared.
+*  Generate an error if A.WK1 does not exist.
+*  Retrieve data from range A1:D20 in parameter statement for A.
+*  Generate an GAMS error if there is a domain violation.
+
+* $libinclude xlimport A A.XLS RANGEA
+
+*  Generate an error if parameter A not declared.
+*  Generate an error if A.XLS does not exist.
+*  Retrieve data from range RANGEA in parameter statement for A.
+*  Generate an GAMS error if there is a domain violation.
+")
+
+("xlimport No.1: XLIMPORT of a two-dimensional array." . "*	----------------------------------------------------------------------
+
+*	xlimport No.1
+*	Example #9: XLIMPORT of a two-dimensional array
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #9: XLIMPORT of a two-dimensional array
+
+set i /i1*i3/, j/j1*j3/;
+
+parameter a(i,j)  Array imported from worksheet;
+
+$libinclude xlimport a ex7.xls b2:e5
+
+display a;
+")
+
+("xlimport No.2: XLIMPORT of a three-dimensional array." . "*	----------------------------------------------------------------------
+
+*	xlimport No.2
+*	Example #10: XLIMPORT of a three-dimensional array
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+$title  Example #10: XLIMPORT of a three-dimensional array
+
+set i /i1*i3/, j/j1*j3/, k/k1*k2/;
+
+parameter a(i,k,j)  Array imported from worksheet;
+
+$libinclude xlimport a ex8.wk1 b2:e5
+
+display a;
+")
+
+("gams2prm: Basic syntax." . "*	----------------------------------------------------------------------
+
+*	gams2prm: Basic syntax.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+* Syntax for gams2prm
+
+file unit /name/; 
+put unit; 
+[$setglobal prefix \"string\"]
+[$setglobal timestamp \"yes or no\"]
+[$setglobal zeros \"yes or no\"]
+$libinclude gams2prm [ ident[.suffix] [name [\"description\"]] ]
+* Some additional information:
+
+* (i) GAMS2PRM works for parameters, variables, equations and sets.
+
+* (ii) Outputs only one item at a time.
+
+* (iii) The first invocation must be outside of a loop or if block.
+
+* (iv) Use a blank invocation (without arguments) to initialize.
+
+* (v) A name is required if the output item has a suffix.
+
+* (vi) Explanatory text are written as the \"data\" for SETs.
+
+* (vii) Values of EPS are written as zero on the output file.
+
+* (viii) Global environment variable \"prefix\" can specify a prefix to the output
+* label (see Examples 5 and 9).
+
+* (ix) Global environment variable \"timestamp\" controls whether header comments
+* are written to the output file. (Default is \"yes\".)
+
+* (x) Global environment variable \"zeros\" controls whether zeros are written to
+* the output file. (Default is \"no\". See Example 6.)
+")
+
+("gams2txt: Basic syntax." . "*	----------------------------------------------------------------------
+
+*	gams2txt: Basic syntax.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Syntax for gams2txt
+
+file unit /name/; 
+put unit; 
+[$setglobal prefix \"string\"]
+[$setglobal timestamp \"yes or no\"]
+[$setglobal zeros \"yes or no\"]
+$libinclude gams2txt [ ident1[.suffix] [ident2[.suffix] ...]]
+
+* Some additional information:
+
+* (i) GAMS2TXT works for parameters, variables, equations and sets.
+
+* (ii) The first invocation must be outside of a loop or if block.
+
+* (iii) Use a blank invocation (without arguments) to initialize.
+
+* (iv) Explanatory text are written as the \"data\" for sets.
+
+* (v) Values of EPS are written as zero on the output file.
+
+* (vi) Global environment variable \"prefix\" can specify a prefix to the output
+* label (see Examples 5 and 9).
+
+* (vii) Global environment variable \"timestamp\" controls whether header comments
+* are written to the output file. (Default is \"yes\".)
+
+* (vii) Global environment variable \"zeros\" controls whether zeros are written
+* to the output file. (Default is \"no\". See Example 6.)
+")
+
+("gams2zip: Basic syntax." . "*	----------------------------------------------------------------------
+
+*	gams2zip: Basic syntax.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+* Syntax for gams2zip
+
+$libinclude gams2zip [-m] archive [ ident1[.suffix1] [-m] [-n name1] [ ident2[.suffix2] [-m] [-n name2] ...]]
+
+* Some additional information:
+
+* (i) Requires INFO-ZIP shareware to be in the GAMS directory or on your path.
+
+* (ii) GAMS2ZIP works for parameters, variables (level values or marginals), and equations (level values or marginals).
+
+* (iii) Output one or more items into a compressed archive.
+
+* (iv) The first invocation must be outside of a loop or if block.
+
+* (iv) Use a blank invocation (without arguments) to initialize.
+
+* (v) The item is written to the archive with a different name by including (\"-n name\") following the item.
+
+* (vi) When an archive already exists, the default operation is
+* \"replacement\". Either one transfer or a single array may be entered with a
+* \"merge\" by including an \"-m\" flag at the start of the command (for the entire
+* set), or following an item (for a single array).
+")
+
+("zip2gams: Basic syntax." . "*	----------------------------------------------------------------------
+
+*	zip2gams: Basic syntax.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+* Syntax for zip2gams
+
+$libinclude zip2gams archive [ ident1 [-n name] [ident2 ...]]
+
+* Some additional information:
+
+* (i) Requires INFO-ZIP shareware to be in the GAMS directory or on your path.
+
+* (ii) Retrieves parameters, level values or marginals at compile time from an
+* existing ZIP archive, as written by GAMS2ZIP.
+
+* (iii) Can retrieve multiple items at a time.
+
+* (iv) May only be invoked in a context which permits a parameter
+* declaration. This means that every invocation must be outside of a loop or if
+* block.
+
+* (iv) An item may be assigned values from an archive array which has a
+* different name through use of the \"-n\" flag. When this is specified, the
+* subsequent word defines the name of the archive array to be assigned to the
+* item.
+")
+
+("gams2prm ex.1: Generic invocation." . "*	----------------------------------------------------------------------
+
+*	gams2prm: ex.1
+*	Example 1: generic invocation
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example 1: generic invocation
+
+set i /i1*i3/; 
+parameter x(i); 
+x(i) = uniform(0,1);
+
+file kout /x.gms/;  
+put kout;
+
+$libinclude gams2prm x 
+
+* * Example1 writes the following lines to x.gms:
+
+* parameter x /
+* *=>gams2prm x
+* * Called from D:\\TFR\\GAMS\\GAMS2TXT\\EXAMPLE1.GMS, line 70
+* * 01/08/98 16:15:19
+* I1  1.71747132000000E-01
+* I2  8.43266708000000E-01
+* I3  5.50375356000000E-01
+* /;
+
+* This data may be read into a subsequent GAMS program with the statements:
+
+set i /i1*i3/; 
+parameter x(i); 
+$include x.gms
+
+or simply:
+
+$include x
+
+* The input code which declares set i and gives x an explicit domain before
+* reading x.gms is preferred because it induces domain-checking on x.
+")
+
+("gams2prm ex.2: Changing the name of a parameter." . "*	----------------------------------------------------------------------
+
+*	gams2prm ex.2
+*	Example 2: Changing the name of a parameter.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example 2: Changing the name of a parameter.
+
+* This example is identical to the previous, except that the name of the output
+* parameter is modified when it is written to disk.
+
+set i /i1*i3/; 
+parameter x(i); 
+x(i) = uniform(0,1);
+
+file kout /y.gms/;  
+put kout;
+
+$libinclude gams2prm x y
+
+* Example2 writes the following lines to y.gms:
+
+* parameter y /
+* *=>gams2prm x y
+* * Called from D:\\TFR\\GAMS\\GAMS2TXT\\EXAMPLE2.GMS, line 70
+* * 01/08/98 16:16:26
+* I1  1.71747132000000E-01
+* I2  8.43266708000000E-01
+* I3  5.50375356000000E-01
+* /;
+")
+
+("gams2prm ex.3: Invoking gams2txt within an if block." . "*	----------------------------------------------------------------------
+
+*	gams2prm ex.3
+*	Example 3: Invoking gams2txt within an if block.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example 3: Invoking gams2txt within an if block.
+
+* Note that this example uses gams2prm within an if block, so an initialization call is required.
+
+set i /i1*i3/;
+parameter x(i); 
+x(i) = uniform(0,1);
+
+file kout /x.gms/;  
+put kout;
+
+$libinclude gams2prm
+
+if (x(\"i1\") gt 10,
+$libinclude gams2prm x 
+);
+")
+
+("gams2prm ex.4: Reading data files with potentially empty arrays." . "*	----------------------------------------------------------------------
+
+*	gams2prm ex.4
+*	Example 4: Reading data files with potentially empty arrays.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+set i /i1*i2/;
+parameter x(i); 
+
+$onempty
+
+$include x
+")
+
+("gams2prm ex.5: Generating labeled output from multiple runs." . "*	----------------------------------------------------------------------
+
+*	gam2prm ex.5
+*	Example 5: Generating labeled output from multiple runs.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* The following batch file and GAMS program illustrate how to solve a sequence
+* of scenarios. We use the DOS echo statement to write the file
+* scenario.gms. This file is then read by example5.gms which then appends output
+* to results.gms using the gams2txt.
+
+* This technique permits the solution of a sequence of scenarios without having
+* the failure of one scenario interrupt the remaining cases. At the end, all the
+* results are stored in a single GAMS-readable file, results.gms.
+
+* EXAMPLE5.BAT:
+
+* :    A DOS batch file for solving a sequence of cases.
+
+* if exist results.gms del results.gms
+* echo run(\"sc1\") = yes; >scenario.gms
+* call gams example5
+* echo run(\"sc2\") = yes; >scenario.gms
+* call gams example5
+* echo run(\"sc3\") = yes; >scenario.gms
+* call gams example5
+
+* EXAMPLE5.GMS:
+*       This program for solves a specified scenarios and appends 
+*       the results to a GAMS-readable results file:
+
+set     i       /i1*i3/,
+        sc      set of all scenarios to solve / sc1*sc3/,
+        run(sc) identifies the current scenario;
+
+parameter x(i)  data parameter (solution values for current case);
+
+*       Read identifier for the current scenario:
+
+$include scenario
+
+*       Open the file in append mode and make it current:
+
+file kout /results.gms/;  kout.ap=1;  put kout;
+
+*       Initialize prior to calling gams2txt from within a loop:
+
+$libinclude gams2txt 
+
+*       Use the scenario label as the prefix:
+
+$setglobal prefix \"sc.tl'.'\"
+
+loop(sc$run(sc),
+
+*       Get the solution (this could be a solve statement):
+
+        x(i) = uniform(0,1);
+
+*       Write to the output file:
+
+$libinclude gams2txt x
+
+);
+
+* example 5 writes the following lines to results.gms:
+
+* *=>gams2txt x
+* * Called from D:\\TFR\\GAMS\\GAMS2TXT\\EXAMPLE5.GMS, line 287
+* * 01/08/98 16:00:19
+* SC1.I1  1.71747132000000E-01
+* SC1.I2  8.43266708000000E-01
+* SC1.I3  5.50375356000000E-01
+
+* *=>gams2txt x
+* * Called from D:\\TFR\\GAMS\\GAMS2TXT\\EXAMPLE5.GMS, line 287
+* * 01/08/98 16:00:20
+* SC2.I1  1.71747132000000E-01
+* SC2.I2  8.43266708000000E-01
+* SC2.I3  5.50375356000000E-01
+
+* *=>gams2txt x
+* * Called from D:\\TFR\\GAMS\\GAMS2TXT\\EXAMPLE5.GMS, line 287
+* * 01/08/98 16:00:20
+* SC3.I1  1.71747132000000E-01
+* SC3.I2  8.43266708000000E-01
+* SC3.I3  5.50375356000000E-01
+
+* Because the data was written with gams2txt instead of gams2prm, the output
+* file does not include a PARAMETER statement. It may still be read into a GAMS
+* program as follows:
+
+set i /i1*i3/;
+set sc /sc1*sc2/;
+parameter x(sc,i);
+parameter x /
+$include x
+/;
+")
+
+("gams2txt ex.6: Printing Zeros" . "*	----------------------------------------------------------------------
+
+*	gam2txt ex.6
+*	Example 6: Printing Zeros
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Any argument with a value of EPS is written to the output file as zero. Under
+* defaults, arguments which have a value of zero are not written.
+
+* A global environment variable \"zeros\" specifies whether gams2txt should write
+* explicit zeros, as illustrated in this example:
+
+set i /i1,i2/, j /j1,j2/, k /k1,k2,k3/;
+
+table   x(i,j,k)
+                k1      k2      k3
+i1.j1           1               
+i2.j2                   2;
+     
+file xd /xd.txt /; put xd;
+$libinclude gams2txt x
+
+* is written (under defaults):
+
+*      I1.J1.K1  1.00000000000000E+00
+*      I2.J2.K2  2.00000000000000E+00
+
+* When \"$SETGLOBAL zeros yes\", x is written:
+
+* I1.J1.K1  1.00000000000000E+00
+* I1.J1.K2  0.00000000000000E+00
+* I2.J2.K1  0.00000000000000E+00
+* I2.J2.K2  2.00000000000000E+00
+
+* Note in this example that rows which are entirely zero (I1.J2, I2.J1), and
+* columns which are entirely zero (K3) are not written.
+")
+
+("gams2zip ex.7: Using GAMS2ZIP and ZIP2GAMS." . "*	----------------------------------------------------------------------
+
+*	gams2zip ex.7
+*	Example 7: Using GAMS2ZIP and ZIP2GAMS .
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Here is a simple program which generates a ZIP archive with three
+* parameters. Note that a variable's level values can be stored in the archive,
+* but they must then be read as a parameter. For this reason, an explicit name
+* is required.
+
+$title  ziptest1.gms --  Illustrates syntax for LIBINCLUDE GAMS2ZIP
+
+*       Generate some parameters with data to export:
+
+set i/1*100/;  parameter a(i), b;
+a(i) = uniform(0,1);
+b(i) = uniform(0,1);
+
+*       Also save level values for a variable:
+
+variable        v(i);
+v.l(i) = uniform(0,1);
+
+*       Create a zip archive named test.zip.  
+
+*       Parameter A saved with no change in name
+*       (default).
+
+*       Parameter B saved as a parameter named \"BB\" 
+*       through specification of an optional id.
+
+*       Variable level values V.L:
+
+$libinclude gams2zip test a b -n bb v.l 
+
+display a, b, v.l;
+
+* Here is a second program which reads the archive produced in the previous
+* example. Note that domain checking is invoked for parameter B because it is
+* declared with an explicit domain, but parameters A and V0 are not declared and
+* therefore not checked.
+
+$title  ziptest2.gms --  Illustrates syntax for LIBINCLUDE ZIP2GAMS 
+
+set i/1*100/;  parameter b(i);
+
+*       Retrieve three items from the archive.  Retrieve archive
+*       array v.l into a parameter named v0:
+
+$libinclude zip2gams test a b v0 -n v.l
+
+display a, b, v0;
+
+* Finally, here is a program which illustrates how ZIP2GAMS reports an error in
+* the event that an item is retrieved which does not exist in the archive:
+
+$title ziptest3.gms -- Illustrates error reporting
+
+* Attempt to retrieve a parameter which is not in the archive:
+
+$libinclude zip2gams test aa
+
+* When an error code is generated by UNZIP, ZIP2GAMS first produces an error
+* message on the log file and then requests UNZIP prints an archive list:
+
+* Error retrieving item aa from ZIP archive test.zip
+
+* Archive:  test.zip
+*  Length    Date    Time    Name
+*  ------    ----    ----    ----
+*    2731  01-09-98  09:46   a
+*    2733  01-09-98  09:46   bb
+*    2736  01-09-98  09:46   v.l
+*  ------                    -------
+*    8200                    3      
+")
+
+("gams2zip ex.8: Using GAMS2ZIP and ZIP2GAMS to Save and Retrieve a Basis." . "*	----------------------------------------------------------------------
+
+*	gams2zip ex.8
+*	Example 8: Using GAMS2ZIP and ZIP2GAMS to Save and Retrieve a Basis.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* The following GAMS program illustrates how GAMS2ZIP can be used to save level
+* values and marginals from one model to use as a starting point in
+* another. (For further information on how GAMS and associated solvers
+* communicate basis information, see the appendix listed below.)
+
+$title dattest1.gms --  Illustrates the use of GAMS2ZIP for saving a basis
+
+*       Use GAMSLIB call to retrieve the transport model into the
+*       local directory:
+ 
+$call \"gamslib trnsport\"
+
+*       Run the model (it solves a linear program):
+
+$include trnsport.gms
+
+*       Write out the level values and marginals for this model (this
+*       defines the basis for a model in GAMS) to basis.zip:
+
+$libinclude gams2zip basis x.l z.l x.m cost.m supply.m demand.m
+
+* Here is how the saved basis information can be read into a subsequent program:
+
+$title dattest2.gms --  Illustrates the use of ZIP2GAMS for retrieving a basis.
+
+*       Use GAMSLIB call to retrieve the transport model into the
+*       local directory:
+ 
+$call \"gamslib trnsport\"
+
+*       Run the model (it solves a linear program):
+
+$include trnsport.gms
+
+*       Extract the level values and marginals from the basis:
+
+$libinclude zip2gams basis x.l z.l x.m cost.m supply.m demand.m
+
+*       When solving the model, GAMS uses the level values and 
+*       marginals which have been read to provide a starting point:
+
+solve transport using lp minimizing z ;
+")
+
+("gams2zip ex.9: Using GAMS2ZIP to archive results from multiple runs." . "*	----------------------------------------------------------------------
+
+*	gams2zip ex.9
+*	Example 9: Using GAMS2ZIP to archive results from multiple runs.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* The following batch file and GAMS program are virtually identical to Example
+* 5, aside from the fact that in this example several arrays are saved in the
+* results file for a sequence of scenarios. We use the DOS echo statement to
+* write the file scenario.gms. This file is then read by example9.gms which then
+* appends output to results.gms using the gams2txt.
+
+* This technique permits the solution of a sequence of scenarios without having
+* the failure of one scenario interrupt the remaining cases. At the end, all the
+* results are stored in a single GAMS-readable file, results.gms.
+
+* EXAMPLE9.BAT:
+
+* :    A DOS batch file for solving a sequence of cases.
+
+* if exist results.zip del results.zip
+* echo run(\"sc1\") = yes; >scenario.gms
+* call gams example9
+* echo run(\"sc2\") = yes; >scenario.gms
+* call gams example9
+* echo run(\"sc3\") = yes; >scenario.gms
+* call gams example9
+* call gams report9
+
+* EXAMPLE9.GMS:
+*       This program for solves a specified scenarios and appends 
+*       the results to a GAMS-readable results file:
+
+set     i       /i1*i3/,
+        sc      set of all scenarios to solve / sc1*sc3/,
+        run(sc) identifies the current scenario;
+
+*       Let's pretend that these are variables computed by the model:
+
+variable  x(i)  data parameter (one set of solution values for current case)
+          y(i)  data parameter (a second set solution values)
+          z(i)  data parameter (a third set solution values );
+
+*       Read identifier for the current scenario:
+
+$include scenario
+
+*       First invocation of GAMS2ZIP must be outside a loop:
+
+$libinclude gams2zip
+
+*       Use the scenario label as the prefix:
+
+$setglobal prefix \"sc.tl'.'\"
+
+loop(sc$run(sc),
+
+*       Get the solution (this could be a solve statement):
+
+        x.l(i) = uniform(0,1);
+        y.l(i) = uniform(0,1);
+        z.l(i) = uniform(0,1);
+
+*       Save results in the archive (merge all of them!)
+
+$libinclude -m gams2zip results x.l y.l z.l
+
+);
+
+* REPORT9.GMS:
+
+*       This program generates a report from the previous run:
+
+set     i       /i1*i3/,
+        sc      set of all scenarios to solve / sc1*sc3/;
+
+*       Retrieve the results -- note that in this context we
+*       treat them as two-dimensional parameters:
+
+parameter x(sc,i)  data parameter (one set of solution values for current case)
+          y(sc,i)  data parameter (a second set solution values)
+          z(sc,i)  data parameter (a third set solution values );
+
+$libinclude zip2gams results x -n x.l y -n y.l z -n z.l
+
+display x, y, z;
+
+* The output produced by REPORT9.GMS assembles results from all three sets of
+* scenarios:
+
+* REPORT9.LST (partial listing):
+
+* ----    239 PARAMETER X data parameter (one set of solution values for current case)
+
+*              I1          I2          I3
+
+* SC1       0.172       0.843       0.550
+* SC2       0.172       0.843       0.550
+* SC3       0.172       0.843       0.550
+
+* ----    239 PARAMETER Y data parameter (a second set solution values)
+
+*              I1          I2          I3
+
+* SC1       0.301       0.292       0.224
+* SC2       0.301       0.292       0.224
+* SC3       0.301       0.292       0.224
+
+* ----    239 PARAMETER Z data parameter (a third set solution values )
+
+*              I1          I2          I3
+
+* SC1       0.350       0.856       0.067
+* SC2       0.350       0.856       0.067
+* SC3       0.350       0.856       0.067
+")
+
+("gams2tbl: Standard invocation." . "*	----------------------------------------------------------------------
+
+*	gams2tbl: Standard invocation.
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Invocation:
+
+* The standard invocation sequence for generating a text table from within a
+* GAMS program using the GAMS2TBL package is:
+
+file ktab /mytable.txt/; put ktab;
+$libinclude gams2tbl [item]
+
+* where [item] is an two-dimensional parameter, level value or marginal. In some
+* cases (e.g., when GAMS2TBL is to be called from within a loop), it is
+* necessary to make an initialization call to the package with no output
+* item. For this reason, [item] is optional.
+")
+
+("gams2tbl: Using gams2tbl with MPSGE." . "*	----------------------------------------------------------------------
+
+*	gams2tbl: Using GAMS2TBL with MPSGE (tips provided by Randy Wigle)
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Using GAMS2TBL with MPSGE (tips provided by Randy Wigle)
+
+* When you are using MPSGE it is essential to establish the output file
+* immediately before invoking the GAMS2TBL library routine. The following code
+* fragment illustrates how to initialize and then invoke GAMS2TBL when solving
+* an MPSGE model within a loop. We include a PUT to the proper unit just before
+* calling GAMS2TBL because otherwise output would be written to the MPSGE
+* scratch file.
+
+file ktab /mytable.txt/; 
+
+$libinclude gams2tbl
+
+loop(sc,
+
+* ...
+
+$include mymodel.gen
+solve mymodel using mcp;
+
+* ...
+
+put ktab;
+$libinclude gams2tbl report
+
+);
+")
+
+("gams2tbl ex.1: Simple no-frills invocation." . "*	----------------------------------------------------------------------
+
+*	gams2tbl Example 1: Simple no-frills invocation 
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example1.gms:
+
+$title  GAMS2TBL Example 1: Simple no-frills invocation 
+
+set     i       /1*5/;
+set     j       /a,b,c,d/;
+
+parameter  a    A random table with default formatting;
+a(i,j) = uniform(0,100);
+
+file ktxt /example1.txt/; put ktxt;
+$libinclude gams2tbl a
+
+*       Then generate files with the table in other formats:
+
+file ktex /example1.tex/; put ktex;
+$setglobal format tex
+$libinclude gams2tbl a
+
+file kprn /example1.prn/; put kprn;
+$setglobal format prn
+$libinclude gams2tbl a
+
+file khtm /example1.htm/; put khtm;
+$setglobal format html
+$libinclude gams2tbl a
+")
+
+("gams2tbl ex.2: Ordering table columns and rows" . "*	----------------------------------------------------------------------
+
+*	GAMS2TBL Example 2: Ordering table columns and rows
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example2.gms:
+
+$title  GAMS2TBL Example 2: Ordering table columns and rows
+
+set     i       /1*5/;
+set     j       /a,b,c,d/;
+
+parameter  a   User-Specified Row and Column Order;
+a(i,j) = uniform(0,100);
+
+*       Any user-specified numeric values can be used to
+*       sort rows and columns:
+
+parameter roworder(i), colorder(j);
+
+*       Reverse the row order:
+
+roworder(i) = card(i) - ord(i) + 1;
+
+*       Randomly order the columns:
+
+colorder(j) = uniform(0,1);
+
+*       ... but let columns A and B have the same rank (this will 
+*       cause the displayed order for A and B to follow the 
+*       standard GAMS symbol table):
+
+colorder(\"a\") = colorder(\"b\");
+
+$setglobal row_order    roworder
+$setglobal col_order    colorder
+
+file ktxt /example2.txt/; put ktxt;
+$libinclude gams2tbl a
+")
+
+("gams2tbl ex.3: Relabeling rows and columns in the output table" . "*	----------------------------------------------------------------------
+
+*	GAMS2TBL Example 3: Relabeling rows and columns in the output table
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example3.gms:
+
+$title  GAMS2TBL Example 3: Relabeling rows and columns in the output table
+
+set     i       /1*5/;
+set     j       /a,b,c,d/;
+
+set     il(i)   /1      This is row 1,
+                 2      Entry for row 2,
+                 3      Row 3 for you to see
+                 4      The fourth row
+                 5      The fifth and final /;
+
+set     jl(j)   /a      Column A
+                 b      Column B 
+                 c      Column C
+                 d      Column D /;
+
+parameter  a    A data array (technical description);
+a(i,j) = uniform(0,100);
+
+$setglobal title \"Specified Labels and Title\"
+$setglobal title_just center
+$setglobal row_label il
+$setglobal col_label jl
+
+file ktxt /example3.txt/; put ktxt;
+$libinclude gams2tbl a
+")
+
+("gams2tbl ex.4: Controling the numeric format" . "*	----------------------------------------------------------------------
+
+*	GAMS2TBL Example 4: Controling the numeric format
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example4.gms:
+
+$title  GAMS2TBL Example 4: Controling the numeric format
+
+set     i       /1*5/;
+set     j       /a,b,c,d/;
+
+parameter decimals(j) Number of decimals by column /a 3, b 2, c 2, d 1/;
+
+parameter  a  Non-Default Numeric Formats;
+
+a(i,j) = uniform(-0.3,0.3);
+
+$eolcom !
+
+*       Use numeric control parameters provided by the PUT
+*       facility to control the output format:
+
+ktxt.nw = 15;    ! Table columns with 15 characters
+ktxt.nz = 0.005; ! Numeric zero tolerance (abs less than 0.005 set to zero)
+
+*       Specify number of decimals by column.  (Could alternatively
+*       define r_decimals to control numeric format by row.  When
+*       both r_decimals and c_decimals are specified, r_decimals is
+*       ignored.)
+
+$setglobal c_decimals decimals
+
+file ktxt /example4.txt/; put ktxt;
+$libinclude gams2tbl a
+")
+
+("gams2tbl ex.5: Handling Zeros" . "*	----------------------------------------------------------------------
+
+*	GAMS2TBL Example 5: Handling Zeros
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example5.gms:
+
+$title  GAMS2TBL Example 5: Handling Zeros
+
+set     i       /1*10/;
+set     j       /a,b,c,d/;
+
+parameter  a    A sparse table with zeros suppressed;
+a(i,j)$(uniform(0,1) gt 0.5) = uniform(0,100);
+
+file ktxt /example5.txt/; put ktxt;
+
+$setglobal zeros no
+put //'Table generated with default row_set (zero rows are skipped):'//;
+$libinclude gams2tbl a
+
+put //'Table generated with specified row_set (zero rows are listed):'//;
+$setglobal row_set i
+$libinclude gams2tbl a
+")
+
+("gams2tbl ex.6: Generating Labelled Tables within a Loop" . "*	----------------------------------------------------------------------
+
+*	GAMS2TBL Example 6: Generating Labelled Tables within a Loop
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example6.gms:
+
+$title  GAMS2TBL Example 6: Generating Labelled Tables within a Loop
+
+set     sc      Scenario identifiers /sc1*sc4/;
+set     i       /1*5/;
+set     j       /a,b,c,d/;
+
+parameter  a    A table of random results;
+
+*       Include a blank invocation to initialize before calling
+*       the system from within a loop:
+
+$libinclude gams2tbl 
+
+file ktxt /example6.txt/; put ktxt;
+
+loop(sc,
+
+*       Define the title with double quotes around an otherwise valid
+*       PUT output list which begins and ends with quoted strings, except
+
+*       OMIT SINGLE QUOTES AT THE FRONT OF THE FIRST QUOTED STRING
+*       AND AT THE END OF THE LAST QUOTED STRING (these are attached
+*       by gams2tbl).
+
+*       The example shown below represents the PUT output list:
+
+*               'Results for Scenario (',sc.tl,')'
+
+*       To embed this as the title, remove the leading and trailing
+*       single quotes, producing:
+
+*               Results for Scenario (',sc.tl,')
+
+*       then place everything inside double quotes in the setglobal
+*       statement, as shown below.
+
+*       Note: if you embed a label within the title this way, you
+*       you should not specify \"$setglobal title_just\".
+
+$setglobal title \"Results for Scenario (',sc.tl,')\"
+
+        a(i,j) = uniform(0,100);
+
+$libinclude gams2tbl a
+
+);
+")
+
+("gams2tbl ex.7: Text Tables" . "*	----------------------------------------------------------------------
+
+*	GAMS2TBL Example 7: Text Tables
+*	From Tom Rutherford's web page.
+*	----------------------------------------------------------------------
+
+* Example7.gms:
+
+$title  GAMS2TBL Example 7: Text Tables 
+
+set     i       /1*5/;
+set     j       /a,b,c,d/;
+
+set     k(i,j)  A table with strings rather than numbers
+                /1.a    This
+                 1.c    is
+                 2.b    a
+                 3.a    TEXT
+                 3.d    Table.
+                 4.a    Do
+                 4.c    You
+                 4.d    See
+                 5.a    How
+                 5.c    It works! /;
+
+file ktxt /example7.txt/; put ktxt;
+$libinclude  gams2tbl k
+")
+
+("SSDUMP: GAMS Spreadsheet Creation and Data Export Utility." . "*	------------------------------------------------------------------------
+
+*	1. SSDUMP: GAMS Spreadsheet Creation and Data Export Utility
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+* Usage:
+
+$libinclude ssdump ident[.suffix] ssfile [range]
+* N.B.! Data transfer occurs at execution time.
+
+* N.B.! By default, zero values are not transfered. If you need to move zeros
+* into the spreadsheet cells, assign values of EPS.
+
+* Other Comments:
+
+* (1) The target worksheet can be created \"from scratch\" in Lotus, Excel or
+* Quattro formats.
+
+* (2) All data and labels are written into the worksheet with row and
+
+* (3) Range specifier points to the upper left corner of the target
+* range. When this range is omitted, the data are anchored to cell A1.
+
+* Some examples of SSDUMP invocations:
+
+$libinclude ssdump A REPORT.WK1 
+   
+*   Generate an error if parameter A not declared/defined.
+*   Copy REPORT.WK1 to REPORT.BAK if REPORT.WK1 exists.
+*   Create new Lotus worksheet if REPORT.WK1 does not exist.
+*   Copy parameter A into a range with northwest corner in cell A1, with row and colum
+*     dimensions to accomodate all nonzero elements of A.
+
+$libinclude ssdump A ECHOPRT.WQ2 B1..B1
+   
+*   Generate an error if parameter A is not declared/defined.
+*   Copy ECHOPRT.WQ2 to ECHOPRT.BAK if ECHOPRT.WQ2 exists.
+*   Create new Quattro worksheet if ECHOPRT.WQ2 does not exist.
+*   Copy parameter A into a range with northwest corner in cell B1, with row and colum
+*     dimensions to accomodate all nonzero elements of A.
+
+$libinclude ssdump E.M RESULTS.XLS D1..D1 
+   
+*   Generate an error if E is not declared/defined as a variable or equation.
+*   Copy RESULTS.XLS to RESULTS.BAK if RESULTS.XLS exists.
+*   Create a new Excell spreadsheet if RESULTS.XLS does not exist.
+*   Copy margins E.M into a range with northwest corner in cell D1, with row and colum
+*    dimensions to accomodate all nonzeros.
+
+$libinclude ssdump X.L XVALUES.WK1 B1..D10
+   
+*   Generate an error if X is not declared/defined as a variable or equation.
+*   Copy XVALUES.WK1 to XVALUES.BAK if XVALUES.WK1 exists.
+*   Create a new Lotus worksheet if XVALUES.WK1 does not exist.
+*   Copy level values X.L into X.WK1 range B1..D10
+*   Generate an error if the range is too small to accomodate all nonzeros.
+
+$libinclude ssdump y.l SOLUTION.XLS YLEVELS
+   
+*   Generate an error if Y is not declared/defined as a variable or equation.
+*   Copy SOLUTION.XLS to SOLUTION.BAK.
+*   Copy Y.L into spreadsheet Y.XLS in named range YLEVELS.
+*   Generate an error if range name YLEVELS not defined in the spreadsheet.
+*   Generate an error if range YLEVELS is too small to accomodate all nonzeros.
+")
+
+("ssdump ex.1: SSDUMP of a 2-dimensional array." . "*	------------------------------------------------------------------------
+
+*	ssdump ex.1
+*	Example #1: SSDUMP of a 2-dimensional array
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+$title  Example #1: SSDUMP of a 2-dimensional array
+
+set i /1*3/, j /a,b,c/;
+
+parameter a(i,j)  Randomly generated array (sparse);
+a(i,j)$(uniform(0,1) gt 0.6) = uniform(0,1);
+
+$libinclude ssdump a ex1.wk1
+")
+
+("ssdump ex.2: SSDUMP of a 1-dimensional array." . "*	------------------------------------------------------------------------
+
+*	ssdump ex.2
+*	Example #2: SSDUMP of a 1-dimensional array
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+$title  Example #2: SSDUMP of a 1-dimensional array
+
+set j /a,b,c,d,e/;
+
+parameter a(j)  Randomly generated vector (sparse);
+a(j)$(uniform(0,1) gt 0.5) = uniform(0,1);
+
+$libinclude ssdump a ex2.wk1
+")
+
+("ssdump ex.3: SSDUMP of a 3-dimensional array." . "*	------------------------------------------------------------------------
+
+*	ssdump ex.3
+*	Example #3: SSDUMP of a 3-dimensional array
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+$title  Example #3: SSDUMP of a 3-dimensional array
+
+set i /i1*i3/, j /j1*j2/, k/k1*k4/;
+
+parameter a(i,j,k)  Randomly generated sparse array;
+a(i,j,k)$(uniform(0,1) gt 0.1) = uniform(0,1);
+
+$libinclude ssdump a ex3.wk1 b2..b2
+")
+
+("ssdump ex.4: SSDUMP of an array including zeros." . "*	------------------------------------------------------------------------
+
+*	ssdump ex.4
+*	Example #4: SSDUMP of an array including zeros
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+$title  Example #4: SSDUMP of an array including zeros
+
+set i /i1*i6/;
+
+parameter a(i)  Randomly generated array;
+
+a(i)$(uniform(0,1) gt 0.5) = uniform(0,1);
+
+*       Replace zeros by eps to force 
+
+a(i)$(not a(i)) = eps;
+
+$libinclude ssdump a ex4.wk1 b2..b2
+")
+
+("SSEXPORT: A GAMS to Spreadsheet Ordered Data Export Utility" . "*	------------------------------------------------------------------------
+
+*	SSEXPORT: A GAMS to Spreadsheet Ordered Data Export Utility
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+* Usage:
+$libinclude ssexport ident[.suffix] ssfile range [-M]
+* N.B.! Data transfer takes place at execution time.
+
+* N.B.! Zero columns or rows are not transfered. The user must assign a value of
+* EPS to the identifier if zeros are to be written into the spreadsheet.
+
+* Some examples of SSEXPORT invocations:
+
+$libinclude ssexport A OUTPUT.WK1 A1..D20
+   
+*   Generate an error if parameter A not declared/defined.
+*   Generate an error if OUTPUT.WK1 does not exist.
+*   Erase the target range A1..D20.
+*   Copy nonzero elements of parameter A data for which matching labels are
+*     found in target range A1..D20.
+*   Do not transfer data for unspecified labels (only requested data is
+*     inserted).
+
+$libinclude ssexport X.L SOLUTION.WK1 XLEVELS
+   
+*   Generate an error if SOLUTION.WK1 does not exist.
+*   Generate an error if X is not declared/defined as an equation or
+*     variable.
+*   Generate an error if range XLEVELS is not defined in SOLUTION.WK1.
+*   Erase the target range XLEVELS.
+*   Write nonzero elements of array X.L for which matching labels are found
+*     in target range XLEVELS.
+
+a(i,j)$(not a(i,j)) = eps;
+
+$libinclude ssexport A WORKSHEET.WQ2 A1..D20 -M
+   
+*   Generate an error if WORKSHEET.WQ2 does not exist.
+*   Generate an error if parameter A not declared/defined.
+*   Do not erase existing entries. (-M = Merge)
+*   Write EPS values as zero and all nonzero elements of parameter A for
+*     which matching labels are found in target range A1..D20
+")
+
+("ssexport ex.1: SSEXPORT of a two dimensional array." . "*	------------------------------------------------------------------------
+
+*	ssexport ex.1
+*	Example #5: SSEXPORT of a two dimensional array
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+$title  Example #5: SSEXPORT of a two dimensional array
+
+set i /i1*i3/, j/j1*j3/;
+
+parameter a(i,j)  Randomly generated array;
+
+a(i,j)$(uniform(0,1) gt 0.5) = uniform(0,1);
+
+$libinclude ssexport a ex5.wk1 b2..e5
+
+display a;
+
+* List file output (column ordering according to the GAMS symbol table):
+
+* ----    278 PARAMETER A             Randomly generated array
+
+*             j1          j2          j3
+
+* i1                   0.550
+* i3       0.067       0.998       0.991
+
+* Spreadsheet ex5.wk1 before (arbitrary column order):
+
+*                                    [ex5_1]                                    
+
+* Spreadsheet ex5.wk1 after:
+
+*                                    [ex5_2]                                    
+")
+
+("ssexport ex.2: SSEXPORT using the Merge option." . "*	------------------------------------------------------------------------
+
+*	ssexport ex.2
+*	Example #6: SSEXPORT using the Merge option
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+$title  Example #6: SSEXPORT using the Merge option
+
+set i /i1*i3/, j/j1*j3/;
+
+parameter a(i,j)  Randomly generated array;
+
+a(i,j)$(uniform(0,1) gt 0.5) = uniform(0,1);
+
+$libinclude ssexport a ex6.wk1 b2..e5 -m
+
+display a;
+
+* List file output:
+
+* ----    280 PARAMETER A             Randomly generated array
+
+*             j1          j2          j3
+
+* i1                   0.550
+* i3       0.067       0.998       0.991
+
+* Spreadsheet ex6.wk1 before (arbitrary column order):
+
+*                                    [ex6_1]                                    
+
+* Spreadsheet ex6.wk1 after:
+")
+
+("SSIMPORT: A Spreadsheet Data Import Utility for GAMS." . "*	------------------------------------------------------------------------
+
+*	SSIMPORT: A Spreadsheet Data Import Utility for GAMS.
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+* Usage:
+
+$libinclude ssimport parameter ssfile range
+
+* N.B.! Data import occurs at compile time. Parameter must be declared prior to
+* import with explicit dimension.
+
+* Some examples of SSIMPORT invocations:
+
+$libinclude ssimport A A.WK1 A1..D20
+   
+*   Generate an error if parameter A not declared.
+*   Generate an error if A.WK1 does not exist.
+*   Retrieve data from range A1..D20 in parameter statement for A.
+*   Generate an GAMS error if there is a domain violation.
+
+$libinclude ssimport A A.WK1 RANGEA
+
+*   Generate an error if parameter A not declared.
+*   Generate an error if A.WK1 does not exist.
+*   Retrieve data from range RANGEA in parameter statement for A.
+*   Generate an GAMS error if there is a domain violation.
+")
+
+("ssimport ex.1: SSIMPORT of a two-dimensional array" . "*	------------------------------------------------------------------------
+
+*	ssimport ex.1
+*	Example #7: SSIMPORT of a two-dimensional array
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+$title  Example #7: SSIMPORT of a two-dimensional array
+
+set i /i1*i3/, j/j1*j3/;
+
+parameter a(i,j)  Array imported from worksheet;
+
+$libinclude ssimport a ex7.wk1 b2..e5
+
+display a;
+")
+
+("ssimport ex.2: SSIMPORT of a three-dimensional array." . "*	------------------------------------------------------------------------
+
+*	ssimport ex.2
+*	Example #8: SSIMPORT of a three-dimensional array.
+*	From Tom Rutherford's web page.
+*	------------------------------------------------------------------------
+
+$title  Example #8: SSIMPORT of a three-dimensional array
+
+set i /i1*i3/, j/j1*j3/, k/k1*k2/;
+
+parameter a(i,k,J)  Array imported from worksheet;
+
+$libinclude ssimport a ex8.wk1 b2..e5
+
+display a;
+")
+))
