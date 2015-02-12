@@ -1,10 +1,46 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2013-02-16 20:32:10 st>
+Time-stamp: <2014-09-01 11:35:32 st>
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ----------------------------------------------------
+
+Version 4.3 (2014-09-01)
+----------------------------------
+
+* Changed the default value of `gams-sil-expand-file-more' to t.
+
+* Suppose that you have a code like
+
+  	$setglobal sub_program sub_program_default.gms
+
+  	$include %sub_program%
+
+  With this code, GAMS reads the content of sub_program_default.gms
+  file. But the items in sub_program_default.gms file is not displayed
+  when you evoke `gams-show-identifier-list' (C-cC-a) because GAMS mode
+  regards %sub_program% as a filename literally and cannot find it.
+
+  In the new GAMS mode, you can list the items in sub_program_default.gms
+  file by adding the following line.
+
+  	$setglobal sub_program sub_program_default.gms
+
+	* gams-include-file: sub_program_default.gms
+  	$include %sub_program%
+
+  The line "* gams-include-file: sub_program_default.gms" is a comment
+  line and GAMS ignores it. But the GAMS mode interprets that
+
+  	$include sub_program_default.gms
+
+  So the items in "sub_program_default.gms" are listed by
+  `gams-show-identifier-list'.
+  
+  The specification by "gams-include-file" is used in the sample file
+  "gams-sample.gms". 
+  
 
 Version 4.2 (2013-02-15)
 ----------------------------------

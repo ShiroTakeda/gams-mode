@@ -1,0 +1,14 @@
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.log
+*.rel
+*.exe
+*.html
+*.lst
+*.lxi
+*.obj
+*.tds
+*.GEN
+*.stackdump

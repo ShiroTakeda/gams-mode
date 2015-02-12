@@ -1,7 +1,7 @@
 $title GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
 ** gams-lst-file: .\doc\lst-sample.lst
 $ontext
-Time-stamp:     <2012-09-05 22:45:46 Shiro Takeda>
+Time-stamp:     <2014-09-01 12:21:12 st>
 Filename:       "gams-sample-ja.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -43,6 +43,9 @@ $offtext
 $inlinecom /* */
 *	End-of-line comment symbol の設定．
 $eolcom #
+
+*	読み込むファイルの名前
+$setglobal sub_program ./include/include-sample.gms
 
 $ontext
 適切に設定されていれば，このバッファーのモードは GAMS modeになっているはずで
@@ -219,8 +222,8 @@ $ontext
 と修正したとします．すると，この後以下のようなメッセージがでます．
 
 
-        Use this command line also in the future?
 
+        Use this command line also in the future?
 
 ここで `y' と答えると，次のような行がこのファイルの第一行目に追加されます．
 
@@ -384,6 +387,7 @@ ENTER を押すとデフォールト値である set がそのまま入力されます．あるいは `v'
 $offtext
 
 parameter	replace; 	# `parameter' の上で C-uC-cC-k
+
 $ontext
 
 さらに，より多機能な `gams-insert-statement-extended' (C-cC-n) というコマンド
@@ -420,9 +424,11 @@ dollar control だけではなく statement (C-cC-k) の入力についても，同じように登
 よく利用する命令については自分で登録するようにしてください．
 
 $offtext
+
 * ---------------------------
 $stitle		引用記号と括弧
 * ---------------------------
+
 $ontext
 
 `gams-close-paren-always', `gams-close-double-quotation-always',
@@ -443,6 +449,7 @@ $ontext
 う変数で決定されます．
 
 $offtext
+
 * ---------------
 $stitle		GAMS-TEMPLATE mode.
 * ---------------
@@ -459,6 +466,7 @@ GAMS mode には `gams-template.txt' というサンプルのテンプレートファイル (テン
 *Template List* バッファーで `h' を押してください．
 
 $offtext
+
 * ----------------
 $stitle 	パラグラフの整形
 * ----------------
@@ -503,7 +511,8 @@ GAMS では行頭に * を付けることでコメントアウトする (コメント行にする) ことが
 
 $offtext
 
-$include ./include/include-sample.gms
+* gams-include-file: ./include/include-sample.gms
+$include %sub_program%
 
 * ---------------------
 $stitle		Font-lock (色付け).
@@ -719,6 +728,7 @@ abc("energy")      = 123;
 
 display abc;
 $offtext
+
 * ----------------------
 $stitle		自動インデント
 * ----------------------
@@ -738,33 +748,33 @@ $offtext
 *	----------------------------------------------------------------------
 
 set     i       Index   / i1*i2 /
-j       Index   / j1*j2 /;
+	j       Index   / j1*j2 /;
 
 parameter
-para(i,j)       Parameter a
-parb(i,j)       Parameter b
-parc(i,j,*)     Parameter c;
+    para(i,j)       Parameter a
+    parb(i,j)       Parameter b
+    parc(i,j,*)     Parameter c;
 
 para(i,j) = uniform(0,1);
 
 loop((i,j),
 
 *       Display i.
-display "Display set i", i;
+    display "Display set i", i;
 *       Display j.
-display "Display set j", j;
-if((para(i,j) > 0.5),
-display "para is greater than 0.5!";
-else
-display "para is less than 0.5!";
-);
+    display "Display set j", j;
+    if((para(i,j) > 0.5),
+	display "para is greater than 0.5!";
+    else
+	display "para is less than 0.5!";
+    );
 
-parb(i,j) = para(i,j) * 2;
-parc(i,j,"a") = para(i,j);
-parc(i,j,"b") = parb(i,j);
+    parb(i,j) = para(i,j) * 2;
+    parc(i,j,"a") = para(i,j);
+    parc(i,j,"b") = parb(i,j);
 
 *       Display parc.
-display parc;
+    display parc;
 );
 *	----------------------------------------------------------------------
 *       ここまで．

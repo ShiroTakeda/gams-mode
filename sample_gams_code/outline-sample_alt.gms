@@ -1,7 +1,7 @@
 $title	A sample program for GAMS-OUTLINE mode.
 display "@ A sample program for GAMS-OUTLINE mode.";
 $ontext
-Time-stamp:	<2013-12-25 21:51:10 st>
+Time-stamp:	<2014-01-25 17:29:12 st>
 Filename:	outline-sample.gms
 Author:		Shiro Takeda
 First-written:	<2001/10/26>
@@ -100,17 +100,17 @@ set
 ;
 parameter
     num		    Iteration number
-    a(iter)	    Parameter a
-    b(iter)	    Parameter b
-    c(iter,*)	    Parameter for a and b;
-a("iter1") = 0;
+    aa(i)	    Parameter aa
+    bb(i)	    Parameter bb
+    c(i,*)	    Parameter for aa and bb;
+aa("i") = 0;
 
-loop(iter,
-    num = ord(iter);
-    a(iter+1) = a(iter) + 3.14 * 0.01;
-    b(iter+1) = sin(a(iter+1));
-    c(iter+1,"a") = a(iter+1);
-    c(iter+1,"b") = b(iter+1);
+loop(i,
+    num = ord(i);
+    aa(i+1) = aa(i) + 3.14 * 0.01;
+    bb(i+1) = sin(aa(i+1));
+    c(i+1,"a") = aa(i+1);
+    c(i+1,"b") = bb(i+1);
 );
 
 display "'PARAMTERS' in the LST file are displayed like:", a, b, c;

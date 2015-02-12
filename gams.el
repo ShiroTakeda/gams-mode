@@ -1,8 +1,8 @@
 ;;; GAMS.EL --- Major mode for editing GAMS program files.
 
-;; Copyright (C) 2001-2013 Shiro Takeda
-;; Version: 4.2
-;; Time-stamp: <2013-02-16 20:33:12 st>
+;; Copyright (C) 2001-2015 Shiro Takeda
+;; Version: 4.3
+;; Time-stamp: <2015-02-04 13:55:24 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -82,7 +82,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "4.2"
+(defconst gams-mode-version "4.3"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -216,7 +216,7 @@ to nil."
   :type 'string
   :group 'gams)
 
-(defcustom gams-dollar-control-name "title"
+(defcustom gams-dollar-control-name "exit"
   "*The initial value of dollar control insertion."
   :type 'string
   :group 'gams)
@@ -695,13 +695,19 @@ register mpsge statements in this variable.")
 (defvar gams-change-command-key ?c
   "*Key to select GAMS command in the process menu.")
 
+(defcustom gams-filename-type-cygwin nil
+  "If you use cygwin type filename, set this to t."
+  :type 'boolean
+  :group 'gams
+  )
+
 ;;;;; Key bindgings.
 (defcustom gams-olk-1 "?"
   "*Key for `gams-ol-help'."
   :type 'string
   :group 'gams-keys)
 
-(defcustom gams-olk-4 "t"
+(defcustom gams-olk-4 "T"
   "*Key for `gams-ol-select-item'."
   :type 'string
   :group 'gams-keys)
@@ -721,7 +727,7 @@ register mpsge statements in this variable.")
   :type 'string
   :group 'gams-keys)
 
-(defcustom gams-olk-8 "T"
+(defcustom gams-olk-8 "t"
   "*Key for `gams-ol-item'."
   :type 'string
   :group 'gams-keys)
@@ -757,7 +763,7 @@ register mpsge statements in this variable.")
   :type 'string
   :group 'gams-keys)
 
-(defcustom gams-sil-expand-file-more nil
+(defcustom gams-sil-expand-file-more t
   "*If non-nil, expand more files in GAMS-SIL.
 
 In GAMS-SIL mode, the contents of files included by $include
@@ -5983,6 +5989,12 @@ The input file name is extract from FILE SUMMARY field."
 	    (message "FILE SUMMARY field does not exits!  The extension is assumed to be gms.")
 	  (message "No information for the input file."))
 	(sleep-for 0.1)))
+    (when (and gams-filename-type-cygwin
+	       (string-match "^\\([a-zA-Z]\\):" temp-file))
+      (setq temp-file
+	    (replace-match (concat "/" (match-string 1 temp-file)) t t temp-file))
+      (setq temp-file (replace-regexp-in-string "\\\\" "/" temp-file)))
+      
     ;; Return the input file name.
     temp-file))
 
@@ -6702,6 +6714,13 @@ If PAGE is non-nil, page scroll."
     (when data
       (setq fname (nth 5 data))
       (setq fname (gams-replace-regexp-in-string "^[.]+" "" fname))
+
+      (when (and gams-filename-type-cygwin
+		 (string-match "^\\([a-zA-Z]\\):" fname))
+	(setq fname
+	      (replace-match (concat "/" (match-string 1 fname)) t t fname))
+	(setq fname (replace-regexp-in-string "\\\\" "/" fname)))
+      
       (if (file-exists-p fname)
 	  (find-file fname)
 	(message (format "%s does not exist!" fname))))))
@@ -8361,6 +8380,7 @@ Nil -> split vertically."
        ;; When marker is not defined.
        (pos (goto-char pos))
        )
+      (skip-chars-forward " \t")
       (when (and (not (equal type 'bof))
 		 (not (equal type 'eof))
 		 (or mark pos))
@@ -8368,6 +8388,8 @@ Nil -> split vertically."
 	(setq len (length (nth 3 data)))
 	(when (string-match "dol\\|fil" (symbol-name type))
 	  (setq len (1- len)))
+	(when (and id (string-match "ginclude" id))
+	  (setq len (length "gams-include-file:")))
 	(if (equal len 0)
 	    (gams-sil-highlight
 	     0 (line-beginning-position) (line-end-position) (current-buffer))
@@ -8861,10 +8883,11 @@ There are 2 types:
 (defun gams-sil-regexp-declaration-light ()
   (setq gams-sil-regexp-declaration-light
 	(concat
+	 "\\("
 	 (if gams-sil-expand-file-more "[$]" "^[$]")
-	 "[ ]*\\("
-	 (if gams-sil-expand-batinclude "batinclude\\|" "")
-	 "include\\)[ \t]+\\|" ; 2
+	 "[ ]*"
+	 (if gams-sil-expand-batinclude "[bat]*" "")
+	 "include\\|^[*][ \t]*gams-include-file:\\)[ \t]*\\|" ; 2
 	 "[^=]\\(==\\)[^=]\\|"			 ; 3
 	 "^\\([$][ ]*macro\\)[ \t]+\\|"		 ; 4
 	 "^[ \t]*\\(parameter[s]?\\|set[s]?\\|scalar[s]?\\|table\\|alias\\|acronym[s]?\\|\\(free\\|positive\\|negative\\|binary\\|integer\\|nonnegative\\)*[ \t]*variable[s]?\\|equation[s]?\\|model[s]?\\)[ \t\n(]+\\|" ; 5
@@ -8984,6 +9007,22 @@ Return the new file number."
     (setq cont (gams-replace-regexp-in-string "^[\"']+" "" cont))
     (setq cont (gams-replace-regexp-in-string "[\"',]+$" "" cont))
     (list 'fil fnum beg dollar
+	  cont
+	  (set-marker (make-marker) beg))))
+
+(defun gams-sil-get-alist-fil-alt (fnum beg)
+  (let ((cpo (point))
+	(line-epo (line-end-position))
+	epo cont)
+    (save-excursion
+      (setq epo
+	    (if (re-search-forward "[; \t]+" line-epo t)
+		(match-beginning 0)
+	      line-epo)))
+    (setq cont (gams*buffer-substring cpo epo))
+    (setq cont (gams-replace-regexp-in-string "^[\"']+" "" cont))
+    (setq cont (gams-replace-regexp-in-string "[\"',]+$" "" cont))
+    (list 'fil fnum beg "$ginclude"
 	  cont
 	  (set-marker (make-marker) beg))))
 
@@ -9169,24 +9208,33 @@ LIGHT is t if in light mode.
 		  (goto-char (match-end 1))
 		  (push (gams-sil-get-alist-special-comment fnum) idstruct))
 
-		 ;; (bat)include.
+		 ;; (bat)include or gams-include-file:
 		 ((match-beginning 2)
-		  (let (beg end ele dol)
+		  (let (beg end ele dol inc-p)
 		    (setq beg (1+ (match-beginning 0)) ; 1+ for marker
 			  end (1+ beg))
 		    (setq po-end (match-end 2))
-		    (when (and (not (gams-check-line-type))
+		    (setq dol (gams*buffer-substring (1- beg) po-end)) ; 1- for marker
+		    (setq inc-p (if (string-match "gams-include-file" dol) nil t))
+		    
+		    (when (and (or (not inc-p) (not (gams-check-line-type)))
 			       (not (gams-in-quote-p-extended)))
 		      (goto-char (1- beg))
-;; 		      (message "point is %d" (point)) ;; for debug
-;; 		      (char-to-string (char-before)) ;; for debug
+
+		      ;; (message "point is %d" (point)) ;; for debug
+		      ;; (char-to-string (char-before)) ;; for debug
+
 		      (if (or (looking-back "[ \t\n\f]")
 			      (equal (point) (point-min)))
 			  (progn
-			    (setq dol (gams*buffer-substring (1- beg) po-end)) ; 1- for marker
+			    ;;	(setq dol (gams*buffer-substring (1- beg) po-end)) ; 1- for marker
 			    (goto-char po-end)
 			    (skip-chars-forward " \t")
-			    (setq ele (gams-sil-get-alist-fil fnum dol beg))
+
+			    (if inc-p 
+				(setq ele (gams-sil-get-alist-fil fnum dol beg))
+			      (setq ele (gams-sil-get-alist-fil-alt fnum beg)))
+			      
 			    (setq mkr (nth 5 ele))
 			    (push ele idstruct)
 			    
@@ -9228,6 +9276,7 @@ LIGHT is t if in light mode.
 			    (set-buffer cbuf)
 			    (goto-char end))
 			(goto-char po-end)))))
+
 		 ;; Function definition (==)
 		 ((match-beginning 3)
 		  (goto-char (match-end 3))
@@ -9235,15 +9284,18 @@ LIGHT is t if in light mode.
 		      ;; (forward-line 1)
 		      (forward-char 1)
 		    (push (gams-sil-get-alist-func fnum) idstruct)))
+
 		 ;; $macro.
 		 ((match-beginning 4)
 		  (goto-char (match-end 4))
 		  (skip-chars-forward " \t")
 		  (push (gams-sil-get-alist-macro fnum) idstruct))
+
 		 ;; $(s)title.
 		 ((and (not light) (match-beginning 8))
 		  (goto-char (match-end 8))
 		  (push (gams-sil-get-alist-title fnum) idstruct))
+
 		 ;; Other dollar controls
 		 ((and (not light) (match-beginning 9))
 		  (when (not (gams-check-line-type))
@@ -11395,7 +11447,7 @@ FST: file structure"
 	cfnum				; current file num
 	cpart
 	cfname lim
-	po-beg po
+	po-beg po-end po
 	res
 	)
 
@@ -11415,12 +11467,13 @@ FST: file structure"
 
 	      (progn
 		(setq po-beg (match-beginning 1))
-		(goto-char (match-end 1))
+		(goto-char (setq po-end (match-end 1)))
 		(if (gams-in-on-off-text-p)
 		    (gams-goto-next-offtext)
 		  (if (and (not (gams-check-line-type))
 			   (not (gams-in-quote-p-extended))
-			   (not (gams-in-comment-p)))
+			   (not (gams-in-comment-p))
+			   (not (gams-not-= po-beg po-end)))
 		      (progn (setq res (cons cfnum po-beg))
 			     (throw 'found t)))))
 	    (if (< cindex (length fst))
@@ -11437,6 +11490,16 @@ FST: file structure"
 	  
 	  )))
     res))
+
+(defun gams-not-= (beg end)
+  (let (flag)
+    (save-excursion
+      (goto-char beg)
+      (when (looking-back "=")
+	(goto-char end)
+	(when (looking-at "=")
+	  (setq flag t))))
+    flag))
 
 (defun gams-sid-show-result-prev (name type mbuf flist fst def)
   ""
@@ -11487,7 +11550,7 @@ FST: file structure"
 	cfnum				; current file num
 	cpart
 	cfname lim
-	po-beg po
+	po-beg po-end po
 	res
 	)
 
@@ -11513,12 +11576,14 @@ FST: file structure"
 
 		(progn
 		  (setq po-beg (match-beginning 1))
+		  (setq po-end (match-end 1))
 		  (goto-char po-beg)
 		  (if (gams-in-on-off-text-p)
 		      (gams-goto-prev-ontext nil)
 		    (if (and (not (gams-check-line-type))
 			     (not (gams-in-quote-p-extended))
-			     (not (gams-in-comment-p)))
+			     (not (gams-in-comment-p))
+			     (not (gams-not-= po-beg po-end)))
 			(progn (setq res (cons cfnum po-beg))
 			       (throw 'found t)))))
 	      (if (> cindex 1)
@@ -15898,7 +15963,9 @@ Otherwise nil."
   "Search non indented line backward.
 
 Exclude commented lines and dollar control lines."
-  (let ((cur-po (point)) flag)
+  (let ((cur-po (point))
+	(case-fold-search t)
+	flag)
     (save-excursion
       (forward-line -1)
       (catch 'found
@@ -17401,8 +17468,8 @@ I forgot what this function is..."
 	  (gams-ci-forward width))
 	 ((eq key 32) (insert " ") (throw 'quit t))
 	 (t
-	  (setq f (key-binding (char-to-string key)))
-	  (funcall f)
+;; 	  (setq f (key-binding (char-to-string key)))
+;; 	  (funcall f)
 	  (throw 'quit t)))))
     (message "Finished.")))
 
@@ -17601,6 +17668,7 @@ static unsigned char gams_mark_bits[] = {
        'comment-style
        'buffer-file-name
        'warning-suppress-types
+       'case-fold-search
        ))
 
 (defconst gams-mode-variables-list
@@ -17611,14 +17679,13 @@ static unsigned char gams_mark_bits[] = {
    'gams-close-paren-always
    'gams-close-single-quotation-always
    'gams-comment-column
-   'gams-comment-prefix
+   'gams-cycle-level-faces
    'gams-default-pop-window-height
    'gams-display-small-logo
    'gams-docs-directory
    'gams-docs-view-program
    'gams-dollar-control-name
    'gams-dollar-control-upcase
-   'gams-eolcom-symbol
    'gams-eolcom-symbol-default
    'gams-file-extension
    'gams-fill-column
@@ -17631,47 +17698,37 @@ static unsigned char gams_mark_bits[] = {
    'gams-indent-number-loop
    'gams-indent-number-mpsge
    'gams-indent-on
-   'gams-inlinecom-symbol-end
    'gams-inlinecom-symbol-end-default
-   'gams-inlinecom-symbol-start
    'gams-inlinecom-symbol-start-default
    'gams-insert-dollar-control-on
    'gams-log-file-extension
-   'gams-lst-extention
-   'gams-lst-gms-extention
    'gams-lst-dir-default
    'gams-lst-font-lock-level
    'gams-lst-mode-hook
    'gams-lxi-command-name
    'gams-lxi-extension
    'gams-lxi-import-command-name
-   'gams-lxi-maximum-line
    'gams-lxi-width
    'gams-mode-hook
-   'gams-mode-load-hook
-   'gams-mode-version
    'gams-multi-process
-   'gams-ol-buffer-point
+   'gams-n-level-faces
    'gams-ol-display-style
    'gams-ol-font-lock-level
    'gams-ol-height
    'gams-ol-height-two
    'gams-ol-item-name-width
-   'gams-ol-mode-hook
-   'gams-ol-use-mouse
    'gams-ol-view-item
-   'gams-ol-view-item-default
    'gams-ol-width
-   'gams-paragraph-start
-   'gams-perl-command
+   'gams-outline-regexp
+   'gams-outline-regexp-font-lock
    'gams-process-log-to-file
    'gams-recenter-font-lock
    'gams-save-template-change
    'gams-sid-position-symbol
    'gams-sid-tree-buffer-width
-   'gams-sil-column-width
    'gams-sil-display-style
-   'gams-sil-follow-mode
+   'gams-sil-expand-batinclude
+   'gams-sil-expand-file-more
    'gams-sil-follow-mode
    'gams-sil-window-height
    'gams-sil-window-width
@@ -17684,11 +17741,25 @@ static unsigned char gams_mark_bits[] = {
    'gams-template-file
    'gams-template-mark
    'gams-use-mpsge
-   'gams-user-outline-item-alist
    'gams-user-comment
    'gams:process-command-name
    'gams:process-command-option
-   'gams-outline-regexp
+
+   'gams-comment-prefix
+   'gams-eolcom-symbol
+   'gams-inlinecom-symbol-end
+   'gams-inlinecom-symbol-start
+   'gams-lst-extention
+   'gams-lst-gms-extention
+   'gams-lxi-maximum-line
+   'gams-mode-load-hook
+   'gams-ol-buffer-point
+   'gams-ol-mode-hook
+   'gams-ol-use-mouse
+   'gams-ol-view-item-default
+   'gams-paragraph-start
+   'gams-sil-column-width
+   'gams-user-outline-item-alist
    )
   )
 
@@ -17734,6 +17805,14 @@ problems."
       ;;
       (delete-other-windows)
       (goto-char (point-min)))))
+
+(defun gams-mode-version () "\
+Return string describing the version of GAMS mode that is running."
+  (interactive)
+  (let ((version-string
+         (format "GAMS mode version %s" gams-mode-version)))
+    (message "%s" version-string)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

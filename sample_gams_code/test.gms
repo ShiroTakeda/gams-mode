@@ -1,13 +1,18 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2014-09-01 12:21:57 st>
+Time-stamp:     <2014-11-14 00:37:30 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
 $offtext
 
+* TODO, FIXME, 
+
 *	----------------------------------------------------------------------
 $stitle		Specification of lst file or lst file directory (sample code):
+
+* BUG FIXME 
+    
 $ontext
 To activiate lst file specification, remove one of asterisks at the
 beginning of the line.
