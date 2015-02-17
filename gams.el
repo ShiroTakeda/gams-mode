@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.3
-;; Time-stamp: <2015-02-04 13:55:24 st>
+;; Time-stamp: <2015-02-17 12:20:03 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -14966,7 +14966,9 @@ If PAGE is non-nil, page scroll."
       (gams-modlib-mark-sub t))
      ((and (looking-at "^[ \t]+")
 	   (not f-mem))
-      (gams-modlib-mark-sub)))))
+      (gams-modlib-mark-sub)))
+    (next-line 1)
+    ))
 
 (defun gams-modlib-unmark-all-items ()
   (interactive)
