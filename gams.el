@@ -1,8 +1,8 @@
 ;;; GAMS.EL --- Major mode for editing GAMS program files.
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
-;; Version: 4.2.2.1
-;; Time-stamp: <2015-02-20 13:34:29 st>
+;; Version: 4.3
+;; Time-stamp: <2015-02-17 12:20:03 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -854,7 +854,7 @@ Taken from `org-level-color-stars-only'."
 (setq gams-user-identifier-item-alist-initial gams-user-identifier-item-alist)
 
 ;; Variables for representing (X)Emacs versions.
-(defvar gams-win32 (memq system-type '(ms-dos windows-nt cygwin)))
+(defvar gams-win32 (memq system-type '(ms-dos windows-nt)))
 (defvar gams-emacs-21 (= emacs-major-version 21))
 
 ;;; If Emacs 20, define `gams-replace-regexp-in-string'.  This code is
@@ -17829,5 +17829,7 @@ Return string describing the version of GAMS mode that is running."
 ;;; provide.
 (provide 'gams)
 (run-hooks 'gams-mode-load-hook)
+
+;; (load "gams-new")
 
 ;;; GAMS.EL ends here
