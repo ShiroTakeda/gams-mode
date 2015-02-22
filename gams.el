@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.1
-;; Time-stamp: <2015-02-22 00:11:05 st>
+;; Time-stamp: <2015-02-23 00:59:01 straycat>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -695,11 +695,11 @@ register mpsge statements in this variable.")
 (defvar gams-change-command-key ?c
   "*Key to select GAMS command in the process menu.")
 
-(defcustom gams-filename-type-cygwin nil
-  "If you use cygwin type filename, set this to t."
-  :type 'boolean
-  :group 'gams
-  )
+;; (defcustom gams-filename-type-cygwin nil
+;;   "If you use cygwin type filename, set this to t."
+;;   :type 'boolean
+;;   :group 'gams
+;;   )
 
 ;;;;; Key bindgings.
 (defcustom gams-olk-1 "?"
@@ -855,6 +855,7 @@ Taken from `org-level-color-stars-only'."
 
 ;; Variables for representing (X)Emacs versions.
 (defvar gams-win32 (memq system-type '(ms-dos windows-nt cygwin)))
+(defvar gams-cygwin (memq system-type '(cygwin)))
 (defvar gams-emacs-21 (= emacs-major-version 21))
 
 ;;; If Emacs 20, define `gams-replace-regexp-in-string'.  This code is
@@ -5989,7 +5990,7 @@ The input file name is extract from FILE SUMMARY field."
 	    (message "FILE SUMMARY field does not exits!  The extension is assumed to be gms.")
 	  (message "No information for the input file."))
 	(sleep-for 0.1)))
-    (when (and gams-filename-type-cygwin
+    (when (and gams-cygwin
 	       (string-match "^\\([a-zA-Z]\\):" temp-file))
       (setq temp-file
 	    (replace-match (concat "/" (match-string 1 temp-file)) t t temp-file))
@@ -6715,7 +6716,7 @@ If PAGE is non-nil, page scroll."
       (setq fname (nth 5 data))
       (setq fname (gams-replace-regexp-in-string "^[.]+" "" fname))
 
-      (when (and gams-filename-type-cygwin
+      (when (and gams-cygwin
 		 (string-match "^\\([a-zA-Z]\\):" fname))
 	(setq fname
 	      (replace-match (concat "/" (match-string 1 fname)) t t fname))
