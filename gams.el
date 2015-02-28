@@ -1,8 +1,9 @@
+;;; -*- coding: utf-8; lexical-binding: t -*-
 ;;; GAMS.EL --- Major mode for editing GAMS program files.
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.1
-;; Time-stamp: <2015-02-23 00:59:01 straycat>
+;; Time-stamp: <2015-02-28 16:09:50 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
