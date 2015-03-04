@@ -3,7 +3,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.1
-;; Time-stamp: <2015-03-04 01:46:21 straycat>
+;; Time-stamp: <2015-03-04 17:23:49 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -54,12 +54,6 @@
     (if fast (if (cdr fast) nil (1+ n)) n)))
 ;; 
 (eval-and-compile
-  ;; If customize isn't available just use defvar instead.
-  (unless (fboundp 'defgroup)
-    (defmacro defgroup  (&rest rest) nil)
-    (defmacro defcustom (symbol init docstring &rest rest)
-      `(defvar ,symbol ,init ,docstring)))
-  
   ;; If `line-beginning-position' isn't available provide one.
   (unless (fboundp 'line-beginning-position)
     (defun line-beginning-position (&optional n)
@@ -3549,6 +3543,7 @@ Otherwise split window conventionally."
 ;;; From epop.el
 (defun gams*process-sentinel (proc mess)
   "Display the end of process buffer."
+  ;; (format "%s" mess)
   (cond
    ((memq (process-status proc) '(signal exit))
     (save-excursion
@@ -5517,40 +5512,41 @@ overlay onto the gams-invisible-areas-list list"
 (defun gams-hide-comment-lines  ()
   "Hide comment lines."
   (interactive)
-  (let (err)
-    (setq line-move-ignore-invisible t)
-    (save-excursion
-      (condition-case err
-	  (progn
-	    (goto-char (point-min))
-	    (let* ((com-start (concat "^[" comment-start "]"))
-		   (reg (concat "\\(" com-start "\\)\\|\\(^[$]ontext" "\\)"))
-		   ontext start-po end-po start-b-po)
-	      (catch 'found
-		(while t
-		  (setq ontext nil)
-		  (if (not (re-search-forward reg nil t))
-		      (throw 'found t)
-		    (when (match-beginning 2) (setq ontext t))
-		    (beginning-of-line)
-		    (setq start-b-po (point))
-		    (if ontext
-			(setq start-po (line-end-position)))
-		    (setq start-po (line-end-position))
-		    (setq end-po (gams-forward-comment))
-		    (when (not end-po)
-		      (throw 'found t))
-		    (forward-line -1)
-		    (when (not (gams-in-mpsge-block-p (point)))
-		      (when (not (equal start-po end-po))
-			(gams-add-invisible-overlay start-po end-po start-b-po)))
-		    (forward-line 2)))))
-	    (setq gams-invisible-exist-p t)
-	    (message "All comment lines are made invisible.  Type C-cC-h to make them visible again."))
-	;; error handlers.
-	(gams-discard-overlays (point-min) (point-max))
-	(setq gams-invisible-exist-p nil)
-	(setq gams-invisible-areas-list ())))))
+  (setq line-move-ignore-invisible t)
+  (save-excursion
+    (condition-case err
+	(progn
+	  (goto-char (point-min))
+	  (let* ((com-start (concat "^[" comment-start "]"))
+		 (reg (concat "\\(" com-start "\\)\\|\\(^[$]ontext" "\\)"))
+		 ontext start-po end-po start-b-po)
+	    (catch 'found
+	      (while t
+		(setq ontext nil)
+		(if (not (re-search-forward reg nil t))
+		    (throw 'found t)
+		  (when (match-beginning 2) (setq ontext t))
+		  (beginning-of-line)
+		  (setq start-b-po (point))
+		  (if ontext
+		      (setq start-po (line-end-position)))
+		  (setq start-po (line-end-position))
+		  (setq end-po (gams-forward-comment))
+		  (when (not end-po)
+		    (throw 'found t))
+		  (forward-line -1)
+		  (when (not (gams-in-mpsge-block-p (point)))
+		    (when (not (equal start-po end-po))
+		      (gams-add-invisible-overlay start-po end-po start-b-po)))
+		  (forward-line 2)))))
+	  (setq gams-invisible-exist-p t)
+	  (message "All comment lines are made invisible.  Type C-cC-h to make them visible again."))
+      ;; error handlers.
+      (error 
+       (gams-discard-overlays (point-min) (point-max))
+       (setq gams-invisible-exist-p nil)
+       (setq gams-invisible-areas-list ()))
+      )))
 
 (defun gams-forward-comment (&optional lim)
   "Skip all comment lines from the current point."
@@ -8104,7 +8100,7 @@ This command cannot identify aliased set identifer."
 	 (cfile (buffer-file-name cbuf))
 	 (cpo (point))
 	 cfnum mbuf mfile silbuf
-	 already-p err
+	 already-p
 	 idlist)
     ;; update gams-master-file info.
     (gams-set-master-filename)
@@ -8129,8 +8125,10 @@ This command cannot identify aliased set identifer."
 		   (setq gams-id-list-for-completion (gams-sid-create-id-list-for-completion
 				       gams-id-structure))
 		   (get-buffer-create silbuf))
-	  (kill-buffer silbuf))))
-
+	  (error
+	   (message (format "%S" err))
+	   (kill-buffer silbuf)))
+	))
     (setq cfnum (gams-sil-return-file-num cfile)
 	  idlist gams-id-structure)
     
@@ -8170,7 +8168,7 @@ This command cannot identify aliased set identifer."
 
 (defun gams-sil-rescan-internal ()
   (let ((cbuf (current-buffer))
-	idlist err)
+	idlist)
     (save-excursion
       (unless (buffer-live-p gams-sil-gms-buffer)
 	(setq gams-sil-gms-buffer
@@ -8182,7 +8180,7 @@ This command cannot identify aliased set identifer."
 	  (progn
 	    (setq gams-id-structure (gams-sil-get-identifier))
 	    )
-	(switch-to-buffer cbuf))
+	(error (switch-to-buffer cbuf)))
       (setq idlist gams-id-structure)
       (set-buffer cbuf))
     idlist))
@@ -8458,17 +8456,17 @@ MBUF is master file buffer."
 	  (recenter '(4)))
       (select-window this-window))))
 
-(defun gams-sil-next (&optional arg)
+(defun gams-sil-next ()
   "Move to next selectable item."
-  (interactive "p")
-  (next-line 1)
+  (interactive)
+  (forward-line 1)
   (when gams-sil-follow-mode
     (gams-sil-show-other-window-internal)))
 
-(defun gams-sil-previous (&optional arg)
+(defun gams-sil-previous ()
   "Move to previous selectable item."
-  (interactive "p")
-  (next-line -1)
+  (interactive)
+  (forward-line -1)
   (when gams-sil-follow-mode
     (gams-sil-show-other-window-internal)))
 
@@ -9149,7 +9147,7 @@ Return the new file number."
 (defun gams-sil-get-identifier ()
   "Return the identifier list."
   (let ((mfile (buffer-file-name))
-	idstr err)
+	idstr)
     (save-excursion
       (if (not (file-readable-p mfile))
 	  (message (format "File \"%s\" is not readable." mfile))
@@ -9167,8 +9165,7 @@ Return the new file number."
 	   (setq gams-sil-expand-file-more nil)
 	   (setq idstr (gams-sil-get-identifier-alist idstr (current-buffer)))
 	   (message "nil is set to `gams-sil-expand-file-more' because an error occurs.")
-	   (sit-for 1.0)
-	   ))
+	   (sit-for 1.0)))
 	(push (list 'eof
 		    (gams-sil-return-file-num mfile) 0 (line-end-position) mfile
 		    (set-marker (make-marker) (line-end-position))
@@ -14932,7 +14929,7 @@ If PAGE is non-nil, page scroll."
      ((and (looking-at "^[ \t]+")
 	   (not f-mem))
       (gams-modlib-mark-sub)))
-    (next-line 1)
+    (forward-line 1)
     ))
 
 (defun gams-modlib-unmark-all-items ()
@@ -15561,14 +15558,14 @@ If PAGE is non-nil, page scroll."
 (defun gams-lxi-item-next ()
   "Move to the next item."
   (interactive)
-  (next-line 1)
+  (forward-line 1)
   (when gams-lxi-follow-mode
     (gams-lxi-item t)))
 
 (defun gams-lxi-item-prev ()
   "Move to the previous item."
   (interactive)
-  (next-line -1)
+  (forward-line -1)
   (when gams-lxi-follow-mode
     (gams-lxi-item t)))
 
