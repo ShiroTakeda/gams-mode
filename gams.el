@@ -3,7 +3,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.1
-;; Time-stamp: <2015-03-10 00:00:06 straycat>
+;; Time-stamp: <2015-03-10 00:10:01 straycat>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -41,13 +41,15 @@
   (require 'align)
   (require 'org))
 
-(defun gams-oddp (x)
+(defsubst gams-oddp (x)
   "T if INTEGER is odd."
   (eq (logand x 1) 1))
-(defun gams-evenp (x)
+
+(defsubst gams-evenp (x)
   "T if INTEGER is even."
   (eq (logand x 1) 0))
-(defun gams-list-length (x)
+
+(defsubst gams-list-length (x)
   "Return the length of a list.  Return nil if list is circular."
   (let ((n 0) (fast x) (slow x))
     (while (and (cdr fast) (not (and (eq fast slow) (> n 0))))
