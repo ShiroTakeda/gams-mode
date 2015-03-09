@@ -3,7 +3,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.1
-;; Time-stamp: <2015-03-10 00:10:01 straycat>
+;; Time-stamp: <2015-03-10 01:03:46 straycat>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -937,7 +937,7 @@ The default value is nil.")
   (and (fboundp 'make-frame) window-system))
 
 ;; This regular expression
-(defun gams-regexp-opt (strings &optional paren)
+(defsubst gams-regexp-opt (strings &optional paren)
   (regexp-opt strings paren))
 
 (defvar gams:w32-system-shells
@@ -1495,15 +1495,15 @@ Returns nil if none of KEYWORDS is found."
 	      (throw 'found t)))))))
     flag))
 
-(defun gams-store-point-statement-1 (limit)
+(defsubst gams-store-point-statement-1 (limit)
   "Store points for font-lock for GAMS statements.  Level 1."
   (gams-font-lock-match-regexp gams-statement-regexp-1 limit 1 1))
 
-(defun gams-store-point-statement-2 (limit)
+(defsubst gams-store-point-statement-2 (limit)
   "Store points for font-lock for GAMS statements.  Level 2."
   (gams-font-lock-match-regexp gams-statement-regexp-2 limit 2 2))
 
-(defun gams-store-point-dollar (limit)
+(defsubst gams-store-point-dollar (limit)
   "Store points for font-lock for dollar control options."
   (gams-font-lock-match-regexp
    (concat "\\(^\\|[^a-zA-Z0-9]+\\)\\([$]\\)[ \t]*"
@@ -1511,17 +1511,17 @@ Returns nil if none of KEYWORDS is found."
 	   "[^a-zA-Z0-9$*]")
    limit 2 3))
 
-(defun gams-store-point-single-quote (limit)
+(defsubst gams-store-point-single-quote (limit)
   "Store points for font-lock for texts in single quotations."
   (when gams-comment-prefix
       (gams-font-lock-match-regexp "[ \t(,]?\\(\'[^\n\']+\'\\)[), ;:\t\n]" limit 1 1)))
 
-(defun gams-store-point-double-quote (limit)
+(defsubst gams-store-point-double-quote (limit)
   "Store points for font-lock for texts in double quotations."
   (when gams-comment-prefix
       (gams-font-lock-match-regexp "[ \t(,]?\\(\"[^\n\"]+\"\\)[), ;:\t\n]" limit 1 1)))
 
-(defun gams-store-point-special-comment (limit)
+(defsubst gams-store-point-special-comment (limit)
   "Store points for font-lock for comment."
   (let ((key
 	 (concat "\\(----[ ]+[0-9]+[ ]+"
@@ -1532,162 +1532,6 @@ Returns nil if none of KEYWORDS is found."
 	    (end (match-end 1)))
 	(store-match-data (list beg end))
 	t))))
-
-(defvar gams-font-lock-keywords-1
-      '(
-	;; Conditional dollar.
-	("[$]" (0 gams-dollar-face))
-	;; Operator
-	("=\\(e\\|g\\|l\\|n\\)=" (0 gams-operator-face))
-	;; Commented out text by ! in MPSGE code
- 	(gams-store-point-mpsge-comment (0 gams-comment-face t t))
-	;; Standard GAMS statements.
-	(gams-store-point-statement-1 (0 gams-statement-face nil t))
-	;; Dollar control options.
-	(gams-store-point-dollar (0 gams-dollar-face append t t))
-	;; Explanatory texts.
-	(gams-store-point-explanation (0 gams-explanation-face t t))
-	;; Text in single quoatations.
-	(gams-store-point-single-quote (0 gams-string-face t t))
-	;; Text in double quoatations.
-	(gams-store-point-double-quote (0 gams-string-face t t))
-	;; End-of-line comment.
-	(gams-store-point-eolcom (0 gams-comment-face t t))
-	;; Inline comment.
-	(gams-store-point-inlinecom (0 gams-comment-face t t))
-	;; semicolon
-	(";" (0 gams-lst-warning-face))
-	;; Commented out texts by $hidden
-	(gams-store-point-hidden-comment (0 gams-comment-face t t))
-	;; Commented out texts by *
-	(gams-store-point-comment (0 gams-comment-face t t))
-	;; MPSGE dollar control options.
-	("\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
-	 (0 gams-mpsge-face t t))
-	;; the ontext - offtext pair.
-	(gams-store-point-ontext (0 gams-comment-face t t))
-	)
-     "Font lock keyboards for GAMS mode.  Level 1.")
-
-(defvar gams-font-lock-keywords-2
-      '(
-	;; Operator
-	("=\\(e\\|g\\|l\\|n\\)=" (0 gams-operator-face))
-	;; Semicolon
-	(";" (0 gams-lst-warning-face))
-	;; Conditional dollar.
-	("[$]" (0 gams-dollar-face))
-	;; Standard GAMS statements.
-	(gams-store-point-statement-2
-	 (0 gams-statement-face nil t))
-	;; Conditional dollar.
-	("[$]" (0 gams-dollar-face t t))
-	;; Explanatory texts.
-	(gams-store-point-explanation (0 gams-explanation-face t t))
-	;; texts in slash pair.
-	(gams-store-point-slash (0 gams-slash-face t t))
-	;; Dollar control options.
-	(gams-store-point-dollar (0 gams-dollar-face t t))
-	;; Commented out text by ! in MPSGE code
- 	(gams-store-point-mpsge-comment (0 gams-comment-face t t))
-	;; Text in double quoatations.
-	(gams-store-point-double-quote (0 gams-string-face t t))
-	;; Text in single quoatations.
-	(gams-store-point-single-quote (0 gams-string-face t t))
-	;; Inline comment.
-	(gams-store-point-inlinecom (0 gams-comment-face t t))
-	;; End-of-line comment.
-	(gams-store-point-eolcom (0 gams-comment-face t t))
-	;; title and stitle.
-	("^[$][s]?title[^\n]*$" (0 gams-title-face t t))
-	;; Commented out texts by $hidden
-	(gams-store-point-hidden-comment (0 gams-comment-face t t))
-	;; Commented out texts by *
-	(gams-store-point-comment (0 gams-comment-face t t))
-	;;
-	(gams-store-point-outline (0 (gams-get-level-face) t t))
-	;; MPSGE dollar control options.
-	("^\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DATECH\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):" (0 gams-mpsge-face t t))
-	;; the ontext - offtext pair.
-	(gams-store-point-ontext (0 gams-comment-face t t))
-	)
-      "Font-Lock keyboards.")
-
-(defvar gams-lst-font-lock-keywords-1
-  '(("^\\*\\*\\*\\*[^\n]+" (0 gams-lst-warning-face))
-    ("^\\(----\\)?[ \t]+[0-9]*[ ]PARAMETER[ ]+" (0 gams-lst-par-face))
-    ("^----[ ]+[0-9]+[ ]SET[ ]+" (0 gams-lst-set-face))
-    ("^\\(----\\)?[ \t]+[0-9]*[ ]VARIABLE[ ]+" (0 gams-lst-vri-face))
-    )
-  "Regular expression for font-lock in GAMS-LST mode.  Level 1.")
-
-(defvar gams-lst-font-lock-keywords-2
-  (append
-   gams-lst-font-lock-keywords-1
-   '(("\\(----[ ]+VAR[ ]+[^ ]+\\)[ ]*[^\n]+" (1 gams-lst-var-face))
-     ("\\(----[ ]+EQU[ ]+[^ ]+\\)[ ]*[^\n]+" (1 gams-lst-equ-face))
-     ("^Equation Listing[ \t]+SOLVE[ \t]+.+" (0 gams-lst-program-face))
-     ("^Column Listing[ \t]+SOLVE[ \t]+.+" (0 gams-lst-program-face))
-     (gams-store-point-special-comment (0 gams-comment-face))
-     ))
-  "Regular expression for font-lock in GAMS-LST mode.  Level 2.")
-
-(defvar gams-ol-font-lock-keywords-1
-  '((gams-store-point-rep-sum (0 gams-lst-warning-face))
-    (gams-store-point-sol-sum (0 gams-lst-warning-face))
-    ("^\\([[]\\).*" (0 gams-comment-face))
-    ("^[ ]+\\(OTH\\)[ \t]+\\(.*\\)"
-     (1 gams-lst-oth-face)
-     (2 gams-oth-cont-face))
-    ("^[ ]+\\(SUM\\)" (1 gams-lst-warning-face)))
-  "Regular expression for font-lock in GAMS-OUTLINE mode.  Level 1.")
-
-(defvar gams-ol-font-lock-keywords-2
-  (append
-   gams-ol-font-lock-keywords-1
-   '(("^[ ]+\\(PAR\\)[ \t]+" (1 gams-lst-par-face))
-     ("^[ ]+\\(SET\\)[ \t]+" (1 gams-lst-set-face))
-     ("^[ ]+\\(VAR\\)[ \t]+" (1 gams-lst-var-face))
-     ("^[ ]+\\(VRI\\)[ \t]+" (1 gams-lst-vri-face))
-     ("^[ ]+\\(EQU\\)[ \t]+" (1 gams-lst-equ-face))
-     ("^[ ]+\\(LOO\\)[ \t]+" (1 gams-ol-loo-face))
-     ("^\\*[ ]?\\(.*\\)" (0 gams-mpsge-face))))
-  "Regular expression for font-lock in GAMS-OUTLINE mode.  Level 2.")
-
-(defvar gams-regexp-declaration
-      (concat
-       "\\("
-       "parameter[s]?\\|set[s]?\\|scalar[s]?\\|table"
-       "\\|alias\\|acronym[s]?\\|\\(free\\|positive"
-       "\\|negative\\|binary\\|integer\\|nonnegative\\)*[ ]*variable[s]?"
-       "\\|equation[s]?\\|model[s]?"
-       "\\)[ \t\n(]+")
-      "regular expression for declaration type statements.")
-
-(defvar gams-regexp-loop
-  (concat (gams-regexp-opt (list "loop" "while" "if" "for" "else") t)
-	  "[ \t\n]*(")
-  "regular expression for loop type statements.")
-
-(defvar gams-regexp-mpsge
-  (concat (gams-regexp-opt gams-statement-mpsge t))
-  "regular expression for mpsge type statements")
-
-(defvar gams-regexp-equation
-  (concat "[^.\n]*\\([.][.][^.\\/]\\)")
-  "regular expression for equation definition.")
-
-(defvar gams-regexp-put
-  (concat (gams-regexp-opt
-	   (list "abort" "display" "options" "option" "files"
-		 "file" "put" "putpage" "puttl"
-		 "putclose" "solve")
-	   t)
-	  "[ \t$]?"))
-
-(defvar gams-regexp-other
-  (gams-regexp-opt
-	(list "abort" "display" "option[s]?" "file" "put" "solve") t))
 
 (defun gams-store-point-comment (limit)
   "Store points for font-lock for comment."
@@ -1786,6 +1630,19 @@ Returns nil if none of KEYWORDS is found."
 	      (setq flag (list cur-po end))
 	    (setq flag (list nil end))))
       (setq flag (list nil end)))
+    flag))
+
+(defsubst gams-slash-end-p (beg)
+  "Return t if the point is not in a slash pair."
+  (let ((co 1) (cur-po (point)) flag)
+    (save-excursion
+      (goto-char beg)
+      (while (re-search-forward "/" cur-po t)
+	(when (and (not (gams-check-line-type nil nil t))
+		   (not (gams-in-quote-p-extended))
+		   (not (gams-in-comment-p)))
+	  (setq co (+ 1 co))))
+      (when (and (> co 0) (gams-oddp co)) (setq flag t)))
     flag))
 
 (defun gams-store-point-slash (limit)
@@ -1975,6 +1832,21 @@ Returns nil if none of KEYWORDS is found."
 	  (setq flag nil)))))
     ;; If item is found, flag is t.
     flag))
+
+(defsubst gams-sid-next-slash ()
+  (let (po)
+    (save-excursion
+      (forward-char 1)
+      (catch 'found
+	(while t
+	  (if (re-search-forward "/" nil t)
+	      (when (and (not (gams-check-line-type nil t))
+			 (not (gams-in-comment-p))
+			 (not (gams-in-quote-p)))
+		(setq po (point))
+		(throw 'found t))
+	    (throw 'found t))))
+      po)))
 
 (defun gams-store-point-explanation-get-explanation (current limit end)
   "BEGIN is the beginning point of the declaration block.
@@ -2242,6 +2114,162 @@ CURRENT is the current point.  END is the point of the declaration block."
 	(store-match-data (list beg end))
 	t))))
 
+(defvar gams-font-lock-keywords-1
+      '(
+	;; Conditional dollar.
+	("[$]" (0 gams-dollar-face))
+	;; Operator
+	("=\\(e\\|g\\|l\\|n\\)=" (0 gams-operator-face))
+	;; Commented out text by ! in MPSGE code
+ 	(gams-store-point-mpsge-comment (0 gams-comment-face t t))
+	;; Standard GAMS statements.
+	(gams-store-point-statement-1 (0 gams-statement-face nil t))
+	;; Dollar control options.
+	(gams-store-point-dollar (0 gams-dollar-face append t t))
+	;; Explanatory texts.
+	(gams-store-point-explanation (0 gams-explanation-face t t))
+	;; Text in single quoatations.
+	(gams-store-point-single-quote (0 gams-string-face t t))
+	;; Text in double quoatations.
+	(gams-store-point-double-quote (0 gams-string-face t t))
+	;; End-of-line comment.
+	(gams-store-point-eolcom (0 gams-comment-face t t))
+	;; Inline comment.
+	(gams-store-point-inlinecom (0 gams-comment-face t t))
+	;; semicolon
+	(";" (0 gams-lst-warning-face))
+	;; Commented out texts by $hidden
+	(gams-store-point-hidden-comment (0 gams-comment-face t t))
+	;; Commented out texts by *
+	(gams-store-point-comment (0 gams-comment-face t t))
+	;; MPSGE dollar control options.
+	("\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
+	 (0 gams-mpsge-face t t))
+	;; the ontext - offtext pair.
+	(gams-store-point-ontext (0 gams-comment-face t t))
+	)
+     "Font lock keyboards for GAMS mode.  Level 1.")
+
+(defvar gams-font-lock-keywords-2
+      '(
+	;; Operator
+	("=\\(e\\|g\\|l\\|n\\)=" (0 gams-operator-face))
+	;; Semicolon
+	(";" (0 gams-lst-warning-face))
+	;; Conditional dollar.
+	("[$]" (0 gams-dollar-face))
+	;; Standard GAMS statements.
+	(gams-store-point-statement-2
+	 (0 gams-statement-face nil t))
+	;; Conditional dollar.
+	("[$]" (0 gams-dollar-face t t))
+	;; Explanatory texts.
+	(gams-store-point-explanation (0 gams-explanation-face t t))
+	;; texts in slash pair.
+	(gams-store-point-slash (0 gams-slash-face t t))
+	;; Dollar control options.
+	(gams-store-point-dollar (0 gams-dollar-face t t))
+	;; Commented out text by ! in MPSGE code
+ 	(gams-store-point-mpsge-comment (0 gams-comment-face t t))
+	;; Text in double quoatations.
+	(gams-store-point-double-quote (0 gams-string-face t t))
+	;; Text in single quoatations.
+	(gams-store-point-single-quote (0 gams-string-face t t))
+	;; Inline comment.
+	(gams-store-point-inlinecom (0 gams-comment-face t t))
+	;; End-of-line comment.
+	(gams-store-point-eolcom (0 gams-comment-face t t))
+	;; title and stitle.
+	("^[$][s]?title[^\n]*$" (0 gams-title-face t t))
+	;; Commented out texts by $hidden
+	(gams-store-point-hidden-comment (0 gams-comment-face t t))
+	;; Commented out texts by *
+	(gams-store-point-comment (0 gams-comment-face t t))
+	;;
+	(gams-store-point-outline (0 (gams-get-level-face) t t))
+	;; MPSGE dollar control options.
+	("^\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DATECH\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):" (0 gams-mpsge-face t t))
+	;; the ontext - offtext pair.
+	(gams-store-point-ontext (0 gams-comment-face t t))
+	)
+      "Font-Lock keyboards.")
+
+(defvar gams-lst-font-lock-keywords-1
+  '(("^\\*\\*\\*\\*[^\n]+" (0 gams-lst-warning-face))
+    ("^\\(----\\)?[ \t]+[0-9]*[ ]PARAMETER[ ]+" (0 gams-lst-par-face))
+    ("^----[ ]+[0-9]+[ ]SET[ ]+" (0 gams-lst-set-face))
+    ("^\\(----\\)?[ \t]+[0-9]*[ ]VARIABLE[ ]+" (0 gams-lst-vri-face))
+    )
+  "Regular expression for font-lock in GAMS-LST mode.  Level 1.")
+
+(defvar gams-lst-font-lock-keywords-2
+  (append
+   gams-lst-font-lock-keywords-1
+   '(("\\(----[ ]+VAR[ ]+[^ ]+\\)[ ]*[^\n]+" (1 gams-lst-var-face))
+     ("\\(----[ ]+EQU[ ]+[^ ]+\\)[ ]*[^\n]+" (1 gams-lst-equ-face))
+     ("^Equation Listing[ \t]+SOLVE[ \t]+.+" (0 gams-lst-program-face))
+     ("^Column Listing[ \t]+SOLVE[ \t]+.+" (0 gams-lst-program-face))
+     (gams-store-point-special-comment (0 gams-comment-face))
+     ))
+  "Regular expression for font-lock in GAMS-LST mode.  Level 2.")
+
+(defvar gams-ol-font-lock-keywords-1
+  '((gams-store-point-rep-sum (0 gams-lst-warning-face))
+    (gams-store-point-sol-sum (0 gams-lst-warning-face))
+    ("^\\([[]\\).*" (0 gams-comment-face))
+    ("^[ ]+\\(OTH\\)[ \t]+\\(.*\\)"
+     (1 gams-lst-oth-face)
+     (2 gams-oth-cont-face))
+    ("^[ ]+\\(SUM\\)" (1 gams-lst-warning-face)))
+  "Regular expression for font-lock in GAMS-OUTLINE mode.  Level 1.")
+
+(defvar gams-ol-font-lock-keywords-2
+  (append
+   gams-ol-font-lock-keywords-1
+   '(("^[ ]+\\(PAR\\)[ \t]+" (1 gams-lst-par-face))
+     ("^[ ]+\\(SET\\)[ \t]+" (1 gams-lst-set-face))
+     ("^[ ]+\\(VAR\\)[ \t]+" (1 gams-lst-var-face))
+     ("^[ ]+\\(VRI\\)[ \t]+" (1 gams-lst-vri-face))
+     ("^[ ]+\\(EQU\\)[ \t]+" (1 gams-lst-equ-face))
+     ("^[ ]+\\(LOO\\)[ \t]+" (1 gams-ol-loo-face))
+     ("^\\*[ ]?\\(.*\\)" (0 gams-mpsge-face))))
+  "Regular expression for font-lock in GAMS-OUTLINE mode.  Level 2.")
+
+(defvar gams-regexp-declaration
+      (concat
+       "\\("
+       "parameter[s]?\\|set[s]?\\|scalar[s]?\\|table"
+       "\\|alias\\|acronym[s]?\\|\\(free\\|positive"
+       "\\|negative\\|binary\\|integer\\|nonnegative\\)*[ ]*variable[s]?"
+       "\\|equation[s]?\\|model[s]?"
+       "\\)[ \t\n(]+")
+      "regular expression for declaration type statements.")
+
+(defvar gams-regexp-loop
+  (concat (gams-regexp-opt (list "loop" "while" "if" "for" "else") t)
+	  "[ \t\n]*(")
+  "regular expression for loop type statements.")
+
+(defvar gams-regexp-mpsge
+  (concat (gams-regexp-opt gams-statement-mpsge t))
+  "regular expression for mpsge type statements")
+
+(defvar gams-regexp-equation
+  (concat "[^.\n]*\\([.][.][^.\\/]\\)")
+  "regular expression for equation definition.")
+
+(defvar gams-regexp-put
+  (concat (gams-regexp-opt
+	   (list "abort" "display" "options" "option" "files"
+		 "file" "put" "putpage" "puttl"
+		 "putclose" "solve")
+	   t)
+	  "[ \t$]?"))
+
+(defvar gams-regexp-other
+  (gams-regexp-opt
+	(list "abort" "display" "option[s]?" "file" "put" "solve") t))
+
 ;;; Functions for changing font-lock level.
 (defun gams-update-font-lock-keywords (mode level)
   "Change the font lock level in MODE to LEVEL."
@@ -2266,6 +2294,14 @@ CURRENT is the current point.  END is the point of the declaration block."
      ((equal level 2) (setq gams-ol-font-lock-keywords gams-ol-font-lock-keywords-2))))
    ))
 
+(defsubst gams-return-mode ()
+  "Return the current mode name."
+  (let ((cur-mode mode-name))
+    (cond
+     ((equal cur-mode "GAMS") "g")
+     ((equal cur-mode "GAMS-LST") "l")
+     ((equal cur-mode "GAMS-OUTLINE") "o"))))
+
 (defun gams-check-font-lock-level-mode (&optional mode)
   "Check the font-lock level in MODE."
   (cond
@@ -2282,31 +2318,17 @@ CURRENT is the current point.  END is the point of the declaration block."
        ((equal cur-mode "l") gams-lst-font-lock-level)
        ((equal cur-mode "o") gams-ol-font-lock-level))))))
 
-(defun gams-return-mode-name (&optional mode)
+(defsubst gams-return-mode-name (&optional mode)
   "Return the mode name.
 If MODE is g, return GAMS mode,
 If MODE is l, return GAMS-LST mode,
 If MODE is o, return GAMS-OUTLINE mode.
 Otherwise, return the mode name of current buffer."
   (cond
-   ((equal mode "g")
-    "GAMS mode")
-   ((equal mode "l")
-    "GAMS-LST mode")
-   ((equal mode "o")
-    "GAMS-OUTLINE mode")
+   ((equal mode "g") "GAMS mode")
+   ((equal mode "l") "GAMS-LST mode")
+   ((equal mode "o") "GAMS-OUTLINE mode")
    (t mode-name)))
-
-(defun gams-return-mode ()
-  "Return the current mode name."
-  (let ((cur-mode mode-name))
-    (cond
-     ((equal cur-mode "GAMS")
-      "g")
-     ((equal cur-mode "GAMS-LST")
-      "l")
-     ((equal cur-mode "GAMS-OUTLINE")
-      "o"))))
 
 (defsubst gams-choose-font-lock-level-internal (level mode cur-mode)
   ;; Update keywords for font-lock.
@@ -2566,6 +2588,26 @@ If you do not want to specify the lst file directory, set nil to this variable."
     ["Customize GAMS mode for Emacs" (customize-group 'gams) t]
     ))
 
+(defsubst gams-statement-to-alist (list &optional flag)
+  "Transform a LIST to an alist.
+IF FLAG is non-nil, use upper case."
+  (if (not flag)
+      (setq list (mapcar 'downcase list))
+    nil)
+  (mapcar #'(lambda (x) (list x)) list))
+
+(defsubst gams-opt-make-alist (&optional com)
+  "Combine `gams:process-command-option' and `gams-user-option-alist'."
+  (if com
+      (setq gams-command-alist
+	    (append
+	     (list (cons "default" gams:process-command-name))
+	     (reverse gams-user-command-alist)))
+    (setq gams-option-alist
+	  (append
+	   (list (cons "default" gams:process-command-option))
+	   (reverse gams-user-option-alist)))))
+
 (defun gams-init-setting ()
   "Make various settings for gams-mode."
   ;; Behavior of $ key.
@@ -2634,6 +2676,9 @@ If you do not want to specify the lst file directory, set nil to this variable."
 (setq-default gams-ol-buffer-point nil)
 (setq-default gams-lxi-buffer nil)
 (setq-default gams-master-file nil)
+
+(defun gams-set-master-filename ()
+  (setq gams-master-file (gams-get-master-file)))
 
 ;;;###autoload
 (defun gams-mode ()
@@ -2768,21 +2813,13 @@ The following commands are available in the GAMS mode:
 	  (message "Folded the current tree."))
       (message "`org-cycle-internal-local' is not defined."))))
 
-(defun gams-list-to-alist (list)
+(defsubst gams-list-to-alist (list)
   "Trasform a LIST to an ALIST."
   (mapcar #'(lambda (x) (list x)) list))
 
-(defun gams-alist-to-list (alist)
+(defsubst gams-alist-to-list (alist)
   "Trasform an ALIST to a LIST."
   (mapcar #'(lambda (x) (car x)) alist))
-
-(defun gams-statement-to-alist (list &optional flag)
-  "Transform a LIST to an alist.
-IF FLAG is non-nil, use upper case."
-  (if (not flag)
-      (setq list (mapcar 'downcase list))
-    nil)
-  (mapcar #'(lambda (x) (list x)) list))
 
 ;; `gams-comment-region' is aliased as `comment-region'.
 (if (fboundp 'comment-region)
@@ -3142,7 +3179,7 @@ if `gams-use-mpsge' is non-nil)."
 	     ".lst"))
       (setq gams-lst-file-full (expand-file-name gams-lst-file))))))
 
-(defun gams-get-lst-filename ()
+(defsubst gams-get-lst-filename ()
   (let (lst-file)
     (gams-set-lst-filename)
     (if gams-lst-file-full
@@ -3203,9 +3240,6 @@ if `gams-use-mpsge' is non-nil)."
     (when val
       (setq val (substring val 0 (string-match "[ \t]+$" val))))
     val))
-
-(defun gams-set-master-filename ()
-  (setq gams-master-file (gams-get-master-file)))
 
 (defun gams-get-master-file ()
   (let ((case-fold-search t)
@@ -3270,12 +3304,12 @@ if `gams-use-mpsge' is non-nil)."
     ;; Return the name.
     file-lst))
 
-(defun gams-file-attributes (file)
+(defsubst gams-file-attributes (file)
   (if gams-emacs-21
       (file-attributes file)
     (file-attributes file t)))
 
-(defun gams-get-lst-modified-time (lst)
+(defsubst gams-get-lst-modified-time (lst)
   (format-time-string "%x %H:%M" (nth 5 (gams-file-attributes lst))))
 
 (defun gams-view-lst ()
@@ -3453,7 +3487,7 @@ and initial *."
 ;; the `EPO' package written by Yuuji Hirose.  I modified them.
 
 ;;; From epolib.el
-(defun gams*window-list ()
+(defsubst gams*window-list ()
   "Return visible window list."
   (let* ((curw (selected-window))
 	 (win curw)
@@ -3581,6 +3615,16 @@ Otherwise split window conventionally."
     flag))
 
 ;;; New function.
+(defun gams-get-process-buffer ()
+  "Create the name of GAMS process buffer for the current buffer."
+  (if gams-multi-process
+      ;; Multi-process.
+      (concat gams*command-process-buffer " on "
+	      (buffer-name)
+	      "*")
+      ;; Not multi-process.
+    (concat gams*command-process-buffer "*")))
+
 (defun gams-popup-process-buffer (&optional select)
   "Popup the GAMS process buffer.
 Moreover, If you attach the universal-argument or if the process buffer is
@@ -3757,29 +3801,6 @@ Non-nil for optional argument SELECT keeps selection to the target window."
 	  (forward-line 1))
 	(open-line 1)
 	(insert comment-start keyword newdef comment-end)))))
-
-(defun gams-get-program-filename (&optional nodir noext)
-  ""
-  (cond
-   ((and nodir (not noext)
-    (file-name-nondirectory (buffer-file-name (current-buffer)))))
-   ((and (not nodir) noext)
-    (file-name-sans-extension (buffer-file-name (current-buffer))))
-   ((and nodir noext)
-    (file-name-nondirectory
-     (file-name-sans-extension (buffer-file-name (current-buffer)))))
-   (t
-    (buffer-file-name (current-buffer)))))
-
-(defun gams-get-process-buffer ()
-  "Create the name of GAMS process buffer for the current buffer."
-  (if gams-multi-process
-      ;; Multi-process.
-      (concat gams*command-process-buffer " on "
-	      (buffer-name)
-	      "*")
-      ;; Not multi-process.
-    (concat gams*command-process-buffer "*")))
 
 (defun gams*start-processor (&optional ask)
   "Start GAMS on the current file."
@@ -4229,7 +4250,7 @@ If you attach the prefix argument, just insert `('."
 	(backward-char 1))
     (insert "(")))
 
-(defun gams-close-quotation-p (&optional double)
+(defsubst gams-close-quotation-p (&optional double)
   "If the single (or double) quotation should be closed, return t.
 Otherwise nil.  If DOUBLE is non-nil, check double quoatation."
   (let ((cur-po (point))
@@ -4304,18 +4325,6 @@ defined by `gams-statement-file'.")
 (defvar gams-command-alist nil
   "The list of combinations of options in which
 `gams:process-command-option' and `gams-user-option-alist' are combined.")
-
-(defun gams-opt-make-alist (&optional com)
-  "Combine `gams:process-command-option' and `gams-user-option-alist'."
-  (if com
-      (setq gams-command-alist
-	    (append
-	     (list (cons "default" gams:process-command-name))
-	     (reverse gams-user-command-alist)))
-    (setq gams-option-alist
-	  (append
-	   (list (cons "default" gams:process-command-option))
-	   (reverse gams-user-option-alist)))))
 
 (defvar gams-opt-gms-buffer nil)
 (setq-default gams-opt-gms-buffer nil)
@@ -4664,13 +4673,6 @@ Return the modified ALIST."
   (define-key map "\r" 'gams-command-change)
   )
 
-(defun gams-command-make-alist ()
-  "Combine `gams:process-command-option' and `gams-user-option-alist'."
-  (setq gams-command-alist
-	(append
-	 (list (cons "default" gams:process-command-name))
-	 (reverse gams-user-command-alist))))
-
 ;;; initialize.
 (setq gams-current-command-num "default")
 
@@ -4943,7 +4945,7 @@ If STRING contains only spaces, return null string."
 		    gams-st-hist-statement))
     (if (string= name "") guess name)))
 
-(defun gams-change-case (str)
+(defsubst gams-change-case (str)
   "If gams-statement-upcase is non-nil, change STR to upcase."
   (if gams-statement-upcase
       (upcase str)
@@ -5015,6 +5017,11 @@ If STRING contains only spaces, return null string."
       (insert arg-1))))
 
 (setq-default gams-st-solve-model-default nil)
+
+(defsubst gams-store-variable-name ()
+  "Return a list of variables names."
+  (let ((var-list (nreverse (gams-store-identifer-list))))
+    var-list))
 
 (defun gams-insert-post-solve ()
   (let ((def-solv (or gams-insert-solver-type-previous
@@ -5188,12 +5195,12 @@ If STRING contains only spaces, return null string."
       (insert f-label)
       (insert ";"))))
 
-(defun gams-goto-next-offtext (&optional limit)
+(defsubst gams-goto-next-offtext (&optional limit)
   "Search the next $offtext.
 LIMIT is the limit point of searching."
   (re-search-forward "^$offtext" (or limit nil) t))
 
-(defun gams-goto-prev-ontext (&optional limit)
+(defsubst gams-goto-prev-ontext (&optional limit)
   "Search the previous $ontext.
 LIMIT is the limit point of searching."
   (re-search-backward "^$ontext" (or limit nil) t))
@@ -5389,11 +5396,6 @@ BEG and END are points."
 		    (widen)))))
 	    (throw 'found t)))))
     list))
-
-(defun gams-store-variable-name ()
-  "Return a list of variables names."
-  (let ((var-list (nreverse (gams-store-identifer-list))))
-    var-list))
 
 (defun gams-insert-statement-extended (&optional cmd)
   "Insert GAMS statement with extended features.  This command has various
@@ -8065,6 +8067,16 @@ TYPE is the type of identifier (def or sol)."
       (setq ids (cdr ids)))
     (reverse al)))
 
+(defun gams-sil-return-file-num (fname &optional mbuf)
+  "Return file number corresponding to file name FNAME.
+MBUF is master file buffer."
+  (let (fnum)
+    (save-excursion
+      (when mbuf (set-buffer mbuf))
+      (current-buffer)
+      (setq fnum (car (rassoc fname gams-file-list))))
+    fnum))
+
 (defun gams-show-identifier-list ()
   "Show the list of all GAMS identifers existing in the current buffer.
 Identifers are classified as
@@ -8199,6 +8211,10 @@ This command cannot identify aliased set identifer."
     (setq buffer-read-only t)
     (message "Rescan is done.")))
 
+(defsubst gams-ol-create-alist (alist)
+  "Create a alist of car part from ALIST."
+  (mapcar #'(lambda (x) (list (car x))) alist))
+
 (defun gams-sil-mode ()
   "Mode for GAMS Show-Identifier-List (SIL) buffer."
   (interactive)
@@ -8311,7 +8327,7 @@ This command cannot identify aliased set identifer."
 (defconst gams-sil-mess-1
       (concat "[ ]=show,[r]escan,[?]help,[q]uit,[k]=kill"))
 
-(defun gams-sil-show-mess ()
+(defsubst gams-sil-show-mess ()
   (message gams-sil-mess-1))
 
 (defun gams-sil-show-click (click)
@@ -8349,6 +8365,38 @@ Nil -> split vertically."
     (if (looking-at "^[[][+-][]]")
 	(gams-sil-toggle-fold-item)
       (gams-sil-show-other-window-internal))))
+
+(defun gams-sil-return-file-name (fnum &optional mbuf)
+  "Return file name corresponding to file number FNUM.
+MBUF is master file buffer."
+  (let (fname)
+    (save-excursion
+      (when mbuf (set-buffer mbuf))
+      (setq fname (cdr (assoc fnum gams-file-list))))
+    fname))
+
+(defun gams-sil-get-file-buffer-force (file)
+  ;; Return a buffer visiting file.  Make one, if necessary.
+  ;; If neither such a buffer nor the file exist, return nil.
+  ;; If MARK-TO-KILL is t and there is no live buffer, visit the file with
+  ;; initializations according to `reftex-initialize-temporary-buffers',
+  ;; and mark the buffer to be killed after use.
+  (let ((buf (get-file-buffer file)))
+    (cond (buf
+           ;; We have it already as a buffer - just return it
+           buf)
+          ((file-readable-p file)
+           ;; At least there is such a file and we can read it.
+
+	   ;; Visit the file with full magic
+	   (setq buf (find-file-noselect file))
+	   ;; Else: Visit the file just briefly, without or
+	   ;;       with limited Magic
+	   )
+	  ;; Lets see if we got a license to kill :-|
+
+          ;; If no such file exists, return nil
+          (t nil))))
 
 (defun gams-sil-show-other-window-internal ()
   "Show the content of the identifer in the other window."
@@ -8415,25 +8463,6 @@ Nil -> split vertically."
 		  (format "In %s: " (file-name-nondirectory fname))
 		  gams-sil-mess-1)))
       )))
-
-(defun gams-sil-return-file-name (fnum &optional mbuf)
-  "Return file name corresponding to file number FNUM.
-MBUF is master file buffer."
-  (let (fname)
-    (save-excursion
-      (when mbuf (set-buffer mbuf))
-      (setq fname (cdr (assoc fnum gams-file-list))))
-    fname))
-
-(defun gams-sil-return-file-num (fname &optional mbuf)
-  "Return file number corresponding to file name FNAME.
-MBUF is master file buffer."
-  (let (fnum)
-    (save-excursion
-      (when mbuf (set-buffer mbuf))
-      (current-buffer)
-      (setq fnum (car (rassoc fname gams-file-list))))
-    fnum))
 
 (defun gams-sil-show-calling-point ()
   "Show point where GAMS-SIL was called from."
@@ -8705,7 +8734,7 @@ If PAGE is non-nil, page scroll."
      )
     str))
 
-(defun gams-sil-display-list-message (buffer)
+(defsubst gams-sil-display-list-message (buffer)
   (format
    "Identifier list on %s
 SPC=view, TAB=goto, ENT=goto+hide, [q]uit, [r]escan, ?=Help
@@ -8885,7 +8914,7 @@ There are 2 types:
     )
 
 (defvar gams-sil-regexp-declaration-light nil)
-(defun gams-sil-regexp-declaration-light ()
+(defsubst gams-sil-regexp-declaration-light ()
   (setq gams-sil-regexp-declaration-light
 	(concat
 	 "\\("
@@ -8900,7 +8929,7 @@ There are 2 types:
 	 )))
 
 (defvar gams-sil-regexp-declaration-temp nil)
-(defun gams-sil-regexp-declaration-temp ()
+(defsubst gams-sil-regexp-declaration-temp ()
   (setq gams-sil-regexp-declaration-temp
 	(concat gams-sil-regexp-declaration-light "\\|"
 		"\\(^$[ ]*[s]?title[ \t]+\\)\\|"				  ; 8
@@ -8913,32 +8942,8 @@ There are 2 types:
 		)))
 
 (defvar gams-sil-regexp-declaration nil)
-(defun check-sil-regexp ()
-  (interactive)
-  (let (num)
-    (save-excursion
-      (re-search-forward gams-sil-regexp-declaration nil t)
-      (setq num 
-	    (cond
-	     ((match-beginning 1) 1)
-	     ((match-beginning 2) 2)
-	     ((match-beginning 3) 3)
-	     ((match-beginning 4) 4)
-	     ((match-beginning 5) 5)
-	     ((match-beginning 6) 6)
-	     ((match-beginning 7) 7)
-	     ((match-beginning 8) 8)
-	     ((match-beginning 9) 9)
-	     ((match-beginning 10) 10)
-	     ((match-beginning 11) 11)
-	     ((match-beginning 12) 12)
-	     ((match-beginning 13) 13)
-	     ((match-beginning 14) 14)
-	     ((match-beginning 15) 15)
-	     )))
-    num))
 
-(defun gams-sil-regexp-update ()
+(defsubst gams-sil-regexp-update ()
   (gams-sil-regexp-declaration-light)
   (gams-sil-regexp-declaration-temp)
   (setq gams-sil-regexp-declaration
@@ -8961,7 +8966,7 @@ There are 2 types:
       (message "Set t to `gams-sil-expand-file-more'.")
     (message "Set nil to `gams-sil-expand-file-more'.")))
 
-(defun gams-sil-add-file-to-list (file)
+(defsubst gams-sil-add-file-to-list (file)
   "Add the new file to gams-file-list.
 Return the new file number."
   (let ((fl gams-file-list)
@@ -8970,7 +8975,7 @@ Return the new file number."
     (push (cons num (file-truename file)) gams-file-list)
     num))
 
-(defun gams-sil-get-alist-title (fnum)
+(defsubst gams-sil-get-alist-title (fnum)
   (let ((cont
 	 (gams*buffer-substring
 	  (point) (line-end-position))))
@@ -8978,7 +8983,7 @@ Return the new file number."
      'tit fnum (point) nil cont
      (set-marker (make-marker) (point)))))
 
-(defun gams-sil-get-alist-exit (fnum)
+(defsubst gams-sil-get-alist-exit (fnum)
   (let* ((con "EXIT !!!")
 	 (len (length con)))
     (put-text-property 0 len 'face gams-lst-warning-face con)
@@ -8986,7 +8991,7 @@ Return the new file number."
      'dol fnum (point) "$exit" con
      (set-marker (make-marker) (point)))))
 
-(defun gams-sil-get-alist-dollar (fnum dollar beg)
+(defsubst gams-sil-get-alist-dollar (fnum dollar beg)
   (let ((cpo (point))
 	(line-epo (line-end-position))
 	epo cont)
@@ -9000,7 +9005,7 @@ Return the new file number."
 	  cont
 	  (set-marker (make-marker) beg))))
 
-(defun gams-sil-get-alist-fil (fnum dollar beg)
+(defsubst gams-sil-get-alist-fil (fnum dollar beg)
   (let ((cpo (point))
 	(line-epo (line-end-position))
 	epo cont)
@@ -9016,7 +9021,7 @@ Return the new file number."
 	  cont
 	  (set-marker (make-marker) beg))))
 
-(defun gams-sil-get-alist-fil-alt (fnum beg)
+(defsubst gams-sil-get-alist-fil-alt (fnum beg)
   (let ((cpo (point))
 	(line-epo (line-end-position))
 	epo cont)
@@ -9032,7 +9037,7 @@ Return the new file number."
 	  cont
 	  (set-marker (make-marker) beg))))
 
-(defun gams-sil-get-alist-special-comment (fnum)
+(defsubst gams-sil-get-alist-special-comment (fnum)
   (let ((cpo (point))
 	cont)
     (setq cont
@@ -9042,7 +9047,7 @@ Return the new file number."
     (list 'com fnum cpo nil cont
 	  (set-marker (make-marker) cpo))))
 
-(defun gams-sil-get-alist-solve (fnum)
+(defsubst gams-sil-get-alist-solve (fnum)
   (let ((cpo (point))
 	name)
     (skip-chars-forward "a-zA-Z0-9_")
@@ -9050,7 +9055,7 @@ Return the new file number."
     (list 'sol fnum cpo name nil
 	  (set-marker (make-marker) cpo))))
 
-(defun gams-sil-get-alist-func (fnum)
+(defsubst gams-sil-get-alist-func (fnum)
   (let (end name)
     (save-excursion
       (skip-chars-backward "= \t")
@@ -9061,7 +9066,7 @@ Return the new file number."
       (list 'fun fnum (point) name nil
 	    (set-marker (make-marker) (point))))))
 
-(defun gams-sil-get-alist-macro (fnum)
+(defsubst gams-sil-get-alist-macro (fnum)
   (let (beg end name)
     (save-excursion
       (setq beg (point))
@@ -9071,7 +9076,7 @@ Return the new file number."
       (list 'mac fnum beg name nil
 	    (set-marker (make-marker) beg)))))
 
-(defun gams-sil-get-alist-def (fnum)
+(defsubst gams-sil-get-alist-def (fnum)
   (let (cpo beg end name)
     (save-excursion
       (skip-chars-backward " \t[.]")
@@ -9086,20 +9091,9 @@ Return the new file number."
       (list 'def fnum beg name nil
 	    (set-marker (make-marker) beg)))))
 
-(defun gams-sil-auto-mode-alist ()
-  ;; Return an `auto-mode-alist' with only the .gz (etc) thingies.
-  ;; Stolen from gnus nnheader.
-  (let ((alist auto-mode-alist)
-        out)
-    (while alist
-      (when (listp (cdr (car alist)))
-        (push (car alist) out))
-      (pop alist))
-    (nreverse out)))
-
 (defvar gams-sil-buffers-to-kill nil)
 
-(defun gams-sil-get-filename (file &optional dir)
+(defsubst gams-sil-get-filename (file &optional dir)
   (let ((ofname (expand-file-name file dir))
 	fname)
     (if (file-exists-p ofname)
@@ -9109,29 +9103,6 @@ Return the new file number."
 	(if (file-exists-p (concat ofname ".GMS"))
 	    (setq fname (concat ofname ".GMS")))))
     fname))
-
-(defun gams-sil-get-file-buffer-force (file)
-  ;; Return a buffer visiting file.  Make one, if necessary.
-  ;; If neither such a buffer nor the file exist, return nil.
-  ;; If MARK-TO-KILL is t and there is no live buffer, visit the file with
-  ;; initializations according to `reftex-initialize-temporary-buffers',
-  ;; and mark the buffer to be killed after use.
-  (let ((buf (get-file-buffer file)))
-    (cond (buf
-           ;; We have it already as a buffer - just return it
-           buf)
-          ((file-readable-p file)
-           ;; At least there is such a file and we can read it.
-
-	   ;; Visit the file with full magic
-	   (setq buf (find-file-noselect file))
-	   ;; Else: Visit the file just briefly, without or
-	   ;;       with limited Magic
-	   )
-	  ;; Lets see if we got a license to kill :-|
-
-          ;; If no such file exists, return nil
-          (t nil))))
 
 (defun gams-sil-get-identifier ()
   "Return the identifier list."
@@ -9164,7 +9135,7 @@ Return the new file number."
 	(setq idstr (reverse idstr))))
     idstr))
 
-(defun gams-sil-counter (co)
+(defsubst gams-sil-counter (co)
   (let ((co- (% (/ co 50) 4)))
     (concat
      (make-string (min (/ co 50) (- fill-column 20)) ?-)
@@ -9405,19 +9376,57 @@ LIGHT is t if in light mode.
 	))
     idstruct))
 
-(defun gams-return-mpsge-end ()
+(defsubst gams-return-mpsge-end ()
   "Return the point where MPSGE block ends."
   (save-excursion
     (when (re-search-forward "^$offtext" nil t)
       (match-beginning 0))))
 
-(defun gams-sil-get-mpsge-model-name (fnum)
+(defsubst gams-sil-make-alist (type fnum po name &optional exp)
+  (list type fnum po name (or exp nil) (set-marker (make-marker) po)))
+
+(defsubst gams-sil-get-mpsge-model-name (fnum)
   "Extract MPSGE model name."
   (skip-chars-forward " \t")
   (when (looking-at "[0-9a-zA-Z_]+")
     (let ((beg (match-beginning 0))
 	  (end (match-end 0)))
       (gams-sil-make-alist 'mod fnum beg (gams*buffer-substring beg end) nil))))
+
+(defsubst gams-sil-get-mpsge-variable (fnum)
+  "FNUM is the file number in which the identifier is defined."
+  (let ((end (line-end-position))
+	beg id exp)
+    (when (re-search-forward "^[ \t]*\\([0-9a-zA-Z_]+\\)" end t)
+      (setq beg (match-beginning 1))
+      (setq id (gams*buffer-substring beg (match-end 1)))
+      (when (re-search-forward "!" end t)
+	(skip-chars-forward "[! \t]")
+	(setq exp (gams*buffer-substring (point) end)))
+      (gams-sil-make-alist 'mps fnum beg id exp))))
+
+(defsubst gams-sil-get-mpsge-report-variable (fnum)
+  "FNUM is the file number in which the identifier is defined."
+  (let ((end (line-end-position))
+	beg id exp)
+    (when (re-search-forward "^[ \t]*v:\\([0-9a-zA-Z_]+\\)" end t)
+      (setq beg (match-beginning 1))
+      (setq id (gams*buffer-substring beg (match-end 1)))
+      (when (re-search-forward "!" end t)
+	(skip-chars-forward "[! \t]")
+	(setq exp (gams*buffer-substring (point) end)))
+      (gams-sil-make-alist 'mps fnum beg id exp))))
+
+(defsubst gams-sil-get-mpsge-variable-definition (fnum)
+  "FNUM is the file number in which the identifier is defined."
+  (let ((beg (point))
+	end id)
+    (skip-chars-forward "a-zA-Z0-9_")
+    (when (looking-at "[ \t]*(")
+      (re-search-forward ")" (line-end-position) t))
+    (setq end (point))
+    (setq id (gams*buffer-substring beg end))
+    (gams-sil-make-alist 'def fnum beg id "")))
 
 (defun gams-sil-get-alist-mpsge (fnum)
   "FNUM is the file number in which the identifier is defined."
@@ -9465,44 +9474,6 @@ LIGHT is t if in light mode.
 		     (widen)))
 	  (throw 'found t))))
     alist))
-
-(defun gams-sil-get-mpsge-variable (fnum)
-  "FNUM is the file number in which the identifier is defined."
-  (let ((end (line-end-position))
-	beg id exp)
-    (when (re-search-forward "^[ \t]*\\([0-9a-zA-Z_]+\\)" end t)
-      (setq beg (match-beginning 1))
-      (setq id (gams*buffer-substring beg (match-end 1)))
-      (when (re-search-forward "!" end t)
-	(skip-chars-forward "[! \t]")
-	(setq exp (gams*buffer-substring (point) end)))
-      (gams-sil-make-alist 'mps fnum beg id exp))))
-
-(defun gams-sil-get-mpsge-report-variable (fnum)
-  "FNUM is the file number in which the identifier is defined."
-  (let ((end (line-end-position))
-	beg id exp)
-    (when (re-search-forward "^[ \t]*v:\\([0-9a-zA-Z_]+\\)" end t)
-      (setq beg (match-beginning 1))
-      (setq id (gams*buffer-substring beg (match-end 1)))
-      (when (re-search-forward "!" end t)
-	(skip-chars-forward "[! \t]")
-	(setq exp (gams*buffer-substring (point) end)))
-      (gams-sil-make-alist 'mps fnum beg id exp))))
-
-(defun gams-sil-get-mpsge-variable-definition (fnum)
-  "FNUM is the file number in which the identifier is defined."
-  (let ((beg (point))
-	end id)
-    (skip-chars-forward "a-zA-Z0-9_")
-    (when (looking-at "[ \t]*(")
-      (re-search-forward ")" (line-end-position) t))
-    (setq end (point))
-    (setq id (gams*buffer-substring beg end))
-    (gams-sil-make-alist 'def fnum beg id "")))
-
-(defun gams-sil-make-alist (type fnum po name &optional exp)
-  (list type fnum po name (or exp nil) (set-marker (make-marker) po)))
 
 (defun gams-sil-get-alist (fnum type)
   "FNUM is the file number in which the identifier is defined.
@@ -9857,6 +9828,17 @@ BUFFNAME is the SIL buffer name."
     (goto-char (point-min))
     (setq buffer-read-only t)))
 
+(defsubst gams-sil-item-show-key ()
+  (message
+    (concat
+     "* => the current choice, "
+     "Key: "     
+     "[n]ext, "     
+     "[p]rev, "     
+     "ENT = select, "     
+     "[q]uit, "     
+     "[d]elete")))
+
 (defun gams-sil-item ()
   "Select the registered item combination.
 To register the viewable item combinations, use `gams-sil-select-item'."
@@ -9889,17 +9871,6 @@ To register the viewable item combinations, use `gams-sil-select-item'."
   (make-local-variable 'gams-sil-item-sil-buffer)
   (setq gams-sil-item-sil-buffer buff)
   (setq buffer-read-only t))
-
-(defun gams-sil-item-show-key ()
-  (message
-    (concat
-     "* => the current choice, "
-     "Key: "     
-     "[n]ext, "     
-     "[p]rev, "     
-     "ENT = select, "     
-     "[q]uit, "     
-     "[d]elete")))
 
 (defun gams-sil-item-next ()
   "Next line."
@@ -10181,7 +10152,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
       (sleep-for 0.5)
       (kill-buffer cur-buff))))
 
-(defun gams-sil-select-judge ()
+(defsubst gams-sil-select-judge ()
   "Judge the item on the line and return its value."
   (save-excursion
     (let (str)
@@ -10293,13 +10264,6 @@ if prev is non-nil, move up after toggle."
   (interactive)
   (gams-sil-toggle nil t t))
 
-(defun gams-sil-toggle-func (item)
-  "item is an item name."
-  (goto-char (point-min))
-  (goto-char (re-search-forward (concat "] " item) nil t))
-  (beginning-of-line)
-  (gams-sil-toggle))
-
 (defun gams-sil-select-select ()
   "Quit the select-item mode."
   (interactive)
@@ -10361,7 +10325,7 @@ if prev is non-nil, move up after toggle."
 
 (setq-default gams-sil-fold-all-items-p nil)
 
-(defun gams-sil-overlay-at (position)
+(defsubst gams-sil-overlay-at (position)
   "Return gams overlay at POSITION, or nil if none to be found."
   (let ((overlays (overlays-at position))
         ov found)
@@ -10370,7 +10334,7 @@ if prev is non-nil, move up after toggle."
             overlays (cdr overlays)))
     found))
 
-(defun gams-sil-invisible-item (beg end)
+(defsubst gams-sil-invisible-item (beg end)
   (let ((ov (make-overlay beg end)))
     (overlay-put ov 'evaporate t)
     (overlay-put ov 'invisible 'gams-sil)
@@ -10633,26 +10597,11 @@ if prev is non-nil, move up after toggle."
 	      (throw 'found t))))))
     flag))
 
-(defun gams-sid-next-slash ()
-  (let (po)
-    (save-excursion
-      (forward-char 1)
-      (catch 'found
-	(while t
-	  (if (re-search-forward "/" nil t)
-	      (when (and (not (gams-check-line-type nil t))
-			 (not (gams-in-comment-p))
-			 (not (gams-in-quote-p)))
-		(setq po (point))
-		(throw 'found t))
-	    (throw 'found t))))
-      po)))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Open included file.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun gams-get-included-filename ()
+(defsubst gams-get-included-filename ()
   (let ((f-name (thing-at-point 'filename)))
     (set-text-properties 0 (length f-name) nil f-name)
     f-name))
@@ -10687,17 +10636,17 @@ $batinclude or $include."
 	  (format "The file '%s' does not exist!  " temp-fname)
 	  "This command is valid on the file name."))))))
 
-(defun gams-sid-get-alist-double-quote ()
+(defsubst gams-sid-get-alist-double-quote ()
   (let ((end (line-end-position)))
     (forward-char 1)
     (or (re-search-forward "\"" end t) (point))))
 
-(defun gams-sid-get-alist-single-quote ()
+(defsubst gams-sid-get-alist-single-quote ()
   (let ((end (line-end-position)))
     (forward-char 1)
     (or (re-search-forward "'" end t) (point))))
 
-(defun gams-sid-goto-inline-comment-end ()
+(defsubst gams-sid-goto-inline-comment-end ()
   (let ((end (line-end-position)))
     (forward-char 1)
     (or (re-search-forward (regexp-quote gams-inlinecom-symbol-end) end t) end)))
@@ -11252,7 +11201,7 @@ DEFP: non-nil if the declaration part exists."
     (sit-for 0)
     ))
 
-(defun gams-sid-get-file-structure ()
+(defsubst gams-sid-get-file-structure ()
   (let* ((mfile gams-master-file)
 	 (mbuf (gams-sil-get-file-buffer-force mfile)))
     (with-current-buffer
@@ -11354,7 +11303,7 @@ Return the alist for gams-file-structure."
       (setq fst (reverse fst)))
     fst))
 
-(defun gams-sid-get-current-part (fst flist)
+(defsubst gams-sid-get-current-part (fst flist)
   "Return the index of the current point.
 Index is determined by gams-file-structure."
   (let* ((cpo (point))
@@ -11387,7 +11336,6 @@ Index is determined by gams-file-structure."
 	  cbuf (current-buffer))
     (other-window 2)
     (current-buffer)
-
     ;; res = (file_num . point)
     (setq res (gams-sid-search-identifier-next name type flist fst))
     (if res
@@ -11402,7 +11350,7 @@ Index is determined by gams-file-structure."
       (goto-char cpo))
     ))
 
-(defun gams-sid-return-first-position (name type flist fst)
+(defsubst gams-sid-return-first-position (name type flist fst)
   ""
   (let ((len (length name))
 	temp)
@@ -11411,6 +11359,16 @@ Index is determined by gams-file-structure."
     (setq temp (gams-sid-search-identifier-next name type flist fst))
     (when temp
       (list (car temp) nil (set-marker (make-marker) (- (point) len)) (cdr temp)))))
+
+(defsubst gams-not-= (beg end)
+  (let (flag)
+    (save-excursion
+      (goto-char beg)
+      (when (looking-back "=")
+	(goto-char end)
+	(when (looking-at "=")
+	  (setq flag t))))
+    flag))
 
 (defun gams-sid-search-identifier-next (name type flist fst)
   "Search the identifier NAME.
@@ -11470,16 +11428,6 @@ FST: file structure"
 	  
 	  )))
     res))
-
-(defun gams-not-= (beg end)
-  (let (flag)
-    (save-excursion
-      (goto-char beg)
-      (when (looking-back "=")
-	(goto-char end)
-	(when (looking-at "=")
-	  (setq flag t))))
-    flag))
 
 (defun gams-sid-show-result-prev (name type flist fst def)
   ""
@@ -11855,10 +11803,6 @@ part index is determined by `gams-sid-tree-structure'."
 
 ;;; Codes for outlineing LST files.  
 
-(defun gams-ol-create-alist (alist)
-  "Create a alist of car part from ALIST."
-  (mapcar #'(lambda (x) (list (car x))) alist))
-
 (defun gams-ol-item-make-alist (alist)
   "Combine `gams:process-command-option' and `gams-user-option-alist'."
   (setq gams-outline-item-alist
@@ -12169,7 +12113,7 @@ The followings are page scroll commands.  Just changed to upper cases.
 	(font-lock-mode -1)))
   ) ;;; ends.
 
-(defun gams-ol-count-line ()
+(defsubst gams-ol-count-line ()
   "Calculate the current line number in the OUTLINE buffer."
   (count-lines (point-min)
 	       (min (point-max) (1+ (point)))))
@@ -12902,27 +12846,6 @@ the LST buffer."
 		      malist))
 	  (end-of-line)))))
     (reverse malist)))
-
-(defun gams-ol-make-alist-lisp-sub ()
-  (cond
-   ((looking-at
-     "[ ]+[0-9]*[ ]*\\(parameter\\)[ ]+\\([^ \n]+\\)[ ]+\\([^\n\f]*\\)")
-    )
-   ((looking-at
-     "^[ ]+\\(parameter\\)[ ]+\\([^ \n]+\\)[ ]+\\([^\n\f]*\\)")
-    )
-   ((looking-at
-     "[ ]+[0-9]*[ ]*\\(variable\\|equation\\)[ ]+\\([^ \n]+\\)[ ]+\\([^\n\f]*\\)")
-    )
-   ((looking-at "^[ ]+\\(variable\\|equation\\)[ ]+\\([^ \n]+\\)[ ]+\\([^\n\f]*\\)")
-    )
-   ((looking-at "[ ]+\\(VAR\\)[ ]+\\([^ \n]+\\)[ ]+\\([^\n]*\\)")
-    )
-   ((looking-at "[ ]+\\(EQU\\)[ ]+\\([^ \n]+\\)[ ]+\\([^\n]*\\)")
-    )
-   ;; OTHER.
-   ((looking-at "[ ]+[0-9]+[ ]+\\([^\n]*\\)")
-    )))
 
 (defvar gams-ol-alist-temp-alist nil)
 
@@ -15924,7 +15847,7 @@ Exclude commented lines and dollar control lines."
 	  (setq flag cur-po))))
     flag))
 
-(defun gams-macro-end-p (beg)
+(defsubst gams-macro-end-p (beg)
   "Judge whether macro block ends or not."
   (let ((cur-po (point)) flag lend)
     (save-excursion
@@ -16096,19 +16019,6 @@ LINE indicates the number of line to back."
 	  (setq col-num gams-indent-number)))
       col-num)))
 
-(defun gams-slash-end-p (beg)
-  "Return t if the point is not in a slash pair."
-  (let ((co 1) (cur-po (point)) flag)
-    (save-excursion
-      (goto-char beg)
-      (while (re-search-forward "/" cur-po t)
-	(when (and (not (gams-check-line-type nil nil t))
-		   (not (gams-in-quote-p-extended))
-		   (not (gams-in-comment-p)))
-	  (setq co (+ 1 co))))
-      (when (and (> co 0) (gams-oddp co)) (setq flag t)))
-    flag))
-
 (defun gams-calculate-indent-previous (&optional line)
   "Return the indent number of the previous line
 which is not an empty line.
@@ -16182,7 +16092,7 @@ mpsge	=>	mpsge type
     (setq res (list line-1 line-2 line-3))
     res))
 
-(defun gams-line-start-semicolon-p ()
+(defsubst gams-line-start-semicolon-p ()
   (if (looking-at "^[ \t]*;") t nil))
 
 (defun gams-calculate-indent-decl (beg)
@@ -16417,6 +16327,24 @@ Almost same as `gams-calculate-indent-decl'."
 	;; The line after third.
 	(gams-calculate-indent-previous line)))))
 
+(defsubst gams-parenthesis-close-p ()
+  "Return t if the line starts with closing parenthesis."
+  (save-excursion
+    (if (looking-at "[ \t]*)[ \t]*[;]?") t nil)))
+
+(defsubst gams-back-previous-line ()
+  "Back to the effective previous line."
+  (forward-line -1)
+  (while (gams-check-line-type)
+    (forward-line -1)))
+
+(defsubst gams-point-included-in-prev-line-p (po)
+  "Return t if PO is in the previous line."
+  (save-excursion
+    (gams-back-previous-line)
+    (and (<= (point) po)
+	 (<= po (line-end-position)))))
+
 (defun gams-calculate-indent-other (beg)
   "Calculate the number of indent of other types."
   (let* (p-alist p-close
@@ -16467,7 +16395,7 @@ of ..  line is line number."
 	(setq col-num gams-indent-number-equation))
       col-num)))
 
-(defun gams-check-dollar-line ()
+(defsubst gams-check-dollar-line ()
   "Return t if the current line starts with a dollar control.
 Otherwise nil."
   (save-excursion
@@ -16509,44 +16437,6 @@ Otherwise nil."
 	  (when (re-search-forward "^[ \t]*$model" po t)
 	    (setq flag t)))))
     flag))
-
-;;; New functions.
-(defun gams-in-loop-block-p (beg)
-  "Calculate the number of loop type statements before the current point.
-BEG is the point of the first loop statement where the search begins."
-  (let ((cur-po (point)) temp)
-    (save-excursion
-      (goto-char beg)
-      (while (re-search-forward
-	      (concat "^[ \t]*" gams-regexp-loop) cur-po t)
-	(setq temp (cons (match-beginning 0) temp))))
-    temp))
-
-(defun gams-loop-end-p (beg cur)
-  (let ((c-left 0) (c-right 0)
-	flag temp)
-    (save-excursion
-      (goto-char beg)
-      (catch 'found
-	(while t
-	  (if (re-search-forward "\\([)]\\|[(]\\)" cur t)
-	      (if (not (gams-check-line-type))
-		  (progn
-		    (setq temp (gams*buffer-substring (match-beginning 1)
-						      (match-end 1)))
-		    (if (equal "(" temp)
-		      (setq c-left (+ 1 c-left))
-		      (setq c-right (+ 1 c-right))
-		      (when (equal c-left c-right)
-			(setq flag (match-end 0))
-			(throw 'found t)))))
-	    (throw 'found t)))))
-    flag))
-
-(defun gams-parenthesis-close-p ()
-  "Return t if the line starts with closing parenthesis."
-  (save-excursion
-    (if (looking-at "[ \t]*)[ \t]*[;]?") t nil)))
 
 (defun gams-calculate-indent-loop (beg)
   (let* ((cur-po (point))
@@ -16670,7 +16560,7 @@ return nil.  Note that when the cursor is in mpsge block, return nil."
 		  ;; Not in mpsge block.
 		  (list po-beg po-end))))))))))
 
-(defun gams-get-indent-for-put (&optional line)
+(defsubst gams-get-indent-for-put (&optional line)
   (save-excursion
     (forward-line (* -1 line))
     (when (looking-at
@@ -16964,19 +16854,6 @@ POINT - point of the parenthesis."
 	       ((match-beginning 3)
 		(setq p-alist (cdr p-alist)))))))))
     p-alist))
-
-(defun gams-back-previous-line ()
-  "Back to the effective previous line."
-  (forward-line -1)
-  (while (gams-check-line-type)
-    (forward-line -1)))
-
-(defun gams-point-included-in-prev-line-p (po)
-  "Return t if PO is in the previous line."
-  (save-excursion
-    (gams-back-previous-line)
-    (and (<= (point) po)
-	 (<= po (line-end-position)))))
 
 (defun gams-calculate-indent-prev-equ (beg)
   ""
