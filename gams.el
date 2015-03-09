@@ -3,7 +3,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.1
-;; Time-stamp: <2015-03-04 17:23:49 st>
+;; Time-stamp: <2015-03-09 23:49:04 straycat>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -38,7 +38,8 @@
 
 (eval-and-compile
   (require 'easymenu)
-  (require 'align))
+  (require 'align)
+  (require 'org))
 
 (defun gams-oddp (x)
   "T if INTEGER is odd."
@@ -155,7 +156,7 @@ If you want to use lower case, set nil to this variable."
   :type 'boolean
   :group 'gams)
 
-(defcustom gams-fill-column 74
+(defcustom gams-fill-column 80
   "*The column number used for fill-paragraph and auto-fill-mode."
   :type 'integer
   :group 'gams)
@@ -255,7 +256,7 @@ You can insert the inline comment with `gams-comment-dwim-inline'."
   :group 'gams)
 
 ;;; from epolib.el
-(defcustom gams-default-pop-window-height 14
+(defcustom gams-default-pop-window-height 15
   "*The default GAMS process buffer height.
 If integer, sets the window-height of process buffer.  If string, sets the
 percentage of it.  If nil, use default pop-to-buffer."
@@ -419,7 +420,7 @@ Up to two letters."
 ;;;	Variables for GAMS-LST mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar gams-lst-gms-extention  "gms"
+(defvar gams-lst-gms-extention "gms"
   "*GAMS program file extention.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -427,7 +428,7 @@ Up to two letters."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defcustom gams-indent-on t
-  "*If non-nil, automatic indent for gams mode is enabled.
+  "*If non-nil, automatic indent for GAMS mode is enabled.
 If nil, automatic indent doesn't work and tab key insert tab itself."
   :type 'boolean
   :group 'gams)
@@ -474,7 +475,6 @@ If nil, already written equations are not affected by `gams-indent-line'."
 
 (defcustom gams-ol-height 15
   "*The default height of the OUTLINE buffer with one LST buffer.
-
 You can change the height of the OUTLINE buffer with
 `gams-ol-narrow-one-line' and `gams-ol-widen-one-line'."
   :type 'integer
@@ -482,7 +482,6 @@ You can change the height of the OUTLINE buffer with
 
 (defcustom gams-ol-height-two 8
   "*The default height of the OUTLINE buffer with two LST buffers.
-
 You can change the height of the OUTLINE buffer with
 `gams-ol-narrow-one-line' and `gams-ol-widen-one-line'."
   :type 'integer
@@ -519,9 +518,6 @@ on the top, you must write MAR at the fisrt in this alist."
   :type 'integer
   :group 'gams)
 
-(defvar gams-ol-use-mouse t
-  "Non-nil means use mouse click in GAMS-OUTLINE.")
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;	Variables for GAMS-LXI mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -531,7 +527,6 @@ on the top, you must write MAR at the fisrt in this alist."
 This determines the maximum number of lines of the LST file that
 GAMS LXI mode loads.  If the number of lines of the LST file
 exceeds this value, GAMS-LXI mode only loads a part of it.")
-;;(setq gams-lxi-maximum-line 100000)
 
 (defcustom gams-lxi-command-name "gamslxi.exe"
   "*File name of external program for creating the LXI file.
@@ -646,8 +641,7 @@ You can change the width of the LXI buffer with
     ("SQL2GMS-Tool" . "sql2gms.pdf")
     ("XLS2GMS-Tool" . "xls2gms.pdf")
     ("PC-Install" . "pc-install.pdf")
-    )
-  )
+    ))
 
 (defvar gams-statement-up
       '("SET" "SETS" "SCALAR" "SCALARS" "TABLE" "PARAMETER" "PARAMETERS"
@@ -673,7 +667,6 @@ Used for candidate of dollar control inserting.  Use upper case to
 register dollar control options in this variable.")
 
 (defvar gams-statement-mpsge
-    ; MPSGE
   '("MODEL:" "COMMODITIES:" "CONSUMERS:" "CONSUMER:" "SECTORS:" "SECTOR:" "PROD:"
     "DEMAND:" "REPORT:" "CONSTRAINT:" "AUXILIARY:")
   "The default list of MPSGE statements.
@@ -688,12 +681,6 @@ register mpsge statements in this variable.")
   "*Key to select command option in the process menu.")
 (defvar gams-change-command-key ?c
   "*Key to select GAMS command in the process menu.")
-
-;; (defcustom gams-filename-type-cygwin nil
-;;   "If you use cygwin type filename, set this to t."
-;;   :type 'boolean
-;;   :group 'gams
-;;   )
 
 ;;;;; Key bindgings.
 (defcustom gams-olk-1 "?"
@@ -800,7 +787,6 @@ level gams-n-level-faces
 
 Taken from `org-cycle-level-faces'."
  :group 'gams
- :version "24.1"
  :type 'boolean)
 
 (defcustom gams-level-color-stars-only nil
@@ -810,6 +796,7 @@ Changing it requires restart of `font-lock-mode' to become effective
 also in regions already fontified.
 
 Taken from `org-level-color-stars-only'."
+  :group 'gams
   :type 'boolean)
 
 (defcustom gams-outline-regexp-font-lock "^\\([*]\\@*\\)\\(\\@[ \t]\\)\\(.*\\)"
@@ -828,7 +815,6 @@ Taken from `org-level-color-stars-only'."
 (defvar gams-eolcom-symbol nil)
 (defvar gams-inlinecom-symbol-start nil)
 (defvar gams-inlinecom-symbol-end nil)
-
 (setq-default gams-eolcom-symbol nil)
 (setq-default gams-inlinecom-symbol-start nil)
 (setq-default gams-inlinecom-symbol-end nil)
@@ -849,9 +835,10 @@ Taken from `org-level-color-stars-only'."
 	    gams-statement-file (error-message-string err))
        (sleep-for 1))))
 
-(setq gams-user-identifier-item-alist-initial gams-user-identifier-item-alist)
+(setq gams-user-identifier-item-alist-initial
+      gams-user-identifier-item-alist)
 
-;; Variables for representing (X)Emacs versions.
+;; Variables for Emacs version.
 (defvar gams-win32 (memq system-type '(ms-dos windows-nt cygwin)))
 (defvar gams-cygwin (memq system-type '(cygwin)))
 (defvar gams-emacs-21 (= emacs-major-version 21))
@@ -978,22 +965,6 @@ The default value is nil.")
   (fset 'gams*screen-height 'frame-height)
   (fset 'gams*screen-width 'frame-width))
  (t (error "I don't know how to run GAMS on this Emacs...")))
-
-;;; Autoload setting.
-;; For autoloading of GAMS mode.
-(add-to-list 'auto-mode-alist
-	     (cons
-	      (format "\\.\\(xyz\\|%s\\)$"
-		      (regexp-opt (append (mapcar 'downcase gams-file-extension)
-					  (mapcar 'upcase gams-file-extension))))
-	      'gams-mode))
-(autoload 'gams-mode "gams" "Enter GAMS mode" t)
-
-;; For GAMS-LST mode.
-(add-to-list 'auto-mode-alist '("\\.\\(LST\\|lst\\)$" . gams-lst-mode))
-(setq auto-mode-alist
-	(cons (cons "\\.\\(LST\\|lst\\)$" 'gams-lst-mode) auto-mode-alist))
-(autoload 'gams-lst-mode "gams" "Enter GAMS-LST mode" t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -1445,7 +1416,12 @@ It is used for font-lock of level 2.")
 (defvar gams-ol-font-lock-keywords nil)
 
 (defvar gams-regexp-declaration-2
-      "\\(parameter\\|set\\|scalar\\|table\\|\\(free\\|positive\\|negative\\|nonnegative\\|binary\\|integer\\)*[ ]*variable\\|equation\\|model\\|file\\)[s]?")
+  (concat
+   "\\(parameter\\|set\\|scalar\\|table"
+   "\\|\\(free\\|positive\\|negative\\|nonnegative"
+   "\\|binary\\|integer\\)*[ ]*variable\\|equation\\|model\\|file"
+   "\\)[s]?"
+   ))
 
 ;; gams-lst
 (defsubst gams-store-point-sol-sum (limit)
@@ -1470,7 +1446,6 @@ It is used for font-lock of level 2.")
 (defvar gams-comment-prefix nil)
 (defvar gams-lst-file nil)
 (defvar gams-lst-file-full nil)
-
 (setq-default gams-comment-prefix-default "*")
 (setq-default gams-comment-prefix gams-comment-prefix-default)
 (setq-default gams-lst-file "")
@@ -1700,7 +1675,6 @@ Returns nil if none of KEYWORDS is found."
   (concat "[^.\n]*\\([.][.][^.\\/]\\)")
   "regular expression for equation definition.")
 
-;;; 
 (defvar gams-regexp-put
   (concat (gams-regexp-opt
 	   (list "abort" "display" "options" "option" "files"
@@ -2491,7 +2465,6 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map "\"" 'gams-insert-double-quotation)
       (define-key map "'" 'gams-insert-single-quotation)
       (define-key map "\C-l" 'gams-recenter)
-      
       (define-key map "\C-c\C-k" 'gams-insert-statement)
       (define-key map "\C-c\C-d" 'gams-insert-dollar-control)
       (define-key map "\C-c\C-v" 'gams-view-lst)
@@ -2517,7 +2490,6 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map "\C-c\C-w" 'gams-open-included-file)
       (define-key map [(control c) (control \;)] 'gams-comment-region)
       (define-key map "\C-c\C-n" 'gams-insert-statement-extended)
-
       (define-key map [?\C-c ?\C-.] 'gams-show-identifier)
       (define-key map [?\C-c ?\C-,] 'gams-show-identifier-rescan)
       (define-key map [f7] 'gams-show-identifier)
@@ -2528,7 +2500,6 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map (kbd "C-c C-: p") 'outline-previous-visible-heading)
       (define-key map (kbd "C-c C-: f") 'gams-org-fold-current-tree)
       (define-key map (kbd "C-c C-: k") 'show-branches)
-
       (define-key map gams-choose-font-lock-level-key
 	'gams-choose-font-lock-level)
       (define-key map "\M-;" 'gams-comment-dwim)
@@ -2661,7 +2632,6 @@ If you do not want to specify the lst file directory, set nil to this variable."
 (setq-default gams-ol-buffer-point nil)
 (setq-default gams-lxi-buffer nil)
 (setq-default gams-master-file nil)
-;;
 
 ;;;###autoload
 (defun gams-mode ()
@@ -2775,6 +2745,15 @@ The following commands are available in the GAMS mode:
     (if (equal gams-font-lock-keywords nil)
 	(font-lock-mode -1)))
   ) ;;; gams-mode ends.
+
+;;; Autoload setting.
+(add-to-list 'auto-mode-alist
+	     (cons
+	      (format "\\.\\(xyz\\|%s\\)$"
+		      (regexp-opt (append (mapcar 'downcase gams-file-extension)
+					  (mapcar 'upcase gams-file-extension))))
+	      'gams-mode))
+(autoload 'gams-mode "gams" "Enter GAMS mode" t)
 
 (defun gams-org-fold-current-tree ()
   "Fold the current tree."
@@ -2973,9 +2952,10 @@ non-nil, it is a dollar-control."
 (defun gams-stat-write-list (list &optional flag)
   "Write the content of LIST in a buffer.
 If FLAG is non-nil, the list of dollar control."
-  (let ((list-name (if flag
-		       "gams-user-dollar-control-list"
-		     "gams-user-statement-list")))
+  (let ((list-name
+	 (if flag
+	     "gams-user-dollar-control-list"
+	   "gams-user-statement-list")))
     (erase-buffer)
     (insert (concat "(setq " list-name " '(\n"))
     (goto-char (point-max))
@@ -2989,9 +2969,10 @@ If FLAG is non-nil, the list of dollar control."
 
 (defun gams-insert-statement-get-name (&optional replace)
   "Get the name of satement inserted."
-  (let ((mess (if replace
-		  (concat "Replace `" replace "' with ")
-		"Insert statement "))
+  (let ((mess
+	 (if replace
+	     (concat "Replace `" replace "' with ")
+	   "Insert statement "))
 	name guess)
     (setq guess
 	  (if gams-statement-upcase
@@ -3158,7 +3139,6 @@ if `gams-use-mpsge' is non-nil)."
 	      (file-name-nondirectory (buffer-name)))
 	     ".lst"))
       (setq gams-lst-file-full (expand-file-name gams-lst-file))))))
-
 
 (defun gams-get-lst-filename ()
   (let (lst-file)
@@ -3467,9 +3447,8 @@ and initial *."
 
 ;;; Process handling.
 
-;;; Most of the codes for process handling are from epo.el, epolib.el,
-;;; epop.el in the `EPO' package written by Yuuji Hirose.  I modified
-;;; them.
+;; Most of the codes for process handling are from epo.el, epolib.el, epop.el in
+;; the `EPO' package written by Yuuji Hirose.  I modified them.
 
 ;;; From epolib.el
 (defun gams*window-list ()
@@ -3609,7 +3588,6 @@ already popped up, then move to the process buffer."
     (if (get-buffer pbuff)
 	(gams*showup-buffer pbuff select)
       (message "There is no GAMS process buffer associated with this buffer!"))))
-
 
 (defun gams*showup-buffer (buffer &optional select)
   "Make BUFFER show up in certain window (except selected window).
@@ -3917,6 +3895,7 @@ Optional second argument CHAR is for non-interactive call from menu."
   "Alist of the name of GAMS manual files and its abbreviated name (label).
 This list is created from GAMS 22.5 windows version..pdf")
 
+;;;###autoload
 (defun gams-view-docs ()
   "View GAMS manuals.
 
@@ -4658,7 +4637,6 @@ Return the modified ALIST."
 	      (gams-opt-view com)
 	      (sit-for 0)))))
 	      (goto-char cur-po))))
-
 
 (defun gams-opt-edit-sub (alist num new)
   (let (new-alist ele)
@@ -5814,16 +5792,20 @@ The followings are page scroll commands.  Just changed to upper cases.
   (easy-menu-add gams-lst-menu)
   (setq truncate-lines t)
   (run-hooks 'gams-lst-mode-hook)
-  (when font-lock-mode
-    (setq font-lock-mode nil))
   (if (and (not (equal gams-lst-font-lock-keywords nil))
 	   font-lock-mode)
-        (when (<= (buffer-size) font-lock-maximum-size)
+      (when (<= (buffer-size) font-lock-maximum-size)
         (font-lock-fontify-buffer))
-        (if (equal gams-lst-font-lock-keywords nil)
+    (if (equal gams-lst-font-lock-keywords nil)
         (font-lock-mode -1)))
 )
-;; gams-lst-mode ends here.		;
+;; gams-lst-mode ends here.
+
+;; For GAMS-LST mode.
+(add-to-list 'auto-mode-alist '("\\.\\(LST\\|lst\\)$" . gams-lst-mode))
+(setq auto-mode-alist
+      (cons (cons "\\.\\(LST\\|lst\\)$" 'gams-lst-mode) auto-mode-alist))
+(autoload 'gams-lst-mode "gams" "Enter GAMS-LST mode" t)
 
 (defun gams-lst-help ()
   "Display help for the GAMS-LST mode."
@@ -6131,7 +6113,7 @@ The input file name is extract from FILE SUMMARY field."
   "Jump to the error place in GMS buffer."
   (interactive)
   (let (point-b line-num file-name error-column temp-col
-		string col-num err-gms)
+		string col-num err-gms ma3)
     (if	(gams-lst-jump-to-error)
 	(progn
 	  ;; Store column number.
@@ -6159,7 +6141,15 @@ The input file name is extract from FILE SUMMARY field."
 		(setq file-name (gams*buffer-substring
 				 (match-beginning 4)
 				 (match-end 4)))
-		(save-excursion (goto-char (match-end 3))
+		(setq ma3 (match-end 3))
+
+		(when (and gams-cygwin
+			   (string-match "^\\([a-zA-Z]\\):" file-name))
+		  (setq file-name
+			(replace-match (concat "/" (match-string 1 file-name)) t t file-name))
+		  (setq file-name (replace-regexp-in-string "\\\\" "/" file-name)))
+
+		(save-excursion (goto-char ma3)
 				(setq col-num (current-column)))
 		(when (looking-at
 		       (concat (make-string col-num (string-to-char " "))
@@ -8234,14 +8224,12 @@ This command cannot identify aliased set identifer."
  (setq font-lock-mode nil)
  (setq buffer-read-only t))
 
-
 (defun gams-sil-item-make-alist (alist)
   "Combine `gams:process-command-option' and `gams-user-option-alist'."
   (setq gams-identifier-item-alist
 	(append
 	 (list (cons "default" (list (gams-sil-make-list-view-item alist))))
 	 gams-user-identifier-item-alist)))
-
 
 (defun gams-sil-pre-command-hook ()
   (gams-sil-unhighlight 0))
@@ -8970,7 +8958,6 @@ There are 2 types:
   (if gams-sil-expand-file-more
       (message "Set t to `gams-sil-expand-file-more'.")
     (message "Set nil to `gams-sil-expand-file-more'.")))
-
 
 (defun gams-sil-add-file-to-list (file)
   "Add the new file to gams-file-list.
@@ -10216,7 +10203,6 @@ To register the viewable item combinations, use `gams-sil-select-item'."
 	 ((equal str "FIL") 'fil)
 	 ((equal str "COM") 'com))))))
 
-
 (defun gams-sil-toggle (&optional on off prev)
   "Toggle check.
 
@@ -10407,7 +10393,6 @@ if prev is non-nil, move up after toggle."
 	     (setq gams-sil-fold-all-items-p t))
     (gams-sil-unfold-all-items)
     (setq gams-sil-fold-all-items-p nil)))
-      
 
 (defun gams-sil-fold-all-items-first ()
   (let ((buffer-read-only nil)
@@ -11393,7 +11378,6 @@ Index is determined by gams-file-structure."
       (throw 'found t))
   cpart))
 
-
 (defun gams-sid-show-result-next (name type flist fst)
   ""
   (let (cpo cbuf res)
@@ -11866,8 +11850,6 @@ part index is determined by `gams-sid-tree-structure'."
 ;;;	Code for the GAMS-OUTLINE mode.
 ;;;	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;(autoload 'gams-outline "gams-ol" "Start GAMS-OUTLINE" t)
 
 ;;; Codes for outlineing LST files.  
 
@@ -12940,7 +12922,6 @@ the LST buffer."
    ((looking-at "[ ]+[0-9]+[ ]+\\([^\n]*\\)")
     )))
 
-
 (defvar gams-ol-alist-temp-alist nil)
 
 (defun gams-ol-convert (alist)
@@ -13350,7 +13331,6 @@ if prev is non-nil, move up after toggle."
   (interactive)
   (gams-ol-toggle-func "com"))
 
-
 (defun gams-ol-select-select ()
   "quit the select-item mode."
   (interactive)
@@ -13487,7 +13467,6 @@ if narrow is non-nil, narrow the window."
 `gams:process-command-option' and `gams-user-option-alist' are combined.")
 
 (defvar gams-current-item-num "default")
-
 (defvar gams-ol-item-alist-2
       '(
 	("SUM" . 1)
@@ -13513,9 +13492,6 @@ if narrow is non-nil, narrow the window."
 	(setq list-1 (cons 0 list-1)))
       (setq temp-alist-3 (cdr temp-alist-3)))
     (reverse list-1)))
-
-;;; initialize.
-(setq gams-current-item-num "default")
 
 (defun gams-ol-item-insert (alist num)
   (let ((item-num (car alist))
@@ -14054,6 +14030,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
       (setq dir-name (cdr dir-name)))
     dir-list))
 
+;;;###autoload
 (defun gams-model-library ()
   "View GAMS model library.
 
@@ -14394,7 +14371,6 @@ TYPE is the type of library."
   (when (get-buffer "*finlib*") (kill-buffer "*finlib*"))
   (when (get-buffer "*emplib*") (kill-buffer "*emplib*"))
   (when (get-buffer "*lib-content*") (kill-buffer "*lib-content*")))
-
 
 (defvar gams-modlib-mode-map (make-keymap) "Keymap")
 ;; Key assignment.
@@ -14964,15 +14940,11 @@ If PAGE is non-nil, page scroll."
 ;;     ) t)
 
 (defvar gams-lxi-font-lock-keywords
-  '(
-    ("^[[][+-][]]\\(SolVAR\\)" (0 gams-lst-var-face))
+  '(("^[[][+-][]]\\(SolVAR\\)" (0 gams-lst-var-face))
     ("^[[][+-][]]\\(SolEQU\\)" (0 gams-lst-equ-face))
     ("^[[][+-][]]\\(Column\\)" (0 gams-lxi-col-face))
     ("^[[][+-][]]\\(Equation\\)" (0 gams-lxi-equ-face))
-    ("^[[][+-][]]\\(Display\\)" (0 gams-lst-par-face))
-    )
-  )
-
+    ("^[[][+-][]]\\(Display\\)" (0 gams-lst-par-face))))
 (defvar gams-lxi-col-face 'gams-lxi-col-face)
 
 (defface gams-lxi-col-face
@@ -14998,7 +14970,6 @@ If PAGE is non-nil, page scroll."
 (defvar gams-lxi-gms-buffer nil)
 (defvar gams-lxi-lst-file-total-line nil)
 (defvar gams-lxi-last-regions nil)
-
 (setq-default gams-lxi-lxi-file nil)
 (setq-default gams-lxi-lst-file nil)
 (setq-default gams-lxi-gms-file nil)
@@ -15130,7 +15101,7 @@ For the details of GAMS-LXI mode, see `gams-lxi-sample.gms' file."
     (setq alist-b (car (cdr alist)))
     ;;
     (erase-buffer)
-    ;; (setq gams-lxi-alist alist-b)
+    ;; 
     (gams-lxi-display-alist alist-b)
     (gams-lxi-mode-start gms-buf lst lxi alist-a)
     ;;
@@ -15356,7 +15327,6 @@ If PAGE is non-nil, page scroll."
     (define-key map "J" 'gams-lst-scroll-page-double)
     (define-key map "K" 'gams-lst-scroll-page-down-double)
     ))
-
 (gams-lxi-view-mode-key-update)
 
 (defun gams-lxi-view-quit ()
@@ -15677,16 +15647,16 @@ If PAGE is non-nil, page scroll."
 	    end (car (cdr beg-end))
 	    line (nth 2 beg-end))
       (setq gams-lxi-last-regions (list beg end))
-      ;;
+
       (delete-other-windows)
       (split-window (selected-window) gams-lxi-width t)
       (other-window 1)
-      ;;
+
       (when (get-buffer pbuff)
 	(setq buff-exist-p t))
       (get-buffer-create pbuff)
       (switch-to-buffer pbuff)
-      ;;
+
       (when (or (not (equal beg (car last)))
 		(not (equal end (car (cdr last))))
 		(not buff-exist-p))
@@ -15694,13 +15664,12 @@ If PAGE is non-nil, page scroll."
 	    (insert-file-contents lst)
 	  (setq buffer-read-only nil)
 	  (gams-lxi-show-item-process lst pbuff beg end)))
-      ;;
+
       (setq buffer-undo-list nil)
       (setq buffer-read-only t)
       (setq truncate-lines t)
       (goto-char (point-min))
       (forward-line (1- line))
-;;      (recenter 2)
       (gams-lxi-view-mode)
       (setq gams-lxi-view-lxi-buffer cur-buf)
       (other-window 1)
@@ -15836,7 +15805,6 @@ if narrow is non-nil, narrow the window."
 	(setq gams-lxi-width (+ gams-lxi-width 1))))
     (gams-lxi-show-item)))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;	code for indent.
@@ -15845,7 +15813,6 @@ if narrow is non-nil, narrow the window."
 
 ;;;;; functions for indent.
 
-;;;
 (defun gams-check-line-type (&optional com plus dollar slash paren)
   "Judge the type of the current line.
 
@@ -16971,7 +16938,6 @@ is provided by COLUMN."
 		(setq p-r (1+ p-r)))))))))
       end))
 
-
 (defun gams-count-parenthesis (beg)
   "Count the number of parenthesis from beg to the current point.
 Alist of (L . POINT)
@@ -17059,7 +17025,6 @@ POINT - point of the parenthesis."
 		(throw 'found t))
 	    (throw 'found t)))))
     po))
-
 
 (defun gams-search-semicolon (beg end)
   (let (po)
@@ -17198,7 +17163,6 @@ If it is found, return the matched content."
 ;;
 ;; The codes below are for inserting end-of-line and inline comments.  In
 ;; principle, they cannot handle multi-character comment symbols.
-;;
 
 ;;;; Comment indent
 (substitute-all-key-definition
@@ -17388,8 +17352,6 @@ I forgot what this function is..."
 	  (gams-ci-forward width))
 	 ((eq key 32) (insert " ") (throw 'quit t))
 	 (t
-;; 	  (setq f (key-binding (char-to-string key)))
-;; 	  (funcall f)
 	  (throw 'quit t)))))
     (message "Finished.")))
 
@@ -17464,14 +17426,6 @@ I forgot what this function is..."
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (when (fboundp 'popup-menu)
-;;   (define-key gams-mode-map [down-mouse-3] 'gams-right-click)
-;;   (define-key gams-mode-map [down-mouse-2] 'gams-right-click)
-;;   (define-key gams-lst-mode-map [down-mouse-3] 'gams-right-click)
-;;   (define-key gams-lst-mode-map [down-mouse-2] 'gams-right-click)
-;;   (define-key gams-ol-mode-map [down-mouse-3] 'gams-right-click)
-;;   (define-key gams-ol-mode-map [down-mouse-2] 'gams-right-click)
-;;   )
 (define-key gams-ol-mode-map [(mode-line) (down-mouse-1)] 'gams-ol-mouse-drag-mode-line)
 
 (defun gams-ol-mouse-drag-mode-line (start-event)
@@ -17493,40 +17447,6 @@ I forgot what this function is..."
 (setq-default gams-lst-mode-menu-sub nil)
 (setq-default gams-ol-mode-menu-sub nil)
 (setq-default menu-bar-edit-menu-hoge nil)
-
-;; From mouse.el
-;; (defun gams-mode-right-click (event prefix)
-;;   (interactive "@e\nP")
-;;   (run-hooks 'activate-menubar-hook 'menu-bar-update-hook)
-;;   (let* (;; This is where mouse-major-mode-menu-prefix
-;; 	 ;; returns the prefix we should use (after menu-bar).
-;; 	 ;; It is either nil or (SOME-SYMBOL).
-;; 	 (mouse-major-mode-menu-prefix nil)
-;; 	 ;;
-;; 	 (mode-menu
-;; 	  (cond
-;; 	   ((equal major-mode 'gams-mode)
-;; 	    gams-mode-menu-sub)
-;; 	   ((equal major-mode 'gams-lst-mode)
-;; 	    gams-lst-mode-menu-sub)
-;; 	   ((equal major-mode 'gams-ol-mode)
-;; 	    gams-ol-mode-menu-sub)))
-;; 	 ;; Keymap from which to inherit; may be null.
-;; 	 (ancestor (mouse-major-mode-menu-1 mode-menu))
-;; 	 (defalias 'easy-menu-remove 'ignore)
-;; 	 (newmap menu-bar-edit-menu-hoge))
-;;     (if ancestor
-;; 	(set-keymap-parent newmap ancestor))
-;;     (popup-menu newmap event prefix)))
-
-;; (defun gams-right-click (click prefix)
-;;   (interactive "@e\nP")
-;;   (if (zerop (assoc-default 'menu-bar-lines (frame-parameters) 'eq 0))
-;;       (mouse-popup-menubar click prefix)
-;;     (mouse-menu-major-mode-map)))
-;; ;;    (popup-menu (mouse-menu-bar-map) event prefix)))
-;; ;;    (gams-mode-right-click click prefix)))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -17675,7 +17595,6 @@ static unsigned char gams_mark_bits[] = {
    'gams-mode-load-hook
    'gams-ol-buffer-point
    'gams-ol-mode-hook
-   'gams-ol-use-mouse
    'gams-ol-view-item-default
    'gams-paragraph-start
    'gams-sil-column-width
@@ -17732,7 +17651,6 @@ Return string describing the version of GAMS mode that is running."
          (format "GAMS mode version %s" gams-mode-version)))
     (message "%s" version-string)))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;	Hook.
@@ -17748,3 +17666,4 @@ Return string describing the version of GAMS mode that is running."
 (run-hooks 'gams-mode-load-hook)
 
 ;;; GAMS.EL ends here
+
