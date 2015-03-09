@@ -3,7 +3,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.1
-;; Time-stamp: <2015-03-09 23:49:04 straycat>
+;; Time-stamp: <2015-03-10 00:00:06 straycat>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -17442,11 +17442,6 @@ I forgot what this function is..."
      ((equal win-num 3)
       (setq gams-ol-height-two height))
      )))
-
-(setq-default gams-mode-menu-sub nil)
-(setq-default gams-lst-mode-menu-sub nil)
-(setq-default gams-ol-mode-menu-sub nil)
-(setq-default menu-bar-edit-menu-hoge nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
