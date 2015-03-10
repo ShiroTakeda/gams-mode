@@ -3,7 +3,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.1
-;; Time-stamp: <2015-03-10 00:10:01 straycat>
+;; Time-stamp: <2015-03-10 18:28:43 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -137,7 +137,7 @@ in the file specified by this variable."
 (defcustom gams-system-directory "c:/GAMS20.0/"
   "*The GAMS system directory (the directory where GAMS is installed).
 This must be assigned the proper value if you want to use
-`gams-view-docs' and `gams-model-library'."
+`gams-view-document' and `gams-model-library'."
   :type 'file
   :group 'gams)
 
@@ -2478,7 +2478,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map "\C-c\M-g" 'gams-remove-on-off-text)
       (define-key map "\C-c\M-c" 'gams-comment-on-off-text)
       (define-key map "\C-c\C-c" 'gams-insert-on-off-text)
-      (define-key map "\C-c\C-m" 'gams-view-docs)
+      (define-key map "\C-c\C-m" 'gams-view-document)
       (define-key map "\C-c\C-z" 'gams-model-library)
       (define-key map "\C-c\C-h" 'gams-toggle-hide/show-comment-lines)
       (define-key map "\C-c\C-x" 'gams-lxi)
@@ -2560,7 +2560,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
      ["Toggle hide/show comment blocks" gams-toggle-hide/show-comment-lines t]
      )
     "--"
-    ["View GAMS manuals" gams-view-docs t]
+    ["View GAMS manuals" gams-view-document t]
     ["Extract models from Model library" gams-model-library t]
     "--"
     ["Customize GAMS mode for Emacs" (customize-group 'gams) t]
@@ -2661,7 +2661,7 @@ The following commands are available in the GAMS mode:
 \\[gams-jump-on-off-text]		Jump between an ontext-offtext pair.
 \\[gams-comment-on-off-text]		(Un)comment an  ontext-offtext pair.
 \\[gams-remove-on-off-text]		Remove an ontext-offtext pair.
-\\[gams-view-docs]		View GAMS pdf manuals.
+\\[gams-view-document]		View GAMS pdf manuals.
 
 \\[gams-comment-dwim]		Insert end-of-line comment.
 \\[gams-comment-dwim-inline]		Insert inline comment."
@@ -3898,7 +3898,7 @@ Optional second argument CHAR is for non-interactive call from menu."
 This list is created from GAMS 22.5 windows version..pdf")
 
 ;;;###autoload
-(defun gams-view-docs ()
+(defun gams-view-document ()
   "View GAMS manuals.
 
 Envoke the PDF file (or windows help file) viewer and see GAMS
@@ -7435,7 +7435,7 @@ The following commands are available in this mode.
       (define-key map "\C-c\M-g" 'gams-remove-on-off-text)
       (define-key map "\C-c\M-c" 'gams-comment-on-off-text)
       (define-key map "\C-c\C-c" 'gams-insert-on-off-text)
-      (define-key map "\C-c\C-m" 'gams-view-docs)
+      (define-key map "\C-c\C-m" 'gams-view-document)
       (define-key map "\C-c\C-z" 'gams-model-library)
       (define-key map "\C-c\C-p" 'gams-edit-temp-show-gms)
 
