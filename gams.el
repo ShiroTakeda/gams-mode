@@ -3,7 +3,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.2
-;; Time-stamp: <2015-11-23 12:51:16 st>
+;; Time-stamp: <2015-11-23 12:57:51 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -6169,8 +6169,7 @@ The input file name is extract from FILE SUMMARY field."
   "Switch to the GMS file buffer."
   (interactive)
   (let ((file-gms (gams-lst-get-input-filename))
-	fl-open
-	key)
+	fl-open)
     (when file-gms
       (if (file-exists-p file-gms)
 	  (setq fl-open t)
@@ -6190,15 +6189,21 @@ The input file name is extract from FILE SUMMARY field."
   "Jump back to the error place in the input file."
   (interactive)
   (let ((file-gms (gams-lst-get-input-filename))
-	string point-here err-gms)
+	fl-open string point-here err-gms)
     (forward-line 1)
     ;; Save the string around error place.
     (setq string (gams-lst-save-error-string))
     ;; open GMS file.
-    (if (not (file-exists-p file-gms))
+    (when file-gms
+      (if (file-exists-p file-gms)
+	  (setq fl-open t)
 	;; If gms file does not exist.
-	(message "The file `%s' does not exist!" file-gms)
-      ;; If gms file does exists.
+	(setq file-gms
+	      (concat default-directory
+		      (file-name-nondirectory file-gms)))
+	(when (file-exists-p file-gms)
+	  (setq fl-open t))))
+    (when fl-open
       (if (find-buffer-visiting file-gms)
 	  (switch-to-buffer (find-buffer-visiting file-gms))
 	(find-file file-gms))
