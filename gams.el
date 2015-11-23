@@ -2,8 +2,8 @@
 ;;; GAMS.EL --- Major mode for editing GAMS program files.
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
-;; Version: 4.2.2.1
-;; Time-stamp: <2015-03-10 18:36:10 st>
+;; Version: 4.2.2.2
+;; Time-stamp: <2015-11-23 12:51:16 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -180,14 +180,6 @@ case.  For example,
   :type '(repeat (string :tag "value"))
   :group 'gams)
 
-(defcustom gams-multi-process t
-  "*Non-nil enables multiple GAMS processes.
-Non-nil means that you can run multiple GAMS processes at the same time
-in an Emacs.  If you rarely run multiple processes, you had better set it
-to nil."
-  :type 'boolean
-  :group 'gams)
- 
 (defcustom gams-mode-hook  nil
   "*Hook run when gams-mode starts."
   :type 'hook
@@ -844,6 +836,21 @@ Taken from `org-level-color-stars-only'."
 (defvar gams-win32 (memq system-type '(ms-dos windows-nt cygwin)))
 (defvar gams-cygwin (memq system-type '(cygwin)))
 (defvar gams-emacs-21 (= emacs-major-version 21))
+
+(defsubst gams-convert-cygwin-file (file)
+  "Convert file name to cygwin type."
+  (let ((fname file))
+    (when (and gams-cygwin
+	       (string-match "^\\([a-zA-Z]\\):" fname))
+      (setq fname
+	    (replace-match (concat "/" (match-string 1 fname)) t t fname))
+      (setq fname (replace-regexp-in-string "\\\\" "/" fname)))
+    fname))
+;;
+;; (gams-convert-cygwin-file "c:/gams/win64/24.1/gams.exe")
+;; (gams-convert-cygwin-file "c:\\gams\\win64\\24.1\\gams.exe")
+;; (gams-convert-cygwin-file "c:\\sample_gams_code\\./lst/test.lst")
+; 
 
 ;;; If Emacs 20, define `gams-replace-regexp-in-string'.  This code is
 ;;; `replace-regexp-in-string' from subr.el in the Emacs 21 distribution.
@@ -2061,33 +2068,6 @@ CURRENT is the current point.  END is the point of the declaration block."
     "---- Begin of Environment Report"
     ) t))
 
-(defun gams-store-point-copied-program (limit)
-  "Store points for font-lock for copied program in LST mode."
-  (let (flag cont)
-    (when (re-search-forward "\\(^[ ]?[ ]?[ ]?[ ]?[ ]?[ ]?\\([0-9]+[ ][ ].*\\)\\|^\\(COMPILATION\\) TIME\\|^\\(Error\\) Messages\\|^\\(Include\\) File Summary\\|^\\(E x e c u t i o n\\)\\|^\\(Equation Listing\\)\\)" limit t)
-      (setq cont
-	    (cond
-	     ((match-beginning 2)
-	      (buffer-substring (match-beginning 2) (match-end 2)))
-	     ((match-beginning 3)
-	      (buffer-substring (match-beginning 3) (match-end 3)))
-	     ((match-beginning 4)
-	      (buffer-substring (match-beginning 4) (match-end 4)))
-	     ((match-beginning 5)
-	      (buffer-substring (match-beginning 5) (match-end 5)))
-	     ((match-beginning 6)
-	      (buffer-substring (match-beginning 6) (match-end 5)))))
-      (if (or (equal "COMPILATION" cont)
-	      (equal "Error" cont)
-	      (equal "Include" cont)
-	      (equal "E x e c u t i o n" cont))
-	  (setq flag nil)
-	(let ((beg (match-beginning 1))
-	      (end (match-end 1)))
-	  (store-match-data (list beg end))
-	  (setq flag t))))
-    flag))
-
 (defvar gams-l nil)
 (defvar gams-f nil)
 (defun gams-get-level-face ()
@@ -2394,7 +2374,7 @@ If TABLE is nil, table declaration is not consindered as a declaration."
 		   "\\|"
 		   gams-regexp-loop
 		   "\\|"
-           		   gams-regexp-put
+		   gams-regexp-put
 		   "\\|"
 		   "[$][ \t]*" gams-regexp-mpsge
  		   "\\|$offtext\\|$ontext\\)") nil t)
@@ -2441,7 +2421,8 @@ If TABLE is nil, table declaration is not consindered as a declaration."
 	       (push-mark (point) nil t)
 	       (re-search-backward "^$ontext" nil t)
 	       (goto-char (match-beginning 0)))
-      (let ((co-1 4) (co-2 4))
+      (let ((co-1 4)
+	    (co-2 4))
 	(while (< 0 co-1)
 	  (if (re-search-forward regexp nil t)
 	      (setq co-1 (- co-1 1))
@@ -3617,14 +3598,8 @@ Otherwise split window conventionally."
 ;;; New function.
 (defun gams-get-process-buffer ()
   "Create the name of GAMS process buffer for the current buffer."
-  (if gams-multi-process
-      ;; Multi-process.
-      (concat gams*command-process-buffer " on "
-	      (buffer-name)
-	      "*")
-      ;; Not multi-process.
-    (concat gams*command-process-buffer "*")))
-
+  (concat gams*command-process-buffer " on " (buffer-name) "*"))
+    
 (defun gams-popup-process-buffer (&optional select)
   "Popup the GAMS process buffer.
 Moreover, If you attach the universal-argument or if the process buffer is
@@ -6000,12 +5975,7 @@ The input file name is extract from FILE SUMMARY field."
 	    (message "FILE SUMMARY field does not exits!  The extension is assumed to be gms.")
 	  (message "No information for the input file."))
 	(sleep-for 0.1)))
-    (when (and gams-cygwin
-	       (string-match "^\\([a-zA-Z]\\):" temp-file))
-      (setq temp-file
-	    (replace-match (concat "/" (match-string 1 temp-file)) t t temp-file))
-      (setq temp-file (replace-regexp-in-string "\\\\" "/" temp-file)))
-      
+    (setq temp-file (gams-convert-cygwin-file temp-file))
     ;; Return the input file name.
     temp-file))
 
@@ -6147,11 +6117,7 @@ The input file name is extract from FILE SUMMARY field."
 				 (match-end 4)))
 		(setq ma3 (match-end 3))
 
-		(when (and gams-cygwin
-			   (string-match "^\\([a-zA-Z]\\):" file-name))
-		  (setq file-name
-			(replace-match (concat "/" (match-string 1 file-name)) t t file-name))
-		  (setq file-name (replace-regexp-in-string "\\\\" "/" file-name)))
+		(setq file-name (gams-convert-cygwin-file file-name))
 
 		(save-excursion (goto-char ma3)
 				(setq col-num (current-column)))
@@ -6202,17 +6168,23 @@ The input file name is extract from FILE SUMMARY field."
 (defun gams-lst-jump-to-input-file ()
   "Switch to the GMS file buffer."
   (interactive)
-  (let ((file-gms (gams-lst-get-input-filename)))
-    (if (not file-gms)
-	nil
-      (if (not (file-exists-p file-gms))
-	  ;; If gms file does not exist.
-	  (message "The file `%s' does not exist!" file-gms)
-	;; If gms file exits.
-	(if (find-buffer-visiting file-gms)
-	    (switch-to-buffer (find-buffer-visiting file-gms))
-	  (find-file file-gms))
-	(recenter)))))
+  (let ((file-gms (gams-lst-get-input-filename))
+	fl-open
+	key)
+    (when file-gms
+      (if (file-exists-p file-gms)
+	  (setq fl-open t)
+	;; If gms file does not exist.
+	(setq file-gms
+	      (concat default-directory
+		      (file-name-nondirectory file-gms)))
+	(when (file-exists-p file-gms)
+	  (setq fl-open t))))
+    (when fl-open
+      (if (find-buffer-visiting file-gms)
+	  (switch-to-buffer (find-buffer-visiting file-gms))
+	(find-file file-gms)))
+    (recenter)))
 
 (defun gams-lst-jump-to-input-file-2 ()
   "Jump back to the error place in the input file."
@@ -6732,11 +6704,7 @@ If PAGE is non-nil, page scroll."
       (setq fname (nth 5 data))
       (setq fname (gams-replace-regexp-in-string "^[.]+" "" fname))
 
-      (when (and gams-cygwin
-		 (string-match "^\\([a-zA-Z]\\):" fname))
-	(setq fname
-	      (replace-match (concat "/" (match-string 1 fname)) t t fname))
-	(setq fname (replace-regexp-in-string "\\\\" "/" fname)))
+      (setq fname (gams-convert-cygwin-file fname))
       
       (if (file-exists-p fname)
 	  (find-file fname)
@@ -17189,7 +17157,6 @@ I forgot what this function is..."
 	      (<= end (point)))
 	    (uncomment-region beg end)
 	  (comment-region beg end)))
-    ;;
     (gams-comment-indent starter ender)))
 
 (defun gams-comment-calculate-indent (starter)
@@ -17235,16 +17202,19 @@ I forgot what this function is..."
     (message "Finished.")))
 
 (defun gams-ci-forward (width)
+  "Move forward."
   (save-excursion
     (backward-char width)
     (insert " ")))
 
 (defun gams-ci-tab (width)
+  "Insert TAB."
   (save-excursion
     (backward-char width)
     (insert "\t")))
 
 (defun gams-ci-backward (width)
+  "Move backward."
   (save-excursion
     (backward-char (+ 1 width))
     (if (looking-at "[^ \t]")
@@ -17280,32 +17250,14 @@ I forgot what this function is..."
 	    (forward-line -1)))))
     beg))
 
-;;; From newcomment.el.
-(defun gams-comment-kill-line ()
-  "Kill the comment on this line, if any."
-  (interactive)
-  (let ((end (line-end-position))
-	beg)
-    (save-excursion
-      (beginning-of-line)
-      (cond
-       ((re-search-forward (regexp-quote gams-eolcom-symbol) end t)
-	(delete-region (match-beginning 0) end))
-       ((re-search-forward (regexp-quote gams-inlinecom-symbol-start) end t)
-	(setq beg (match-beginning 0))
-	(re-search-forward (regexp-quote gams-inlinecom-symbol-end) end t)
-	(setq end (match-end 0))
-	(delete-region beg end))
-       (t
-	(message "No end-of-line or inline comment in this line"))))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;	Mouse.
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key gams-ol-mode-map [(mode-line) (down-mouse-1)] 'gams-ol-mouse-drag-mode-line)
+(define-key gams-ol-mode-map [(mode-line) (down-mouse-1)]
+  'gams-ol-mouse-drag-mode-line)
 
 (defun gams-ol-mouse-drag-mode-line (start-event)
   (interactive "e")
@@ -17356,6 +17308,7 @@ static unsigned char gams_mark_bits[] = {
 	    (list str '(" ")))))))
 
 (defun gams-add-mode-line ()
+  "Add GAMS mode icon to mode line."
   (setq mode-line-buffer-identification
 	(append (gams-mode-line-buffer-identification)
 		mode-line-buffer-identification)))
@@ -17383,7 +17336,8 @@ static unsigned char gams_mark_bits[] = {
        'buffer-file-name
        'warning-suppress-types
        'case-fold-search
-       ))
+       )
+      "List of Emacs variables relevant for GAMS mode.")
 
 (defconst gams-mode-variables-list
   (list
@@ -17424,7 +17378,6 @@ static unsigned char gams_mark_bits[] = {
    'gams-lxi-import-command-name
    'gams-lxi-width
    'gams-mode-hook
-   'gams-multi-process
    'gams-n-level-faces
    'gams-ol-display-style
    'gams-ol-font-lock-level
@@ -17474,7 +17427,7 @@ static unsigned char gams_mark_bits[] = {
    'gams-sil-column-width
    'gams-user-outline-item-alist
    )
-  )
+  "list of variables defined in GAMS mode")
 
 (defun gams-report-bug ()
   "Create information for debugging GAMS mode.
@@ -17518,8 +17471,8 @@ problems."
       (delete-other-windows)
       (goto-char (point-min)))))
 
-(defun gams-mode-version () "\
-Return string describing the version of GAMS mode that is running."
+(defun gams-mode-version ()
+  "Return string describing the version of GAMS mode that is running."
   (interactive)
   (let ((version-string
          (format "GAMS mode version %s" gams-mode-version)))
@@ -17540,4 +17493,3 @@ Return string describing the version of GAMS mode that is running."
 (run-hooks 'gams-mode-load-hook)
 
 ;;; GAMS.EL ends here
-
