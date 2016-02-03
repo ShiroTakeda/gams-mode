@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-02-03 19:58:41 st>
+Time-stamp: <2016-02-03 20:04:40 st>
 ----------------------------------------------------
 
 Change logs of GAMS mode.
@@ -8,19 +8,6 @@ Change logs of GAMS mode.
 
 Version 5.0 (2016-02-03)
 ----------------------------------
-
-* Fixed the bug (wrong number of arguments) in
-  `gams-insert-statement-extended'.
-
-* Removed variable `gams-multi-process'.
-
-* Changed the name of function `gams-view-docs' to `gams-view-document'.
-
-
-Version 4.3 (2014-09-01)
-----------------------------------
-
-* Changed the default value of `gams-sil-expand-file-more' to t.
 
 * Suppose that you have a code like
 
@@ -52,6 +39,15 @@ Version 4.3 (2014-09-01)
   The specification by "gams-include-file" is used in the sample file
   "gams-sample.gms". 
   
+* Fixed the bug (wrong number of arguments) in
+  `gams-insert-statement-extended'.
+
+* Removed variable `gams-multi-process'.
+
+* Changed the name of function `gams-view-docs' to `gams-view-document'.
+
+* Changed the default value of `gams-sil-expand-file-more' to t.
+
 
 Version 4.2 (2013-02-15)
 ----------------------------------
