@@ -3,7 +3,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.2
-;; Time-stamp: <2016-02-01 20:57:25 st>
+;; Time-stamp: <2016-02-03 10:16:31 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -4926,7 +4926,7 @@ If STRING contains only spaces, return null string."
       (upcase str)
     (downcase str)))
 
-(defun gams-insert-post-option ()
+(defun gams-insert-post-option (&optional name)
   (let ((opt-def
 	 (or gams-insert-option-previous
 	     gams-insert-option-default))
@@ -4998,7 +4998,7 @@ If STRING contains only spaces, return null string."
   (let ((var-list (nreverse (gams-store-identifer-list))))
     var-list))
 
-(defun gams-insert-post-solve ()
+(defun gams-insert-post-solve (&optional name)
   (let ((def-solv (or gams-insert-solver-type-previous
 		     gams-insert-solver-type-default))
 	mod-name sol-type maxmin maximand guess)
@@ -5127,7 +5127,7 @@ If STRING contains only spaces, return null string."
 	  (throw 'flag t))
 	))))
 
-(defun gams-insert-post-file ()
+(defun gams-insert-post-file (&optinal name)
   (let ((f-comp (gams-list-to-alist
 		 (directory-files default-directory)))
 	f-label f-exp f-name)
@@ -5156,7 +5156,7 @@ If STRING contains only spaces, return null string."
       (end-of-line)
       (insert ";"))))
 
-(defun gams-insert-post-put ()
+(defun gams-insert-post-put (&optional name)
   (let* ((f-comp
 	  (gams-list-to-alist
 	   (gams-store-file-label (point-min) (point))))
