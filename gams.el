@@ -2,8 +2,8 @@
 ;;; GAMS.EL --- Major mode for editing GAMS program files.
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
-;; Version: 4.2.2.2
-;; Time-stamp: <2016-02-03 19:41:27 st>
+;; Version: 5.0
+;; Time-stamp: <2016-02-03 19:58:58 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -80,7 +80,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "4.2.2.2"
+(defconst gams-mode-version "5.0"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

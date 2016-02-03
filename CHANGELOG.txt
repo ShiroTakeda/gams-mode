@@ -1,10 +1,13 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-02-03 10:13:40 st>
+Time-stamp: <2016-02-03 19:58:41 st>
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ----------------------------------------------------
+
+Version 5.0 (2016-02-03)
+----------------------------------
 
 * Fixed the bug (wrong number of arguments) in
   `gams-insert-statement-extended'.
