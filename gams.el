@@ -3,7 +3,7 @@
 
 ;; Copyright (C) 2001-2015 Shiro Takeda
 ;; Version: 4.2.2.2
-;; Time-stamp: <2016-02-03 10:16:31 st>
+;; Time-stamp: <2016-02-03 19:41:27 st>
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
@@ -5097,7 +5097,7 @@ If STRING contains only spaces, return null string."
 	    (throw 'flag t))
 	   (t (insert (concat ele ", ")))))))))
   
-(defun gams-insert-post-model (&optional state)
+(defun gams-insert-post-model (&optional name)
   (let (m-name m-exp key)
     (insert " ")
     (catch 'flag
