@@ -1,10 +1,18 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2014-09-01 11:35:32 st>
+Time-stamp: <2016-02-03 10:13:40 st>
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ----------------------------------------------------
+
+* Fixed the bug (wrong number of arguments) in
+  `gams-insert-statement-extended'.
+
+* Removed variable `gams-multi-process'.
+
+* Changed the name of function `gams-view-docs' to `gams-view-document'.
+
 
 Version 4.3 (2014-09-01)
 ----------------------------------
