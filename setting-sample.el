@@ -1,7 +1,7 @@
 ;;  This is a setting sample file for gams.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2012-10-08 20:56:35 Shiro Takeda>
+;;  Time-stamp:         <2016-02-06 18:02:27 st>
 ;;
 ;;  This file is created for gams.el version 4.0.
 ;;
@@ -89,7 +89,7 @@
 ; Notice: If you are a NTEmacs user, you should include lo=3 option!!!
 
 ;; GAMS system directory.  The directory where gams.exe exists.  This is
-;; necessary for `gams-model-library' and `gams-view-docs' command.
+;; necessary for `gams-model-library' and `gams-view-doccument' command.
 ; (setq gams-system-directory "c:/GAMS/GAMS23.5/")
 
 ;; Use upper case or lower case for GAMS statements and dollar control options?
