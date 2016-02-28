@@ -1,9 +1,10 @@
-;; Description: GAMS-MODE.el (Major mode for editing GAMS program files).
+;;; gams-mode.el --- Major mode for editing GAMS (General Algebraic Modeling System) files.
+
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-02-28 14:15:51 st>
+;; Time-stamp: <2016-02-28 19:08:56 st>
 ;; Version: 5.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -17492,10 +17493,10 @@ problems."
   "*List of functions to be called when gams-mode.el is loaded.")
 
 ;;; provide.
-(provide 'gams)
+(provide 'gams-mode)
 (run-hooks 'gams-mode-load-hook)
 
-;;; GAMS-MODE.EL ends here
+;;; gams-mode.el ends here
 
 ;; Local Variables:
 ;; coding: utf-8
