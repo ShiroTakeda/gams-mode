@@ -1,7 +1,7 @@
 ;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2016-02-28 14:16:05 st>
+;;  Time-stamp:         <2016-02-28 16:11:27 st>
 ;;
 ;;  This file is created for gams-mode.el version 4.0.
 ;;
@@ -43,8 +43,8 @@
 ; (setq auto-mode-alist
 ; 	(cons (cons "\\.\\(LST\\|lst\\)$" 'gams-lst-mode) auto-mode-alist))
 ;; autoload setting.
-; (autoload 'gams-mode "gams" "Enter GAMS mode" t)
-; (autoload 'gams-lst-mode "gams" "Enter GAMS-LST mode" t)
+; (autoload 'gams-mode "gams-mode" "Enter GAMS mode" t)
+; (autoload 'gams-lst-mode "gams-mode" "Enter GAMS-LST mode" t)
 
 ;; The place of GAMS program.
 ;;
