@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2012-10-17 11:20:57 Shiro Takeda>
+Time-stamp: <2016-02-28 14:13:34 st>
 -----------------------------------------------------
 
 Known bugs and problems of GAMS mode.
@@ -11,8 +11,8 @@ unfold items, push TAB key (or Shift + TAB).
 
 * The old version Emacs
 
-I only test gams.el in Emacs 23 and 24. So gams.el is likely not to work
-well in the old version of Emacs.
+I only test gams-mode.el in Emacs 23 and 24. So gams-mode.el is likely not
+to work well in the old version of Emacs.
 
 
 * XEmacs is not supported
@@ -104,7 +104,7 @@ This applies to, for example, comment texts in $ontext-$offtext pair.
 Because of this limitation, automatic recoloring for texts in
 $ontext-$offtext does not work.
 
-To cover this shortcoming, gams.el provides the command `gams-recenter'
+To cover this shortcoming, gams-mode.el provides the command `gams-recenter'
 which is binded to `C-l'. When the variable `gams-recenter-font-lock' is
 assigned non-nil like
 

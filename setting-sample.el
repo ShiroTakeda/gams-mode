@@ -1,9 +1,9 @@
-;;  This is a setting sample file for gams.el
+;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2016-02-06 18:02:27 st>
+;;  Time-stamp:         <2016-02-28 14:16:05 st>
 ;;
-;;  This file is created for gams.el version 4.0.
+;;  This file is created for gams-mode.el version 4.0.
 ;;
 ;;  Copy and paste the content of this file into
 ;;  "~/.emacs.d/init.el" file.
@@ -17,7 +17,7 @@
 ;;
 ;; The following settings are necessary to use GAMS mode.
 
-;; Load path setting.  Suppose that c:/home/gams is a directory in which gams.el
+;; Load path setting.  Suppose that c:/home/gams is a directory in which gams-mode.el
 ;; is installed.  Then you should add the following.
 (add-to-list 'load-path "c:/home/gams")
 ;; Please change the directory name according to your environment.
@@ -28,10 +28,10 @@
 ;; placed before (require 'gams) below.
 (setq gams-file-extension '("gms" "dat"))
 
-;; Load the program file `gams.el'.
+;; Load the program file `gams-mode.el'.
 (require 'gams)
 ;; NB: If you use this (require 'gams), you had better put this at the end of
-;; all configurations about gams.el.  Because of the bug, the configurations
+;; all configurations about gams-mode.el.  Because of the bug, the configurations
 ;; after (require 'gams) may not come into effect.
 
 ;; If you are an experienced user of Emacs, you may prefer the following

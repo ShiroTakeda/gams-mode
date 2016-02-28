@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2012-10-17 20:26:24 Shiro Takeda>
+Time-stamp: <2016-02-28 14:14:37 st>
 -----------------------------------------------------
 
 This package offers the Emacs lisp program for using the numerical
@@ -180,7 +180,7 @@ README.txt		This file.  First read this.
 CHANGELOG.txt		Change log file.  If you want to know changes and
 			newly added functions, please read it.
 BUGS_PROBLEMS.txt	Known bugs and problems
-gams.el			The main lisp program.
+gams-mode.el			The main lisp program.
 setting-sample.el	A sample file for setting.
 gams-template.txt	A sample file of templates.
 
@@ -265,10 +265,10 @@ please see the web site <http://www.gnu.org/software/emacs/windows/>.
 
 Then, I will explain the installation.
 
-(1) Put "gams.el" file into one of the directories listed in `load-path'.
+(1) Put "gams-mode.el" file into one of the directories listed in `load-path'.
     You can see the contents of `load-path' by entering `M-x
     customize-option <RET> load-path'.  Or add the directory where
-    "gams.el" is installed to `load-path' variable.  For this, add the
+    "gams-mode.el" is installed to `load-path' variable.  For this, add the
     following in your "~/.emacs.d/init.el" file:
 
     (setq load-path
@@ -290,7 +290,7 @@ Then, I will explain the installation.
 
 Basically, this is all you must set.  With these settings, when you open a
 file with extension "gms" ("lst"), GAMS mode (GAMS-LST mode) will
-automatically start.  Byte-compiling gams.el may raise the speed of GAMS
+automatically start.  Byte-compiling gams-mode.el may raise the speed of GAMS
 mode (but you need not necessarily do it).
 
 
@@ -482,7 +482,7 @@ Basic customizable variables in GAMS and GAMS-LST mode:
 
 `gams-mode-load-hook' [nil]
 
-	"*List of functions to be called when gams.el is loaded."
+	"*List of functions to be called when gams-mode.el is loaded."
 
 `gams-close-paren-always' [t]
 

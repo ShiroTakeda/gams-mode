@@ -1,9 +1,9 @@
-;; Description: GAMS.el (Major mode for editing GAMS program files).
+;; Description: GAMS-MODE.el (Major mode for editing GAMS program files).
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-02-28 14:10:40 st>
+;; Time-stamp: <2016-02-28 14:15:51 st>
 ;; Version: 5.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -17489,13 +17489,13 @@ problems."
 
 ;;; Load hook.
 (defvar gams-mode-load-hook nil
-  "*List of functions to be called when gams.el is loaded.")
+  "*List of functions to be called when gams-mode.el is loaded.")
 
 ;;; provide.
 (provide 'gams)
 (run-hooks 'gams-mode-load-hook)
 
-;;; GAMS.EL ends here
+;;; GAMS-MODE.EL ends here
 
 ;; Local Variables:
 ;; coding: utf-8
