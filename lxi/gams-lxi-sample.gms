@@ -1,7 +1,7 @@
 $title	A sample program for GAMS-OUTLINE mode.
 display "com: A sample program for GAMS-OUTLINE mode.";
 $ontext
-Time-stamp:	<2012-10-08 20:18:56 Shiro Takeda>
+Time-stamp:	<2016-02-28 14:18:27 st>
 Author:		Shiro Takeda
 First-written:	<2001/10/26>
 
@@ -16,7 +16,7 @@ First-written:	<2001/10/26>
 
   When you start the GAMS-LXI mode,
 
-  1) gams.el creates the LXI file from the LST file and
+  1) gams-mode.el creates the LXI file from the LST file and
   2) shows a list of important items of the LST file in the left buffer
   3) In the right buffer, the content of the LST file is displayed.
 
@@ -101,7 +101,7 @@ First-written:	<2001/10/26>
 
 [Notes]
 
-  The LXI file created by gams.el is not compatible with that created by
+  The LXI file created by gams-mode.el is not compatible with that created by
   GAMSIDE.
 
 $offtext

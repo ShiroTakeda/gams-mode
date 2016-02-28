@@ -1,6 +1,6 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2015-03-13 16:26:38 st>
+Time-stamp:     <2016-02-28 14:18:38 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -29,7 +29,7 @@ $ontext
 
 Commentary:
 
-  * For gams.el version 3.6.
+  * For gams-mode.el version 3.6.
 
   * Place this file, "include-sample.gms" and "include-sample-2.gms" in the
     same directory.
@@ -458,7 +458,7 @@ registered unnecessary statements, open the file "~/gams-statement.txt" and
 delete them manually.
 
 GAMS has a lot of statements.  But only basic statements are registered in
-gams.el by default.  So, please register statements that you frequently use
+gams-mode.el by default.  So, please register statements that you frequently use
 by yourself.
 
 $offtext

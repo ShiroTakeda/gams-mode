@@ -1,14 +1,14 @@
 $title	A sample program for GAMS-OUTLINE mode.
 display "@ A sample program for GAMS-OUTLINE mode.";
 $ontext
-Time-stamp:	<2014-01-25 17:29:12 st>
+Time-stamp:	<2016-02-28 14:19:31 st>
 Filename:	outline-sample.gms
 Author:		Shiro Takeda
 First-written:	<2001/10/26>
 
 [Note]:
 
-  For gams.el version 3.6.
+  For gams-mode.el version 3.6.
 
   This program is written to show how to use GAMS-OUTLINE mode (abbreviated as
   GAMS-OL mode).
