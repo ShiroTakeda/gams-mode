@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-02-28 19:08:56 st>
+;; Time-stamp: <2016-02-28 20:20:22 st>
 ;; Version: 5.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -5772,8 +5772,7 @@ The followings are page scroll commands.  Just changed to upper cases.
   (run-hooks 'gams-lst-mode-hook)
   (if (and (not (equal gams-lst-font-lock-keywords nil))
 	   font-lock-mode)
-      (when (<= (buffer-size) font-lock-maximum-size)
-        (font-lock-fontify-buffer))
+        (font-lock-fontify-buffer)
     (if (equal gams-lst-font-lock-keywords nil)
         (font-lock-mode -1)))
 )
