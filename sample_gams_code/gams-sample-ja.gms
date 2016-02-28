@@ -1,7 +1,7 @@
 $title GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
 ** gams-lst-file: .\doc\lst-sample.lst
 $ontext
-Time-stamp:     <2014-09-01 12:21:12 st>
+Time-stamp:     <2016-02-28 20:31:10 st>
 Filename:       "gams-sample-ja.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -965,5 +965,6 @@ display a;
 * --------------------
 * Local Variables:
 * fill-column: 76
+* mode: gams
 * End:
 

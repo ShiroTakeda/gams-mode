@@ -1,7 +1,7 @@
 $title  GAMS-OUTLINE mode の説明のためのプログラム．
 display "@ GAMS-OUTLINE mode の説明のためのプログラム．";
 $ontext
-Time-stamp:     <2012-07-30 14:17:37 Shiro Takeda>
+Time-stamp:     <2016-02-28 20:31:25 st>
 Filename:       outline-sample.gms
 Author:         Shiro Takeda
 First-written:  <2001/10/26>
@@ -405,4 +405,5 @@ display "@ おしまい．";
 * --------------------
 * Local Variables:
 * fill-column: 80
+* mode: gams
 * End:

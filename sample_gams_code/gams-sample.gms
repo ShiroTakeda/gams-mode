@@ -1,6 +1,6 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2016-02-28 14:18:38 st>
+Time-stamp:     <2016-02-28 20:31:07 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -1067,4 +1067,5 @@ $show
 * --------------------
 * Local Variables:
 * fill-column: 76
+* mode: gams
 * End:
