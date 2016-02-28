@@ -1,14 +1,12 @@
-;;; -*- coding: utf-8; lexical-binding: t -*-
-;;; GAMS.EL --- Major mode for editing GAMS program files.
-
-;; Copyright (C) 2001-2015 Shiro Takeda
-;; Version: 5.0
-;; Time-stamp: <2016-02-03 19:58:58 st>
-
+;; Description: GAMS.el (Major mode for editing GAMS program files).
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
+;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-
+;; Time-stamp: <2016-02-28 14:10:40 st>
+;; Version: 5.1
+;; Keywords: GAMS
+;; URL: http://shirotakeda.org/en/gams/gams-mode/
 ;; This file is not part of any Emacs.
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -80,7 +78,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "5.0"
+(defconst gams-mode-version "5.1"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -17498,3 +17496,9 @@ problems."
 (run-hooks 'gams-mode-load-hook)
 
 ;;; GAMS.EL ends here
+
+;; Local Variables:
+;; coding: utf-8
+;; lexical-binding: t
+;; End:
+
