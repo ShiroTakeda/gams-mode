@@ -1,7 +1,7 @@
 ;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2016-02-28 16:11:27 st>
+;;  Time-stamp:         <2016-02-29 19:27:37 st>
 ;;
 ;;  This file is created for gams-mode.el version 4.0.
 ;;
@@ -29,13 +29,13 @@
 (setq gams-file-extension '("gms" "dat"))
 
 ;; Load the program file `gams-mode.el'.
-(require 'gams)
-;; NB: If you use this (require 'gams), you had better put this at the end of
+(require 'gams-mode)
+;; NB: If you use this (require 'gams-mode), you had better put this at the end of
 ;; all configurations about gams-mode.el.  Because of the bug, the configurations
-;; after (require 'gams) may not come into effect.
+;; after (require 'gams-mode) may not come into effect.
 
 ;; If you are an experienced user of Emacs, you may prefer the following
-;; `auto-mode-alist' and `autoload' instead of (require 'gams).
+;; `auto-mode-alist' and `autoload' instead of (require 'gams-mode).
 ;;
 ;; Add gms and lst files to auto-mode-alist.
 ; (setq auto-mode-alist
@@ -51,7 +51,7 @@
 ;; If you do not include GAMS system directory in your PATH environmental
 ;; variable, specify the place of gams program like
 
-; (setq gams:process-command-name "c:/GAMS/GAMS23.5/gams.exe")
+; (setq gams-process-command-name "c:/GAMS/GAMS23.5/gams.exe")
 
 
 ;; Setting for font-lock.
@@ -84,7 +84,7 @@
 ; (setq gams-template-file "~/gams-template.txt")
 
 ;; Command line options passed to gams.  The default value is
-; (setq gams:process-command-option "ll=0 lo=3 pw=100 ps=9999")
+; (setq gams-process-command-option "ll=0 lo=3 pw=100 ps=9999")
 ;
 ; Notice: If you are a NTEmacs user, you should include lo=3 option!!!
 

@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-02-28 14:11:14 st>
+Time-stamp: <2016-03-01 10:40:11 st>
 ----------------------------------------------------
 
 Change logs of GAMS mode.
@@ -9,9 +9,21 @@ Change logs of GAMS mode.
 Version 5.1 ()
 ----------------------------------
 
-* Changed the name of main lisp code from gams.el to gams-model.el.
+* Changed the name of the main lisp code from "gams.el" to "gams-mode.el".
 
+* The name of feature provided by gams-mode.el changed from gams to
+  gams-mode. So you need to use (require 'gams-mode) instead of (require 'gams).
 
+* Changed the name of variables and functions whose prefix is "gams*" or
+  "gams:". Now all variables and functions defined in gams-mode.el have
+  prefix "gams-". As a result of this change, names of the following
+  customizable variables changed.
+
+  Old name                         New name   
+  `gams:process-command-name'   -> `gams-process-command-name'
+  `gams:process-command-option' -> `gams-process-command-option'
+
+  You need to modify init.el setting.
 
 
 Version 5.0 (2016-02-03)

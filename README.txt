@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-02-28 14:14:37 st>
+Time-stamp: <2016-02-29 19:28:04 st>
 -----------------------------------------------------
 
 This package offers the Emacs lisp program for using the numerical
@@ -283,9 +283,9 @@ Then, I will explain the installation.
 (3) If the GAMS system folder is not included in PATH environemtal
     variable, you need to set GAMS system folder to PATH or you need to
     set the full path to gams.exe to the variable
-    {gams:process-command-name' like
+    {gams-process-command-name' like
 
-    (setq gams:process-command-name "c:/GAMS23.5/gams.exe")
+    (setq gams-process-command-name "c:/GAMS23.5/gams.exe")
     
 
 Basically, this is all you must set.  With these settings, when you open a
@@ -413,7 +413,7 @@ values of the following variables.  Default value is given in []
 You can change the value of these variables by adding in your
 "~/.emacs.d/init.el", for example,
 
-	(setq gams:process-command-name "c:/GAMS20.0/gams.exe")
+	(setq gams-process-command-name "c:/GAMS20.0/gams.exe")
 	(setq gams-use-mpsge t)
 	(setq gams-statement-upcase nil)
 
@@ -425,13 +425,13 @@ Please read the sample file "setting-sample.el", too.
 Basic customizable variables in GAMS and GAMS-LST mode:
 ---------------------------------------------------------------------
 
-`gams:process-command-name' ["gams"]
+`gams-process-command-name' ["gams"]
 
 	"*GAMS program file name.  If you do not include the GAMS system
 	directory in PATH environmental variable, you must set the full
 	path to GAMS program in this variable like c:/GAMS20.0/gams.exe."
 
-`gams:process-command-option' ["ll=0 lo=3 pw=100 ps=9999"]
+`gams-process-command-option' ["ll=0 lo=3 pw=100 ps=9999"]
 
 	"*Command line options passed to GAMS"
 

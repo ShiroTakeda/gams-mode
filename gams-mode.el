@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-02-28 20:20:22 st>
+;; Time-stamp: <2016-03-01 19:03:08 st>
 ;; Version: 5.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -54,24 +54,6 @@
     (while (and (cdr fast) (not (and (eq fast slow) (> n 0))))
       (setq n (+ n 2) fast (cdr (cdr fast)) slow (cdr slow)))
     (if fast (if (cdr fast) nil (1+ n)) n)))
-;; 
-(eval-and-compile
-  ;; If `line-beginning-position' isn't available provide one.
-  (unless (fboundp 'line-beginning-position)
-    (defun line-beginning-position (&optional n)
-      "Return the `point' of the beginning of the current line."
-      (save-excursion
-        (beginning-of-line n)
-        (point))))
-
-  ;; If `line-end-position' isn't available provide one.
-  (unless (fboundp 'line-end-position)
-    (defun line-end-position (&optional n)
-      "Return the `point' of the end of the current line."
-      (save-excursion
-        (end-of-line n)
-        (point))))
-  ) ;; eval-and-compile ends.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -108,7 +90,7 @@
 ;;;	Variables for GAMS mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams:process-command-name "gams"
+(defcustom gams-process-command-name "gams"
   "*GAMS program file name.
 
 If you do not include the GAMS system directory in PATH environmental
@@ -118,7 +100,7 @@ variable, you must set the full path to GAMS in this variable like
   :type 'file
   :group 'gams)
 
-(defcustom gams:process-command-option "ll=0 lo=3 pw=90 ps=9999"
+(defcustom gams-process-command-option "ll=0 lo=3 pw=90 ps=9999"
   "*The command line options passed to GAMS.
 
 If you are NTEmacs user, lo=3 option is necessary to show the GAMS
@@ -849,7 +831,7 @@ Taken from `org-level-color-stars-only'."
 ;; (gams-convert-cygwin-file "c:/gams/win64/24.1/gams.exe")
 ;; (gams-convert-cygwin-file "c:\\gams\\win64\\24.1\\gams.exe")
 ;; (gams-convert-cygwin-file "c:\\sample_gams_code\\./lst/test.lst")
-; 
+
 
 ;;; If Emacs 20, define `gams-replace-regexp-in-string'.  This code is
 ;;; `replace-regexp-in-string' from subr.el in the Emacs 21 distribution.
@@ -929,7 +911,7 @@ The default value is nil.")
 
 (defvar gams-paragraph-start nil)
 (setq-default gams-paragraph-start "^\f\\|$\\|^[*]")
-(defvar gams*command-process-buffer "*GAMS")
+(defvar gams-command-process-buffer "*GAMS")
 (defvar gams-statement-down
   (mapcar 'downcase gams-statement-up))
 (defvar gams-dollar-control-down
@@ -939,39 +921,39 @@ The default value is nil.")
 (defvar gams-statement-regexp nil)
 
 ;;; From EPO. 
-(defconst gams:frame-feature-p
+(defconst gams-frame-feature-p
   (and (fboundp 'make-frame) window-system))
 
 ;; This regular expression
 (defsubst gams-regexp-opt (strings &optional paren)
   (regexp-opt strings paren))
 
-(defvar gams:w32-system-shells
+(defvar gams-w32-system-shells
   (if (boundp 'w32-system-shells)
       (gams-regexp-opt w32-system-shells)
     "command.com\\|cmd.exe\\|start.exe"))
 
 ;;; From yatexprc.el.
-(defvar gams:shell-c
+(defvar gams-shell-c
   (or (and (boundp 'shell-command-option) shell-command-option)
       (and (boundp 'shell-command-switch) shell-command-switch)
-      (if (string-match gams:w32-system-shells shell-file-name)
+      (if (string-match gams-w32-system-shells shell-file-name)
 	  "/c" "-c"))
   "Return shell option for command execution.")
 
-;; Set `gams*buffer-substring' to `buffer-substring-no-properties' if it
+;; Set `gams-buffer-substring' to `buffer-substring-no-properties' if it
 ;; exits.  Otherwise set to `buffer-substring'.
 (if (fboundp 'buffer-substring-no-properties)
-    (fset 'gams*buffer-substring 'buffer-substring-no-properties)
-  (fset 'gams*buffer-substring 'buffer-substring))
+    (fset 'gams-buffer-substring 'buffer-substring-no-properties)
+  (fset 'gams-buffer-substring 'buffer-substring))
 
 (cond
  ((fboundp 'screen-height)
-  (fset 'gams*screen-height 'screen-height)
-  (fset 'gams*screen-width 'screen-width))
+  (fset 'gams-screen-height 'screen-height)
+  (fset 'gams-screen-width 'screen-width))
  ((fboundp 'frame-height)
-  (fset 'gams*screen-height 'frame-height)
-  (fset 'gams*screen-width 'frame-width))
+  (fset 'gams-screen-height 'frame-height)
+  (fset 'gams-screen-width 'frame-width))
  (t (error "I don't know how to run GAMS on this Emacs...")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1631,7 +1613,7 @@ Returns nil if none of KEYWORDS is found."
 			 ;; if eol symbol does not exit.
 			 (setq end end))
 		(throw 'found t))))
-	  (setq cont (gams*buffer-substring cur-po end))
+	  (setq cont (gams-buffer-substring cur-po end))
 	  (if (string-match "[^ \t]" cont)
 	      (setq flag (list cur-po end))
 	    (setq flag (list nil end))))
@@ -1806,7 +1788,7 @@ Returns nil if none of KEYWORDS is found."
 	 ((and (if (re-search-forward
 		    (concat "^[ \t]*" gams-regexp-declaration-2 "[ \t\n]+") limit t)
 		   (progn
-		     (setq match-decl (gams*buffer-substring (match-beginning 1)
+		     (setq match-decl (gams-buffer-substring (match-beginning 1)
 							     (match-end 1))))
 		 (throw 'found t))
 	       (not (setq ontext (gams-in-on-off-text-p))))
@@ -2379,7 +2361,7 @@ If TABLE is nil, table declaration is not consindered as a declaration."
  		   "\\|$offtext\\|$ontext\\)") nil t)
 	  ;; Store the matched.
 	  (progn
-	    (setq temp-con (gams*buffer-substring (match-beginning 0)
+	    (setq temp-con (gams-buffer-substring (match-beginning 0)
 						  (match-end 0)))
 	    (setq temp-po (point))
 	    (skip-chars-forward " \t")
@@ -2485,8 +2467,8 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map "\C-c\C-h" 'gams-toggle-hide/show-comment-lines)
       (define-key map "\C-c\C-x" 'gams-lxi)
       (define-key map "\C-c\C-l" 'gams-popup-process-buffer)
-      (define-key map "\C-c\C-s" 'gams*start-processor)
-      (define-key map [f9] 'gams*start-processor)
+      (define-key map "\C-c\C-s" 'gams-start-processor)
+      (define-key map [f9] 'gams-start-processor)
       (define-key map [f10] 'gams-view-lst)
       (define-key map "\C-c\C-i" 'gams-from-gms-to-outline)
       (define-key map [f11] 'gams-from-gms-to-outline)
@@ -2535,7 +2517,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
      ["Kill GAMS process" (gams-start-menu nil ?k) t]
      ["Process menu" (gams-start-menu) t]
      )
-    ["Run GAMS" gams*start-processor t]
+    ["Run GAMS" gams-start-processor t]
     ["Popup GAMS process buffer" gams-popup-process-buffer t]
     "--"
     ["Choose font-lock level" gams-choose-font-lock-level t]
@@ -2577,15 +2559,15 @@ IF FLAG is non-nil, use upper case."
   (mapcar #'(lambda (x) (list x)) list))
 
 (defsubst gams-opt-make-alist (&optional com)
-  "Combine `gams:process-command-option' and `gams-user-option-alist'."
+  "Combine `gams-process-command-option' and `gams-user-option-alist'."
   (if com
       (setq gams-command-alist
 	    (append
-	     (list (cons "default" gams:process-command-name))
+	     (list (cons "default" gams-process-command-name))
 	     (reverse gams-user-command-alist)))
     (setq gams-option-alist
 	  (append
-	   (list (cons "default" gams:process-command-option))
+	   (list (cons "default" gams-process-command-option))
 	   (reverse gams-user-option-alist)))))
 
 (defun gams-init-setting ()
@@ -2599,7 +2581,7 @@ IF FLAG is non-nil, use upper case."
 	(setq indent-line-function 'gams-indent-line)
 	(define-key gams-mode-map "\t" 'gams-indent-line)
 	(define-key gams-mode-map "\C-m" 'gams-newline-and-indent)
-	(substitute-all-key-definition
+	(substitute-key-definition
 	 'newline-and-indent 'gams-newline-and-indent gams-mode-map))
     (define-key gams-mode-map "\t" 'gams-insert-tab)
     (define-key gams-mode-map "\C-m" 'newline))
@@ -2676,7 +2658,7 @@ The following commands are available in the GAMS mode:
 \\[gams-jump-to-lst]		Switch to the LST file.
 \\[gams-from-gms-to-outline]		Switch to the GAMS-OUTLINE buffer.
 \\[gams-start-menu]		Run GAMS on a file you are editing or Kill GAMS process.
-\\[gams*start-processor]		Run GAMS.
+\\[gams-start-processor]		Run GAMS.
 \\[gams-popup-process-buffer]   	Popup GAMS process buffer.
 \\[gams-template]		Evoke the TEMPLATE mode.
 
@@ -2804,7 +2786,7 @@ The following commands are available in the GAMS mode:
 ;; `gams-comment-region' is aliased as `comment-region'.
 (if (fboundp 'comment-region)
     (fset 'gams-comment-region 'comment-region)
-  (fset 'gams*buffer-substring 'buffer-substring))
+  (fset 'gams-buffer-substring 'buffer-substring))
 
 (defvar gams-statement-alist-temp nil)
 (defvar gams-dollar-alist-temp nil)
@@ -2852,7 +2834,7 @@ in t, exit minibuffer immediately."
 		      (skip-chars-backward (concat "^" delim))
 		      (point))
 		  (point-min))
-	    word (gams*buffer-substring beg (point-max))
+	    word (gams-buffer-substring beg (point-max))
 	    compl (try-completion word minibuffer-completion-table))
       (cond
        ((eq compl t)
@@ -2936,7 +2918,7 @@ non-nil, it is a dollar-control."
       ;; Check whether the variable is defined correctly.
       (eval-buffer)
       ;; Store the content of buffer
-      (setq temp-cont (gams*buffer-substring (point-min) (point-max)))
+      (setq temp-cont (gams-buffer-substring (point-min) (point-max)))
       ;; Delete the list-name part.
       (set-buffer (find-file-noselect temp-file))
       (goto-char (point-min))
@@ -3175,7 +3157,7 @@ if `gams-use-mpsge' is non-nil)."
       (if (and (looking-at "^*#!")
 	       (re-search-forward "[ \t]+\\(o\\|output\\)=\\([^ \n]+\\)"
 				  (line-end-position) t))
-	  (setq val (gams*buffer-substring (match-beginning 2)
+	  (setq val (gams-buffer-substring (match-beginning 2)
 					   (match-end 2)))
 	;;
 	(setq reg (concat "^"
@@ -3185,15 +3167,15 @@ if `gams-use-mpsge' is non-nil)."
 	(if (re-search-forward reg nil t)
 	    (if (looking-at "[\"']")
 		(progn
-		  (setq qstr (gams*buffer-substring (match-beginning 0)
+		  (setq qstr (gams-buffer-substring (match-beginning 0)
 						    (match-end 0)))
 		  (forward-char 1)
 		  (setq beg (point))
 		  (if (search-forward qstr nil (line-end-position))
 		      (setq end (1- (point)))
 		    (setq end (line-end-position)))
-		  (setq val (gams*buffer-substring beg end)))
-	      (setq val (gams*buffer-substring
+		  (setq val (gams-buffer-substring beg end)))
+	      (setq val (gams-buffer-substring
 			 (point) (line-end-position))))
 	  ;;
 	  (setq reg "^[*][ \t]*gams-lst-dir[ \t]*:[ \t]*")
@@ -3201,15 +3183,15 @@ if `gams-use-mpsge' is non-nil)."
 	  (when (re-search-forward reg nil t)
 	    (if (looking-at "[\"']")
 		(progn
-		  (setq qstr (gams*buffer-substring (match-beginning 0)
+		  (setq qstr (gams-buffer-substring (match-beginning 0)
 						    (match-end 0)))
 		  (forward-char 1)
 		  (setq beg (point))
 		  (if (search-forward qstr nil (line-end-position))
 		      (setq end (1- (point)))
 		    (setq end (line-end-position)))
-		  (setq val (gams*buffer-substring beg end)))
-	      (setq val (gams*buffer-substring
+		  (setq val (gams-buffer-substring beg end)))
+	      (setq val (gams-buffer-substring
 			 (point) (line-end-position))))
 	    (setq val (replace-regexp-in-string "[ \t]+$" "" val))
 	    (setq val
@@ -3234,15 +3216,15 @@ if `gams-use-mpsge' is non-nil)."
 	  (progn
 	    (if (looking-at "[\"']")
 		(progn
-		  (setq qstr (gams*buffer-substring (match-beginning 0)
+		  (setq qstr (gams-buffer-substring (match-beginning 0)
 						    (match-end 0)))
 		  (forward-char 1)
 		  (setq beg (point))
 		  (if (search-forward qstr nil (line-end-position))
 		      (setq end (1- (point)))
 		    (setq end (line-end-position)))
-		  (setq mfile (gams*buffer-substring beg end)))
-	      (setq mfile (gams*buffer-substring
+		  (setq mfile (gams-buffer-substring beg end)))
+	      (setq mfile (gams-buffer-substring
 			   (point) (line-end-position))))
 	    (setq mfile (substring mfile 0 (string-match "[ \t]+$" mfile))))
 	(setq mfile (buffer-file-name))))
@@ -3390,7 +3372,7 @@ and initial *."
        ;; A line with nothing but a comment on it?
        ((looking-at (concat "^\\([" gams-comment-prefix "]\\)[" gams-comment-prefix " \t]*"))
 	(setq has-comment t
-	      comment-fill-prefix (gams*buffer-substring (match-beginning 0)
+	      comment-fill-prefix (gams-buffer-substring (match-beginning 0)
 							 (match-end 0))))
        ;; A line with some code, followed by a comment?  Remember that the
        ;; semi which starts the comment shouldn't be part of a string or
@@ -3467,7 +3449,7 @@ and initial *."
 ;; the `EPO' package written by Yuuji Hirose.  I modified them.
 
 ;;; From epolib.el
-(defsubst gams*window-list ()
+(defsubst gams-window-list ()
   "Return visible window list."
   (let* ((curw (selected-window))
 	 (win curw)
@@ -3477,7 +3459,7 @@ and initial *."
 	  (setq wlist (cons win wlist))))
     wlist))
 
-(defun gams*smart-split-window (height)
+(defun gams-smart-split-window (height)
   "Split current window wight specified HEIGHT.
 If HEIGHT is number, make a new window that has HEIGHT lines.
 If HEIGHT is string, make a new window that occupies HEIGT % of screen height.
@@ -3487,16 +3469,16 @@ Otherwise split window conventionally."
        (selected-window)
        (max
         (min
-         (- (gams*screen-height)
+         (- (gams-screen-height)
             (if (numberp height)
                 (+ height 2)
-              (/ (* (gams*screen-height)
+              (/ (* (gams-screen-height)
                     (string-to-number height))
                  100)))
-         (- (gams*screen-height) window-min-height 1))
+         (- (gams-screen-height) window-min-height 1))
         window-min-height))))
 
-(defun gams*process-caluculate-time (begtime)
+(defun gams-process-caluculate-time (begtime)
   "Calculate time from BEGTIME to now and return it."
   (let ((curr-time
 	 (floor
@@ -3536,7 +3518,7 @@ Otherwise split window conventionally."
 (setq-default gams-ps-orig-frame-title nil)
 
 ;;; From epop.el
-(defun gams*process-sentinel (proc mess)
+(defun gams-process-sentinel (proc mess)
   "Display the end of process buffer."
   ;; (format "%s" mess)
   (cond
@@ -3547,7 +3529,7 @@ Otherwise split window conventionally."
 	(goto-char (point-max))
 	(insert
 	 (format "\nGAMS process finished at %s\n" (current-time-string)))
-	(setq temp (gams*process-caluculate-time
+	(setq temp (gams-process-caluculate-time
 		    gams-ps-compile-start-time))
 	(insert
 	 (format "Total compilation time is %s:%s:%s.\n"
@@ -3565,7 +3547,7 @@ Otherwise split window conventionally."
 	 gams-ps-frame (list (cons 'name gams-ps-orig-frame-title)))
 	(setq err (gams-process-error-exist-p))
 	(cond
-	 ((and gams:frame-feature-p
+	 ((and gams-frame-feature-p
 	       (setq w (get-buffer-window (current-buffer) t)))
 	  (select-frame (window-frame w))
 	  (select-window w)
@@ -3590,14 +3572,14 @@ Otherwise split window conventionally."
     (save-excursion
       (goto-char (point-min))
       (when (re-search-forward "\\*\\*\\* Status: \\([a-zA-Z]+\\) error" nil t)
-	(setq flag (gams*buffer-substring (match-beginning 1)
+	(setq flag (gams-buffer-substring (match-beginning 1)
 					  (match-end 1)))))
     flag))
 
 ;;; New function.
 (defun gams-get-process-buffer ()
   "Create the name of GAMS process buffer for the current buffer."
-  (concat gams*command-process-buffer " on " (buffer-name) "*"))
+  (concat gams-command-process-buffer " on " (buffer-name) "*"))
     
 (defun gams-popup-process-buffer (&optional select)
   "Popup the GAMS process buffer.
@@ -3606,10 +3588,10 @@ already popped up, then move to the process buffer."
   (interactive "P")
   (let ((pbuff (gams-get-process-buffer)))
     (if (get-buffer pbuff)
-	(gams*showup-buffer pbuff select)
+	(gams-showup-buffer pbuff select)
       (message "There is no GAMS process buffer associated with this buffer!"))))
 
-(defun gams*showup-buffer (buffer &optional select)
+(defun gams-showup-buffer (buffer &optional select)
   "Make BUFFER show up in certain window (except selected window).
 Non-nil for optional argument SELECT keeps selection to the target window."
   (let (w)
@@ -3618,11 +3600,11 @@ Non-nil for optional argument SELECT keeps selection to the target window."
 	(select-window w)
       ;; Not visible
       (let ((sw (selected-window))
-	    (wlist (gams*window-list)))
+	    (wlist (gams-window-list)))
 	(cond
 	 ((eq (current-buffer) (get-buffer buffer)) nil)
 	 ((one-window-p)
-	  (gams*smart-split-window gams-default-pop-window-height)
+	  (gams-smart-split-window gams-default-pop-window-height)
 	  (select-window (next-window nil 1))
 	  (switch-to-buffer (get-buffer-create buffer))
 	  (recenter -1))
@@ -3635,7 +3617,7 @@ Non-nil for optional argument SELECT keeps selection to the target window."
 	  (switch-to-buffer (get-buffer-create buffer))))
 	(or select (select-window sw))))))
 
-(defun gams*start-process-other-window (name commandline)
+(defun gams-start-process-other-window (name commandline)
   "Start command line (via shell) in the next window."
   (let ((sw (selected-window))
 	(cur-buff (current-buffer))
@@ -3644,7 +3626,7 @@ Non-nil for optional argument SELECT keeps selection to the target window."
 	pbuff-name)
     (setq pbuff-name (gams-get-process-buffer))
     (if gams-always-popup-process-buffer
-	(gams*showup-buffer pbuff-name t) ; popup buffer and select it.
+	(gams-showup-buffer pbuff-name t) ; popup buffer and select it.
       (set-buffer (get-buffer-create pbuff-name)))
     ;; (current-buffer) ;; for debug.
     (gams-ps-mode)
@@ -3658,13 +3640,13 @@ Non-nil for optional argument SELECT keeps selection to the target window."
     (setq gams-ps-compile-start-time
 	  (string-to-number (format-time-string "%s")))
     (goto-char (point-max))
-    (set (make-local-variable 'gams:process-command-name) name)
+    (set (make-local-variable 'gams-process-command-name) name)
     (set-process-sentinel
      (setq p (start-process name pbuff-name shell-file-name
-			    gams:shell-c commandline))
-     'gams*process-sentinel)
+			    gams-shell-c commandline))
+     'gams-process-sentinel)
     (if gams-use-process-filter
-	(set-process-filter p 'gams*process-filter)
+	(set-process-filter p 'gams-process-filter)
       (set-process-filter p nil))
     (message "Running GAMS.  Type C-cC-l to popup the GAMS process buffer.")
     (set-marker (process-mark p) (1- (point)))
@@ -3678,7 +3660,7 @@ Non-nil for optional argument SELECT keeps selection to the target window."
   "Non-nil means use the process output filter.")
 (setq gams-use-process-filter nil)
 
-(defun gams*process-filter (proc string)
+(defun gams-process-filter (proc string)
   (let ((p-buff (process-buffer proc))
 	po-beg po-end m title)
     (with-current-buffer
@@ -3718,11 +3700,11 @@ Non-nil for optional argument SELECT keeps selection to the target window."
     (if gw
 	(select-window gw)
       (delete-other-windows)
-      (gams*smart-split-window gams-default-pop-window-height)
+      (gams-smart-split-window gams-default-pop-window-height)
       (switch-to-buffer gams-ps-gms-buffer)
       )))
   
-(defun gams*get-builtin (keyword)
+(defun gams-get-builtin (keyword)
   "Get built-in string specified by KEYWORD in current buffer."
   (save-excursion
     (save-restriction
@@ -3733,7 +3715,7 @@ Non-nil for optional argument SELECT keeps selection to the target window."
 	    "^" (regexp-quote (concat comment-start keyword)))
 	    (line-end-position) t)
 	  (let ((peol (progn (end-of-line) (point))))
-	    (gams*buffer-substring
+	    (gams-buffer-substring
 	     (progn
 	       (goto-char (match-end 0))
 	       (skip-chars-forward " \t")
@@ -3748,7 +3730,7 @@ Non-nil for optional argument SELECT keeps selection to the target window."
 		 (match-beginning 0)
 	       peol)))))))
 
-(defun gams*update-builtin (keyword newdef)
+(defun gams-update-builtin (keyword newdef)
   "Update built-in KEYWORD to NEWDEF"
   (save-excursion
     (save-restriction
@@ -3776,7 +3758,7 @@ Non-nil for optional argument SELECT keeps selection to the target window."
 	(open-line 1)
 	(insert comment-start keyword newdef comment-end)))))
 
-(defun gams*start-processor (&optional ask)
+(defun gams-start-processor (&optional ask)
   "Start GAMS on the current file."
   (interactive)
   (if (not (buffer-file-name))
@@ -3787,7 +3769,7 @@ Non-nil for optional argument SELECT keeps selection to the target window."
 	   (fname (file-name-nondirectory buffer-file-name))
 	   arg newarg prompt out-opt)
       (when (string-match " " fname)
-	(if (string-match gams:w32-system-shells shell-file-name)
+	(if (string-match gams-w32-system-shells shell-file-name)
 	    (setq fname (concat "\"" fname "\""))
 	  (setq fname (concat "'" fname "'"))))
       (when gams-lst-file
@@ -3795,14 +3777,14 @@ Non-nil for optional argument SELECT keeps selection to the target window."
       (setq arg
 	    (or
 	     ;; if built-in processor specified, use it
-	     (and builtin (gams*get-builtin builtin))
+	     (and builtin (gams-get-builtin builtin))
 	     (concat (gams-opt-return-option t) " "
 		     fname " "
 		     (gams-opt-return-option)
 		     out-opt)))
       (basic-save-buffer)
 
-      (gams*start-process-other-window
+      (gams-start-process-other-window
        command
        (cond
 	(prompt
@@ -3813,13 +3795,13 @@ Non-nil for optional argument SELECT keeps selection to the target window."
 		  (not (string= newarg arg))
 		  (y-or-n-p "Use this command line also in the future? "))
 	     (progn
-	       (gams*update-builtin builtin newarg)
+	       (gams-update-builtin builtin newarg)
 	       (message "The command line is inserted in the fisrt line in this file!")))
 	 newarg)
 	(t arg))
        ))))
 
-(defun gams*kill-processor ()
+(defun gams-kill-processor ()
   "Stop (kill) a GAMS process."
   (interactive)
   (let ((p (get-buffer-process
@@ -3836,9 +3818,9 @@ Optional second argument CHAR is for non-interactive call from menu."
 		   gams-run-key gams-kill-key gams-change-command-key gams-option-key))
   (let ((c (or char (read-char))))
     (cond ((equal c gams-run-key)
-	   (gams*start-processor ask))
+	   (gams-start-processor ask))
 	  ((equal c gams-kill-key)
-	   (gams*kill-processor))
+	   (gams-kill-processor))
 	  ((equal c gams-option-key)
 	   (gams-option))
 	  ((equal c gams-change-command-key)
@@ -3993,9 +3975,9 @@ If ontext and offtext are commented out, return *on and *off respectively."
       (when (looking-at (concat "^\\([" gams-comment-prefix "]?\\)[ \t]*[$]\\(on\\|off\\)text"))
 	(setq point-beg (match-beginning 0))
 	(setq temp-text
-	      (downcase (gams*buffer-substring (match-beginning 2)
+	      (downcase (gams-buffer-substring (match-beginning 2)
 					  (match-end 2))))
-	(if (string-match gams-comment-prefix (gams*buffer-substring (match-beginning 1)
+	(if (string-match gams-comment-prefix (gams-buffer-substring (match-beginning 1)
 						  (match-end 1)))
 	    (setq temp-text (concat "*" temp-text)))))
     (cons temp-text point-beg)))
@@ -4011,25 +3993,25 @@ If ontext and offtext are commented out, return *on and *off respectively."
 	(forward-char 1)
 	(when (re-search-forward regexp nil t)
 	  (setq match-point (match-beginning 0))
-	  (setq match (gams*buffer-substring (match-beginning 1)
+	  (setq match (gams-buffer-substring (match-beginning 1)
 					(match-end 1)))))
        ((equal type "*on")
 	(forward-char 1)
 	(when (re-search-forward regexp nil t)
 	  (setq match-point (match-beginning 0))
-	  (setq match (concat "*" (gams*buffer-substring (match-beginning 1)
+	  (setq match (concat "*" (gams-buffer-substring (match-beginning 1)
 						    (match-end 1))))))
        ((equal type "off")
 	(forward-char -1)
 	(when (re-search-backward regexp nil t)
 	  (setq match-point (match-beginning 0))
-	  (setq match (gams*buffer-substring (match-beginning 1)
+	  (setq match (gams-buffer-substring (match-beginning 1)
 					(match-end 1)))))
        ((equal type "*off")
 	(forward-char -1)
 	(when (re-search-backward regexp nil t)
 	  (setq match-point (match-beginning 0))
-	  (setq match (concat "*" (gams*buffer-substring (match-beginning 1)
+	  (setq match (concat "*" (gams-buffer-substring (match-beginning 1)
 						    (match-end 1))))))))
     (cons match match-point)))
 
@@ -4282,7 +4264,7 @@ defined by `gams-statement-file'.")
       
 (defvar gams-option-alist nil
   "The list of combinations of options in which
-`gams:process-command-option' and `gams-user-option-alist' are combined.")
+`gams-process-command-option' and `gams-user-option-alist' are combined.")
 
 (defvar gams-command-gms-buffer nil)
 (setq-default gams-command-gms-buffer nil)
@@ -4298,7 +4280,7 @@ defined by `gams-statement-file'.")
       
 (defvar gams-command-alist nil
   "The list of combinations of options in which
-`gams:process-command-option' and `gams-user-option-alist' are combined.")
+`gams-process-command-option' and `gams-user-option-alist' are combined.")
 
 (defvar gams-opt-gms-buffer nil)
 (setq-default gams-opt-gms-buffer nil)
@@ -4346,7 +4328,7 @@ Display the content of `gams-option-alist' in a buffer."
 (defun gams-option ()
   "Change the combination of command line options.
 The default GAMS command line option is determined by the variable
-`gams:process-command-option'."
+`gams-process-command-option'."
   (interactive)
   (let ((cur-buf (current-buffer)))
     ;; Display.
@@ -4486,7 +4468,7 @@ Return the modified ALIST."
 	  num)
       (beginning-of-line)
       (if (re-search-forward "^\\*?[ \t]+\\([^ \t]+\\)[ \t]+" end-po t)
-	  (progn  (setq num (gams*buffer-substring (match-beginning 1)
+	  (progn  (setq num (gams-buffer-substring (match-beginning 1)
 					      (match-end 1)))))
       num)))
       
@@ -4562,7 +4544,7 @@ Return the modified ALIST."
 	    ;; Check whether the variable is defined correctly.
 	    (eval-buffer)
 	    ;; Store the content of buffer
-	    (setq temp-cont (gams*buffer-substring (point-min) (point-max)))
+	    (setq temp-cont (gams-buffer-substring (point-min) (point-max)))
 	    ;; Delete the list-name part.
 	    (switch-to-buffer (find-file-noselect temp-file))
 	    ;;      (set-buffer (find-file-noselect temp-file))
@@ -4605,8 +4587,8 @@ Return the modified ALIST."
       (save-excursion
 	(if (equal "default" cur-num)
 	    (if com
-		(message "The default command is determined by the variable `gams:process-command-name'.")
-	      (message "The default option is determined by the variable `gams:process-command-option'."))
+		(message "The default command is determined by the variable `gams-process-command-name'.")
+	      (message "The default option is determined by the variable `gams-process-command-option'."))
 	  (progn
 	    (setq mess (format "Edit the %s No. %s: " type cur-num))
 	    (setq old (gams-opt-return-option com cur-num))
@@ -4653,7 +4635,7 @@ Return the modified ALIST."
 (defun gams-change-gams-command ()
   "Change GAMS command name.
 The default GAMS command is determined by the variable
-`gams:process-command-name'."
+`gams-process-command-name'."
   (interactive)
   (let ((cur-buf (current-buffer)))
     ;; Display.
@@ -4758,7 +4740,7 @@ options."
 	(message
 	 "This command is valid only on GAMS statements or dollar control options.")
       ;;
-      (setq old (gams*buffer-substring po-beg po-end))
+      (setq old (gams-buffer-substring po-beg po-end))
       (setq new (if type (gams-insert-dollar-control-get-name old)
 		  (gams-insert-statement-get-name old)))
       (when new 
@@ -5202,7 +5184,7 @@ BEG and END are points."
 		      (setq po-beg (point))
 		      (when (re-search-forward "[$]\\|(" po-end t)
 			(setq po-end (match-beginning 0)))
-		      (setq equ (gams*buffer-substring po-beg po-end))
+		      (setq equ (gams-buffer-substring po-beg po-end))
 		      (setq equ-list (cons equ equ-list))
 		      (goto-char po-next))))
 	    (throw 'found t)))))
@@ -5225,7 +5207,7 @@ BEG and END are points."
 		  (setq po-beg (point))
 		  (skip-chars-forward "^ \t\n")
 		  (setq po-end (point))
-		  (setq model (gams*buffer-substring po-beg po-end))
+		  (setq model (gams-buffer-substring po-beg po-end))
 		  (setq model-list (cons model model-list))
 		  (goto-char po-next)))
 	    (throw 'found t)))))
@@ -5246,7 +5228,7 @@ BEG and END are points."
 		  (setq po-beg (point))
 		  (skip-chars-forward "^ \t")
 		  (setq po-end (point))
-		  (setq f (gams*buffer-substring po-beg po-end))
+		  (setq f (gams-buffer-substring po-beg po-end))
 		  (setq f-list (cons f f-list))))
 	    (throw 'found t)))))
   (nreverse f-list)))
@@ -5302,7 +5284,7 @@ BEG and END are points."
 	      (setq po-beg (point))
 	      (skip-chars-forward "[a-zA-Z0-9_]")
 	      (setq po-end (point))
-	      (setq id (gams*buffer-substring po-beg po-end))
+	      (setq id (gams-buffer-substring po-beg po-end))
 	      (setq f-id t))))))
     lst))
 
@@ -5419,17 +5401,8 @@ Completion of internal file name."
     (insert "")))
  ;;insert dummy string to fontify(Emacs20)
 
-;;;	From yatex.el
-;;; autoload
-(defun substitute-all-key-definition (olddef newdef keymap)
-  "Replace recursively OLDDEF with NEWDEF for any keys in KEYMAP now
-defined as OLDDEF. In other words, OLDDEF is replaced with NEWDEF
-where ever it appears."
-    (mapcar
-     (function (lambda (key) (define-key keymap key newdef)))
-     (where-is-internal olddef keymap)))
 ;;-------------------- Final hook jobs --------------------
-(substitute-all-key-definition
+(substitute-key-definition
  'fill-paragraph 'gams-fill-paragraph gams-mode-map)
 
 ;;; The codes below are taken from hideshow.el.
@@ -5827,7 +5800,7 @@ and show its meaning in another window if error number is displayed."
 	  (goto-char (match-beginning 1))
 	  (setq error-place (point))
 	  ;; set `error-num' the found error number. It is nil if no error.
-	  (setq error-num (gams*buffer-substring (match-beginning 2)
+	  (setq error-num (gams-buffer-substring (match-beginning 2)
 					    (match-end 2)))
 	  (message
 	   (concat mess
@@ -5887,7 +5860,7 @@ and show its meaning in another window if error number is displayed."
 		(message
 		 (concat mess
 			 (format "Error is found!  Type `%s' if you want to jump to the error line %s."
-				 gams-lk-5 (gams*buffer-substring (match-beginning 1)
+				 gams-lk-5 (gams-buffer-substring (match-beginning 1)
 								  (match-end 1)))))
 	      (message (concat mess "Error is found!")))
 	    (goto-char a-point)
@@ -5956,7 +5929,7 @@ The input file name is extract from FILE SUMMARY field."
 	  ;; If FILE SUMMARY is found,
 	  (progn
 	    (when (re-search-forward "^[ \t]*input[ ]+\\(.*\\)" nil t)
-	      (setq temp-file (gams*buffer-substring (match-beginning 1)
+	      (setq temp-file (gams-buffer-substring (match-beginning 1)
 						  (match-end 1)))
 	      (forward-line 1)
 	      (while (and
@@ -5964,7 +5937,7 @@ The input file name is extract from FILE SUMMARY field."
 		      (looking-at "[ \t]+\\([^\n\f]+\\)"))
 		(setq temp-file
 		      (concat temp-file
-			      (gams*buffer-substring (match-beginning 1)
+			      (gams-buffer-substring (match-beginning 1)
 						     (match-end 1))))
 		(forward-line 1))))
 	;; If FILE SUMMARY is not found,
@@ -6003,11 +5976,11 @@ The input file name is extract from FILE SUMMARY field."
 	    (setq list-error
 		  (cons
 		   (if (equal
-			(gams*buffer-substring (match-end 0) end) " ")
+			(gams-buffer-substring (match-end 0) end) " ")
 		       ;; if t, return "" not " ".
 		       "^\n"
 		     ;; if nil, return the matched.
-		     (concat "^" (gams*buffer-substring (match-end 0) end)))
+		     (concat "^" (gams-buffer-substring (match-end 0) end)))
 		   list-error))
 	    (setq times (- times 1)))
 	(setq check (+ check 1))))
@@ -6107,10 +6080,10 @@ The input file name is extract from FILE SUMMARY field."
 	       point-b t)
 	      ;; If the file name line is found.
 	      (progn
-		(setq line-num (gams*buffer-substring
+		(setq line-num (gams-buffer-substring
 				(match-beginning 1)
 				(match-end 1)))
-		(setq file-name (gams*buffer-substring
+		(setq file-name (gams-buffer-substring
 				 (match-beginning 4)
 				 (match-end 4)))
 		(setq ma3 (match-end 3))
@@ -6124,7 +6097,7 @@ The input file name is extract from FILE SUMMARY field."
 			       "\\([^ %\t\n\f]+\\)"))
 		  (setq file-name
 			(concat file-name
-				(gams*buffer-substring
+				(gams-buffer-substring
 				 (match-beginning 1)
 				 (match-end 1)))))
 		(if (file-exists-p file-name)
@@ -6365,7 +6338,7 @@ you can jump to line 32."
 	(progn
 	  (setq line-num
 		(concat "^[ ]*"
-			(gams*buffer-substring
+			(gams-buffer-substring
 			 (match-beginning 1)
 			 (match-end 1))))
 	  ;; Go to the beginning of the buffer
@@ -6762,13 +6735,13 @@ If PAGE is non-nil, page scroll."
 			 "\\([^0-9]+\\)\\([0-9]+\\)[ \t]+\\([0-9]+\\)[ \t]+")
 		 (line-end-position) t)
 		(progn
-		  (setq v-seq (gams*buffer-substring (match-beginning 1) (match-end 1))
-			v-gol (gams*buffer-substring (match-beginning 2) (match-end 2))
+		  (setq v-seq (gams-buffer-substring (match-beginning 1) (match-end 1))
+			v-gol (gams-buffer-substring (match-beginning 2) (match-end 2))
 			v-type (gams-replace-regexp-in-string
 				"[ \t]+$" ""
-				(gams*buffer-substring (match-beginning 3) (match-end 3)))
-			v-pare (gams*buffer-substring (match-beginning 4) (match-end 4))
-			v-loc (gams*buffer-substring (match-beginning 5) (match-end 5)))
+				(gams-buffer-substring (match-beginning 3) (match-end 3)))
+			v-pare (gams-buffer-substring (match-beginning 4) (match-end 4))
+			v-loc (gams-buffer-substring (match-beginning 5) (match-end 5)))
 		  (setq f-info (list v-seq v-gol v-type v-pare v-loc))
 		  (setq f-info-prev (append f-info-prev (list v-fname)))
 		  (when v-fname
@@ -6776,13 +6749,13 @@ If PAGE is non-nil, page scroll."
 		  (setq f-info-prev f-info)
 		  (setq co-nest 0)
 		  (when (looking-at "[.]+")
-		    (setq co-nest (length (gams*buffer-substring (match-beginning 0)
+		    (setq co-nest (length (gams-buffer-substring (match-beginning 0)
 								 (match-end 0)))))
-		  (setq v-fname (gams*buffer-substring (point) (line-end-position)))
+		  (setq v-fname (gams-buffer-substring (point) (line-end-position)))
 		  (forward-line 1))
 	      (move-to-column (+ co-nest col-fn))
 	      (setq v-fname
-		    (concat v-fname (gams*buffer-substring (point) (line-end-position))))
+		    (concat v-fname (gams-buffer-substring (point) (line-end-position))))
 	      (forward-line 1))
 	    ))))
     (reverse f-alist)))
@@ -7188,7 +7161,7 @@ The following commands are available in this mode.
 	  temp-na)
       (beginning-of-line)
       (when (re-search-forward "^[0-9]+[ \t]+\\(.*\\)" point-a t)
-	(setq temp-na (gams*buffer-substring (match-beginning 1)
+	(setq temp-na (gams-buffer-substring (match-beginning 1)
 					     (match-end 1))))
       temp-na)))
 
@@ -7412,13 +7385,13 @@ The following commands are available in this mode.
       (define-key map "\C-c\C-z" 'gams-model-library)
       (define-key map "\C-c\C-p" 'gams-edit-temp-show-gms)
 
-      (substitute-all-key-definition
+      (substitute-key-definition
        'next-line 'gams-edit-temp-next map)
-      (substitute-all-key-definition
+      (substitute-key-definition
        'previous-line 'gams-edit-temp-prev map)
-      (substitute-all-key-definition
+      (substitute-key-definition
        'forward-char 'gams-edit-temp-forward map)
-      (substitute-all-key-definition
+      (substitute-key-definition
        'backward-char 'gams-edit-temp-backward map)
 
       (define-key map gams-choose-font-lock-level-key
@@ -7582,7 +7555,7 @@ Key-bindings are almost the same as GAMS mode.
 	  (error "Need to specify a name of this template!")
 	(setq list-tmp
 	      (list temp-name
-		    (gams*buffer-substring (point-min) (point-max))))
+		    (gams-buffer-substring (point-min) (point-max))))
 	;; The same name is already used?
 	(if (assoc temp-name temp-alist)
 	    ;; Already used.
@@ -8214,7 +8187,7 @@ This command cannot identify aliased set identifer."
  (setq buffer-read-only t))
 
 (defun gams-sil-item-make-alist (alist)
-  "Combine `gams:process-command-option' and `gams-user-option-alist'."
+  "Combine `gams-process-command-option' and `gams-user-option-alist'."
   (setq gams-identifier-item-alist
 	(append
 	 (list (cons "default" (list (gams-sil-make-list-view-item alist))))
@@ -8948,7 +8921,7 @@ Return the new file number."
 
 (defsubst gams-sil-get-alist-title (fnum)
   (let ((cont
-	 (gams*buffer-substring
+	 (gams-buffer-substring
 	  (point) (line-end-position))))
     (list
      'tit fnum (point) nil cont
@@ -8971,7 +8944,7 @@ Return the new file number."
 	    (if (re-search-forward " \t" line-epo t)
 		(point)
 	      line-epo)))
-    (setq cont (gams*buffer-substring cpo epo))
+    (setq cont (gams-buffer-substring cpo epo))
     (list 'dol fnum beg dollar
 	  cont
 	  (set-marker (make-marker) beg))))
@@ -8985,7 +8958,7 @@ Return the new file number."
 	    (if (re-search-forward "[; \t]+" line-epo t)
 		(match-beginning 0)
 	      line-epo)))
-    (setq cont (gams*buffer-substring cpo epo))
+    (setq cont (gams-buffer-substring cpo epo))
     (setq cont (gams-replace-regexp-in-string "^[\"']+" "" cont))
     (setq cont (gams-replace-regexp-in-string "[\"',]+$" "" cont))
     (list 'fil fnum beg dollar
@@ -9001,7 +8974,7 @@ Return the new file number."
 	    (if (re-search-forward "[; \t]+" line-epo t)
 		(match-beginning 0)
 	      line-epo)))
-    (setq cont (gams*buffer-substring cpo epo))
+    (setq cont (gams-buffer-substring cpo epo))
     (setq cont (gams-replace-regexp-in-string "^[\"']+" "" cont))
     (setq cont (gams-replace-regexp-in-string "[\"',]+$" "" cont))
     (list 'fil fnum beg "$ginclude"
@@ -9013,7 +8986,7 @@ Return the new file number."
 	cont)
     (setq cont
 	  (if (re-search-forward "\"" (line-end-position) t)
-	      (gams*buffer-substring cpo (match-beginning 0))
+	      (gams-buffer-substring cpo (match-beginning 0))
 	    ""))
     (list 'com fnum cpo nil cont
 	  (set-marker (make-marker) cpo))))
@@ -9022,7 +8995,7 @@ Return the new file number."
   (let ((cpo (point))
 	name)
     (skip-chars-forward "a-zA-Z0-9_")
-    (setq name (gams*buffer-substring cpo (point)))
+    (setq name (gams-buffer-substring cpo (point)))
     (list 'sol fnum cpo name nil
 	  (set-marker (make-marker) cpo))))
 
@@ -9033,7 +9006,7 @@ Return the new file number."
       (setq end (point))
       (beginning-of-line)
       (skip-chars-forward " \t")
-      (setq name (gams*buffer-substring (point) end))
+      (setq name (gams-buffer-substring (point) end))
       (list 'fun fnum (point) name nil
 	    (set-marker (make-marker) (point))))))
 
@@ -9043,7 +9016,7 @@ Return the new file number."
       (setq beg (point))
       (skip-chars-forward "^ \t")
       (setq end (point))
-      (setq name (gams*buffer-substring beg end))
+      (setq name (gams-buffer-substring beg end))
       (list 'mac fnum beg name nil
 	    (set-marker (make-marker) beg)))))
 
@@ -9058,7 +9031,7 @@ Return the new file number."
       (if (re-search-forward "[$]" cpo t)
 	  (setq end (- (point) 1))
 	(setq end cpo))
-      (setq name (gams*buffer-substring beg end))
+      (setq name (gams-buffer-substring beg end))
       (list 'def fnum beg name nil
 	    (set-marker (make-marker) beg)))))
 
@@ -9161,7 +9134,7 @@ LIGHT is t if in light mode.
 		    (setq beg (1+ (match-beginning 0)) ; 1+ for marker
 			  end (1+ beg))
 		    (setq po-end (match-end 2))
-		    (setq dol (gams*buffer-substring (1- beg) po-end)) ; 1- for marker
+		    (setq dol (gams-buffer-substring (1- beg) po-end)) ; 1- for marker
 		    (setq inc-p (if (string-match "gams-include-file" dol) nil t))
 		    
 		    (when (and (or (not inc-p) (not (gams-check-line-type)))
@@ -9174,7 +9147,7 @@ LIGHT is t if in light mode.
 		      (if (or (looking-back "[ \t\n\f]")
 			      (equal (point) (point-min)))
 			  (progn
-			    ;;	(setq dol (gams*buffer-substring (1- beg) po-end)) ; 1- for marker
+			    ;;	(setq dol (gams-buffer-substring (1- beg) po-end)) ; 1- for marker
 			    (goto-char po-end)
 			    (skip-chars-forward " \t")
 
@@ -9250,7 +9223,7 @@ LIGHT is t if in light mode.
 		      (setq beg (match-beginning 9)) 
 		      (setq match-dollar
 			    (concat "$"
-				    (gams*buffer-substring beg (match-end 9)))) ; for marker.
+				    (gams-buffer-substring beg (match-end 9)))) ; for marker.
 		      (goto-char (match-end 9))
 		      (skip-chars-forward " \t")
 		      (push (gams-sil-get-alist-dollar fnum match-dollar beg) idstruct))))
@@ -9261,7 +9234,7 @@ LIGHT is t if in light mode.
 		    (let (match-dollar beg)
 		      (setq beg (match-beginning 13)) ; for marker
 		      (setq match-dollar
-			    (gams*buffer-substring (1- beg) (match-end 13))) ; for marker
+			    (gams-buffer-substring (1- beg) (match-end 13))) ; for marker
 		      (goto-char (match-end 13))
 		      (skip-chars-forward " \t")
 		      (push (gams-sil-get-alist-fil fnum match-dollar beg) idstruct))))
@@ -9272,7 +9245,7 @@ LIGHT is t if in light mode.
 		    (let (match-dollar beg)
 		      (setq beg (1+ (match-beginning 14))) ; for marker.
 		      (setq match-dollar
-			    (gams*buffer-substring (1- beg) (match-end 14))) ; for marker.
+			    (gams-buffer-substring (1- beg) (match-end 14))) ; for marker.
 		      (goto-char (match-end 14))
 		      (skip-chars-forward " \t")
 		      (push (gams-sil-get-alist-fil fnum match-dollar beg) idstruct))))
@@ -9307,7 +9280,7 @@ LIGHT is t if in light mode.
 		  (setq po-beg (match-beginning 0))
 		  (goto-char (match-end 5))
 		  (setq match-decl
-			(gams*buffer-substring (match-beginning 5)
+			(gams-buffer-substring (match-beginning 5)
 					       (match-end 5)))
 		  (cond
 		   ((string-match "set" match-decl)
@@ -9362,7 +9335,7 @@ LIGHT is t if in light mode.
   (when (looking-at "[0-9a-zA-Z_]+")
     (let ((beg (match-beginning 0))
 	  (end (match-end 0)))
-      (gams-sil-make-alist 'mod fnum beg (gams*buffer-substring beg end) nil))))
+      (gams-sil-make-alist 'mod fnum beg (gams-buffer-substring beg end) nil))))
 
 (defsubst gams-sil-get-mpsge-variable (fnum)
   "FNUM is the file number in which the identifier is defined."
@@ -9370,10 +9343,10 @@ LIGHT is t if in light mode.
 	beg id exp)
     (when (re-search-forward "^[ \t]*\\([0-9a-zA-Z_]+\\)" end t)
       (setq beg (match-beginning 1))
-      (setq id (gams*buffer-substring beg (match-end 1)))
+      (setq id (gams-buffer-substring beg (match-end 1)))
       (when (re-search-forward "!" end t)
 	(skip-chars-forward "[! \t]")
-	(setq exp (gams*buffer-substring (point) end)))
+	(setq exp (gams-buffer-substring (point) end)))
       (gams-sil-make-alist 'mps fnum beg id exp))))
 
 (defsubst gams-sil-get-mpsge-report-variable (fnum)
@@ -9382,10 +9355,10 @@ LIGHT is t if in light mode.
 	beg id exp)
     (when (re-search-forward "^[ \t]*v:\\([0-9a-zA-Z_]+\\)" end t)
       (setq beg (match-beginning 1))
-      (setq id (gams*buffer-substring beg (match-end 1)))
+      (setq id (gams-buffer-substring beg (match-end 1)))
       (when (re-search-forward "!" end t)
 	(skip-chars-forward "[! \t]")
-	(setq exp (gams*buffer-substring (point) end)))
+	(setq exp (gams-buffer-substring (point) end)))
       (gams-sil-make-alist 'mps fnum beg id exp))))
 
 (defsubst gams-sil-get-mpsge-variable-definition (fnum)
@@ -9396,7 +9369,7 @@ LIGHT is t if in light mode.
     (when (looking-at "[ \t]*(")
       (re-search-forward ")" (line-end-position) t))
     (setq end (point))
-    (setq id (gams*buffer-substring beg end))
+    (setq id (gams-buffer-substring beg end))
     (gams-sil-make-alist 'def fnum beg id "")))
 
 (defun gams-sil-get-alist-mpsge (fnum)
@@ -9412,7 +9385,7 @@ LIGHT is t if in light mode.
 		     "consumers\\|auxiliary\\|report\\|prod\\|demand\\|constraint\\):")
 	     end t)
 	    (progn (setq block-begin (match-end 0))
-		   (setq m-string (gams*buffer-substring
+		   (setq m-string (gams-buffer-substring
 				   (match-beginning 0) (match-end 0)))
 		   (when (string-match "report" m-string)
 		     (setq rep t))
@@ -9489,7 +9462,7 @@ TYPE is the type of identifier."
 	  (when f-id
 	    (setq ex-beg (match-beginning 0)
 		  ex-end (gams-sil-get-alist-exp t)
-		  exp (gams*buffer-substring (1+ ex-beg) (1- ex-end)))
+		  exp (gams-buffer-substring (1+ ex-beg) (1- ex-end)))
 	    (goto-char ex-end)))
 	 ((looking-at ",")
 	  (when f-id
@@ -9506,7 +9479,7 @@ TYPE is the type of identifier."
 	      (progn
 		(setq ex-beg (point)
 		      ex-end (gams-sil-get-alist-exp t)
-		      exp (gams*buffer-substring ex-beg ex-end))
+		      exp (gams-buffer-substring ex-beg ex-end))
 		(goto-char ex-end)
 		(setq alist (cons (gams-sil-make-alist type fnum po id exp) alist)
 		      po nil
@@ -9518,7 +9491,7 @@ TYPE is the type of identifier."
 	    (setq po-beg (point)
 		  po (point))
 	    (skip-chars-forward "[a-zA-Z0-9_]")
-	    (setq id (gams*buffer-substring po-beg (point)))
+	    (setq id (gams-buffer-substring po-beg (point)))
 	    (setq f-id t))))))
     alist))
 
@@ -9979,7 +9952,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
       (beginning-of-line)
       (cond
        ((looking-at "^\\*?[ \t]+\\([0-9]+\\)[ \t]+")
-	(gams*buffer-substring (match-beginning 1)
+	(gams-buffer-substring (match-beginning 1)
 			       (match-end 1)))
        ((looking-at "^\\*?[ \t]+\\(default\\)[ \t]+")
 	"default")))))
@@ -10035,7 +10008,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
 	    ;; Check whether the variable is defined correctly.
 	    (eval-buffer)
 	    ;; Store the content of buffer
-	    (setq temp-cont (gams*buffer-substring (point-min) (point-max)))
+	    (setq temp-cont (gams-buffer-substring (point-min) (point-max)))
 	    ;; Delete the list-name part.
 	    (switch-to-buffer (find-file-noselect temp-file))
 	    (goto-char (point-min))
@@ -10130,7 +10103,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
       (beginning-of-line)
       (when (re-search-forward
 	     "\\([+]\\|[-]\\)[]][ ]+\\([a-z][a-z][a-z]\\)$" (line-end-position) t)
-	(setq str (gams*buffer-substring (match-beginning 2) (match-end 2)))
+	(setq str (gams-buffer-substring (match-beginning 2) (match-end 2)))
 	(cond
 	 ((equal str "SET") 'set)
 	 ((equal str "PAR") 'par)
@@ -10686,15 +10659,15 @@ Otherwise nil."
     (save-excursion
       (when (re-search-backward "[()]" beg t)
 	(setq cont
-	      (gams*buffer-substring (setq po-beg (match-beginning 0))
+	      (gams-buffer-substring (setq po-beg (match-beginning 0))
 				     (match-end 0)))
 	(if (equal ")" cont)
 	    (setq flag nil)
 	  (goto-char (match-end 0))
 	  (when (and (re-search-forward "[()]" end t) (<= cpo (point)))
-	    (when (equal ")" (gams*buffer-substring (match-beginning 0)
+	    (when (equal ")" (gams-buffer-substring (match-beginning 0)
 						    (setq po-end (match-end 0))))
-	      (setq cont (gams*buffer-substring po-beg po-end))
+	      (setq cont (gams-buffer-substring po-beg po-end))
 	      (when (not (string-match "[*/+-]" cont))
 		(setq flag t)))))))
     flag))
@@ -10717,7 +10690,7 @@ Otherwise nil."
 		(when (re-search-forward "[^a-zA-Z0-9_]" nil t)
 		  (goto-char (setq po-end (match-beginning 0)))
 		  (when (looking-at "[ \t\n=-/<>%);,*+.$]")
-		    (setq str (gams*buffer-substring po-beg po-end))
+		    (setq str (gams-buffer-substring po-beg po-end))
 		    (setq po po-beg)
 		    (setq type "s")
 		    )))
@@ -10727,7 +10700,7 @@ Otherwise nil."
 		(when (re-search-forward "[^a-zA-Z0-9_]" nil t)
 		  (goto-char (setq po-end (match-beginning 0)))
 		  (when (looking-at "[ \t\n-=<>%/:(;,*+.$]")
-		    (setq str (gams*buffer-substring po-beg po-end))
+		    (setq str (gams-buffer-substring po-beg po-end))
 		    (if (member str gams-statement-list-base)
 			(setq po po-beg)
 		      (setq po po-beg))))))))))
@@ -11551,7 +11524,7 @@ DEF is t if declaration part exists."
 	;; if in mpsge block
 	(when (re-search-forward "!" (line-end-position) t)
 	  (skip-chars-forward " \t")
-	  (setq etxt (gams*buffer-substring (point) (line-end-position))))
+	  (setq etxt (gams-buffer-substring (point) (line-end-position))))
       ;; if not in mpsge block
       (forward-char len)
       (skip-chars-forward " \t")
@@ -11563,7 +11536,7 @@ DEF is t if declaration part exists."
 	;; Do nothing
 	)
        ((looking-at "[\\('\\)|\\(\"\\)]")
-	(setq fl_q (gams*buffer-substring (point) (1+ (point))))
+	(setq fl_q (gams-buffer-substring (point) (1+ (point))))
 	)
        (t (setq fl_e t)))
       (if (not (or fl_q fl_e))
@@ -11579,7 +11552,7 @@ DEF is t if declaration part exists."
 	  (if (re-search-forward "[,/;]" (line-end-position) t)
 	      (setq end (match-beginning 0))
 	    (setq end (line-end-position))))
-	(setq etxt (gams*buffer-substring beg end))
+	(setq etxt (gams-buffer-substring beg end))
 	(setq etxt (substring etxt 0 (string-match "[ \t]+$" etxt)))))
     (if etxt
 	(progn (kill-new etxt)
@@ -11775,7 +11748,7 @@ part index is determined by `gams-sid-tree-structure'."
 ;;; Codes for outlineing LST files.  
 
 (defun gams-ol-item-make-alist (alist)
-  "Combine `gams:process-command-option' and `gams-user-option-alist'."
+  "Combine `gams-process-command-option' and `gams-user-option-alist'."
   (setq gams-outline-item-alist
 	(append
 	 (list (cons "default" (list (gams-ol-make-list-view-item alist))))
@@ -11793,14 +11766,14 @@ If FLAG is non-nil, it means the item is VARIABLE."
 	(setq par-type2 "VRI")
       (setq par-type2
 	    (substring
-	     (upcase (gams*buffer-substring
+	     (upcase (gams-buffer-substring
 		      (match-beginning 1)
 		      (match-end 1)))
 	     0 3)))
-    (setq par-name2 (gams*buffer-substring
+    (setq par-name2 (gams-buffer-substring
 		     (match-beginning 2)
 		     (match-end 2)))
-    (setq par-exp2 (gams*buffer-substring
+    (setq par-exp2 (gams-buffer-substring
 		    (match-beginning 3)
 		    (match-end 3)))
     (list par-type2 par-name2 par-exp2)))
@@ -12547,16 +12520,16 @@ the LST buffer."
     (save-excursion
       (setq po-end (+ (point) 600))	; 600 is sufficient?
       (re-search-forward "\\*\\*\\*\\* SOLVER STATUS[ ]+\\([0-9]*\\)\\(.*\\)[ ]*$" po-end t)
-      (setq var-1 (gams*buffer-substring (match-beginning 1)
+      (setq var-1 (gams-buffer-substring (match-beginning 1)
 				    (match-end 1)))
       (when (equal var-1 "")
-	  (setq var-1 (gams*buffer-substring (match-beginning 2)
+	  (setq var-1 (gams-buffer-substring (match-beginning 2)
 					(match-end 2))))
       (re-search-forward "\\*\\*\\*\\* MODEL STATUS[ ]+\\([0-9]*\\)\\(.*\\)[ ]*$" po-end t)
-      (setq var-2 (gams*buffer-substring (match-beginning 1)
+      (setq var-2 (gams-buffer-substring (match-beginning 1)
 				    (match-end 1)))
       (when (equal var-2 "")
-	  (setq var-2 (gams*buffer-substring (match-beginning 2)
+	  (setq var-2 (gams-buffer-substring (match-beginning 2)
 					(match-end 2))))
       ;; Remove the spaces in the line end.
       (setq var-1 (gams-replace-regexp-in-string "[ ]+$" "" var-1))
@@ -12571,7 +12544,7 @@ the LST buffer."
     (save-excursion
       (while (< (point) end)
 	(when (looking-at "[ \t]*\\([0-9]+\\)[ \t]+")
-	  (setq var (gams*buffer-substring (match-beginning 1)
+	  (setq var (gams-buffer-substring (match-beginning 1)
 					   (match-end 1)))
 	  (setq var-list (cons var var-list)))
 	(forward-line 1)
@@ -12637,7 +12610,7 @@ the LST buffer."
  		 (make-string (min (/ co 100) (- fill-column 20)) ?.))
 	;; Store the match.
 	(setq matched
-	      (gams*buffer-substring (match-beginning 1) (match-end 1)))
+	      (gams-buffer-substring (match-beginning 1) (match-end 1)))
 	;; If an item is found.
 	(cond
 	 ;; The case for VAR, EQU, SET, PAR, COM.
@@ -12724,7 +12697,7 @@ the LST buffer."
 		     "[ \t]*\\([^\n]*\\)"))
 	    (let (ma-com)
 	      (setq ma-com
-		    (gams*buffer-substring (match-beginning 1) (match-end 1)))
+		    (gams-buffer-substring (match-beginning 1) (match-end 1)))
 	      (setq mpoint (line-beginning-position))
 	      (setq co (1+ co))
 	      (setq malist
@@ -12733,7 +12706,7 @@ the LST buffer."
 	   ;; OTHER.
 	   ((looking-at "[ ]+[0-9]+[ ]+\\([^\n]*\\)")
 	    (let (ma-oth)
-	      (setq ma-oth (gams*buffer-substring (match-beginning 1)
+	      (setq ma-oth (gams-buffer-substring (match-beginning 1)
 						   (match-end 1)))
 	      (setq mpoint (line-beginning-position))
 	      (setq co (1+ co))
@@ -12778,10 +12751,10 @@ the LST buffer."
 		(skip-chars-forward " \t")
 		(setq mpoint (point)))
 	      (setq po-end (+ mpoint (length matched)))
-	      (setq name (gams*buffer-substring mpoint po-end))
+	      (setq name (gams-buffer-substring mpoint po-end))
 	      (goto-char po-end)
 	      (skip-chars-forward " \t")
-	      (setq cont (gams*buffer-substring (point) (line-end-position)))
+	      (setq cont (gams-buffer-substring (point) (line-end-position)))
 	      (when (not (equal "MODEL STATISTICS" name))
 		(setq co (1+ co))
 		(setq malist
@@ -12794,10 +12767,10 @@ the LST buffer."
 	    (setq poend (line-end-position))
 	    (while
 		(re-search-forward "[ ]+\\([^ \n]+\\)[ ]+\\([^ ]+\\)" poend t)
-	      (setq  par-name (gams*buffer-substring
+	      (setq  par-name (gams-buffer-substring
 			       (match-beginning 1)
 			       (match-end 1)))
-	      (setq  par-exp (gams*buffer-substring
+	      (setq  par-exp (gams-buffer-substring
 			      (match-beginning 2)
 			      (match-end 2)))
 	      (setq pobeg (line-beginning-position))
@@ -13094,7 +13067,7 @@ buffname is the outline buffer name."
     (beginning-of-line)
     (if (re-search-forward
 	 "\\([+]\\|[-]\\)[]][ ]+\\([a-z][a-z][a-z]\\)$" (line-end-position) t)
-	(gams*buffer-substring (match-beginning 2) (match-end 2)))))
+	(gams-buffer-substring (match-beginning 2) (match-end 2)))))
 
 (defun gams-ol-toggle (&optional on off prev)
   "toggle check.
@@ -13360,7 +13333,7 @@ if narrow is non-nil, narrow the window."
       
 (defvar gams-outline-item-alist nil
   "The list of combinations of options in which
-`gams:process-command-option' and `gams-user-option-alist' are combined.")
+`gams-process-command-option' and `gams-user-option-alist' are combined.")
 
 (defvar gams-current-item-num "default")
 (defvar gams-ol-item-alist-2
@@ -13627,7 +13600,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
       (beginning-of-line)
       (cond
        ((looking-at "^\\*?[ \t]+\\([0-9]+\\)[ \t]+")
-	(gams*buffer-substring (match-beginning 1)
+	(gams-buffer-substring (match-beginning 1)
 			       (match-end 1)))
        ((looking-at "^\\*?[ \t]+\\(default\\)[ \t]+")
 	"default")))))
@@ -13693,7 +13666,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
 	    ;; Check whether the variable is defined correctly.
 	    (eval-buffer)
 	    ;; Store the content of buffer
-	    (setq temp-cont (gams*buffer-substring (point-min) (point-max)))
+	    (setq temp-cont (gams-buffer-substring (point-min) (point-max)))
 	    ;; Delete the list-name part.
 	    (switch-to-buffer (find-file-noselect temp-file))
 	    (goto-char (point-min))
@@ -14066,18 +14039,18 @@ See also the variable `gams-gamslib-command'."
     ;;
     (goto-char (point-min))
     (when (re-search-forward "^Version = \\([0-9]+\\)" nil t)
-      (setq vnum (gams*buffer-substring (match-beginning 1) (match-end 1))))
+      (setq vnum (gams-buffer-substring (match-beginning 1) (match-end 1))))
     (goto-char (point-min))
     (when (re-search-forward "^LibraryName = \\(.+\\)" nil t)
-      (setq libname (gams*buffer-substring (match-beginning 1) (match-end 1))))
+      (setq libname (gams-buffer-substring (match-beginning 1) (match-end 1))))
     (goto-char (point-min))
     (when (re-search-forward "^Columns = \\([0-9]\\)" nil t)
       (setq colnum (string-to-number
-		    (gams*buffer-substring (match-beginning 1) (match-end 1)))))
+		    (gams-buffer-substring (match-beginning 1) (match-end 1)))))
     (goto-char (point-min))
     (when (re-search-forward "^InitialSort = \\([0-9]\\)" nil t)
       (setq inis (string-to-number
-		  (gams*buffer-substring (match-beginning 1) (match-end 1)))))
+		  (gams-buffer-substring (match-beginning 1) (match-end 1)))))
     (list libname vnum colnum inis)
     ;;
     (let ((cnum colnum)
@@ -14088,7 +14061,7 @@ See also the variable `gams-gamslib-command'."
 	(setq rege (concat "^" (number-to-string co) "[ \t]+=[ \t]+\\(.+\\)"))
 	(if (re-search-forward rege nil t)
 	    (progn (setq cont
-			 (gams*buffer-substring (match-beginning 1) (match-end 1)))
+			 (gams-buffer-substring (match-beginning 1) (match-end 1)))
 		   (setq lib-info (cons (cons co cont) lib-info)))
 	  (setq lib-info (append (cons co nil) lib-info)))
 	(setq co (1+ co)))
@@ -14113,7 +14086,7 @@ See also the variable `gams-gamslib-command'."
       (if (not (re-search-forward "^Files[ \t]+=[ \t]+\\(.+\\)" nil t))
 	  (goto-char (point-max))
 	       
-	(setq fname (gams*buffer-substring
+	(setq fname (gams-buffer-substring
 		     (match-beginning 1) (match-end 1)))
 	(setq item (cons (cons "file" fname) item))
 	(setq co 1)
@@ -14122,14 +14095,14 @@ See also the variable `gams-gamslib-command'."
 	  (setq reg (concat "^" (number-to-string co)
 			     "[ \t]+=[ \t]+\\(.+\\)"))
 	  (when (re-search-forward reg nil t)
-	    (setq cont (gams*buffer-substring
+	    (setq cont (gams-buffer-substring
 			(match-beginning 1) (match-end 1)))
 	    (setq item (cons (cons co cont) item)))
 	  (setq co (1+ co)))
 	(goto-char (point-min))
 	(forward-line 1)
 	(if (re-search-forward "^[^0-9]+" nil t)
-	    (setq cont (gams*buffer-substring (match-beginning 0)
+	    (setq cont (gams-buffer-substring (match-beginning 0)
 					      (point-max)))
 	  (setq cont ""))
 	(setq item (cons (cons "cont" cont) item))
@@ -14153,19 +14126,19 @@ See also the variable `gams-gamslib-command'."
 	  ;;
 	  (goto-char (point-min))
 	  (re-search-forward "Version = \\([0-9]+\\)" nil t)
-	  (setq vnum (gams*buffer-substring (match-beginning 1) (match-end 1)))
+	  (setq vnum (gams-buffer-substring (match-beginning 1) (match-end 1)))
 	  (goto-char (point-min))
 	  (re-search-forward "LibraryName = \\(.+\\)" nil t)
-	  (setq libname (gams*buffer-substring (match-beginning 1) (match-end 1)))
+	  (setq libname (gams-buffer-substring (match-beginning 1) (match-end 1)))
 	  (goto-char (point-min))
 	  (re-search-forward "Columns = \\([0-9]\\)" nil t)
-	  (setq colnum (gams*buffer-substring (match-beginning 1) (match-end 1)))
+	  (setq colnum (gams-buffer-substring (match-beginning 1) (match-end 1)))
 	  (list libname vnum colnum)
 	  ;;
 	  (goto-char (point-min))
 	  (setq num 1)
 	  (while (re-search-forward (concat "^" (number-to-string num) " = \\(.+\\)") nil t)
-	    (setq cont (gams*buffer-substring (match-beginning 1)
+	    (setq cont (gams-buffer-substring (match-beginning 1)
 					      (match-end 1)))
 	    (setq al (cons (cons num cont) al))
 	    (setq num (1+ num))
@@ -14255,7 +14228,7 @@ TYPE is the type of library."
     (save-excursion
       (beginning-of-line)
       (when (re-search-forward "^[*]?[ \t]+\\([0-9]+\\)[ \t]+" (line-end-position) t)
-	(setq seqnr (gams*buffer-substring (match-beginning 1)
+	(setq seqnr (gams-buffer-substring (match-beginning 1)
 					   (match-end 1)))))
     seqnr))
 
@@ -14892,9 +14865,9 @@ If PAGE is non-nil, page scroll."
       (goto-char (point-min))
       (forward-line 1)
       (while (looking-at "^\\([A-Z]\\)[ ]+\\([0-9]+\\)[ ]+\\([^\n]+\\)")
-	(setq type (gams*buffer-substring (match-beginning 1) (match-end 1))
-	      line (gams*buffer-substring (match-beginning 2) (match-end 2))
-	      iden (gams*buffer-substring (match-beginning 3) (match-end 3)))
+	(setq type (gams-buffer-substring (match-beginning 1) (match-end 1))
+	      line (gams-buffer-substring (match-beginning 2) (match-end 2))
+	      iden (gams-buffer-substring (match-beginning 3) (match-end 3)))
 	(setq ele (list type line iden))
 	(setq alist (cons ele alist))
 	(forward-line 1))
@@ -14902,7 +14875,7 @@ If PAGE is non-nil, page scroll."
       (goto-char (point-max))
       (re-search-backward "line=[[]\\([0-9]+\\)[]]" nil t)
       (setq tlnum (string-to-number
-		   (gams*buffer-substring (match-beginning 1)
+		   (gams-buffer-substring (match-beginning 1)
 					  (match-end 1)))))
     (list tlnum (reverse alist))))
 
@@ -15525,7 +15498,7 @@ If PAGE is non-nil, page scroll."
 		  (number-to-string beg) " "
 		  (number-to-string end) " "
 		  lst))
-    (call-process shell-file-name nil buff nil gams:shell-c com)))
+    (call-process shell-file-name nil buff nil gams-shell-c com)))
 
 (defun gams-lxi-show-item ()
   (interactive)
@@ -15859,7 +15832,7 @@ Otherwise nil."
 	  (if (and reg (re-search-backward reg beg t))
 	      (when (not (gams-in-quote-p))
 		(setq cont
-		      (gams*buffer-substring (match-beginning 0)(match-end 0)))
+		      (gams-buffer-substring (match-beginning 0)(match-end 0)))
 		(if (equal cont inl)
 		    (when (and (re-search-forward inl-end end t)
 			       (<= cur-po (point)))
@@ -15881,7 +15854,7 @@ When this function misjudges, usee `gams-in-quote-p-extended'."
     (save-excursion
       (when (re-search-backward "\"\\|'" beg t)
 	(setq cont
-	      (gams*buffer-substring (match-beginning 0) (match-end 0)))
+	      (gams-buffer-substring (match-beginning 0) (match-end 0)))
 	(goto-char (match-end 0))
 	(when (and (re-search-forward cont end t) (<= cur-po (point)))
 	  (setq flag t))))
@@ -15902,7 +15875,7 @@ When this function misjudges, usee `gams-in-quote-p-extended'."
 	  (if (re-search-forward "\"\\|'" end t)
 	      (progn
 		(setq cont
-		      (gams*buffer-substring (match-beginning 0) (match-end 0)))
+		      (gams-buffer-substring (match-beginning 0) (match-end 0)))
 		(goto-char (match-end 0))
 		(setq left (+ 1 left))
 		(when (<= cur-po (point))
@@ -16401,7 +16374,7 @@ Otherwise nil."
 	flag-beg flag)
     (save-excursion
        (when (re-search-backward "^$[ \t]*\\(on\\|off\\)text" nil t)
-	(setq flag-beg (downcase (gams*buffer-substring (match-beginning 1)
+	(setq flag-beg (downcase (gams-buffer-substring (match-beginning 1)
 							(match-end 1))))
 	(when (equal flag-beg "on")
 	  ;; If ontext found, search $model.
@@ -16495,7 +16468,7 @@ Return t if the point is in table block."
       (if (setq po-a (re-search-backward
 		      (concat "^[ \t]*" gams-regexp-declaration) nil t))
 	  (progn
-	    (when (string-match "table" (gams*buffer-substring (match-beginning 1)
+	    (when (string-match "table" (gams-buffer-substring (match-beginning 1)
 							       (match-end 1)))
 	      (goto-char cur-po)
 	      (if (gams-block-end-p po-a nil)
@@ -16512,7 +16485,7 @@ return nil.  Note that when the cursor is in mpsge block, return nil."
     (save-match-data
       (save-excursion
 	(when (re-search-backward "^$[ \t]*\\(on\\|off\\)text" nil t)
-	  (setq flag-beg (downcase (gams*buffer-substring
+	  (setq flag-beg (downcase (gams-buffer-substring
 				    (match-beginning 1) (match-end 1))))
 	  (forward-line 1)
 	  (setq po-beg (point))
@@ -16520,7 +16493,7 @@ return nil.  Note that when the cursor is in mpsge block, return nil."
 	    ;; If ontext found, search offtext.
 	    (goto-char cur-po)
 	    (when (re-search-forward "^$[ \t]*\\(on\\|off\\)text" nil t)
-	      (setq flag-end (downcase (gams*buffer-substring
+	      (setq flag-end (downcase (gams-buffer-substring
 					(match-beginning 1) (match-end 1))))
 	      (beginning-of-line)
 	      (setq po-end (point))
@@ -16615,7 +16588,7 @@ is supplied.  Otherwise, column is nil."
 		   ;; Declaration block.
 		   ((looking-at (concat "^" gams-regexp-declaration))
 		    (if (string-match
-			 "table"(gams*buffer-substring (match-beginning 0)
+			 "table"(gams-buffer-substring (match-beginning 0)
 						       (match-end 0)))
 			(setq table t)
 		      (setq table nil))
@@ -16675,7 +16648,7 @@ is supplied.  Otherwise, column is nil."
 						  "\\|"
 						  "^[ \t]*table")
 					  nil t)
-		      (setq match-plus (gams*buffer-substring
+		      (setq match-plus (gams-buffer-substring
 					(match-beginning 0)
 					(match-end 0)))
 		      (setq new*match (match-beginning 0))
@@ -16727,7 +16700,7 @@ the indent in a line that starts with * is not removed."
     (goto-char beg)
     (while (and (< (point) end) (not (eobp)))
       (when (and (re-search-forward "^[ \t]+\\(\\*?\\)" (line-end-position) t)
-	         (not (equal "*" (gams*buffer-substring
+	         (not (equal "*" (gams-buffer-substring
 				  (match-beginning 1) (match-end 1)))))
 	    (delete-region (match-beginning 0) (match-end 0)))
       (forward-line 1))))
@@ -16972,7 +16945,7 @@ If it is found, return the matched content."
   (save-excursion
     (goto-char (point-min))
     (when (re-search-forward "^\\([$]\\)[ \t]*comment[ \t]+\\([^ \t\n]+\\)" nil t)
-      (gams*buffer-substring (match-beginning 2) (match-end 2)))))
+      (gams-buffer-substring (match-beginning 2) (match-end 2)))))
 
 (defun gams-search-dollar-com (&optional eol)
   "Search inline or eolcom dollar control option.  If it is found, return the
@@ -16993,12 +16966,12 @@ If it is found, return the matched content."
 				(skip-chars-forward " \t")
 				(looking-at regexp-2)
 				(setq cont
-				      (if eol (gams*buffer-substring (match-beginning 1)
+				      (if eol (gams-buffer-substring (match-beginning 1)
 								     (match-end 1))
 					(cons
-					 (gams*buffer-substring (match-beginning 1)
+					 (gams-buffer-substring (match-beginning 1)
 								(match-end 1))
-					 (gams*buffer-substring (match-beginning 2)
+					 (gams-buffer-substring (match-beginning 2)
 								(match-end 2)))))
 				(throw 'found t))
 		       (goto-char po-beg)))
@@ -17015,7 +16988,7 @@ If it is found, return the matched content."
 ;; principle, they cannot handle multi-character comment symbols.
 
 ;;;; Comment indent
-(substitute-all-key-definition
+(substitute-key-definition
  'comment-dwim 'gams-comment-dwim gams-mode-map)
 
 ;;; From newcomment.el
@@ -17412,8 +17385,8 @@ static unsigned char gams_mark_bits[] = {
    'gams-template-mark
    'gams-use-mpsge
    'gams-user-comment
-   'gams:process-command-name
-   'gams:process-command-option
+   'gams-process-command-name
+   'gams-process-command-option
 
    'gams-comment-prefix
    'gams-eolcom-symbol
@@ -17499,6 +17472,5 @@ problems."
 
 ;; Local Variables:
 ;; coding: utf-8
-;; lexical-binding: t
 ;; End:
 
