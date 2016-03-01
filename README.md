@@ -30,7 +30,7 @@ install GAMS mode.  If you are upgrading from the previous version of GAMS
 mode, the latest changes can be found in `CHANGELOG.txt' file.
 
 You can obtain the latest version of this program at the web site
-<http://shirotakeda.org/>.
+<http://shirotakeda.org/en/gams/gams-mode/>.
 
 When you use GAMS, you must do the following jobs:
 
@@ -177,8 +177,8 @@ README.txt		This file.  First read this.
 CHANGELOG.txt		Change log file.  If you want to know changes and
 			newly added functions, please read it.
 BUGS_PROBLEMS.txt	Known bugs and problems
-gams-mode.el			The main lisp program.
-setting-sample.el	A sample file for setting.
+gams-mode.el		The main lisp program.
+gams-setting-sample.el	A sample file for setting.
 gams-template.txt	A sample file of templates.
 
 sample_gams_code	The foder of sample gams files.
@@ -275,7 +275,7 @@ Then, I will explain the installation.
 (2) Add the following into your "~/.emacs.d/init.el" startup file (after
     load-path setting)
 
-    (require 'gams)
+    (require 'gams-mode)
 
 (3) If the GAMS system folder is not included in PATH environemtal
     variable, you need to set GAMS system folder to PATH or you need to
@@ -308,9 +308,9 @@ For Emacs 21-23 user, please read BUGS_PROBLEMS.txt file, too.
 There is a sample setting file ("setting-sample.el") distributed with this
 file.  Please read it, too.
 
-If you want to use GAMS-TEMPLATE mode, you had better copy the sample
-template file ".gams-template" in your home directory ("~/").  This sample
-file contains a lot of useful templates for writing gms files.
+If you want to use GAMS-TEMPLATE mode, you had better copy the sample template
+file "gams-template.txt" in your home directory ("~/").  This sample file
+contains a lot of useful templates for writing gms files.
 
 There are several lisp variables which decide the important behaviors of
 GAMS and the GAMS mode.  So, please read the customization part below,
@@ -417,7 +417,7 @@ You can change the value of these variables by adding in your
 Or you can use `customize' built in Emacs.  Try M-x
 customize-apropos-groups [RET] gams [RET.]
 
-Please read the sample file "setting-sample.el", too.
+Please read the sample file "gams-setting-sample.el", too.
 
 Basic customizable variables in GAMS and GAMS-LST mode:
 ---------------------------------------------------------------------
@@ -667,4 +667,12 @@ would like to express acknowledgments to Yuuji Hirose who is the author of
 `YaTeX' and `EPO' packages (they are available at
 <http://www.gentei.org/~yuuji/software>).  He also have written other lots
 of cool lisp programs.  You will be happy if you visit to his web site :-)
+
+
+
+--------------------
+Local Variables:
+mode: org
+fill-column: 74
+End:
 
