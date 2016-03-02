@@ -1,7 +1,7 @@
 ;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2016-02-29 19:27:37 st>
+;;  Time-stamp:         <2016-03-02 16:58:37 st>
 ;;
 ;;  This file is created for gams-mode.el version 4.0.
 ;;
@@ -53,14 +53,12 @@
 
 ; (setq gams-process-command-name "c:/GAMS/GAMS23.5/gams.exe")
 
-
 ;; Setting for font-lock.
 ;;
 ;; The following code will make coloring function in GAMS
 ;; mode work better.
 (setq font-lock-support-mode
       '((gams-mode . nil) (t . jit-lock-mode)))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	 Important settings.
@@ -81,12 +79,12 @@
 ; you want to try a sample file, you must save it in your HOME directory.  Or
 ; you should specify the explicit name of your template file name like
 ;
-; (setq gams-template-file "~/gams-template.txt")
+; (setq gams-template-file "~/.emacs.d/gams-template.txt")
 
 ;; Command line options passed to gams.  The default value is
 ; (setq gams-process-command-option "ll=0 lo=3 pw=100 ps=9999")
 ;
-; Notice: If you are a NTEmacs user, you should include lo=3 option!!!
+; Notice: If you are a Emacs on MS windows user, you should include lo=3 option!!!
 
 ;; GAMS system directory.  The directory where gams.exe exists.  This is
 ;; necessary for `gams-model-library' and `gams-view-doccument' command.
@@ -99,10 +97,6 @@
 ;; Use MPSGE?
 ; (setq gams-use-mpsge t) ; Yes (default)
 ; (setq gams-use-mpsge nil) ; No
-
-;; Allow multiple GAMS processes?
-; (setq gams-multi-process nil) ; No
-; (setq gams-multi-process t) ; Yes (default)
 
 ;; Initial values of statement and dollar control.
 (setq gams-statement-name "parameter")
