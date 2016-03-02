@@ -1,13 +1,17 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-02 12:43:13 st>
+Time-stamp: <2016-03-02 18:03:52 st>
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ----------------------------------------------------
 
-Version 5.1 ()
+Version 6.0 (2016-03-02)
 ----------------------------------
+
+* Note: Important changes have been added to this version of GAMS
+  mode. Read the explanation below carefully and change your
+  configurations in init.el file.
 
 * Changed the name of the main lisp code from "gams.el" to "gams-mode.el".
 
@@ -25,7 +29,8 @@ Version 5.1 ()
 
   You need to modify init.el setting.
 
-* Change the default value of variables `gams-statement-file' and `gams-template-file'.
+* Change the default value of variables `gams-statement-file' and
+  `gams-template-file'.
 
   gams-statement-file -> "~/.emacs.d/gams-statement.txt"
   gams-template-file -> "~/.emacs.d/gams-template.txt"
@@ -837,7 +842,7 @@ Version 1.8 (Sat Dec  7, 2002)
   The position of the cursor where this command is valid (e.g)
   
   	(a + b + c + d * f * h)
-	ÅO                     ÅO
+	Ôºæ                     Ôºæ
        Here	and	      here
 
   Note that with respect to the right parenthesis ), the cursor should be
@@ -1441,4 +1446,5 @@ Version 1.01 (Tue Aug 21, 2001)
 Local Variables:
 mode: indented-text
 fill-column: 74
+coding: utf-8-dos
 End:
