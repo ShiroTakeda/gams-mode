@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-01 19:03:08 st>
+;; Time-stamp: <2016-03-02 10:22:39 st>
 ;; Version: 5.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -25,9 +25,16 @@
 ;; Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ;;; Commentary:
-;;
-;; 			See README.txt file.
-;;
+
+;; This package offers the Emacs lisp program for using the numerical software
+;; GAMS in Emacs (GAMS mode for Emacs). 
+
+;; To install and use this mode, you need to add some codes in init.el.  For the
+;; details, please see README.txt file available at
+;; http://shirotakeda.org/en/gams/gams-mode/
+
+
+;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
