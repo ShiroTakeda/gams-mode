@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-02 10:22:39 st>
+;; Time-stamp: <2016-03-02 12:37:35 st>
 ;; Version: 5.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -115,7 +115,7 @@ process."
   :type 'string
   :group 'gams)
 
-(defcustom gams-statement-file "~/gams-statement.txt"
+(defcustom gams-statement-file "~/.emacs.d/gams-statement.txt"
   "*The name of the file in which user specific statements are stored.
 If you register new statements and dollar control options, they are saved
 in the file specified by this variable."
@@ -311,7 +311,7 @@ Specify the regular expressions of the symbol used to represent headlines."
 ;;;	Variables for GAMS-TEMPLATE mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams-template-file "~/gams-template.txt"
+(defcustom gams-template-file "~/.emacs.d/gams-template.txt"
   "*The name of a file used to store templates."
   :type 'file
   :group 'gams)
