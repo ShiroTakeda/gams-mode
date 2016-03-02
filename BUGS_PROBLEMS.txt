@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-02-28 14:13:34 st>
+Time-stamp: <2016-03-02 17:01:33 st>
 -----------------------------------------------------
 
 Known bugs and problems of GAMS mode.
@@ -146,9 +146,9 @@ You have two choices for this:
      But note that the large value of `jit-lock-chunk-size' often causes
      Emacs to hang up.
 
-
 -------------------
 Local Variables:
 mode: org
 fill-column: 76
+coding: utf-8-dos
 End:

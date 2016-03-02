@@ -1,200 +1,193 @@
-Title:               memo
 
 Filename:            memo.ja
 Author:		     Shiro Takeda
-e-mail               <zbc08106@park.zero.ad.jp>
 First-written:       <2003/02/21>
-Time-stamp:	     <2015-03-05 10:32:59 st>
-
-Version:
-$Id: MEMO.ja,v 1.2 2009/03/01 05:39:15 st Exp $
+Time-stamp:	     <2016-03-02 17:00:43 st>
 
 --------------------------------------------------------------------------
 
-* Emacs $B$,07$($k@0?t$N>e8B$O(B 2**28 = 268435456
+* Emacs が扱える整数の上限は 2**28 = 268435456
 
-* GAMS $B$N?t<0$r(B TeX $B$N?t<0$KJQ49$9$k5!G=$rDI2C$9$k!%(B
+* GAMS の数式を TeX の数式に変換する機能を追加する．
 
 * OUTLINE
-  $B?t;z$rI=<($G$-$k$b$N$K4X$7$F$O?t;z$rI=<($9$k$h$&!<$K$9$k!%(B
+  数字を表示できるものに関しては数字を表示するようーにする．
 
-* $BJXMx$J4X?t(B
+* 便利な関数
 
-  - line-end-position $B$H(B line-beginning-position.
-
-  - (sit-for 0) $B$O2hLL$r=q49$($k$N$K;H$($k!#(B
+  - (sit-for 0) は画面を書換えるのに使える。
   
-* `memq'$B!"(B`member'$B!"(B`assq'$B!"(B`assoc'$B$N%j%9%HC5:w4pK\4X?t$r;H$&$[$&$,(B
-  $BL@<(E*$J7+$jJV$7$h$j$bB.$$!#$3$l$i$NC5:w4pK\4X?t$N(B1$B$D$r;H$($k$h(B
-  $B$&$K%G!<%?9=B$$rJQ99$9$k2ACM$O$"$k!#(B
+* `memq'、`member'、`assq'、`assoc'のリスト探索基本関数を使うほうが
+  明示的な繰り返しよりも速い。これらの探索基本関数の1つを使えるよ
+  うにデータ構造を変更する価値はある。
      
 
-$B@bL@J8;zNs$K4X$9$k%R%s%H(B
+説明文字列に関するヒント
 ========================
 
-$B@bL@J8;zNs$r=q$/$&$($G$N%R%s%H$d47=,$r=R$Y$^$9!#%3%^%s%I(B`M-x
-checkdoc-minor-mode'$B$r<B9T$7$F!"$3$l$i$N47=,$NB?$/$r3NG'$G$-$^$9!#(B
+説明文字列を書くうえでのヒントや慣習を述べます。コマンド`M-x
+checkdoc-minor-mode'を実行して、これらの慣習の多くを確認できます。
 
-   * $B%f!<%6!<$,CN$C$F$*$/$3$H$r0U?^$7$?3F%3%^%s%I!"4X?t!"JQ?t$K$O!"@b(B
-     $BL@J8;zNs$rIU$1$k$3$H!#(B
+   * ユーザーが知っておくことを意図した各コマンド、関数、変数には、説
+     明文字列を付けること。
 
-   * Lisp$B%W%m%0%i%`$NFbItJQ?t$d%5%V%k!<%F%#%s$K$b@bL@J8;zNs$rIU$1$k!#(B
-     Emacs$B$N=i4|$NHG$G$O!"@bL@J8;zNs$N$+$o$j$K%3%a%s%H$r;H$&$HMFNL$r@a(B
-     $BLs$G$-$?$,!":#$O$3$l$O$"$F$O$^$i$J$$!#(B
+   * Lispプログラムの内部変数やサブルーティンにも説明文字列を付ける。
+     Emacsの初期の版では、説明文字列のかわりにコメントを使うと容量を節
+     約できたが、今はこれはあてはまらない。
 
-   * $B@bL@J8;zNs$N:G=i$N9T$O!"(B1$B$D$+(B2$B$D$N40A4$JJ8$G$"$j!"$=$l$@$1$G35MW(B
-     $B$rI=$7$F$$$k$3$H!#(B`M-x apropos'$B$O@bL@J8;zNs$N:G=i$N9T$@$1$rI=<($9(B
-     $B$k$?$a!"$=$l$@$1$G==J,$KI=$;$J$$$HI=<(7k2L$,0-$/$J$k!#FC$K!":G=i(B
-     $B$N9T$OBgJ8;z$G;O$a!"%T%j%*%I$G=*$($k$3$H!#(B
+   * 説明文字列の最初の行は、1つか2つの完全な文であり、それだけで概要
+     を表していること。`M-x apropos'は説明文字列の最初の行だけを表示す
+     るため、それだけで十分に表せないと表示結果が悪くなる。特に、最初
+     の行は大文字で始め、ピリオドで終えること。
 
-     $B@bL@J8;zNs$K$O!"4X?t$dJQ?t$N;H$$J}$N>\:Y$r=R$Y$kDI2C$N9T$,$"$C$F(B
-     $B$h$$!#$=$l$i$N9T$b40A4$JJ8$+$i@.$k$Y$-$G$"$k$,!"8+$?$a$r$h$/$9$k(B
-     $B$?$a$KE,Ev$K5M$a$F$h$$!#(B
+     説明文字列には、関数や変数の使い方の詳細を述べる追加の行があって
+     よい。それらの行も完全な文から成るべきであるが、見ためをよくする
+     ために適当に詰めてよい。
 
-   * $B0l4S@-$,$"$k$h$&$K!"4X?t$N@bL@J8;zNs$N:G=i$NJ8$NF0;l$O!X(Bto$B!Y$r>J(B
-     $B$$$?ITDj;l$K$9$k!#$?$H$($P!"!X(BReturns the cons of A and B.$B!Y$G$O(B
-     $B$J$/!X(BReturn the cons of A and B.$B!Y$H$9$k!#:G=i$N9T$N;D$j$NJ8$K$D(B
-     $B$$$F$bF1MM$K$9$k$H$h$$!#0J9_$NJ8@a$G$OE,@Z$J<g8l$,$"$k$[$&$,0lHL(B
-     $B$K$O$h$$!#(B
+   * 一貫性があるように、関数の説明文字列の最初の文の動詞は『to』を省
+     いた不定詞にする。たとえば、『Returns the cons of A and B.』では
+     なく『Return the cons of A and B.』とする。最初の行の残りの文につ
+     いても同様にするとよい。以降の文節では適切な主語があるほうが一般
+     にはよい。
 
-   * $B@bL@J8;zNs$O<uF0BV$G$O$J$/G=F0BV$G=q$-!"L$Mh7A$G$O$J$/8=:_7A$G=q(B
-     $B$/!#$?$H$($P!"!X(BA list containing A and B will be returned.$B!Y$G$O(B
-     $B$J$/!X(BReturn a list containing A and B.$B!Y$H=q$/!#(B
+   * 説明文字列は受動態ではなく能動態で書き、未来形ではなく現在形で書
+     く。たとえば、『A list containing A and B will be returned.』では
+     なく『Return a list containing A and B.』と書く。
 
-   * $BITI,MW$KC18l!X(Bcause$B!Y!J$*$h$SF15A8l!K$r;H$o$J$$$3$H!#!X(BCause
-     Emacs to display text in boldface,$B!Y$G$O$J$/C1$K!X(BDisplay text in
-     boldface.$B!Y$H=q$/!#(B
+   * 不必要に単語『cause』（および同義語）を使わないこと。『Cause
+     Emacs to display text in boldface,』ではなく単に『Display text in
+     boldface.』と書く。
 
-   * $B@bL@J8;zNs$O!"GrJ8;z$G;O$a$?$j=*$($J$$$3$H!#(B
+   * 説明文字列は、白文字で始めたり終えないこと。
 
-   * 80$B%3%i%`$N%9%/%j!<%s>e$N(BEmacs$B$N%&%#%s%I%&$K<}$^$k$h$&$K@bL@J8;zNs(B
-     $B$r@07A$9$k!#$[$H$s$I$N9T$r(B60$BJ8;z$r1[$($J$$$h$&$K$9$k$H$h$$!#I,MW(B
-     $B$J>pJs$rF~$l$k$?$a$J$i$P:G=i$N9T$,D9$/$J$C$F$b$h$$!#(B
+   * 80コラムのスクリーン上のEmacsのウィンドウに収まるように説明文字列
+     を整形する。ほとんどの行を60文字を越えないようにするとよい。必要
+     な情報を入れるためならば最初の行が長くなってもよい。
 
-     $B$7$+$7!"@bL@J8;zNsA4BN$rC1=c$K@07A$9$k$h$j$O!"Cm0U?<$/9TJ,$1$9$k(B
-     $B$HFI$_$d$9$/$J$k!#@bL@J8;zNs$,D9$$>l9g$K$O!"OCBj$4$H$K6u9T$G6h@Z(B
-     $B$k!#(B
+     しかし、説明文字列全体を単純に整形するよりは、注意深く行分けする
+     と読みやすくなる。説明文字列が長い場合には、話題ごとに空行で区切
+     る。
  
-   * $B%=!<%9%3!<%I>e$G@bL@J8;zNs$N:G=i$N9T$KB7$($k$?$a$K@bL@J8;zNs$N;D(B
-     $B$j$N9T$r;z2<$2(B*$B$7$J$$$3$H(B*$B!#%=!<%9%3!<%I>e$G$O8+$?$a$,$h$/$F$b!"(B
-     $B%f!<%6!<$,@bL@J8;z$r8+$k$H$-$K$O4qL/$K8+$($k!#J8;zNs$r;O$a$k%@%V(B
-     $B%k%/%)!<%H$N$^$($K$"$k;z2<$2$OJ8;zNs$N0lIt$G$O$J$$$3$H$KCm0U!*(B
+   * ソースコード上で説明文字列の最初の行に揃えるために説明文字列の残
+     りの行を字下げ*しないこと*。ソースコード上では見ためがよくても、
+     ユーザーが説明文字を見るときには奇妙に見える。文字列を始めるダブ
+     ルクォートのまえにある字下げは文字列の一部ではないことに注意！
 
-   * $B%f!<%6!<$,6X;_%3%^%s%I$r<B9T$7$h$&$H$9$k$H!"(BEmacs$B$OEv3:%3%^%s%I$N(B
-     $B@bL@J8;zNs$N:G=i$NJ8@a!"$D$^$j!":G=i$N6u9T$^$G$rI=<($9$k!#I,MW$J(B
-     $B$i$P!":G=i$N6u9T$N$^$($KF~$l$k$Y$->pJs$rA*$s$G!"$3$N$h$&$JI=<($,(B
-     $BM-MQ$G$"$k$h$&$K$9$k!#(B
+   * ユーザーが禁止コマンドを実行しようとすると、Emacsは当該コマンドの
+     説明文字列の最初の文節、つまり、最初の空行までを表示する。必要な
+     らば、最初の空行のまえに入れるべき情報を選んで、このような表示が
+     有用であるようにする。
 
-   * $B%f!<%6!<$,BPOCE*$K@_Dj$7$?$,$k$h$&$JJQ?t$G$O!"$=$NJQ?t$N@bL@J8;z(B
-     $BNs$O(B`*'$B$G;O$a$k!#JQ?t$NCM$,!"D9$$%j%9%H$d4X?t$G$"$k$H$-!"$"$k$$$O!"(B
-     $B=i4|2=%U%!%$%k$G$N$_@_Dj$9$k$h$&$JJQ?t$G$"$k$H$-$K$O!"$=$N@bL@J8(B
-     $B;zNs$r(B`*'$B$G;O$a$J$$$3$H!#(B*Note Defining Variables::$B!#(B
+   * ユーザーが対話的に設定したがるような変数では、その変数の説明文字
+     列は`*'で始める。変数の値が、長いリストや関数であるとき、あるいは、
+     初期化ファイルでのみ設定するような変数であるときには、その説明文
+     字列を`*'で始めないこと。*Note Defining Variables::。
 
-   * yes/no$B$N%U%i%0$rI=$9JQ?t$N@bL@J8;zNs$O!X(BNon-nil means...$B!Y$N$h$&(B
-     $B$JC18l$G;O$a$F!"(B`nil'$B0J30$NCM$O$9$Y$FF1CM$G$"$k$3$H$rL@$i$+$K$7!"(B
-     `nil'$B$H(B`nil'$B0J30$N0UL#$rL@3N$K<($9$3$H!#(B
+   * yes/noのフラグを表す変数の説明文字列は『Non-nil means...』のよう
+     な単語で始めて、`nil'以外の値はすべて同値であることを明らかにし、
+     `nil'と`nil'以外の意味を明確に示すこと。
 
-   * $B4X?t$N@bL@J8;zNs$G$=$N0z?t$K$D$$$F=R$Y$k$H$-$K$O!"$=$N0z?t$NCM$r(B
-     $BI=$9L>A0$K$OBgJ8;z$G=q$$$?0z?tL>$r;H$&!#$7$?$,$C$F!"4X?t(B`/'$B$N@bL@(B
-     $BJ8;zNs$G$O!"$=$NBh(B2$B0z?t$NL>A0$O(B`divisor'$B$J$N$G!"(B`DIVISOR'$B$HI=$9!#(B
+   * 関数の説明文字列でその引数について述べるときには、その引数の値を
+     表す名前には大文字で書いた引数名を使う。したがって、関数`/'の説明
+     文字列では、その第2引数の名前は`divisor'なので、`DIVISOR'と表す。
 
-     $B$^$?!"%j%9%H$d%Y%/%H%k$r!J$=$N0lIt$,JQ2=$9$k$+$b$7$l$J$$!K9=@.It(B
-     $BJ,$KJ,2r$7$?$b$N$r<($9$H$-$J$I$N%a%?JQ?t$K$O!"$9$Y$FBgJ8;z$r;H$&!#(B
+     また、リストやベクトルを（その一部が変化するかもしれない）構成部
+     分に分解したものを示すときなどのメタ変数には、すべて大文字を使う。
 
-   * $B@bL@J8;zNs$G(BLisp$B%7%s%\%k$r;2>H$9$k$H$-$K$O!"$=$l$,I=<($5$l$k$H$-(B
-     $B!J$D$^$jIaDL$O$9$Y$F>.J8;z!K$N$h$&$K%7%s%0%k%/%)!<%H$G0O$C$F=q$/!#(B
-     $B$?$H$($P!"(B`lambda'$B$G$"$k!#$3$l$K$O(B2$B$DNc30$,$"$j!"(Bt$B$H(Bnil$B$O%7%s%0%k(B
-     $B%/%)!<%H$G0O$^$:$K=q$/!#!JK\=q$G$O!"$9$Y$F$N%7%s%\%k$r%7%s%0%k%/%)!<(B
-     $B%H$G0O$`JL$N47=,$rMQ$$$F$$$k!#!K(B
+   * 説明文字列でLispシンボルを参照するときには、それが表示されるとき
+     （つまり普通はすべて小文字）のようにシングルクォートで囲って書く。
+     たとえば、`lambda'である。これには2つ例外があり、tとnilはシングル
+     クォートで囲まずに書く。（本書では、すべてのシンボルをシングルクォー
+     トで囲む別の慣習を用いている。）
 
-     $B%X%k%W%b!<%I$G$O!"@bL@J8;zNs$G%7%s%0%k%/%)!<%H$G0O$C$?%7%s%\%k$r(B
-     $B;H$&$H!"$=$N%7%s%\%k$K4X?tDj5A$dJQ?tDj5A$,$"$k$H$-$K$O<+F0E*$K%O(B
-     $B%$%Q!<%j%s%/$r:n@.$9$k!#$3$N5!G=$rMxMQ$9$k$?$a$KFCJL$J$3$H$r$9$k(B
-     $BI,MW$O$J$$!#$7$+$7!"%7%s%\%k$K4X?tDj5A$HJQ?tDj5A$NN>J}$,$"$j!"$I(B
-     $B$A$i$+0lJ}$N$_$r;2>H$7$?$$>l9g$K$O!"%7%s%\%k$NL>A0$N$^$($K(B
-     `variable'$B!"(B`option'$B!"(B`function'$B!"(B`command'$B$N$$$:$l$+$NC18l$r=q$/(B
-     $B$@$1$G$I$A$i$G$"$k$+$r;XDj$G$-$k!#!J$3$l$i$NC18l$rG'<1$9$k$H$-$K(B
-     $B$OBgJ8;z>.J8;z$O6hJL$7$J$$!#!K$?$H$($P$D$.$N$h$&$K=q$/$H!"(B
+     ヘルプモードでは、説明文字列でシングルクォートで囲ったシンボルを
+     使うと、そのシンボルに関数定義や変数定義があるときには自動的にハ
+     イパーリンクを作成する。この機能を利用するために特別なことをする
+     必要はない。しかし、シンボルに関数定義と変数定義の両方があり、ど
+     ちらか一方のみを参照したい場合には、シンボルの名前のまえに
+     `variable'、`option'、`function'、`command'のいずれかの単語を書く
+     だけでどちらであるかを指定できる。（これらの単語を認識するときに
+     は大文字小文字は区別しない。）たとえばつぎのように書くと、
 
           This function sets the variable `buffer-file-name'.
 
-     $B%O%$%Q!<%j%s%/$O!"JQ?t(B`buffer-file-name'$B$N@bL@J8;zNs$r;X$7!"$=$N(B
-     $B4X?t$N@bL@J8;zNs$O;X$5$J$$!#(B
+     ハイパーリンクは、変数`buffer-file-name'の説明文字列を指し、その
+     関数の説明文字列は指さない。
 
-     $B%7%s%\%k$K4X?tDj5A$dJQ?tDj5A$,$"$C$F$b!"@bL@J8;zNs$G$N%7%s%\%k$N(B
-     $B;H$$J}$K$OL54X78$J>l9g$K$O!"%7%s%\%k$NL>A0$N$^$($KC18l(B`symbol'$B$r(B
-     $B=q$1$P!"%O%$%Q!<%j%s%/$r:n$i$J$$$h$&$K$G$-$k!#$?$H$($P!"$D$.$N$h(B
-     $B$&$K$9$k$H!"(B
+     シンボルに関数定義や変数定義があっても、説明文字列でのシンボルの
+     使い方には無関係な場合には、シンボルの名前のまえに単語`symbol'を
+     書けば、ハイパーリンクを作らないようにできる。たとえば、つぎのよ
+     うにすると、
 
           If the argument KIND-OF-RESULT is the symbol `list',
           this function returns a list of all the objects
           that satisfy the criterion.
 
-     $B$3$3$G$O(B`list'$B$N4X?t!?JQ?tDj5A$OL54X78$J$N$G!"4X?t(B`list'$B$N@bL@J8(B
-     $B;zNs$r;X$9%O%$%Q!<%j%s%/$O:n$i$l$J$$!#(B
+     ここでは`list'の関数／変数定義は無関係なので、関数`list'の説明文
+     字列を指すハイパーリンクは作られない。
 
-   * $B@bL@J8;zNs$KD>@\%-!<Ns$r=q$-9~$^$J$$$3$H!#$=$N$+$o$j$K!"$=$l$NI8(B
-     $B=`E*$J%-!<Ns$r:n@.$9$k(B`\\[...]'$B$N=q$-J}$r;H$&!#$?$H$($P!"(B`C-f'$B$H(B
-     $B=q$/$+$o$j$K!"(B`\\[forward-char]'$B$H=q$/!#(BEmacs$B$,@bL@J8;zNs$rI=<($9(B
-     $B$k$H$-$K!"(B`forward-char'$B$K8=:_%P%$%s%I$5$l$F$$$k%-!<$K(BEmacs$B$,CV$-(B
-     $B49$($k!#!JIaDL$O(B`C-f'$B$G$"$k$,!"%f!<%6!<$,%-!<%P%$%s%G%#%s%0$rJQ99(B
-     $B$7$F$$$l$P!"JL$NJ8;z$K$J$k!#!K(B*Note Keys in Documentation::$B!#(B
+   * 説明文字列に直接キー列を書き込まないこと。そのかわりに、それの標
+     準的なキー列を作成する`\\[...]'の書き方を使う。たとえば、`C-f'と
+     書くかわりに、`\\[forward-char]'と書く。Emacsが説明文字列を表示す
+     るときに、`forward-char'に現在バインドされているキーにEmacsが置き
+     換える。（普通は`C-f'であるが、ユーザーがキーバインディングを変更
+     していれば、別の文字になる。）*Note Keys in Documentation::。
 
-   * $B%a%8%c!<%b!<%I$N@bL@J8;zNs$G$O!"%0%m!<%P%k$J%-!<%^%C%W$G$O$J$/$=(B
-     $B$N%b!<%I$N%m!<%+%k$J%-!<%^%C%W$G$N%-!<%P%$%s%G%#%s%0$r;2>H$7$?$$(B
-     $B$@$m$&!#$=$l$K$O!";HMQ$9$k%-!<%^%C%W$r;XDj$9$k9=J8(B`\\<...>'$B$r@bL@(B
-     $BJ8;zNs$NCf$K=q$/!#:G=i$K(B`\\[...]'$B$r;H$&$^$($K$3$&$7$F$*$/$3$H!#(B
-     `\\<...>'$B$NFbB&$N%F%-%9%H$O!"%a%8%c!<%b!<%I8~$1$N%m!<%+%k%-!<%^%C(B
-     $B%W$rJ];}$9$kJQ?t$NL>A0$G$"$k$3$H!#(B
+   * メジャーモードの説明文字列では、グローバルなキーマップではなくそ
+     のモードのローカルなキーマップでのキーバインディングを参照したい
+     だろう。それには、使用するキーマップを指定する構文`\\<...>'を説明
+     文字列の中に書く。最初に`\\[...]'を使うまえにこうしておくこと。
+     `\\<...>'の内側のテキストは、メジャーモード向けのローカルキーマッ
+     プを保持する変数の名前であること。
 
-     $B@bL@J8;zNs$NI=<($rCY$/$7$F$7$^$&$N$G!"(B`\\[...]'$B$r2?2s$b;H$&$N$O<B(B
-     $BMQE*$G$O$J$$!#$7$?$,$C$F!"FI<T$N%a%8%c!<%b!<%I$N$b$C$H$b=EMW$J%3(B
-     $B%^%s%I$N5-=R$K$3$l$r;H$$!"%b!<%I$N%-!<%^%C%W$N;D$j$rI=<($9$k$K$O(B
-     `\\{...}'$B$r;H$&!#(B
+     説明文字列の表示を遅くしてしまうので、`\\[...]'を何回も使うのは実
+     用的ではない。したがって、読者のメジャーモードのもっとも重要なコ
+     マンドの記述にこれを使い、モードのキーマップの残りを表示するには
+     `\\{...}'を使う。
 
 
 File: elisp, Node: Compilation Tips
 
-$B%3%s%Q%$%k:Q$_%3!<%I$rB.$/$9$k%R%s%H(B
+コンパイル済みコードを速くするヒント
 ====================================
 
-$B%P%$%H%3%s%Q%$%k$7$?(BLisp$B%W%m%0%i%`$N<B9TB.EY$r2~NI$9$kJ}K!$r<($7$^$9!#(B
+バイトコンパイルしたLispプログラムの実行速度を改良する方法を示します。
 
-   * $B%i%$%V%i%j(B`profile'$B$d%i%$%V%i%j(B`elp'$B$G!"FI<T$N%W%m%0%i%`$r7WB,$9(B
-     $B$k!#A`:nJ}K!$K$D$$$F$O%U%!%$%k(B`profile.el'$B$H(B`elp.el'$B$r;2>H!#(B
+   * ライブラリ`profile'やライブラリ`elp'で、読者のプログラムを計測す
+     る。操作方法についてはファイル`profile.el'と`elp.el'を参照。
 
-   * $B2DG=$J>l9g$K$O:F5"$G$O$J$/7+$jJV$7$r;H$&!#%3%s%Q%$%k:Q$_$N4X?t$,(B
-     $BJL$N%3%s%Q%$%k:Q$_4X?t$r8F$S=P$9>l9g$G$"$C$F$b(BEmacs Lisp$B$G$O4X?t(B
-     $B8F$S=P$7$OCY$$!#(B
+   * 可能な場合には再帰ではなく繰り返しを使う。コンパイル済みの関数が
+     別のコンパイル済み関数を呼び出す場合であってもEmacs Lispでは関数
+     呼び出しは遅い。
 
-   * `memq'$B!"(B`member'$B!"(B`assq'$B!"(B`assoc'$B$N%j%9%HC5:w4pK\4X?t$r;H$&$[$&$,(B
-     $BL@<(E*$J7+$jJV$7$h$j$bB.$$!#$3$l$i$NC5:w4pK\4X?t$N(B1$B$D$r;H$($k$h$&(B
-     $B$K%G!<%?9=B$$rJQ99$9$k2ACM$O$"$k!#(B
+   * `memq'、`member'、`assq'、`assoc'のリスト探索基本関数を使うほうが
+     明示的な繰り返しよりも速い。これらの探索基本関数の1つを使えるよう
+     にデータ構造を変更する価値はある。
 
-   * $B$"$k<o$NAH$_9~$_4X?t$O!"%P%$%H%3%s%Q%$%k:Q$_$N%3!<%I$G$OIaDL$N4X(B
-     $B?t8F$S=P$7$rHr$1$k$h$&$KFCJL$K07$o$l$k!#$3$l$i$N4X?t$r;H$&$N$O$h(B
-     $B$$$3$H$G$"$k!#%3%s%Q%$%i$,4X?t$rFCJL$K07$&$+$I$&$+$rD4$Y$k$K$O!"(B
-     $B$=$NB0@-(B`byte-compile'$B$rD4$Y$k!#B0@-$,(B`nil'$B0J30$G$"$l$P!"$=$N4X?t(B
-     $B$OFCJL$K07$o$l$k!#(B
+   * ある種の組み込み関数は、バイトコンパイル済みのコードでは普通の関
+     数呼び出しを避けるように特別に扱われる。これらの関数を使うのはよ
+     いことである。コンパイラが関数を特別に扱うかどうかを調べるには、
+     その属性`byte-compile'を調べる。属性が`nil'以外であれば、その関数
+     は特別に扱われる。
 
-     $B$?$H$($P!"$D$.$NF~NO$O!"(B`aref'$B$,FCJL$K%3%s%Q%$%k$5$l$k$3$H$r<($9(B
-     $B!J(B*Note Array Functions::$B!K!#(B
+     たとえば、つぎの入力は、`aref'が特別にコンパイルされることを示す
+     （*Note Array Functions::）。
 
           (get 'aref 'byte-compile)
                => byte-compile-two-args
 
-   * $BFI<T$N%W%m%0%i%`$N<B9T;~4V$N$+$J$j$NItJ,$r>.$5$J4X?t$N8F$S=P$7$,(B
-     $B@j$a$k$H$-$K$O!"$=$N4X?t$r%$%s%i%$%s$K$9$k!#$3$l$K$h$j4X?t8F$S=P(B
-     $B$7$N%*!<%P%X%C%I$r:o=|$G$-$k!#4X?t$r%$%s%i%$%s$K$9$k$H%W%m%0%i%`(B
-     $BJQ99$N=@Fp@-$r8:$8$k$N$G!"%f!<%6!<$,B.EY$r5$$K$9$k$[$ICY$$ItJ,$N(B
-     $B==J,$JB.EY8~>e$,F@$i$l$J$$8B$j!"$3$N$h$&$K$7$J$$$3$H!#(B*Note
-     Inline Functions::$B!#(B
+   * 読者のプログラムの実行時間のかなりの部分を小さな関数の呼び出しが
+     占めるときには、その関数をインラインにする。これにより関数呼び出
+     しのオーバヘッドを削除できる。関数をインラインにするとプログラム
+     変更の柔軟性を減じるので、ユーザーが速度を気にするほど遅い部分の
+     十分な速度向上が得られない限り、このようにしないこと。*Note
+     Inline Functions::。
   
 
 
 --------------------
 Local Variables:
 mode: indented-text
-coding: iso-2022-7bit
+coding: utf-8-dos
 fill-column: 74
 End:
