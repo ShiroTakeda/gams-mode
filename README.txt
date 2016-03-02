@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-01 19:11:04 st>
+Time-stamp: <2016-03-02 12:56:35 st>
 -----------------------------------------------------
 
 This package offers the Emacs lisp program for using the numerical
@@ -155,18 +155,18 @@ You can see where the particular PARAMETER or VAR are and can see the
 content of them.  You can also compare the numerical values in a part of
 the file with that in another part.  You are able to know what this
 function is like by looking at the screenshots placed at
-<http://shirotakeda.org/home/gams/gams-mode/gams-screen.html>.
+<http://shirotakeda.org/en/gams/gams-mode/gams-ss.html>.
 
 These are the simple explanation of this program.  Of course, there are a
 lot of other functions!
 
 ** GAMS mode
 
-This program has been tested only under GNU Emacs of version 23.2 on MS
-Windows 7 and not tested under other versions of Emacs and OS. But I
-received reports from persons who use other Emacs and OS that it works
-well in their environments.  So, this program probably works in other
-Emacs and OS. 
+This program has been tested under GNU Emacs of version 24.5 on MS Windows
+8 and not tested under other versions of Emacs and OS. But I received
+reports from persons who use other Emacs and OS that it works well in
+their environments.  So, this program probably works in other Emacs and
+OS.
 
 Bug reports, requests, and suggestions are all welcome!
 
@@ -189,6 +189,8 @@ gams-sample.gms		A sample file to show how to use GAMS mode for Emacs.
 gams-sample-ja.gms	A sample file to show how to use GAMS mode for Emacs (in Japanese)
 outline-sample.gms	A sample file to show how to use GAMS-OUTLINE mode.
 outline-sample-ja.gms	A sample file to show how to use GAMS-OUTLINE mode (in Japanese)
+org-minor-mode.gms	A sample file to show how to use org-mdoe in GAMS-mode
+org-minor-mode-alt.gms	A sample file to show how to use org-mdoe in GAMS-mode
 
 doc			Document folder
 refcard-gams.pdf	Referece card of keybindins.
@@ -198,19 +200,19 @@ lxi			Folder of files used to explain GAMS-LXI mode
 If you are well acquainted with Emacs, installation is very easy.  Here, I
 explain basic Emacs terminologies used below.  But if you are a novice
 user of Emacs, I recommend you to read the web site such as
-<http://www.gnu.org/software/emacs/windows/>.
+<http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html>.
 
 
 "~/"
 
 This is Unix terminology rather than Emacs'. This represents a user's HOME
 directory. A user's HOME directory means the directory (folder) where his
-configuration files are placed. If you are MS Windows VISTA/7 user, the
+configuration files are placed. If you are MS Windows VISTA/7/8 user, the
 default HOME directory is set to "c:\Users\username\AppData\Roaming". If
 you want to know to which directory your home directory is set, evaluate
 (getenv "HOME") in the *scratch* buffer on Emacs.  You can set your HOME
-directory by the environemtal variable HOME. If you are MS Window VISTA/7
-user, use control panel.
+directory by the environemtal variable HOME. If you are MS Window
+VISTA/7/8 user, use control panel.
 
 
 "~/.emacs.d/init.el" or "init.el"
@@ -244,8 +246,8 @@ The second one is cmdproxy.exe which is distributed with NTEmacs.  If you
 have installed NTEmacs, cmdproxy.exe is also installed in the same directory
 as runemacs.exe.
 
-Windows 2000/XP has cmd.exe as the shell.  But it is not recommended to use
-cmd.exe.  So 2000/XP users had better use bash or cmdproxy, too.
+MS Windows has cmd.exe as the shell.  But it is not recommended to use
+cmd.exe.  So MS Windows users had better use bash or cmdproxy, too.
 
 If you use bash(.exe), write the following in "~/.emacs.d/init.el"
 
@@ -257,13 +259,26 @@ and if you use cmdproxy.exe,
   (setq shell-file-name "cmdproxy")
   (setq shell-command-option "-c")
 
-For more details of shell setting in "~/.emacs./init.el" on NTEmacs,
-please see the web site <http://www.gnu.org/software/emacs/windows/>.
+For more details of shell setting in "~/.emacs.d/init.el" on Emacs in
+Windows, please see the web site
+<http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html>.
 
 =====================
 ** Installation of GAMS mode.
 
-Then, I will explain the installation.
+You can install GAMS mode (gams-mode.el) from MELPA repository.
+
+Type M-x list-packages and select gams-mode.
+
+This enables you to install gams-mode.el. But it installs only
+gams-mode.el file and does not install sample files and explanatory text.
+So to use GAMS mode, you had better read GAMS mode web site first.
+<http://shirotakeda.org/en/gams/gams-mode/>
+
+Note that to use GAMS mode, you have to configure init.el file.
+
+To install gams-mode.el manually, you need to follow the procedure below
+(1 and 2 are not necessary when you install gams-mode.el by MELPA).
 
 (1) Put "gams-mode.el" file into one of the directories listed in `load-path'.
     You can see the contents of `load-path' by entering `M-x
@@ -272,7 +287,7 @@ Then, I will explain the installation.
     following in your "~/.emacs.d/init.el" file:
 
     (setq load-path
-	     (cons "~/lisp/gams/" ;; Set the installed directory!
+	     (cons "~/emacs.d/lisp/gams/" ;; Set the installed directory!
 	       load-path))
 	  	  
 (2) Add the following into your "~/.emacs.d/init.el" startup file (after
@@ -293,8 +308,7 @@ file with extension "gms" ("lst"), GAMS mode (GAMS-LST mode) will
 automatically start.  Byte-compiling gams-mode.el may raise the speed of GAMS
 mode (but you need not necessarily do it).
 
-
-If you want to color an Emacs buffer, add the followings, too.
+(4) If you want to color an Emacs buffer, add the followings, too.
 
    (require 'font-lock)
    (global-font-lock-mode t)
@@ -308,11 +322,11 @@ causes troubles in GAMS mode.
 
 For Emacs 21-23 user, please read BUGS_PROBLEMS.txt file, too.
 
-There is a sample setting file ("setting-sample.el") distributed with this
+There is a sample setting file ("gams-setting-sample.el") distributed with this
 file.  Please read it, too.
 
-If you want to use GAMS-TEMPLATE mode, you had better copy the sample template
-file "gams-template.txt" in your home directory ("~/").  This sample file
+If you want to use GAMS-TEMPLATE mode, you had better copy the sample
+template file "gams-template.txt" in "~/.emacs.d/".  This sample file
 contains a lot of useful templates for writing gms files.
 
 There are several lisp variables which decide the important behaviors of
@@ -414,7 +428,6 @@ You can change the value of these variables by adding in your
 "~/.emacs.d/init.el", for example,
 
 	(setq gams-process-command-name "c:/GAMS20.0/gams.exe")
-	(setq gams-use-mpsge t)
 	(setq gams-statement-upcase nil)
 
 Or you can use `customize' built in Emacs.  Try M-x
@@ -435,31 +448,16 @@ Basic customizable variables in GAMS and GAMS-LST mode:
 
 	"*Command line options passed to GAMS"
 
-`gams-statement-file' ["~/gams-statement.txt"]
+`gams-statement-file' ["~/.emacs.d/gams-statement.txt"]
 
 	"*The name of the file in which user specific statements are
 	stored."
 
-`gams-statement-upcase' [nil]
-
-	"*Non-nil means that statement is inserted in upper case.  If you
-	want to use lower case, set nil to this variable."
-
-`gams-dollar-control-upcase' [nil]
-
-	"*Non-nil means that dollar control option is inserted in upper
-	case. If you want to use lower case, set nil to this variable."
-
-`gams-use-mpsge' [nil]
-
-	"*If you use MPSGE, set this variable to non-nil. Non-nil enables
-	MPSGE statement insertion."
-
-`gams-fill-column' [74]
+`gams-fill-column' [80]
 
 	"*The column number used for fill-paragraph and auto-fill-mode."
 	
-`gams-recenter-font-lock' [nil]
+`gams-recenter-font-lock' [t]
 
 	"Non-nil means that font-lock-fontify buffer when recentering.  If
 	your computer is slow, you may better set this to nil."
@@ -470,12 +468,6 @@ Basic customizable variables in GAMS and GAMS-LST mode:
 	extension included in this list, GAMS mode starts automatically.
 	It doen't matter whether upper case or lower case."
 	
-`gams-multi-process' [t]
-
-	"*Non-nil enables multiple GAMS processes. Non-nil means that you
-	can run multiple GAMS processes at the same time in an Emacs.  If
-	you rarely run multiple processes, you had better set it to nil."
-
 `gams-mode-hook ' [nil]
 
 	"*Hook run when gams-mode starts."
@@ -488,22 +480,6 @@ Basic customizable variables in GAMS and GAMS-LST mode:
 
 	"*Non-nil means that close parenthesis."
 
-`gams-close-double-quotation-always' [t]
-
-	"*Non-nil means that close double quotation."
-	
-`gams-close-single-quotation-always' [nil]
-
-	"*Non-nil means that close quotation."
-	
-`gams-statement-name' ["set"]
-
-	"*The initial value of statement."
-	
-`gams-dollar-control-name' ["title"]
-
-	"*The initial value of dollar control."
-	
 `gams-user-comment'
 
 	"*User defined comment template. You can insert the comment
@@ -511,16 +487,6 @@ Basic customizable variables in GAMS and GAMS-LST mode:
 	`gams-insert-comment'.  % in the string indicates the cursor place
 	and will disappear after template insertion. NB: You cannot
 	include double quoatations and backslashes in this variables!"
-
-`gams-default-pop-window-height' [10]
-
-	"The default GAMS process buffer height. If integer, sets the
-	window-height of process buffer.  If string, sets the percentage
-	of it.  If nil, use default pop-to-buffer."
-
-`gams-lst-mode-hook' [nil]
-
-	"*GAMS-LST mode hooks."
 
 `gams-docs-view-program' ["c:/Program Files/Adobe/Acrobat 5.0/Reader/AcroRd32.exe"]
 
@@ -530,31 +496,6 @@ Basic customizable variables in GAMS and GAMS-LST mode:
 
 	"The GAMS system directory."
 
-`gams-font-lock-level' [2]
-
-	"The level of decoralization of font-lock in GAMS mode.
-	0 => no color.
-	1 => minimum.
-	2 => maximum."
-
-`gams-lst-font-lock-level' [2]
-
-	"The level of decoralization of font-lock in GAMS-LST mdoe.
-	0 => no color.
-	1 => minimum.
-	2 => maximum."
-	
-`gams-ol-font-lock-level' [2]
-
-	"The level of decoralization of font-lock in GAMS-OUTLINE mode.
-	0 => no color.
-	1 => minimum.
-	2 => maximum."
-
-`gams-comment-column' [40]
-
-	"The default value of `comment-column' in GAMS mode."
-
 `gams-inlinecom-symbol-start-default' ["/*"]
 
 	"The default value for inline comment start symbol."
@@ -563,36 +504,14 @@ Basic customizable variables in GAMS and GAMS-LST mode:
 
 	"The default value for inline comment end symbol."
 
-`gams-eolcom-symbol-default' ["!"]
+`gams-eolcom-symbol-default' ["#"]
 
 	"The default value for eol comment symbol."
 	
-`gams-indent-on' [t]
-
-	"if it is non-nil, automatic indent for gams mode works.  if it is
-	nil, no special indent and tab key insert tab."
-
-`gams-indent-number' [8]
-
-	"indent number for general statemets."
-
-`gams-indent-number-loop' [4]
-
-	"indent number in loop type environment."
-
-`gams-indent-number-mpsge' [8]
-
-	"indent number in mpsge type environment."
-
-`gams-indent-equation-on' [t]
-
-	"*Non-nil means indent equation blocks.
-	If nil, already written equations are not affected by TAB."
-
 GAMS-TEMPLATE mode:
 --------------------
 
-`gams-template-file' ["~/gams-template.txt"]
+`gams-template-file' ["~/.emacs.d/gams-template.txt"]
 
 	"*The name of a file used to store templates."
   
@@ -602,14 +521,6 @@ GAMS-TEMPLATE mode:
 	into `gams-template-file' only when you quit Emacs.  If non-nil,
 	save `gams-user-template-alist' every time you made changes.  If
 	your Emacs often crashes, you may had better set it to non-nil."
-
-`gams-template-mark' ["%c"]
-
-	"*The mark that indicates the point of cursor in a template."
-
-`gams-template-cont-color' [nil]
-	"*Non-nil means colorization of *Template Content* buffer."
-
 
 GAMS-OUTLINE mode:
 --------------------
@@ -622,17 +533,6 @@ GAMS-OUTLINE mode:
 
 	"*The height of the GAMS-OUTLINE buffer with two LST buffers."
 
-`gams-ol-view-item'
-
-	"The default alist of viewable items.
-
-	Each list consists of a pair of the item name and its
-	flag. Non-nil of flag means the item is viewable by default.
-
-	The order of items has the meaning in this alist.  Items are
-	listed in the SELECT-ITEM buffer according to this order.  So, if
-	you want to show MAR on the top, you must write MAR at the fisrt
-	in this alist."
 
 There are also other customizable variables, mainly keybindings and fonts.
 You can see a full list of customizable variables by executing:
@@ -672,7 +572,6 @@ would like to express acknowledgments to Yuuji Hirose who is the author of
 of cool lisp programs.  You will be happy if you visit to his web site :-)
 
 
-
 --------------------
 Local Variables:
 mode: org
