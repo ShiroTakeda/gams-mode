@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-03 15:18:32 st>
+;; Time-stamp: <2016-03-03 19:49:29 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -6937,30 +6937,44 @@ If PAGE is non-nil, page scroll."
 (defconst gams-temp-cont-buffer "*GAMS Template Content*")
 (defvar gams-prog-file-buff nil)
 (defvar gams-user-template-alist-init nil)
+(defvar gams-user-template-alist-init-alt nil)
 
 (defun gams-template ()
   "Start the GAMS-TEMPLATE mode."
   (interactive)
-  (if (not (file-exists-p gams-template-file))
-      (message
-       (format "Template file `%s' does not exist. First create it."
-	       gams-template-file))
-    (when (not gams-template-file-already-loaded)
-      (condition-case err
-	  (progn (load-file gams-template-file)
-		 (setq gams-user-template-alist-init gams-user-template-alist)
-		 (setq gams-template-file-already-loaded t))
-	(error
-	 (message "Error(s) in %s!  Need to check; %s"
-		  gams-template-file (error-message-string err))
-	 (sleep-for 1))))
-    (let* ((temp-buffer (get-buffer-create gams-temp-buffer))
-	   (cur-buf (current-buffer)))
-      ;; Store window configuration.
-      (setq gams-temp-window (current-window-configuration))
-      (pop-to-buffer temp-buffer)
-      (gams-template-mode)
-      (setq gams-prog-file-buff cur-buf)
+  (let ((file (expand-file-name gams-template-file))
+	alit)
+    (if (not (file-exists-p file))
+	(message
+	 (format "Template file `%s' does not exist. First create it." file))
+      (when (not gams-template-file-already-loaded)
+	(condition-case err
+	    (progn
+	      (set-buffer (get-buffer-create " *gams-temporary*"))
+;;	      (switch-to-buffer (get-buffer-create " *gams-temporary*"))
+	      (erase-buffer)
+	      (insert-file-contents file)
+	      (goto-char (point-min))
+	      (setq gams-user-template-alist
+		    (with-demoted-errors "Error reading gams-template-file: %S"
+		      (car (read-from-string
+			    (buffer-substring (point-min) (point-max))))))
+	      (setq gams-user-template-alist-init
+		    (with-demoted-errors "Error reading gams-template-file: %S"
+		      (car (read-from-string
+			    (buffer-substring (point-min) (point-max))))))
+	      (setq gams-template-file-already-loaded t))
+	  (error
+	   (message "Error(s) in %s!  Need to check; %s"
+		    file (error-message-string err))
+	   (sleep-for 1))))
+      (let* ((temp-buffer (get-buffer-create gams-temp-buffer))
+	     (cur-buf (current-buffer)))
+	;; Store window configuration.
+	(setq gams-temp-window (current-window-configuration))
+	(switch-to-buffer temp-buffer)
+	(gams-template-mode)
+	(setq gams-prog-file-buff cur-buf))
       )))
 
 ;; Key assignment of GAMS-TEMPLATE mode.
@@ -7618,16 +7632,12 @@ Key-bindings are almost the same as GAMS mode.
 (defun gams-temp-write-alist ()
   "Update the value of `gams-user-template-alist'."
   (let ((temp-list gams-user-template-alist)
+	(coding-system-for-write 'utf-8)
 	(standard-output (current-buffer)))
     (erase-buffer)
-    (insert (concat "(setq gams-user-template-alist '(\n"))
-    (goto-char (point-max))
-    (mapc
-     (lambda (x)
-       (print x))
-     temp-list)
-    (insert "))\n")
-    (eval-buffer)))
+    (insert (format ";;; -*- coding: %s -*-\n"
+		    (symbol-name coding-system-for-write)))
+    (pp temp-list (current-buffer))))
    
 (defun gams-template-processing (type name &optional cont)
   "Process a template in a temporary buffer.
@@ -7673,16 +7683,20 @@ red = re-edit."
   "Save the content of `gams-user-template-alist' into the file
 `gams-user-template-alist'."
   (interactive)
-  (save-excursion
-    (when (and gams-user-template-alist
-	       (not (equal gams-user-template-alist gams-user-template-alist-init)))
-      (set-buffer (get-buffer-create " *gams-temporary*"))
-      (unwind-protect
-	  (progn
-	    (gams-temp-write-alist)
-	    (write-file gams-template-file))
-	(kill-buffer (find-buffer-visiting gams-template-file))))))
-  
+  (let ((file (expand-file-name gams-template-file)))
+    (save-excursion
+      (when gams-user-template-alist
+	(if (equal gams-user-template-alist gams-user-template-alist-init)
+	    (message "No change added to the original template list.")
+	  (set-buffer (get-buffer-create " *gams-temporary*"))
+	  (unwind-protect
+	      (progn
+		(gams-temp-write-alist)
+		(write-file file)
+		(message
+		 (format "Saved template to %s" gams-template-file)))
+	    (kill-buffer (find-buffer-visiting gams-template-file))))))))
+ 
 (defun gams-temp-alist-change (alist ele &optional flag)
   "Reorder the elements of `gams-user-template-alist'.
 ELE is car part.  If FLAG is t, move down."
