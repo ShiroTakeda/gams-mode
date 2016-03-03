@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-03 14:05:48 st>
+;; Time-stamp: <2016-03-03 15:18:32 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -7000,7 +7000,7 @@ If PAGE is non-nil, page scroll."
     ["Rename a template" gams-temp-rename t]
     ["Move a template up" gams-temp-up t]
     ["Move a template down" gams-temp-down t]
-    ["Show gms file" gams-temp-gms t]
+    ["Back to gms file buffer" gams-temp-gms t]
     "--"
     ["Scroll up Content buffer" gams-temp-scroll t]
     ["Scroll down Content buffer" gams-temp-scdown t]
@@ -7031,7 +7031,7 @@ The following commands are available in this mode.
 \\[gams-temp-up]		Move a template up.
 \\[gams-temp-down]		Move a template down.
 
-\\[gams-temp-gms]		Show the gms file.
+\\[gams-temp-gms]		Back to the gms file buffer.
 \\[gams-temp-scroll](\\[gams-temp-scdown])		Scroll up (down) *Template Content* buffer.
 \\[gams-temp-help]		Show this help.
 \\[gams-temp-write-alist-to-file]		Save the content of gams-user-template-alist.
@@ -7344,7 +7344,7 @@ The following commands are available in this mode.
 	(gams-template-processing "del" temp-name)
 	(gams-temp-show-list)
 	(goto-char (point-min))
-	(forward-line (- line-num 2))
+	(forward-line (- line-num 1))
 	(gams-temp-show-cont))
       )))
 
@@ -7482,7 +7482,7 @@ On attempt to pass beginning or end of buffer, stop and signal error."
     ["Save the template" gams-save-template t]
     ["Save the template and exit" gams-save-and-exit-template t]
     ["Show help" gams-edit-template-help t]
-    ["Show gms buffer" gams-edit-temp-show-gms t]
+    ["Back to gms file buffer" gams-edit-temp-show-gms t]
     ["Quit TEMPLATE-EDIT mode" gams-quit-template t]
     "--"
     ["Insert GAMS statement" gams-insert-statement t]
@@ -7505,7 +7505,7 @@ Key-bindings are almost the same as GAMS mode.
 '\\[gams-save-template] - Save a template.
 '\\[gams-save-and-exit-template] - Save a template and exit.
 '\\[gams-quit-template] - Quit.
-'\\[gams-edit-temp-show-gms] - Show gms file buffer.
+'\\[gams-edit-temp-show-gms] - Back to gms file buffer.
 '\\[gams-edit-template-help] - Show this help.
 
 '\\[gams-insert-statement] - Insert GAMS statement with completion.
@@ -7562,12 +7562,16 @@ Key-bindings are almost the same as GAMS mode.
 (defun gams-save-and-exit-template ()
   ""
   (interactive)
-  (if (gams-save-template)
-      (progn (kill-buffer gams-temp-edit-buffer)
-	     (switch-to-buffer gams-temp-buffer)
-	     (gams-temp-show-list)
-	     (gams-temp-show-cont))
-    (message "Not saved.")))
+  (let ((flag (gams-save-template)))
+    (if flag
+	(progn
+	  (kill-buffer gams-temp-edit-buffer)
+	  (switch-to-buffer gams-temp-buffer)
+	  (delete-other-windows)
+	  (when (equal flag t)
+	    (gams-temp-show-list))
+	  (gams-temp-show-cont))
+      (message "Not saved."))))
 
 (defun gams-save-template ()
   "Register a template."
@@ -7592,7 +7596,7 @@ Key-bindings are almost the same as GAMS mode.
 		;; Yes
 		(progn (gams-template-processing
 			"red" (car list-tmp) (car (cdr list-tmp)))
-		       (setq flag t))
+		       (setq flag 'reedit))
 	      ;; No. Do nothing.
 	      nil)
 	  ;; The same name is not registered. 
