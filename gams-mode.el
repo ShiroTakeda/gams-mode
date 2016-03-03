@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-03 13:41:58 st>
+;; Time-stamp: <2016-03-03 14:05:48 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -6932,9 +6932,9 @@ If PAGE is non-nil, page scroll."
 (defvar gams-template-file-already-loaded nil)
 
 (defvar gams-user-template-alist nil)
-(defconst gams-temp-buffer "*Template List*")
-(defconst gams-temp-edit-buffer "*Template Edit*")
-(defconst gams-temp-cont-buffer "*Template Content*")
+(defconst gams-temp-buffer "*GAMS Template List*")
+(defconst gams-temp-edit-buffer "*GAMS Template Edit*")
+(defconst gams-temp-cont-buffer "*GAMS Template Content*")
 (defvar gams-prog-file-buff nil)
 (defvar gams-user-template-alist-init nil)
 
