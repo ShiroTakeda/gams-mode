@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-02 18:03:28 st>
+;; Time-stamp: <2016-03-03 13:41:58 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -7119,11 +7119,31 @@ The following commands are available in this mode.
       (gams-temp-show-message)
       )))
 
+(defvar gams-temp-cont-mode-map (make-keymap))
+;; Key assignment.
+(let ((map gams-temp-cont-mode-map))
+  (define-key map "q" 'gams-temp-cont-back-to-list)
+  )
+
+(defun gams-temp-cont-back-to-list ()
+  (interactive)
+  (switch-to-buffer gams-temp-buffer)
+  )
+
+;;; Menu for gams-temp-cont-mode
+(easy-menu-define 
+  gams-temp-cont-mode-menu gams-temp-cont-mode-map "Menu keymap for GAMS-TEMPLATE-CONTENT mode."
+  '("TEMPLATE-CONT"
+    ["Switch back to the TEMPLATE LIST buffer" gams-temp-cont-back-to-list t]
+    ))
+
 (defun gams-temp-cont-mode ()
   "The mode for *Template Content* buffer."
   (kill-all-local-variables)
   (setq major-mode 'gams-temp-cont-mode)
   (setq mode-name "Content")
+  (use-local-map gams-temp-cont-mode-map)
+  (easy-menu-add gams-temp-cont-mode-menu)
   (mapc
    'make-local-variable
    '(gams-comment-prefix
