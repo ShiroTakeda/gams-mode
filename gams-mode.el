@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-04 10:58:16 st>
+;; Time-stamp: <2016-03-04 22:21:06 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -7243,10 +7243,10 @@ The following commands are available in this mode.
   "Display the next template."
   (interactive)
   (let ((sig-max-num (length gams-user-template-alist))
-	(cline (count-lines (point-min) (+ 1 (point)))))
+	(cline (1- (count-lines (point-min) (+ 1 (point))))))
     (if gams-user-template-alist
 	(progn
-	  (when (not (equal sig-max-num (1+ cline)))
+	  (when (not (equal sig-max-num cline))
 	    (forward-line 1))
 	  (gams-temp-show-cont)
 	  (setq buffer-read-only t))
@@ -7382,6 +7382,7 @@ The following commands are available in this mode.
       (goto-char (point-min))
       (forward-line (- line-num 2))
       (gams-temp-show-cont)
+      (recenter)
       )))
 
 (defun gams-temp-down ()
@@ -7390,8 +7391,8 @@ The following commands are available in this mode.
   (when gams-user-template-alist
     (let ((temp-name (gams-temp-get-name))
 	  (temp-alist gams-user-template-alist)
-	  (line-num (count-lines (point-min)
-				 (+ 1 (point))))
+	  (line-num (1- (count-lines (point-min)
+				     (+ 1 (point)))))
 	  (sig-max-num (length gams-user-template-alist)))
       (if (equal sig-max-num line-num)
 	  nil
@@ -7399,8 +7400,9 @@ The following commands are available in this mode.
 	      (gams-temp-alist-change temp-alist temp-name t)))
       (gams-temp-show-list)
       (goto-char (point-min))
-      (forward-line line-num)
+      (forward-line (1+ line-num))
       (gams-temp-show-cont)
+      (recenter)
       )))
 
 ;; Editing templates.
@@ -7578,22 +7580,38 @@ Key-bindings are almost the same as GAMS mode.
   (describe-function 'gams-edit-template))
 
 (defun gams-temp-edit-save-and-exit ()
-  ""
+  "Register a template and exit from GAMS-TEMPLATE-EDIT mode."
   (interactive)
-  (let ((flag (gams-temp-edit-save)))
+  (let ((flag (gams-temp-edit-save-sub)))
     (if flag
 	(progn
-	  (kill-buffer gams-temp-edit-buffer)
+	  (rename-buffer gams-temp-cont-buffer)
+	  (gams-temp-cont-mode)
 	  (switch-to-buffer gams-temp-buffer)
 	  (delete-other-windows)
 	  (when (equal flag t)
-	    (gams-temp-show-list))
+	    (gams-temp-show-list)
+	    (forward-line 1))
 	  (gams-temp-show-cont))
       (message "Not saved."))))
 
 (defun gams-temp-edit-save ()
   "Register a template."
   (interactive)
+  (let ((flag (gams-temp-edit-save-sub)))
+    (cond
+     ((equal flag 'reedit)
+      nil)
+     ((equal flag t)
+      (save-excursion
+	(set-buffer gams-temp-buffer)
+	(gams-temp-show-list)
+	(goto-char (point-min))
+	(gams-temp-add-key)))
+     (t nil))))
+
+(defun gams-temp-edit-save-sub ()
+  "Register a template."
   (let* ((temp-name (read-string
 		     "Enter a name of this template: "
 		     gams-add-template-file))
@@ -7620,19 +7638,20 @@ Key-bindings are almost the same as GAMS mode.
 	  ;; The same name is not registered. 
 	  (gams-template-processing
 	   "reg" (car list-tmp) (car (cdr list-tmp)))
+	  (setq gams-add-template-file temp-name)
 	  (setq flag t)
 	  )))
     flag))
-  
+
 (defun gams-temp-edit-quit ()
-  ""
+  "Kill GAMS-TEMPLATE-EDIT buffer."
   (interactive)
   (when (y-or-n-p (format "Kill this buffer? "))
     (kill-buffer gams-temp-edit-buffer)
-    (switch-to-buffer gams-temp-buffer)
-    (gams-temp-show-list)
+    (set-window-configuration
+     gams-temp-window-configuration)
     (gams-temp-show-cont)))
-
+    
 (defun gams-temp-write-alist ()
   "Update the value of `gams-user-template-alist'."
   (let ((temp-list gams-user-template-alist)

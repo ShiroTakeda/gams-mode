@@ -1,10 +1,22 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-02 18:03:52 st>
+Time-stamp: <2016-03-04 14:55:47 st>
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ----------------------------------------------------
+
+Version 6.0.1 ()
+----------------------------------
+
+* Modified GAMS-TEMPLATE mode.
+
+* Modified the format of "gams-template.txt" (`gams-template-file') which
+  stores templates. The previous gams-template.txt is not compatible with
+  the current GAMS-TEMPLATE mode. You need to recreate the new
+  "gams-template.txt" or replace the old one with the new sample template
+  file.
+
 
 Version 6.0 (2016-03-02)
 ----------------------------------
