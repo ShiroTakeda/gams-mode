@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-04 22:21:06 st>
+;; Time-stamp: <2016-03-05 01:27:42 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -834,11 +834,22 @@ Taken from `org-level-color-stars-only'."
 	    (replace-match (concat "/" (match-string 1 fname)) t t fname))
       (setq fname (replace-regexp-in-string "\\\\" "/" fname)))
     fname))
-;;
+
 ;; (gams-convert-cygwin-file "c:/gams/win64/24.1/gams.exe")
 ;; (gams-convert-cygwin-file "c:\\gams\\win64\\24.1\\gams.exe")
-;; (gams-convert-cygwin-file "c:\\sample_gams_code\\./lst/test.lst")
+;; (gams-convert-cygwin-file "c:\\sample_gams_code\\./lst/test.lst") 
 
+(defsubst gams-convert-from-cygwin-file (file)
+  "Convert file name from cygwin type."
+  (let ((fname file))
+    (when (and gams-cygwin
+	       (string-match "^\\(/\\)\\([a-zA-Z]\\)/" fname))
+      (setq fname
+	    (replace-match (concat (match-string 2 fname) ":/") t t fname))
+      (setq fname (replace-regexp-in-string "\\\\" "/" fname)))
+    fname))
+
+;; (gams-convert-from-cygwin-file "/c/gams/win64/24.1/gams.exe")
 
 ;;; If Emacs 20, define `gams-replace-regexp-in-string'.  This code is
 ;;; `replace-regexp-in-string' from subr.el in the Emacs 21 distribution.
@@ -3924,6 +3935,8 @@ some documents may not be available on you system."
 			docs-dir (cdr file-name))))
 	    (if (not file-name-full)
 		(message (format "Manual file for %s is not found." statement))
+	      (setq file-name-full
+		    (gams-convert-from-cygwin-file file-name-full))
 	      ;; Start process.
 	      (start-process "manual" buf gams-docs-view-program file-name-full)
 	      (message "Starting manual viewer...")
