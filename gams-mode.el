@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-03 19:49:29 st>
+;; Time-stamp: <2016-03-04 10:58:16 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -7026,6 +7026,8 @@ If PAGE is non-nil, page scroll."
     ["Show the next template" gams-temp-next t]
     ))
 
+(defvar gams-temp-window-configuration nil)
+
 ;; GAMS-TEMPLATE mode.
 (defun gams-template-mode ()
   "The GAMS-TEMPLATE mode (a mode for template handling).
@@ -7314,6 +7316,8 @@ The following commands are available in this mode.
   "Re-edit already registered templates."
   (interactive)
   (let ((temp-name (gams-temp-get-name)))
+    (setq gams-temp-window-configuration
+	  (current-window-configuration))
     (gams-temp-show-cont)
     ;; Go to "*Template Content*" buffer.
     (pop-to-buffer (get-buffer-create gams-temp-cont-buffer))
@@ -7441,10 +7445,10 @@ The following commands are available in this mode.
       (define-key map "\M-;" 'gams-comment-dwim)
       (define-key map [(control \;)] 'gams-comment-dwim-inline)
       
-      (define-key map "\C-xh" 'gams-edit-template-help)
-      (define-key map "\C-x\C-s" 'gams-save-template)
-      (define-key map "\C-c\C-s" 'gams-save-and-exit-template)
-      (define-key map "\C-xk" 'gams-quit-template)))
+      (define-key map "\C-xh" 'gams-temp-edit-help)
+      (define-key map "\C-x\C-s" 'gams-temp-edit-save)
+      (define-key map "\C-c\C-s" 'gams-temp-edit-save-and-exit)
+      (define-key map "\C-xk" 'gams-temp-edit-quit)))
 
 (gams-temp-edit-key-update)
 
@@ -7493,11 +7497,11 @@ On attempt to pass beginning or end of buffer, stop and signal error."
 (easy-menu-define 
   gams-template-edit-menu gams-template-edit-map "Menu keymap for GAMS-TEMPLATE-EDIT mode."
   '("TEMPLATE-EDIT"
-    ["Save the template" gams-save-template t]
-    ["Save the template and exit" gams-save-and-exit-template t]
-    ["Show help" gams-edit-template-help t]
+    ["Save the template" gams-temp-edit-save t]
+    ["Save the template and exit" gams-temp-edit-save-and-exit t]
+    ["Show help" gams-temp-edit-help t]
     ["Back to gms file buffer" gams-edit-temp-show-gms t]
-    ["Quit TEMPLATE-EDIT mode" gams-quit-template t]
+    ["Quit TEMPLATE-EDIT mode" gams-temp-edit-quit t]
     "--"
     ["Insert GAMS statement" gams-insert-statement t]
     ["Insert GAMS dollar control" gams-insert-dollar-control t]
@@ -7516,11 +7520,11 @@ FILE is a file name.  It is used for gams-temp-reedit.
 
 Key-bindings are almost the same as GAMS mode.
 
-'\\[gams-save-template] - Save a template.
-'\\[gams-save-and-exit-template] - Save a template and exit.
-'\\[gams-quit-template] - Quit.
+'\\[gams-temp-edit-save] - Save a template.
+'\\[gams-temp-edit-save-and-exit] - Save a template and exit.
+'\\[gams-temp-edit-quit] - Quit.
 '\\[gams-edit-temp-show-gms] - Back to gms file buffer.
-'\\[gams-edit-template-help] - Show this help.
+'\\[gams-temp-edit-help] - Show this help.
 
 '\\[gams-insert-statement] - Insert GAMS statement with completion.
 '\\[gams-insert-dollar-control] - Insert GAMS statement (dollar control option).
@@ -7568,15 +7572,15 @@ Key-bindings are almost the same as GAMS mode.
   (easy-menu-add gams-template-edit-menu)
   ) ;; gams-edit-template ends here.
 
-(defun gams-edit-template-help ()
+(defun gams-temp-edit-help ()
   "Show help."
   (interactive)
   (describe-function 'gams-edit-template))
 
-(defun gams-save-and-exit-template ()
+(defun gams-temp-edit-save-and-exit ()
   ""
   (interactive)
-  (let ((flag (gams-save-template)))
+  (let ((flag (gams-temp-edit-save)))
     (if flag
 	(progn
 	  (kill-buffer gams-temp-edit-buffer)
@@ -7587,7 +7591,7 @@ Key-bindings are almost the same as GAMS mode.
 	  (gams-temp-show-cont))
       (message "Not saved."))))
 
-(defun gams-save-template ()
+(defun gams-temp-edit-save ()
   "Register a template."
   (interactive)
   (let* ((temp-name (read-string
@@ -7620,7 +7624,7 @@ Key-bindings are almost the same as GAMS mode.
 	  )))
     flag))
   
-(defun gams-quit-template ()
+(defun gams-temp-edit-quit ()
   ""
   (interactive)
   (when (y-or-n-p (format "Kill this buffer? "))
