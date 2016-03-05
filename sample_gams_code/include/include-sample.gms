@@ -2,7 +2,7 @@ $stitle		include-sample.gms
 * gams-master-file: ../gams-sample.gms
 $ontext
 Copyright (C)   2003 Shiro Takeda
-Time-stamp: 	<2012-08-29 10:50:19 Shiro Takeda>
+Time-stamp: 	<2016-03-06 00:04:08 st>
 Filename:	include-sample.gms
 Author: 	Shiro Takeda
 First-written:	<2003/05/19>

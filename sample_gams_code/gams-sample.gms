@@ -6,24 +6,24 @@ Author:         Shiro Takeda
 First-written:  <2001/08/13>
 $offtext
 
-*	----------------------------------------------------------------------
-$stitle		Specification of lst file or lst file directory (sample code):
+*       ----------------------------------------------------------------------
+$stitle         Specification of lst file or lst file directory (sample code):
 $ontext
 To activiate lst file specification, remove one of asterisks at the
 beginning of the line.
 $offtext
 
 ** gams-lst-file: .\lst\lst-sample.lst
-*	The above code means that lst file -> .\lst\sample.lst:
+*       The above code means that lst file -> .\lst\sample.lst:
 
 ** gams-lst-file: c:\sample.lst
-*	The above code means that lst file -> c:\sample.lst:
+*       The above code means that lst file -> c:\sample.lst:
 
 ** gams-lst-dir: .\lst\
-*	The above code means that lst file -> .\lst\gams-sample.lst
+*       The above code means that lst file -> .\lst\gams-sample.lst
 
 ** gams-lst-dir: c:\
-*	The above code means that lst file -> c:\gams-sample.lst
+*       The above code means that lst file -> c:\gams-sample.lst
 
 $ontext
 
@@ -48,13 +48,13 @@ Commentary:
 
 $offtext
 
-*	Inline comment symbol
+*       Inline comment symbol
 $inlinecom /* */
 
-*	End-of-line comment symbol
+*       End-of-line comment symbol
 $eolcom #
 
-*	The name of included program file.
+*       The name of included program file.
 $setglobal sub_program ./include/include-sample.gms
 
 $ontext
@@ -65,7 +65,7 @@ load-path setting).
 
 $offtext
 *        ----------------------------------------------------------------------
-$stitle		Basic usage. 
+$stitle         Basic usage.
 *        ----------------------------------------------------------------------
 $ontext
 
@@ -118,10 +118,10 @@ In the upper window, the following message will be displayed.
 
       Next, uncomment the following line (delete *) and run GAMS (type `C-cC-t' and
       type `s').
-       
+
   99               Uncomment this line.  Error is here.
  ***                       $140 $36   $342            $342
-       
+
       Then switch to the LST buffer (C-cC-v or f10) and you will see two windows
       and the following message in the mini-buffer.
 
@@ -163,7 +163,7 @@ you can easily debug your GMS file.
 If an error exists, the following message will appear in the mini-buffer.
 
 
-	[u]=Jump to the error place, [i]=Jump to the input file
+        [u]=Jump to the error place, [i]=Jump to the input file
 
 
 If there is only one program file, you had better type `u'.  But there may
@@ -184,8 +184,8 @@ displayed.  For example, uncomment the line "* b = 1/a;" below (delete
 *) and run GAMS and type `C-cC-v'.
 $offtext
 parameter a       Parameter a
-	  b       Parameter b
-;	  
+          b       Parameter b
+;
 a = 0;
 * b = 1/a;
 parameter c, d, e;
@@ -194,7 +194,7 @@ $ontext
 Type `l' on the following error line
 
 
- 	 *** Exec Error at line 185: division by zero (0)
+         *** Exec Error at line 185: division by zero (0)
 
 
 then you will jump to the error line (185).  Moreover, type `b' and you
@@ -203,11 +203,11 @@ jump to the GMS file.
 
 $offtext
 *        ----------------------------------------------------------------------
-$stitle		Other commands in GAMS mode.
+$stitle         Other commands in GAMS mode.
 *        ----------------------------------------------------------------------
 
 * ---------------------------------------------------------
-$stitle		Process handling.
+$stitle         Process handling.
 * ---------------------------------------------------------
 $ontext
 
@@ -254,9 +254,9 @@ When there is a line beginning with *#! on the first line in a GMS file,
 GAMS mode uses its content as a command line.  For example, suppose that
 you write the following statement in the first line
 
-	*#!e:/GAMS/GAMS22.8/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+        *#!e:/GAMS/GAMS22.8/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
 
-Then, 
+Then,
 
 e:/GAMS/GAMS22.8/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
 
@@ -280,10 +280,10 @@ process.  Uncomment the following programs and try them.
 To uncomment a ontext-oftext pair, type `C-cM-c' on ontext or offtext.
 $offtext
 $ontext
-*	Type `C-cM-c' on the above ontext!  To comment out them, type
-*	the same.
+*       Type `C-cM-c' on the above ontext!  To comment out them, type
+*       the same.
 
-set	o	/o1*o10000000/;
+set     o       /o1*o10000000/;
 parameter
     xx(o)
     yy(o)
@@ -319,9 +319,9 @@ of different versions. In such cases, register other gams.exe by this menu.
 
 $offtext
 * ---------------------------------------------------------
-$stitle		Specify the place and name of the LST file.
+$stitle         Specify the place and name of the LST file.
 * ---------------------------------------------------------
-$ontext    
+$ontext
 
 When you run GAMS on a gms file, GAMS creates the LST file with the same
 name in the same directory.  However, you can specify the name and place of
@@ -332,7 +332,7 @@ corresponding to this gams-sample.gms and put it in the subdirectory `lst'.
 Then, add the following code somewhere in this file:
 
 
-	* gams-lst-file: .\lst\lst-sample.lst
+        * gams-lst-file: .\lst\lst-sample.lst
 
 
 (Note that * must really be on the beginning of line)
@@ -350,9 +350,9 @@ this file and run gams (see the beginning part of this file).
 Similarly, you can specify the directory where the lst file is stored by
 setting gams-lst-dir.
 
-For example, 
+For example,
 
-	* gams-lst-dir: .\lst
+        * gams-lst-dir: .\lst
 
 This code implies the lst directory is ".\lst\" and the lst file name is
 stored as ".\lst\gams-sample.lst".
@@ -360,7 +360,7 @@ stored as ".\lst\gams-sample.lst".
 
 $offtext
 * ---------------------------------------------------------
-$stitle		GAMS statement completions.
+$stitle         GAMS statement completions.
 * ---------------------------------------------------------
 
 $ontext
@@ -384,14 +384,14 @@ Moreover, if you type `C-uC-cC-k' or `C-uC-cC-d' on the existing statement
 or dollar control, you can replace it with the new one.
 $offtext
 
-parameter	replace; 	# Type C-uC-cC-k on `parameter'
+parameter       replace;        # Type C-uC-cC-k on `parameter'
 
-set	s	Index	/ 1*10 /;
+set     s       Index   / 1*10 /;
 
 parameter
-    p(s)    	Unit cost		# End-of-line comment.
-    out_up(s)	Upper limit on out(s)
-    t_dem	Total demand
+    p(s)        Unit cost               # End-of-line comment.
+    out_up(s)   Upper limit on out(s)
+    t_dem       Total demand
 ;
 out_up(s) = uniform(1,7);
 p(s) = uniform(1,2);
@@ -399,13 +399,13 @@ t_dem = sum(s, out_up(s)*0.8);
 display out_up, p, t_dem;
 
 variable
-    OUT(s)	Output of factory s
-    TCOST	Total cost
+    OUT(s)      Output of factory s
+    TCOST       Total cost
 ;
 equation
     eq_tcost
-    eq_dem	Demand constraint
-    eq_out(s) 	"Constraint on out(s)";		/* Inline comment. */
+    eq_dem      Demand constraint
+    eq_out(s)   "Constraint on out(s)";         /* Inline comment. */
 
 eq_tcost .. TCOST =e= sum(s, p(s)*OUT(s));
 
@@ -434,7 +434,7 @@ $offtext
 * solve cost_min using lp minimizing TCOST;
 
 * ---------------------------------------------------------
-$stitle		Automatic registration of a new statement.
+$stitle         Automatic registration of a new statement.
 * ---------------------------------------------------------
 $ontext
 
@@ -464,7 +464,7 @@ by yourself.
 $offtext
 
 * ---------------------------------------------------------
-$stitle		Quotation and parenthesis.
+$stitle         Quotation and parenthesis.
 * ---------------------------------------------------------
 $ontext
 
@@ -477,7 +477,7 @@ the universal argument to `(', then only `(' is inserted.
 $offtext
 
 * ---------------------------------------------------------
-$stitle		Insert user defined comment template.
+$stitle         Insert user defined comment template.
 * ---------------------------------------------------------
 
 $ontext
@@ -498,7 +498,7 @@ Please see the help of `gams-user-comment'.
 $offtext
 
 * ---------------------------------------------------------
-$stitle 	GAMS-TEMPLATE.
+$stitle         GAMS-TEMPLATE.
 * ---------------------------------------------------------
 $ontext
 
@@ -514,7 +514,7 @@ commands in GAMS-TEMPLATE mode, type `h' in the *Template List* buffer.
 $offtext
 
 * ---------------------------------------------------------
-$stitle		Fill paragraph.
+$stitle         Fill paragraph.
 * ---------------------------------------------------------
 $ontext
 
@@ -543,7 +543,7 @@ cursor in the next commented out paragraph and type `M-q'.
 $offtext
 
 * ---------------------------------------------------------
-$stitle		Commenting out
+$stitle         Commenting out
 * ---------------------------------------------------------
 $ontext
 
@@ -558,7 +558,7 @@ $offtext
 $include %sub_program%
 
 * ---------------------------------------------------------
-$stitle		Font-lock (coloring).
+$stitle         Font-lock (coloring).
 * ---------------------------------------------------------
 $ontext
 
@@ -589,8 +589,8 @@ set    k       Index k                / 1, 2 /
        l       Index l                / l1*l10 /;
 
 parameter    v       Parameter v     / 1 /
-	     t       Parameter t     / 2 /
-	     u(k)    Parameter u;
+             t       Parameter t     / 2 /
+             u(k)    Parameter u;
 u(k) = 1;
 
 display "Parameter p and q", u;
@@ -616,7 +616,7 @@ fix them.
 $offtext
 
 * ---------------------------------------------------------
-$stitle		Display the declaration part of an identifier.
+$stitle         Display the declaration part of an identifier.
 * ---------------------------------------------------------
 $ontext
 
@@ -632,9 +632,9 @@ see the declaration part of the identifier under the cursor.  Try to type F7
 on the following examples.
 
 $offtext
-u(k) = 1;		# Type F7 on the identifier u and k
+u(k) = 1;               # Type F7 on the identifier u and k
 out.fx(s) = 10;
-display out.l;		# Type F7 on the identifier p
+display out.l;          # Type F7 on the identifier p
 
 $ontext
 If you type F7 on, for example, the identifier "u", u's declaration part
@@ -642,7 +642,7 @@ will appear in the upper window and the position of the cursor will be
 displayed in the left window.  You will see the following message in the
 mini-buffer:
 
-	The declaration part of `u': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump
+        The declaration part of `u': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump
 
 If you type n(p), you can move to the next (previous) place where "u"
 appears.  Type d, you can move to the declaration part.  Type c, you can
@@ -662,8 +662,8 @@ declared in the subroutine file "include-sample.gms" and
 "include-sample-2.gms".  Type F7 on each identifier.
 
 $offtext
-display ene; 		# Type F7 on the identifier ene
-display op; 		# Type F7 on the identifier oq
+display ene;            # Type F7 on the identifier ene
+display op;             # Type F7 on the identifier oq
 display util;
 
 ene(com,sec) = 100;
@@ -675,8 +675,8 @@ n = -200;
 
 display m, n;
 
-a = 1; 			# Type F7 on the identifier a
-display a;		# Type F7 on the identifier a
+a = 1;                  # Type F7 on the identifier a
+display a;              # Type F7 on the identifier a
 
 $ontext
 If you attach universal-argument, (i.e. C-uC-cC-.), you are asked the
@@ -685,7 +685,7 @@ identifier that you want to search.  Try "C-uC-cC-.".
 $offtext
 
 * ---------------------------------------------------------
-$stitle		Display the list of identifiers.
+$stitle         Display the list of identifiers.
 * ---------------------------------------------------------
 $ontext
 
@@ -697,7 +697,7 @@ command, try C-cC-a and type `?'.
 $offtext
 
 * ---------------------------------------------------------
-$stitle		Commands on a ontext-offtext pair.
+$stitle         Commands on a ontext-offtext pair.
 * ---------------------------------------------------------
 $ontext
 
@@ -717,10 +717,10 @@ can remove a pair of ontext-offtext.
 
 $offtext
 display "Try to type C-cC-c, C-uC-cC-c, C-cC-g, C-cM-c, and C-cM-g",
-	"on a ontext or offtext!";
+        "on a ontext or offtext!";
 
 * ---------------------------------------------------------
-$stitle		Align block.
+$stitle         Align block.
 * ---------------------------------------------------------
 
 $ontext
@@ -732,24 +732,24 @@ You can align table and other blocks according to GAMS systax by
 Set the region from the header line to the end of the table and type C-cC-y ->
 t -> 3 -> y.  Then, the table below is formatted.
 
-*	Before
-table table1	test table
-        	Japan	USA 	  EU	 China	Korea
-agriculture	  70	      4	  24	     197     3
-fishery		      21     8	   0	   17	   27
-textile		  4	    6	   106	   2	     -8
-food		    9	  415	 0	 95	    15
-energy		  0	   8	  6	 -327	  7
+*       Before
+table table1    test table
+                Japan   USA       EU     China  Korea
+agriculture       70          4   24         197     3
+fishery               21     8     0       17      27
+textile           4         6      106     2         -8
+food                9     415    0       95         15
+energy            0        8      6      -327     7
 ;
 
-*	After
-table table1	test table
-               Japan	USA	EU    China    Korea
-agriculture	  70	  4	24	197	   3
-fishery		  21	  8	 0	 17	  27
-textile		   4	  6    106	  2	  -8
-food		   9	415	 0	 95	  15
-energy		   0	  8	 6     -327	   7
+*       After
+table table1    test table
+               Japan    USA     EU    China    Korea
+agriculture       70      4     24      197        3
+fishery           21      8      0       17       27
+textile            4      6    106        2       -8
+food               9    415      0       95       15
+energy             0      8      6     -327        7
 
 [Example 2]
 
@@ -759,16 +759,16 @@ Then all = symbols are aligned like
 parameter
     abc(*);
 
-*	Before
-*	Start.
+*       Before
+*       Start.
 abc("agriculture") = 100;
 abc("fishery") = 200;
 abc("textile") = 1;
 abc("food") = 20;
 abc("energy") = 123;
-*	End.
+*       End.
 
-*	After
+*       After
 *       Start.
 abc("agriculture") = 100;
 abc("fishery")     = 200;
@@ -781,7 +781,7 @@ display abc;
 $offtext
 
 * ---------------------------------------------------------
-$stitle		Automatic indentation.
+$stitle         Automatic indentation.
 * ---------------------------------------------------------
 $ontext
 
@@ -794,9 +794,9 @@ Select the following region and the type `M-C-\' (`indent-region').
 
 $offtext
 
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
 *       From here.
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
 
 set     i       Index   / i1*i2 /
 j       Index   / j1*j2 /;
@@ -828,16 +828,16 @@ parc(i,j,"b") = parb(i,j);
 display parc;
 );
 
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
 *       Until here
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
 $ontext
 
 Select the above region and type `M-C-\' (`indent-region'), then the above
 region is indented like the following:
 
 set     i       Index   / i1*i2 /
-	j       Index   / j1*j2 /;
+        j       Index   / j1*j2 /;
 
 parameter
     para(i,j)       Parameter a
@@ -853,9 +853,9 @@ loop((i,j),
 *       Display j.
     display "Set j", j;
     if((para(i,j) > 0.5),
-	display "para is greater than 0.5!";
+        display "para is greater than 0.5!";
     else
-	display "para is less than 0.5!";
+        display "para is less than 0.5!";
     );
 
     parb(i,j) = para(i,j) * 2;
@@ -874,7 +874,7 @@ semicolon (;) although it may not be necessarily required in GAMS syntax.
 $offtext
 
 * ---------------------------------------------------------
-$stitle		View manual.
+$stitle         View manual.
 * ---------------------------------------------------------
 $ontext
 
@@ -889,7 +889,7 @@ See the explanation of two variables.
 $offtext
 
 * ---------------------------------------------------------
-$stitle		GAMS model library.
+$stitle         GAMS model library.
 * ---------------------------------------------------------
 $ontext
 
@@ -907,7 +907,7 @@ need to set the proper value to the variable `gams-gamslib-command'.
 $offtext
 
 * ---------------------------------------------------------
-$stitle		Inline and end-of-line comments
+$stitle         Inline and end-of-line comments
 * ---------------------------------------------------------
 $ontext
 
@@ -938,16 +938,16 @@ Try to type M-; and C-cM-;.
 
 $offtext
 parameter
-    eol1	"End-of-line comment.    Type M-;" 
-    eol2	"End-of-line comment 2.  Type M-;"
+    eol1        "End-of-line comment.    Type M-;"
+    eol2        "End-of-line comment 2.  Type M-;"
 ;
 parameter
-    inl1	"Inline comment.    Type C-cM-;"
-    inl2	"Inline comment 2.  Type C-cM-;"
+    inl1        "Inline comment.    Type C-cM-;"
+    inl2        "Inline comment 2.  Type C-cM-;"
 ;
 
 * ---------------------------------------------------------
-$stitle		Hide (or show) comment regions.
+$stitle         Hide (or show) comment regions.
 * ---------------------------------------------------------
 $ontext
 
@@ -956,7 +956,7 @@ You can hide and show comment regions by C-cC-h.
 $offtext
 *        ----------------------------------------------------------------------
 
-$stitle 	Other commands in GAMS LST mode.
+$stitle         Other commands in GAMS LST mode.
 *        ----------------------------------------------------------------------
 $ontext
 
@@ -971,31 +971,31 @@ Major mode for viewing GAMS LST file.
 
 The following commands are available in the GAMS-LST mode:
 
-y		Jump to the error and show its number and meaning.
-u		Jump back to the error place in the program file.
-i 		Jump to the input (GMS) file.
-q		Close the buffer.
-?		Display this help.
-.		Display the Included File Summary.
+y               Jump to the error and show its number and meaning.
+u               Jump back to the error place in the program file.
+i               Jump to the input (GMS) file.
+q               Close the buffer.
+?               Display this help.
+.               Display the Included File Summary.
 
-o		Start the GAMS-OUTLINE mode.
+o               Start the GAMS-OUTLINE mode.
 
-s(S)		Jump to the next (previous) SOLVE SUMMARY.
-r(R)		Jump to the next (previous) REPORT SUMMARY.
-v(V)		Jump to the next (previous) VAR entry.
-e(E)		Jump to the next (previous) EQU entry.
-p(P)		Jump to the next (previous) PARAMETER entry.
+s(S)            Jump to the next (previous) SOLVE SUMMARY.
+r(R)            Jump to the next (previous) REPORT SUMMARY.
+v(V)            Jump to the next (previous) VAR entry.
+e(E)            Jump to the next (previous) EQU entry.
+p(P)            Jump to the next (previous) PARAMETER entry.
 
-l		Jump to a line you specify.
-L		Jump to a line.
+l               Jump to a line you specify.
+L               Jump to a line.
 
-SPC		Scroll up.
-M-v or DEL	Scroll down.
-1		Widen the window.
-2		Split the window.
-m		Move frame.
-w		Resize frame.
-z		Move a cursor to the other window.
+SPC             Scroll up.
+M-v or DEL      Scroll down.
+1               Widen the window.
+2               Split the window.
+m               Move frame.
+w               Resize frame.
+z               Move a cursor to the other window.
 
 
 [Commands for Scrolling.]
@@ -1011,7 +1011,7 @@ Try each command by yourself.
 $offtext
 *        ----------------------------------------------------------------------
 
-$stitle 	GAMS-OUTLINE mode.
+$stitle         GAMS-OUTLINE mode.
 *        ----------------------------------------------------------------------
 $ontext
 
