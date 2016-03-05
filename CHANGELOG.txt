@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-04 14:55:47 st>
+Time-stamp: <2016-03-06 00:04:51 st>
 ----------------------------------------------------
 
 Change logs of GAMS mode.

@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-05 01:27:42 st>
+;; Time-stamp: <2016-03-06 00:00:28 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -825,31 +825,19 @@ Taken from `org-level-color-stars-only'."
 (defvar gams-cygwin (memq system-type '(cygwin)))
 (defvar gams-emacs-21 (= emacs-major-version 21))
 
-(defsubst gams-convert-cygwin-file (file)
+(defun gams-convert-filename-gnupack (file)
   "Convert file name to cygwin type."
   (let ((fname file))
-    (when (and gams-cygwin
-	       (string-match "^\\([a-zA-Z]\\):" fname))
+    (when (string-match "^\\([a-zA-Z]\\):" fname)
       (setq fname
 	    (replace-match (concat "/" (match-string 1 fname)) t t fname))
       (setq fname (replace-regexp-in-string "\\\\" "/" fname)))
     fname))
 
-;; (gams-convert-cygwin-file "c:/gams/win64/24.1/gams.exe")
-;; (gams-convert-cygwin-file "c:\\gams\\win64\\24.1\\gams.exe")
-;; (gams-convert-cygwin-file "c:\\sample_gams_code\\./lst/test.lst") 
-
-(defsubst gams-convert-from-cygwin-file (file)
-  "Convert file name from cygwin type."
-  (let ((fname file))
-    (when (and gams-cygwin
-	       (string-match "^\\(/\\)\\([a-zA-Z]\\)/" fname))
-      (setq fname
-	    (replace-match (concat (match-string 2 fname) ":/") t t fname))
-      (setq fname (replace-regexp-in-string "\\\\" "/" fname)))
-    fname))
-
-;; (gams-convert-from-cygwin-file "/c/gams/win64/24.1/gams.exe")
+;; (gams-convert-filename-gnupack "c:/gams/win64/24.1/gams.exe")
+;; (gams-convert-filename-gnupack "c:\\gams\\win64\\24.1\\gams.exe")
+;; (gams-convert-filename-gnupack "c:\\sample_gams_code\\./lst/test.lst")
+;; (file-name-nondirectory "/c/gams/win64/24.1/gams.exe")
 
 ;;; If Emacs 20, define `gams-replace-regexp-in-string'.  This code is
 ;;; `replace-regexp-in-string' from subr.el in the Emacs 21 distribution.
@@ -3909,6 +3897,7 @@ some documents may not be available on you system."
   (unwind-protect
       (let* ((completion-ignore-case t)
 	     (buf (get-buffer-create "*View GAMS manual*"))
+	     (def-dir default-directory)
 	     docs-dir
 	     guess
 	     statement
@@ -3920,7 +3909,6 @@ some documents may not be available on you system."
 	    (message
 	     (format "\"%s\" does not exist! Check the variable `gams-docs-directory'."
 		     docs-dir))
-	  
 	  (setq statement
 		(progn
 		  (setq guess "User-Manual")
@@ -3933,14 +3921,15 @@ some documents may not be available on you system."
 	    (setq file-name-full
 		  (car (find-lisp-find-files
 			docs-dir (cdr file-name))))
+	    (setq default-directory (file-name-directory file-name-full))
+	    (setq file-name-full (file-name-nondirectory file-name-full))
 	    (if (not file-name-full)
 		(message (format "Manual file for %s is not found." statement))
-	      (setq file-name-full
-		    (gams-convert-from-cygwin-file file-name-full))
 	      ;; Start process.
 	      (start-process "manual" buf gams-docs-view-program file-name-full)
 	      (message "Starting manual viewer...")
-	      ))))))
+	      )))
+	(setq default-directory def-dir))))
 
 ;;; New command.
 (defun gams-from-gms-to-outline ()
@@ -5966,7 +5955,9 @@ The input file name is extract from FILE SUMMARY field."
 	    (message "FILE SUMMARY field does not exits!  The extension is assumed to be gms.")
 	  (message "No information for the input file."))
 	(sleep-for 0.1)))
-    (setq temp-file (gams-convert-cygwin-file temp-file))
+    (when (not (file-exists-p temp-file))
+      (when (file-exists-p (gams-convert-filename-gnupack temp-file))
+	(setq temp-file (gams-convert-filename-gnupack temp-file))))
     ;; Return the input file name.
     temp-file))
 
@@ -6108,8 +6099,6 @@ The input file name is extract from FILE SUMMARY field."
 				 (match-end 4)))
 		(setq ma3 (match-end 3))
 
-		(setq file-name (gams-convert-cygwin-file file-name))
-
 		(save-excursion (goto-char ma3)
 				(setq col-num (current-column)))
 		(when (looking-at
@@ -6120,6 +6109,12 @@ The input file name is extract from FILE SUMMARY field."
 				(gams-buffer-substring
 				 (match-beginning 1)
 				 (match-end 1)))))
+
+		(when (not (file-exists-p file-name))
+		  (when (file-exists-p
+			 (gams-convert-filename-gnupack file-name))
+		    (setq file-name (gams-convert-filename-gnupack file-name))))
+
 		(if (file-exists-p file-name)
 		    (progn
 		      (if (find-buffer-visiting file-name)
@@ -6700,7 +6695,10 @@ If PAGE is non-nil, page scroll."
       (setq fname (nth 5 data))
       (setq fname (gams-replace-regexp-in-string "^[.]+" "" fname))
 
-      (setq fname (gams-convert-cygwin-file fname))
+      (when (not (file-exists-p fname))
+	(when (file-exists-p
+	       (gams-convert-filename-gnupack fname))
+	  (setq fname (gams-convert-filename-gnupack fname))))
       
       (if (file-exists-p fname)
 	  (find-file fname)
@@ -14528,9 +14526,11 @@ DIR: the destination directory."
 	(t-co (length list))
 	(co 0)
 	dirname)
-    (when gams-win32
-      (setq lib (gams-replace-regexp-in-string "/" "\\\\" lib))
-      (setq dirname (gams-replace-regexp-in-string "/" "\\\\" dir)))
+    (setq lib lib)
+    (setq dirname dir)
+;;     (when gams-win32
+;;       (setq lib (gams-replace-regexp-in-string "/" "\\\\" lib))
+;;       (setq dirname (gams-replace-regexp-in-string "/" "\\\\" dir)))
     (mapcar
      #'(lambda (x)
 	 (call-process glib nil nil nil "-lib" lib x dirname)
