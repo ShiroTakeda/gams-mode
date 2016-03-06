@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-06 00:04:51 st>
+Time-stamp: <2016-03-06 18:10:38 st>
 ----------------------------------------------------
 
 Change logs of GAMS mode.
@@ -16,6 +16,8 @@ Version 6.0.1 ()
   the current GAMS-TEMPLATE mode. You need to recreate the new
   "gams-template.txt" or replace the old one with the new sample template
   file.
+
+* Fixed the bug in GAMS-MODEL library in gnupack Emacs.
 
 
 Version 6.0 (2016-03-02)

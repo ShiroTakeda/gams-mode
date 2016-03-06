@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-06 00:06:08 st>
+Time-stamp: <2016-03-06 18:10:05 st>
 -----------------------------------------------------
 
 Known bugs and problems of GAMS mode.
@@ -23,11 +23,6 @@ XEmacs is not supported. GAMS mode does not work in XEmacs.
 * Viewing documents
 
 `gams-view-docs' does not work in the old versions of GAMS.
-
-
-* Model library
-
-`gams-model-library' does not work.
 
 
 * End gams statement block with `;'

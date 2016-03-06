@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-06 00:00:28 st>
+;; Time-stamp: <2016-03-06 18:07:31 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -838,6 +838,18 @@ Taken from `org-level-color-stars-only'."
 ;; (gams-convert-filename-gnupack "c:\\gams\\win64\\24.1\\gams.exe")
 ;; (gams-convert-filename-gnupack "c:\\sample_gams_code\\./lst/test.lst")
 ;; (file-name-nondirectory "/c/gams/win64/24.1/gams.exe")
+
+(defun gams-convert-filename-from-gnupack (file)
+  "Convert file name from cygwin type."
+  (let ((fname file))
+    (when (string-match "^\\(/\\)\\([a-zA-Z]\\)/" fname)
+      (setq fname
+	    (replace-match (concat (match-string 2 fname) ":/") t t fname))
+      ;;(setq fname (replace-regexp-in-string "\\\\" "/" fname))
+      )
+    fname))
+
+;; (gams-convert-filename-from-gnupack "/c/gams/win64/24.1/gams.exe") 
 
 ;;; If Emacs 20, define `gams-replace-regexp-in-string'.  This code is
 ;;; `replace-regexp-in-string' from subr.el in the Emacs 21 distribution.
@@ -14528,12 +14540,15 @@ DIR: the destination directory."
 	dirname)
     (setq lib lib)
     (setq dirname dir)
-;;     (when gams-win32
-;;       (setq lib (gams-replace-regexp-in-string "/" "\\\\" lib))
-;;       (setq dirname (gams-replace-regexp-in-string "/" "\\\\" dir)))
+    (when gams-win32
+      (setq lib (gams-convert-filename-from-gnupack lib))
+      (setq dir (gams-convert-filename-from-gnupack dir))
+      (setq lib (gams-replace-regexp-in-string "/" "\\\\" lib))
+      (setq dirname (gams-replace-regexp-in-string "/" "\\\\" dir)))
     (mapcar
      #'(lambda (x)
-	 (call-process glib nil nil nil "-lib" lib x dirname)
+  	 (call-process glib nil nil nil "-lib" lib x dirname)
+;; 	 (call-process shell-file-name nil nil nil gams-shell-c glib "-lib" lib x dirname)
 	 (setq co (1+ co))
 	 (message (format "Extracting model `%s' [%d%%%%]"
 			  x
