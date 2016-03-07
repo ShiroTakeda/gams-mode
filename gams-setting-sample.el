@@ -1,9 +1,9 @@
 ;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2016-03-02 16:58:37 st>
+;;  Time-stamp:         <2016-03-07 09:20:25 st>
 ;;
-;;  This file is created for gams-mode.el version 4.0.
+;;  This file is created for gams-mode.el version 6.0.
 ;;
 ;;  Copy and paste the content of this file into
 ;;  "~/.emacs.d/init.el" file.
@@ -17,8 +17,8 @@
 ;;
 ;; The following settings are necessary to use GAMS mode.
 
-;; Load path setting.  Suppose that c:/home/gams is a directory in which gams-mode.el
-;; is installed.  Then you should add the following.
+;; Load path setting.  Suppose that c:/home/gams is a directory in which
+;; gams-mode.el is installed.  Then you should add the following.
 (add-to-list 'load-path "c:/home/gams")
 ;; Please change the directory name according to your environment.
 
@@ -30,9 +30,9 @@
 
 ;; Load the program file `gams-mode.el'.
 (require 'gams-mode)
-;; NB: If you use this (require 'gams-mode), you had better put this at the end of
-;; all configurations about gams-mode.el.  Because of the bug, the configurations
-;; after (require 'gams-mode) may not come into effect.
+;; NB: If you use this (require 'gams-mode), you had better put this at the end
+;; of all configurations about gams-mode.el.  Because of the bug, the
+;; configurations after (require 'gams-mode) may not come into effect.
 
 ;; If you are an experienced user of Emacs, you may prefer the following
 ;; `auto-mode-alist' and `autoload' instead of (require 'gams-mode).
@@ -51,12 +51,11 @@
 ;; If you do not include GAMS system directory in your PATH environmental
 ;; variable, specify the place of gams program like
 
-; (setq gams-process-command-name "c:/GAMS/GAMS23.5/gams.exe")
+; (setq gams-process-command-name "c:/GAMS/win64/24.6/gams.exe")
 
 ;; Setting for font-lock.
 ;;
-;; The following code will make coloring function in GAMS
-;; mode work better.
+;; The following code will make coloring function in GAMS mode work better.
 (setq font-lock-support-mode
       '((gams-mode . nil) (t . jit-lock-mode)))
 
@@ -76,7 +75,7 @@
 ;; Template file name for GAMS-TEMPLATE.
 ;
 ; A sample template file "gams-template.txt" is distributed with this file.  If
-; you want to try a sample file, you must save it in your HOME directory.  Or
+; you want to try a sample file, you must save it in ".emacs.d" directory.  Or
 ; you should specify the explicit name of your template file name like
 ;
 ; (setq gams-template-file "~/.emacs.d/gams-template.txt")
@@ -88,23 +87,15 @@
 
 ;; GAMS system directory.  The directory where gams.exe exists.  This is
 ;; necessary for `gams-model-library' and `gams-view-doccument' command.
-; (setq gams-system-directory "c:/GAMS/GAMS23.5/")
+; (setq gams-system-directory "c:/GAMS/win64/24.6")
 
 ;; Use upper case or lower case for GAMS statements and dollar control options?
 ; (setq gams-statement-upcase t) ; Use upper case for GAMS statements
 ; (setq gams-dollar-control-upcase t) ; Use upper case for dollar operations.
 
-;; Use MPSGE?
-; (setq gams-use-mpsge t) ; Yes (default)
-; (setq gams-use-mpsge nil) ; No
-
 ;; Initial values of statement and dollar control.
 (setq gams-statement-name "parameter")
 (setq gams-dollar-control-name "exit")
-
-;; Re-coloring with recentering (C-l)?
-; (setq gams-recenter-font-lock t) ; Yes (default)
-; (setq gams-recenter-font-lock nil) ; No
 
 ;; The window height in the GAMS-OUTLINE mode.
 ;
@@ -179,22 +170,16 @@
 ;; Setting for viewing GAMS pdf documents.
 ;
 ; The GAMS document directory. 
-; (setq gams-docs-directory "?")
+; (setq gams-docs-directory (concat gams-system-directory "/docs"))
 ; By default, it is set to `gams-system-directory' + docs."
 ;
 ; The PDF file viewer.
-; (setq gams-docs-view-program "c:/Program Files/Adobe/Acrobat 5.0/Reader/AcroRd32.exe")
+; (setq gams-docs-view-program "c:/Program Files (x86)/Adobe/Acrobat Reader DC/Reader/AcroRd32.exe")
 
 ;;; Setting for GAMS-TEMPLATE mode.
 ;
 ; Without a special reason, you had better set nil to the following variable.
 ; (setq gams-save-template-change t) ; default is nil
-
-; Colorize the *Template Content* buffer in GAMS-TEMPLATE.  nil makes
-; GAMS-TEMPLATE mode faster.
-;
-; (setq gams-template-cont-color t) ; Color (default)
-; (setq gams-template-cont-color nil) ; No color
 
 ;;; Setting for Automatic indentation.
 ;
@@ -247,18 +232,6 @@
 ; (setq gams-insert-dollar-control-on nil) ; No (default)
 ; (setq gams-insert-dollar-control-on t) ; Yes
 
-;; The default font-lock (coloring) level.
-;
-; 0 = No coloring
-; 1 = Minumun coloring
-; 2 = Maximum coloring
-;
-; All default values are 2.
-;
-; (setq gams-font-lock-level 1)		; GAMS mode
-; (setq gams-lst-font-lock-level 1)	; GAMS-LST mode
-; (setq gams-ol-font-lock-level 1)	; GAMS-OUTLINE mode.
-
 ;; Default inline and end-of-line comment symbols.
 ;
 ; (setq gams-inlinecom-symbol-start-default "/*") ; default
@@ -276,9 +249,8 @@
 ;
 ;;; Setting for GAMS-LXI mode.
 ;
-; (setq gams-lxi-command-name "c:/home/lisp/gamslxi.exe")
-; (setq gams-lxi-import-command-name "c:/home/lisp/gamslxi-import.exe")
-
+; (setq gams-lxi-command-name "~/.emacs.d/lisp/gams-mode/gamslxi.exe")
+; (setq gams-lxi-import-command-name "~/.emacs.d/lisp/gams-mode/gamslxi-import.exe")
 
 ;; Hook settings.  For example,
 ;
@@ -327,8 +299,8 @@
 ; Get rid of ^M in shell mode.
 ; (setq shell-file-name-chars "~/A-Za-z0-9_^$!#%&{}@`'.,:()-")
 
-;; If you use cmdproxy.exe as the shell.  cmdproxy.exe is placed at the
-;; same directory as runemacs.exe.
+;; If you use cmdproxy.exe as the shell.  cmdproxy.exe is placed at the same
+;; directory as runemacs.exe.
 ;
 ; (setq shell-file-name "c:/Emacs/bin/cmdproxy.exe")
 ; (setq explicit-shell-file-name "c:/Emacs/bin/cmdproxy.exe")
