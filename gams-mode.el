@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-06 18:07:31 st>
+;; Time-stamp: <2016-03-07 17:52:01 st>
 ;; Version: 6.0
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -6962,43 +6962,55 @@ If PAGE is non-nil, page scroll."
 (defvar gams-user-template-alist-init nil)
 (defvar gams-user-template-alist-init-alt nil)
 
+(defun gams-temp-load-template-file (file)
+  "FILE is `gams-template-file'."
+  (condition-case err
+      (progn
+	(set-buffer (get-buffer-create " *gams-temporary*"))
+	(erase-buffer)
+	(insert-file-contents file)
+	(goto-char (point-min))
+	(setq gams-user-template-alist
+	      (with-demoted-errors "Error reading gams-template-file: %S"
+		(car (read-from-string
+		      (buffer-substring (point-min) (point-max))))))
+	(setq gams-user-template-alist-init
+	      (with-demoted-errors "Error reading gams-template-file: %S"
+		(car (read-from-string
+		      (buffer-substring (point-min) (point-max))))))
+	(setq gams-template-file-already-loaded t))
+    (error
+     (message "Error(s) in %s!  Need to check; %s"
+	      file (error-message-string err))
+     (sleep-for 1))))
+
 (defun gams-template ()
   "Start the GAMS-TEMPLATE mode."
   (interactive)
   (let ((file (expand-file-name gams-template-file))
-	alit)
+	flag)
     (if (not (file-exists-p file))
-	(message
-	 (format "Template file `%s' does not exist. First create it." file))
+	(progn
+	  (message
+	   (format "Template file `%s' does not exist. Create it? type `y' if yes." file))
+	  (let (key)
+	    (setq key (read-char))
+	    (if (not (equal key 121))
+		(setq flag t)
+	      (setq gams-user-template-alist nil)
+	      (setq gams-user-template-alist-init nil)
+	      (setq gams-template-file-already-loaded t)
+	      (gams-temp-create-template-file file nil))))
       (when (not gams-template-file-already-loaded)
-	(condition-case err
-	    (progn
-	      (set-buffer (get-buffer-create " *gams-temporary*"))
-;;	      (switch-to-buffer (get-buffer-create " *gams-temporary*"))
-	      (erase-buffer)
-	      (insert-file-contents file)
-	      (goto-char (point-min))
-	      (setq gams-user-template-alist
-		    (with-demoted-errors "Error reading gams-template-file: %S"
-		      (car (read-from-string
-			    (buffer-substring (point-min) (point-max))))))
-	      (setq gams-user-template-alist-init
-		    (with-demoted-errors "Error reading gams-template-file: %S"
-		      (car (read-from-string
-			    (buffer-substring (point-min) (point-max))))))
-	      (setq gams-template-file-already-loaded t))
-	  (error
-	   (message "Error(s) in %s!  Need to check; %s"
-		    file (error-message-string err))
-	   (sleep-for 1))))
+	(gams-temp-load-template-file file)))
+    (when (not flag)
       (let* ((temp-buffer (get-buffer-create gams-temp-buffer))
 	     (cur-buf (current-buffer)))
 	;; Store window configuration.
 	(setq gams-temp-window (current-window-configuration))
 	(switch-to-buffer temp-buffer)
 	(gams-template-mode)
-	(setq gams-prog-file-buff cur-buf))
-      )))
+	(setq gams-prog-file-buff cur-buf)))))
 
 ;; Key assignment of GAMS-TEMPLATE mode.
 (defvar gams-template-mode-map (make-keymap) "Keymap for GAMS-TEMPLATE mode.")
@@ -7675,15 +7687,15 @@ Key-bindings are almost the same as GAMS mode.
      gams-temp-window-configuration)
     (gams-temp-show-cont)))
     
-(defun gams-temp-write-alist ()
-  "Update the value of `gams-user-template-alist'."
-  (let ((temp-list gams-user-template-alist)
-	(coding-system-for-write 'utf-8)
+(defun gams-temp-write-alist (alist)
+  "Update the value of `gams-user-template-alist'.
+ALIST is `gams-user-template-alist'."
+  (let ((coding-system-for-write 'utf-8)
 	(standard-output (current-buffer)))
     (erase-buffer)
     (insert (format ";;; -*- coding: %s -*-\n"
 		    (symbol-name coding-system-for-write)))
-    (pp temp-list (current-buffer))))
+    (pp alist standard-output)))
    
 (defun gams-template-processing (type name &optional cont)
   "Process a template in a temporary buffer.
@@ -7720,11 +7732,22 @@ red = re-edit."
 	  (switch-to-buffer (get-buffer-create temp-buff))
 	  (unwind-protect
 	      (progn
-		(gams-temp-write-alist)
+		(gams-temp-write-alist gams-user-template-alist)
 		(write-file gams-template-file))
 	    (kill-buffer (find-buffer-visiting gams-template-file))
 	    (switch-to-buffer cur-buff)))))
 
+(defun gams-temp-create-template-file (file alist)
+  "FILE is `gams-template-file' and ALIST is `gams-user-template-alist'."
+  (let ((tfile (expand-file-name file)))
+    (save-excursion
+      (set-buffer (get-buffer-create " *gams-temporary*"))
+      (unwind-protect
+	  (progn
+	    (gams-temp-write-alist alist)
+	    (write-file tfile)
+	    (kill-buffer (find-buffer-visiting tfile)))))))
+	  
 (defun gams-temp-write-alist-to-file ()
   "Save the content of `gams-user-template-alist' into the file
 `gams-user-template-alist'."
@@ -7734,14 +7757,19 @@ red = re-edit."
       (when gams-user-template-alist
 	(if (equal gams-user-template-alist gams-user-template-alist-init)
 	    (message "No change added to the original template list.")
-	  (set-buffer (get-buffer-create " *gams-temporary*"))
-	  (unwind-protect
-	      (progn
-		(gams-temp-write-alist)
-		(write-file file)
-		(message
-		 (format "Saved template to %s" gams-template-file)))
-	    (kill-buffer (find-buffer-visiting gams-template-file))))))))
+	  (gams-temp-write-alist-to-file-internal))))))
+ 
+(defun gams-temp-write-alist-to-file-internal ()
+  (interactive)
+  (let ((file (expand-file-name gams-template-file)))
+    (set-buffer (get-buffer-create " *gams-temporary*"))
+    (unwind-protect
+	(progn
+	  (gams-temp-write-alist gams-user-template-alist)
+	  (write-file file)
+	  (message
+	   (format "Saved template to %s" gams-template-file)))
+      (kill-buffer (find-buffer-visiting gams-template-file)))))
  
 (defun gams-temp-alist-change (alist ele &optional flag)
   "Reorder the elements of `gams-user-template-alist'.
@@ -7810,6 +7838,50 @@ BEGIN and END are points."
 	  (replace-match ""))
       (goto-char end))
     po))
+
+(defun gams-temp-change-template-file ()
+  "Change to other gams-template-file."
+  (interactive)
+  (let ((tfile gams-template-file)
+	file key change)
+    ;; Save gams-user-template-alist before switching to other
+    ;; `gams-template-file'.
+    (when gams-user-template-alist
+      (when (not (equal gams-user-template-alist gams-user-template-alist-init))
+	(message
+	 (concat "`gams-user-template-alist' has changed."
+		 " Save it? Type `y' if yes"))
+	(setq key (read-char))
+	(when (equal key (string-to-char "y"))
+	  (gams-temp-write-alist-to-file-internal)
+	  (setq gams-user-template-alist-init
+		gams-user-template-alist))))
+    ;; Specify the template file you want to switch to.
+    (setq file
+	  (read-file-name "Select gams-template-file: "
+			  nil default-directory nil))
+
+    (when file
+      (if (file-exists-p file)
+	  (progn (setq change t)
+		 (gams-temp-load-template-file file))
+	(message (format "`%s' does not exist. Create it? Type `y' if yes." file))
+	(setq key (read-char))
+	(when (equal key (string-to-char "y"))
+	  (setq gams-user-template-alist nil)
+	  (setq gams-user-template-alist-init nil)
+	  (setq gams-template-file-already-loaded t)
+	  (gams-temp-create-template-file file nil)
+	  (setq change t))))
+    (when change
+      (setq gams-template-file file)
+      (let* ((temp-buffer (get-buffer-create gams-temp-buffer))
+	     (cur-buf (current-buffer)))
+	;; Store window configuration.
+	(setq gams-temp-window (current-window-configuration))
+	(switch-to-buffer temp-buffer)
+	(gams-template-mode)
+	(setq gams-prog-file-buff cur-buf)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -14482,7 +14554,7 @@ If there is no marked items, the item of the current line is extracted."
       (setq item (gams-modlib-return-item type seqnr))
       (setq name (cdr (assoc name-ind item)))
       (message
-       (format "Extract model `%s'? Type y if yes." name))
+       (format "Extract model `%s'? type `y' if yes." name))
       (setq key (read-char))
       (when (equal key ?y)
 	(setq dir (read-file-name
@@ -14490,7 +14562,7 @@ If there is no marked items, the item of the current line is extracted."
 		   (or gams-modlib-extract-dir default-directory)
 		   nil  t))
 	(gams-modlib-extract-files-internal type (list seqnr) dir)
-	(message (format "Model `%s' is extracted to `%s'. Open the file? Type y if yes." name dir))
+	(message (format "Model `%s' is extracted to `%s'. Open the file? type `y' if yes." name dir))
 	(setq key (read-char))
 	(when (equal key ?y)
 	  (setq fname (cdr (assoc "file" item)))
@@ -14509,7 +14581,7 @@ If there is no marked items, the item of the current line is extracted."
 	dir key)
     (save-excursion
       (message
-       (format "Extract marked models? Type y if yes."))
+       (format "Extract marked models? type `y' if yes."))
       (setq key (read-char))
       (when (equal key ?y)
 	(setq dir (read-file-name
@@ -14518,7 +14590,7 @@ If there is no marked items, the item of the current line is extracted."
 		   nil t))
 	(when dir 
 	  (gams-modlib-extract-files-internal type item-l dir)
-	  (message (format "Marked models are extracted to `%s'. Open the directory? Type y if yes." dir))
+	  (message (format "Marked models are extracted to `%s'. Open the directory? type `y' if yes." dir))
 	  (setq key (read-char))
 	  (when (equal key ?y)
 	    (find-file dir)
@@ -17132,7 +17204,7 @@ In mpsge block, ! is always used as end-of-line comment symbol."
 			 ;;
 			 (message
 			  (concat "Do you want to define end-of-line comment symbol?"
-				  "  Type y if yes."))
+				  "  type `y' if yes."))
 			 (when (equal (read-char) ?y)
 			   (setq starter
 				 (read-string "Insert end-of-line comment symbol: "
@@ -17144,7 +17216,7 @@ In mpsge block, ! is always used as end-of-line comment symbol."
       (if (or arg (not gams-inlinecom-symbol-start))
 	  (progn
 	    (message (format (concat "Do you want to define inline comment symbol?"
-				     "  Type y if yes.")))
+				     "  type `y' if yes.")))
 	    (if (equal (read-char) ?y)
 		;;
 		(progn
