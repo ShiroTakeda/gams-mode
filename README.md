@@ -25,12 +25,12 @@ GAMS mode for Emacs offers the integrated and flexible environment for
 using GAMS in Emacs.
 
 This section presents brief overview of what GAMS mode for Emacs is.
-Please read the section `Installation' below for information about how to
+Please read the section "Installation"' below for information about how to
 install GAMS mode.  If you are upgrading from the previous version of GAMS
-mode, the latest changes can be found in `CHANGELOG.txt' file.
+mode, the latest changes can be found in `CHANGELOG.txt` file.
 
 You can obtain the latest version of this program at the web site
-[gams-mode](http://shirotakeda.org/en/gams/gams-mode/ "gams-mode").
+[gams-mode](http://shirotakeda.org/en/gams/gams-mode/ "http://shirotakeda.org/en/gams/gams-mode/").
 
 When you use GAMS, you must do the following jobs:
 
@@ -48,13 +48,13 @@ explanation of the Emacs terminology "major mode".  If you cannot
 understand the terminology, I recommend that you read the introductory
 document of Emacs first).
 
-| Mode                  | Right align                                   |
-|:----------------------|----------------------------------------------:|
-| GAMS mode:		    | for editing GAMS program files.               |
-| GAMS-LST mode:		| for viewing LST files.						|
-| GAMS-SIL mode:		| for viewing GAMS program structure.			| 
-| GAMS-TEMPLATE mode:	| for handling templates of programs.			|
-| GAMS-OUTLINE mode:	| for viewing important items of LST files.		|
+| Mode                  | Explanation                                   |
+|:----------------------|:----------------------------------------------|
+| GAMS mode:		    | Editing GAMS program files.               	|
+| GAMS-LST mode:		| Viewing LST files.							|
+| GAMS-SIL mode:		| Viewing GAMS program structure.				| 
+| GAMS-TEMPLATE mode:	| Handling templates of programs.				|
+| GAMS-OUTLINE mode:	| Viewing important items of LST files.			|
 
 Furthermore, the following features are included in each major mode.
 
@@ -279,10 +279,10 @@ Note that to use GAMS mode, you have to configure init.el file.
 To install gams-mode.el manually, you need to follow the procedure below
 (1 and 2 are not necessary when you install gams-mode.el by MELPA).
 
-(1) Put "gams-mode.el" file into one of the directories listed in `load-path'.
-    You can see the contents of `load-path' by entering `M-x
-    customize-option <RET> load-path'.  Or add the directory where
-    "gams-mode.el" is installed to `load-path' variable.  For this, add the
+(1) Put "gams-mode.el" file into one of the directories listed in `load-path`.
+    You can see the contents of `load-path` by entering `M-x
+    customize-option <RET> load-path`.  Or add the directory where
+    "gams-mode.el" is installed to `load-path` variable.  For this, add the
     following in your "~/.emacs.d/init.el" file:
 
     (setq load-path
@@ -316,7 +316,7 @@ mode (but you need not necessarily do it).
 	    (t . jit-lock-mode)))
    
 This make the colorization function of Emacs on and GAMS mode buffer will
-be colored. The third line is required because `jit-lock-mode' often
+be colored. The third line is required because `jit-lock-mode` often
 causes troubles in GAMS mode.
 
 For Emacs 21-23 user, please read BUGS_PROBLEMS.txt file, too.
@@ -429,7 +429,7 @@ You can change the value of these variables by adding in your
 	(setq gams-process-command-name "c:/GAMS20.0/gams.exe")
 	(setq gams-statement-upcase nil)
 
-Or you can use `customize' built in Emacs.  Try M-x
+Or you can use `customize` built in Emacs.  Try M-x
 customize-apropos-groups [RET] gams [RET.]
 
 Please read the sample file "gams-setting-sample.el", too.
@@ -437,98 +437,98 @@ Please read the sample file "gams-setting-sample.el", too.
 Basic customizable variables in GAMS and GAMS-LST mode:
 ---------------------------------------------------------------------
 
-`gams-process-command-name' ["gams"]
+`gams-process-command-name` ["gams"]
 
 	"*GAMS program file name.  If you do not include the GAMS system
 	directory in PATH environmental variable, you must set the full
 	path to GAMS program in this variable like c:/GAMS20.0/gams.exe."
 
-`gams-process-command-option' ["ll=0 lo=3 pw=100 ps=9999"]
+`gams-process-command-option` ["ll=0 lo=3 pw=100 ps=9999"]
 
 	"*Command line options passed to GAMS"
 
-`gams-statement-file' ["~/.emacs.d/gams-statement.txt"]
+`gams-statement-file` ["~/.emacs.d/gams-statement.txt"]
 
 	"*The name of the file in which user specific statements are
 	stored."
 
-`gams-fill-column' [80]
+`gams-fill-column` [80]
 
 	"*The column number used for fill-paragraph and auto-fill-mode."
 	
-`gams-recenter-font-lock' [t]
+`gams-recenter-font-lock` [t]
 
 	"Non-nil means that font-lock-fontify buffer when recentering.  If
 	your computer is slow, you may better set this to nil."
 
-`gams-file-extension' ['("gms")]
+`gams-file-extension` ['("gms")]
 
 	"*List of gams program file extensions. If you open a file with an
 	extension included in this list, GAMS mode starts automatically.
 	It doen't matter whether upper case or lower case."
 	
-`gams-mode-hook ' [nil]
+`gams-mode-hook ` [nil]
 
 	"*Hook run when gams-mode starts."
 
-`gams-mode-load-hook' [nil]
+`gams-mode-load-hook` [nil]
 
 	"*List of functions to be called when gams-mode.el is loaded."
 
-`gams-close-paren-always' [t]
+`gams-close-paren-always` [t]
 
 	"*Non-nil means that close parenthesis."
 
-`gams-user-comment'
+`gams-user-comment`
 
 	"*User defined comment template. You can insert the comment
 	template defined in this variable by executing
-	`gams-insert-comment'.  % in the string indicates the cursor place
+	`gams-insert-comment`.  % in the string indicates the cursor place
 	and will disappear after template insertion. NB: You cannot
 	include double quoatations and backslashes in this variables!"
 
-`gams-docs-view-program' ["c:/Program Files/Adobe/Acrobat 5.0/Reader/AcroRd32.exe"]
+`gams-docs-view-program` ["c:/Program Files/Adobe/Acrobat 5.0/Reader/AcroRd32.exe"]
 
 	"The full path to the pdf file viewer."
 	
-`gams-system-directory' ["c:/GAMS20.0/"]
+`gams-system-directory` ["c:/GAMS20.0/"]
 
 	"The GAMS system directory."
 
-`gams-inlinecom-symbol-start-default' ["/*"]
+`gams-inlinecom-symbol-start-default` ["/*"]
 
 	"The default value for inline comment start symbol."
 
-`gams-inlinecom-symbol-end-default' ["*/"]
+`gams-inlinecom-symbol-end-default` ["*/"]
 
 	"The default value for inline comment end symbol."
 
-`gams-eolcom-symbol-default' ["#"]
+`gams-eolcom-symbol-default` ["#"]
 
 	"The default value for eol comment symbol."
 	
 GAMS-TEMPLATE mode:
 --------------------
 
-`gams-template-file' ["~/.emacs.d/gams-template.txt"]
+`gams-template-file` ["~/.emacs.d/gams-template.txt"]
 
 	"*The name of a file used to store templates."
   
-`gams-save-template-change' [nil]
+`gams-save-template-change` [nil]
 
-	"Nil means that save the content of `gams-user-template-alist'
-	into `gams-template-file' only when you quit Emacs.  If non-nil,
-	save `gams-user-template-alist' every time you made changes.  If
+	"Nil means that save the content of `gams-user-template-alist`
+	into `gams-template-file` only when you quit Emacs.  If non-nil,
+	save `gams-user-template-alist` every time you made changes.  If
 	your Emacs often crashes, you may had better set it to non-nil."
 
 GAMS-OUTLINE mode:
 --------------------
 
-`gams-ol-height' [15]
+`gams-ol-height` [15]
 
 	"*The height of the GAMS-OUTLINE buffer with one LST buffer."
 
-`gams-ol-height-two' [8]
+`gams-ol-height-two` [8]
 
 	"*The height of the GAMS-OUTLINE buffer with two LST buffers."
 
@@ -562,13 +562,14 @@ Shiro Takeda <shiro.takeda@gmail.com>
 Acknowledgments:
 
 To write the package GAMS mode, I have used a lot of excellent emacs lisp
-codes written by other people.  They include `YaTeX' (Yet Another LaTeX
-mode), `EPO' (Editing Process Organizer), `RefTeX mode', `c-sig.el',
-`font-latex.el', `lisp-mode.el', and `indent.el' etc.  In particular, I
+codes written by other people.  They include "YaTeX" (Yet Another LaTeX
+mode), EPO (Editing Process Organizer), "RefTeX mode", `c-sig.el`,
+`font-latex.el`, `lisp-mode.el`, and `indent.el` etc.  In particular, I
 would like to express acknowledgments to Yuuji Hirose who is the author of
-`YaTeX' and `EPO' packages (they are available at
+YaTeX and EPO packages (they are available at
 <http://www.gentei.org/~yuuji/software>).  He also have written other lots
 of cool lisp programs.  You will be happy if you visit to his web site :-)
+
 
 
 --------------------
