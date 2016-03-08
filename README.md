@@ -4,7 +4,7 @@ This package offers the Emacs lisp program for using the numerical
 software GAMS in Emacs (GAMS mode for Emacs).
 
 ===============================
-* The contents of this file.  
+# The contents of this file.  
 ==============================
 
 1. [[Introduction (brief overview)]].
@@ -16,10 +16,10 @@ software GAMS in Emacs (GAMS mode for Emacs).
 7. [[Acknowledgments]].
 
 =================================
-* Introduction (brief overview)
+# Introduction (brief overview)
 =================================
 
-** Introduction of GAMS mode for Emacs.
+## Introduction of GAMS mode for Emacs.
 
 GAMS mode for Emacs offers the integrated and flexible environment for
 using GAMS in Emacs.
@@ -30,7 +30,7 @@ install GAMS mode.  If you are upgrading from the previous version of GAMS
 mode, the latest changes can be found in `CHANGELOG.txt' file.
 
 You can obtain the latest version of this program at the web site
-<http://shirotakeda.org/en/gams/gams-mode/>.
+[gams-mode](http://shirotakeda.org/en/gams/gams-mode/ "gams-mode").
 
 When you use GAMS, you must do the following jobs:
 
@@ -48,27 +48,29 @@ explanation of the Emacs terminology "major mode".  If you cannot
 understand the terminology, I recommend that you read the introductory
 document of Emacs first).
 
-GAMS mode:		for editing GAMS program files.
-GAMS-LST mode:		for viewing LST files.
-GAMS-SIL mode:		for viewing GAMS program structure.
-GAMS-TEMPLATE mode:	for handling templates of programs.
-GAMS-OUTLINE mode:	for viewing important items of LST files.
+| Mode                  | Right align                                   |
+|:----------------------|----------------------------------------------:|
+| GAMS mode:		    | for editing GAMS program files.               |
+| GAMS-LST mode:		| for viewing LST files.						|
+| GAMS-SIL mode:		| for viewing GAMS program structure.			| 
+| GAMS-TEMPLATE mode:	| for handling templates of programs.			|
+| GAMS-OUTLINE mode:	| for viewing important items of LST files.		|
 
 Furthermore, the following features are included in each major mode.
 
-** [GAMS mode]
+## [GAMS mode]
 
 This is the major mode for editing GAMS program file.
 
-(1) Inserting GAMS statements and dollar control options.
-(2) Automatic registering of new statements and dollar control options.
-(3) Calling GAMS from Emacs
-(4) Like GAMSIDE, it colors a program file in accordance with the GAMS syntax.
-(5) Handling templates of various programs (this is GAMS-TEMPLATE mode).
-(6) Automatic indent.
-(7) Reading GAMS manual.
-(8) Extracting models from GAMS model library.
-(9) Viewing GAMS program structure (GAMS-SIL mode).
+1. Inserting GAMS statements and dollar control options.
+2. Automatic registering of new statements and dollar control options.
+3. Calling GAMS from Emacs
+4. Like GAMSIDE, it colors a program file in accordance with the GAMS syntax.
+5. Handling templates of various programs (this is GAMS-TEMPLATE mode).
+6. Automatic indent.
+7. Reading GAMS manual.
+8. Extracting models from GAMS model library.
+9. Viewing GAMS program structure (GAMS-SIL mode).
 
 I will explain each function in detail.
 
@@ -106,15 +108,15 @@ easily.  But it is quite tedious to insert spaces and TABs manually by
 yourself.  In GAMS mode, each line is automatically indented according to
 GAMS syntax.
 
-** [GAMS-LST mode]
+## [GAMS-LST mode]
 
 This is the major mode for viewing the output file (i.e. LST file).
 
-(1) Display the error place and its meaning.
-(2) Jump to the error place in the program file.
-(3) Jump to the various places in the LST file.
-(4) Color the content of the LST file.
-(5) Display the important items of the LST file (this is the GAMS-OUTLINE mode).
+1. Display the error place and its meaning.
+2. Jump to the error place in the program file.
+3. Jump to the various places in the LST file.
+4. Color the content of the LST file.
+5. Display the important items of the LST file (this is the GAMS-OUTLINE mode).
 
 In editing GAMS program, one of the most important job is debugging.  Your
 efficiency of writing program crucially depends on the efficiency of
@@ -123,10 +125,10 @@ debugging.  (1) and (2) are the functions for that.
 With (1) and (2), you can do the following jobs quickly with simple key
 operation.
 
-+ Call GAMS and execute the program.
-+ Move to the LST file.
-+ Examine the place and meaning of errors.
-+ Go back to the error place in the program.
+* Call GAMS and execute the program.
+* Move to the LST file.
+* Examine the place and meaning of errors.
+* Go back to the error place in the program.
 
 You can do similar things also in GAMSIDE, but, I think GAMS mode offers
 the more convenient environment.
@@ -157,7 +159,7 @@ function is like by looking at the screenshots placed at
 These are the simple explanation of this program.  Of course, there are a
 lot of other functions!
 
-** GAMS mode
+## GAMS mode
 
 This program has been tested under GNU Emacs of version 24.5 on MS Windows
 8 and not tested under other versions of Emacs and OS. But I received
@@ -168,7 +170,7 @@ OS.
 Bug reports, requests, and suggestions are all welcome!
 
 =====================
-* Installation
+# Installation
 =====================
 
 First, I explain the files distributed in the package.
@@ -228,7 +230,7 @@ non-nil.  So, when I say "set non-nil to x", set t to x (i.e. (setq x t)).
 
 
 =====================
-** Setting for shell
+## Setting for shell
 
 If you would like to call GAMS (gams.exe) from Emacs, it is necessary that
 you have installed the shell.  There are two choices for this.  The first
@@ -261,7 +263,7 @@ Windows, please see the web site
 <http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html>.
 
 =====================
-** Installation of GAMS mode.
+## Installation of GAMS mode.
 
 You can install GAMS mode (gams-mode.el) from MELPA repository.
 
@@ -331,7 +333,7 @@ GAMS and the GAMS mode.  So, please read the customization part below,
 too.
 
 =====================
-* Basic Usage
+# Basic Usage
 =====================
 
 To learn how to use the GAMS mode, it is best to read "gams-sample.gms"
@@ -341,7 +343,7 @@ learning-by-doing way.
 Here is the basic command listing.  Try each command by yourself!  You can
 see basic keybindins also in refcard-gams.pdf.
 
-** GAMS mode:
+## GAMS mode:
 ----------
 
 Key-binding	Command explanation
@@ -372,7 +374,7 @@ C-c C-f		Change the level of font-lock (colorization)
 C-c C-;		Insert inline comment.
 C-c M-;		Insert end-of-line comment.
 
-** GAMS-LST mode:
+## GAMS-LST mode:
 --------------
 
 y		Jump to the error and show its number and meaning.
@@ -415,7 +417,7 @@ GAMS-OUTLINE mode, (start GAMS-OUTLINE mode [type o in the LST mode] and
 push ? in the OUTLINE buffer).
 
 =====================
-* Customization
+# Customization
 =====================
 
 You can custumize the behavior of Emacs and GAMS mode by changing the
@@ -539,14 +541,14 @@ You can see a full list of customizable variables by executing:
 
 	
 =====================
-* TODO:
+# TODO:
 =====================
 
 See TODO file.
 
 
 =====================
-* Miscellaneous
+# Miscellaneous
 =====================
 
 Bug reports, requests and suggestions are welcome!  Write an email to me.
@@ -554,7 +556,7 @@ Shiro Takeda <shiro.takeda@gmail.com>
 
     
 =====================
-* Acknowledgments
+# Acknowledgments
 =====================
 
 Acknowledgments:
@@ -571,7 +573,7 @@ of cool lisp programs.  You will be happy if you visit to his web site :-)
 
 --------------------
 Local Variables:
-mode: org
 fill-column: 74
+mode: markdown
 End:
 
