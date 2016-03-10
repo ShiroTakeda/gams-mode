@@ -1,5 +1,9 @@
 # GAMS-mode
 
+> Author: Shiro Takeda
+> Maintainer: Shiro Takeda
+> Time-stamp: <2016-03-11 00:16:51 st>
+
 This package offers the Emacs lisp program for using the numerical
 software GAMS in Emacs (GAMS mode for Emacs).
 
@@ -58,7 +62,7 @@ document of Emacs first).
 
 Furthermore, the following features are included in each major mode.
 
-## [GAMS mode]
+## GAMS mode
 
 This is the major mode for editing GAMS program file.
 
@@ -108,7 +112,7 @@ easily.  But it is quite tedious to insert spaces and TABs manually by
 yourself.  In GAMS mode, each line is automatically indented according to
 GAMS syntax.
 
-## [GAMS-LST mode]
+## GAMS-LST mode
 
 This is the major mode for viewing the output file (i.e. LST file).
 
@@ -158,8 +162,6 @@ function is like by looking at the screenshots placed at
 
 These are the simple explanation of this program.  Of course, there are a
 lot of other functions!
-
-## GAMS mode
 
 This program has been tested under GNU Emacs of version 24.5 on MS Windows
 8 and not tested under other versions of Emacs and OS. But I received
