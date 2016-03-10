@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-11 00:38:27 st>
+Time-stamp: <2016-03-11 00:42:16 st>
 -->
 
 # GAMS-mode
@@ -38,7 +38,7 @@ install GAMS mode.  If you are upgrading from the previous version of GAMS
 mode, the latest changes can be found in `CHANGELOG.txt` file.
 
 You can obtain the latest version of this program at the web site
-[gams-mode](http://shirotakeda.org/en/gams/gams-mode/).
+[GAMS mode for Emacs (http://shirotakeda.org/en/gams/gams-mode/)](http://shirotakeda.org/en/gams/gams-mode/).
 
 When you use GAMS, you must do the following jobs:
 
