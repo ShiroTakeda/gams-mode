@@ -435,8 +435,7 @@ customize-apropos-groups [RET] gams [RET.]
 
 Please read the sample file "gams-setting-sample.el", too.
 
-Basic customizable variables in GAMS and GAMS-LST mode:
----------------------------------------------------------------------
+## Basic customizable variables in GAMS and GAMS-LST mode:
 
 `gams-process-command-name` ["gams"]
 
@@ -523,8 +522,7 @@ this variables!"
 "The default value for eol comment symbol."
     
 
-GAMS-TEMPLATE mode:
---------------------
+## GAMS-TEMPLATE mode:
 
 `gams-template-file` ["~/.emacs.d/gams-template.txt"]
 
@@ -539,8 +537,7 @@ GAMS-TEMPLATE mode:
 often crashes, you may had better set it to non-nil."
 
 
-GAMS-OUTLINE mode:
---------------------
+## GAMS-OUTLINE mode:
 
 `gams-ol-height` [15]
 
