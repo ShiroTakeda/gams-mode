@@ -1,8 +1,3 @@
-Author: Shiro Takeda
-Maintainer: Shiro Takeda
-Time-stamp: <2016-03-10 05:55:29 st>
------------------------------------------------------
-
 # GAMS-mode
 
 This package offers the Emacs lisp program for using the numerical
@@ -356,23 +351,19 @@ Key-binding Command explanation
 | `C-c C-.`     | Show the identifier declaration part.               |
 | `C-c C-a`     | Show the identifier list in the buffer.             |
 | `C-c C-w`     | Open included file.                                 |
-|:--------------|:----------------------------------------------------|
 | `C-c C-v`     | Switch to the LST file and show errors if exist.    |
 | `C-c C-j`     | Switch to the LST file.                             |
 | `C-c C-t`     | Evoke process menu.                                 |
 | `C-c C-s`     | Start GAMS                                          |
 | `C-u C-c C-t` |  Edit command and start GAMS.                       |
-|:--------------|:----------------------------------------------------|
 | `C-c C-e`     | Insert templates (GAMS-TEMPLATE).                   |
 | `C-c C-o`     | Insert user defined comment template.               |
-|:--------------|:----------------------------------------------------|
 | `C-l`         | Recenter.                                           |
 | `C-c C-c`     | Insert an ontext-offtext pair.                      |
 | `C-c C-g`     | Jump between ontext and offtext.                    |
 | `C-c M-c`     | (Un)comment an ontext-offtext pair.                 |
 | `C-c M-g`     | Remove an ontext-offtext pair.                      |
 | `C-c C-m`     | View GAMS pdf manuals.                              |
-|:--------------|:----------------------------------------------------|
 | `C-c C-f`     | Change the level of font-lock (colorization)        |
 | `C-c C-;`     | Insert inline comment.                              |
 | `C-c M-;`     | Insert end-of-line comment.                         |
