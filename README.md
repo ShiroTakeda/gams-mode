@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-11 00:25:12 st>
+Time-stamp: <2016-03-11 00:34:19 st>
 -->
 
 # GAMS-mode
@@ -12,6 +12,11 @@ software GAMS in Emacs (GAMS mode for Emacs).
 ------------------------------------------------------------
 
 # The contents of this file.
+
+<!-- some long code -->
+
+1. [Introduction (brief overview)](#introduction-brief-overview)
+2. [Installation](#installation)
 
 1. Introduction (brief overview).
 2. Installation.
