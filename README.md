@@ -1,8 +1,8 @@
 # GAMS-mode
 
-> Author: Shiro Takeda
-> Maintainer: Shiro Takeda
-> Time-stamp: <2016-03-11 00:16:51 st>
+> Author: Shiro Takeda  
+> Maintainer: Shiro Takeda  
+> Time-stamp: <2016-03-11 00:18:27 st>
 
 This package offers the Emacs lisp program for using the numerical
 software GAMS in Emacs (GAMS mode for Emacs).
