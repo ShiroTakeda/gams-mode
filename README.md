@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-11 00:34:19 st>
+Time-stamp: <2016-03-11 00:38:27 st>
 -->
 
 # GAMS-mode
@@ -17,14 +17,11 @@ software GAMS in Emacs (GAMS mode for Emacs).
 
 1. [Introduction (brief overview)](#introduction-brief-overview)
 2. [Installation](#installation)
-
-1. Introduction (brief overview).
-2. Installation.
-3. Basic Usage.
-4. Customization.
-5. TODO.
-6. Miscellaneous.
-7. Acknowledgments.
+3. [Basic Usage](#basic-usage)
+4. [Customization](#customization)
+5. [TODO](#todo)
+6. [Miscellaneous](#miscellaneous)
+7. [Acknowledgments](#acknowledgments)
 
 ------------------------------------------------------------
 
