@@ -275,42 +275,42 @@ Note that to use GAMS mode, you have to configure init.el file.
 To install gams-mode.el manually, you need to follow the procedure below
 (1 and 2 are not necessary when you install gams-mode.el by MELPA).
 
-(1) Put "gams-mode.el" file into one of the directories listed in `load-path`.
-    You can see the contents of `load-path` by entering `M-x
+1.  Put "gams-mode.el" file into one of the directories listed in
+    `load-path`.  You can see the contents of `load-path` by entering `M-x
     customize-option <RET> load-path`.  Or add the directory where
-    "gams-mode.el" is installed to `load-path` variable.  For this, add the
-    following in your "~/.emacs.d/init.el" file:
-`
+    "gams-mode.el" is installed to `load-path` variable.  For this, add
+    the following in your "~/.emacs.d/init.el" file:
+
     (setq load-path
          (cons "~/emacs.d/lisp/gams/" ;; Set the installed directory!
            load-path))
-`
-(2) Add the following into your "~/.emacs.d/init.el" startup file (after
-    load-path setting)
-`
+
+2. Add the following into your "~/.emacs.d/init.el" startup file (after
+   load-path setting)
+
     (require 'gams-mode)
-`
-(3) If the GAMS system folder is not included in PATH environemtal
-    variable, you need to set GAMS system folder to PATH or you need to
-    set the full path to gams.exe to the variable
-    {gams-process-command-name' like
-`
+
+3. If the GAMS system folder is not included in PATH environemtal
+   variable, you need to set GAMS system folder to PATH or you need to set
+   the full path to gams.exe to the variable {gams-process-command-name'
+   like
+
     (setq gams-process-command-name "c:/GAMS23.5/gams.exe")
-`
+
 
 Basically, this is all you must set.  With these settings, when you open a
 file with extension "gms" ("lst"), GAMS mode (GAMS-LST mode) will
 automatically start.  Byte-compiling gams-mode.el may raise the speed of GAMS
 mode (but you need not necessarily do it).
 
-(4) If you want to color an Emacs buffer, add the followings, too.
-`
+4.  If you want to color an Emacs buffer, add the followings, too.
+
    (require 'font-lock)
    (global-font-lock-mode t)
    (setq font-lock-support-mode
           '((gams-mode . nil)
         (t . jit-lock-mode)))
-`
+
 This make the colorization function of Emacs on and GAMS mode buffer will
 be colored. The third line is required because `jit-lock-mode` often
 causes troubles in GAMS mode.
