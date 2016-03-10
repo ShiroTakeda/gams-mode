@@ -3,18 +3,20 @@
 This package offers the Emacs lisp program for using the numerical
 software GAMS in Emacs (GAMS mode for Emacs).
 
-=================================
+------------------------------------------------------------
+
 # The contents of this file.
 
-1. [[Introduction (brief overview)]].
-2. [[Installation]].
-3. [[Basic Usage]].
-4. [[Customization]].
-5. [[TODO:]]
-6. [[Miscellaneous]].
-7. [[Acknowledgments]].
+1. Introduction (brief overview).
+2. Installation.
+3. Basic Usage.
+4. Customization.
+5. TODO.
+6. Miscellaneous.
+7. Acknowledgments.
 
-=================================
+------------------------------------------------------------
+
 # Introduction (brief overview)
 
 ## Introduction of GAMS mode for Emacs.
@@ -28,8 +30,7 @@ install GAMS mode.  If you are upgrading from the previous version of GAMS
 mode, the latest changes can be found in `CHANGELOG.txt` file.
 
 You can obtain the latest version of this program at the web site
-[gams-mode](http://shirotakeda.org/en/gams/gams-mode/
-"http://shirotakeda.org/en/gams/gams-mode/").
+[gams-mode](http://shirotakeda.org/en/gams/gams-mode/).
 
 When you use GAMS, you must do the following jobs:
 
@@ -168,7 +169,8 @@ OS.
 
 Bug reports, requests, and suggestions are all welcome!
 
-=====================
+------------------------------------------------------------
+
 # Installation
 
 First, I explain the files distributed in the package.
@@ -224,8 +226,8 @@ In Emacs terminology, non-nil means anything other than nil, and values
 such as 0, "a", or t all mean non-nil.  But we usually use symbol t as
 non-nil.  So, when I say "set non-nil to x", set t to x (i.e. (setq x t)).
 
+------------------------------------------------------------
 
-=====================
 ## Setting for shell
 
 If you would like to call GAMS (gams.exe) from Emacs, it is necessary that
@@ -258,7 +260,8 @@ For more details of shell setting in "~/.emacs.d/init.el" on Emacs in
 Windows, please see the web site
 <http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html>.
 
-=====================
+------------------------------------------------------------
+
 ## Installation of GAMS mode.
 
 You can install GAMS mode (gams-mode.el) from MELPA repository.
@@ -328,9 +331,9 @@ There are several lisp variables which decide the important behaviors of
 GAMS and the GAMS mode.  So, please read the customization part below,
 too.
 
-=====================
+------------------------------------------------------------
+
 # Basic Usage
-=====================
 
 To learn how to use the GAMS mode, it is best to read "gams-sample.gms"
 file.  "gams-sample.gms" file enables you to acquire necessary skills in a
@@ -414,7 +417,8 @@ to know commands in GAMS-OUTLINE mode, please see the help in the
 GAMS-OUTLINE mode, (start GAMS-OUTLINE mode [type o in the LST mode] and
 push ? in the OUTLINE buffer).
 
-=====================
+------------------------------------------------------------
+
 # Customization
 
 You can custumize the behavior of Emacs and GAMS mode by changing the
@@ -422,10 +426,10 @@ values of the following variables.  Default value is given in []
 
 You can change the value of these variables by adding in your
 "~/.emacs.d/init.el", for example,
-`
+
     (setq gams-process-command-name "c:/GAMS20.0/gams.exe")
     (setq gams-statement-upcase nil)
-`
+
 Or you can use `customize` built in Emacs.  Try M-x
 customize-apropos-groups [RET] gams [RET.]
 
@@ -555,20 +559,23 @@ You can see a full list of customizable variables by executing:
     gams [RET]
 
     
-=====================
+------------------------------------------------------------
+
 # TODO:
 
 See TODO file.
 
 
-=====================
+------------------------------------------------------------
+
 # Miscellaneous
 
 Bug reports, requests and suggestions are welcome!  Write an email to me.
 Shiro Takeda <shiro.takeda@gmail.com>
 
     
-=====================
+------------------------------------------------------------
+
 # Acknowledgments
 
 To write the package GAMS mode, I have used a lot of excellent emacs lisp
