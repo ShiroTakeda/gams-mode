@@ -1,8 +1,8 @@
-[](
+<!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-11 00:23:35 st>
-)
+Time-stamp: <2016-03-11 00:25:12 st>
+-->
 
 # GAMS-mode
 
@@ -588,11 +588,13 @@ YaTeX and EPO packages (they are available at
 <http://www.gentei.org/~yuuji/software>).  He also have written other lots
 of cool lisp programs.  You will be happy if you visit to his web site :-)
 
-[](
+<!--
+
 --------------------
 Local Variables:
 fill-column: 74
 mode: markdown
 End:
-)
+
+-->
 
