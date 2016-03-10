@@ -246,13 +246,13 @@ cmd.exe.  So MS Windows users had better use bash or cmdproxy, too.
 
 If you use bash(.exe), write the following in "~/.emacs.d/init.el"
 
-  (setq shell-file-name "bash")
-  (setq shell-command-option "-c")
+    (setq shell-file-name "bash")
+    (setq shell-command-option "-c")
 
 and if you use cmdproxy.exe,
 
-  (setq shell-file-name "cmdproxy")
-  (setq shell-command-option "-c")
+    (setq shell-file-name "cmdproxy")
+    (setq shell-command-option "-c")
 
 For more details of shell setting in "~/.emacs.d/init.el" on Emacs in
 Windows, please see the web site
@@ -281,21 +281,21 @@ To install gams-mode.el manually, you need to follow the procedure below
     "gams-mode.el" is installed to `load-path` variable.  For this, add
     the following in your "~/.emacs.d/init.el" file:
 
-    (setq load-path
-         (cons "~/emacs.d/lisp/gams/" ;; Set the installed directory!
-           load-path))
+        (setq load-path
+             (cons "~/emacs.d/lisp/gams/" ;; Set the installed directory!
+              load-path))
 
 2. Add the following into your "~/.emacs.d/init.el" startup file (after
    load-path setting)
 
-    (require 'gams-mode)
+        (require 'gams-mode)
 
 3. If the GAMS system folder is not included in PATH environemtal
    variable, you need to set GAMS system folder to PATH or you need to set
    the full path to gams.exe to the variable {gams-process-command-name'
    like
 
-    (setq gams-process-command-name "c:/GAMS23.5/gams.exe")
+        (setq gams-process-command-name "c:/GAMS23.5/gams.exe")
 
 
 Basically, this is all you must set.  With these settings, when you open a
@@ -305,11 +305,11 @@ mode (but you need not necessarily do it).
 
 4.  If you want to color an Emacs buffer, add the followings, too.
 
-   (require 'font-lock)
-   (global-font-lock-mode t)
-   (setq font-lock-support-mode
-          '((gams-mode . nil)
-        (t . jit-lock-mode)))
+        (require 'font-lock)
+        (global-font-lock-mode t)
+        (setq font-lock-support-mode
+               '((gams-mode . nil)
+             (t . jit-lock-mode)))
 
 This make the colorization function of Emacs on and GAMS mode buffer will
 be colored. The third line is required because `jit-lock-mode` often
@@ -436,98 +436,116 @@ Basic customizable variables in GAMS and GAMS-LST mode:
 
 `gams-process-command-name` ["gams"]
 
-    "*GAMS program file name.  If you do not include the GAMS system
-    directory in PATH environmental variable, you must set the full
-    path to GAMS program in this variable like c:/GAMS20.0/gams.exe."
+"*GAMS program file name.  If you do not include the GAMS system
+directory in PATH environmental variable, you must set the full
+path to GAMS program in this variable like c:/GAMS20.0/gams.exe."
+
 
 `gams-process-command-option` ["ll=0 lo=3 pw=100 ps=9999"]
 
-    "*Command line options passed to GAMS"
+"*Command line options passed to GAMS"
+
 
 `gams-statement-file` ["~/.emacs.d/gams-statement.txt"]
 
-    "*The name of the file in which user specific statements are
-    stored."
+"*The name of the file in which user specific statements are
+stored."
+
 
 `gams-fill-column` [80]
 
-    "*The column number used for fill-paragraph and auto-fill-mode."
+"*The column number used for fill-paragraph and auto-fill-mode."
     
+
 `gams-recenter-font-lock` [t]
 
-    "Non-nil means that font-lock-fontify buffer when recentering.  If
-    your computer is slow, you may better set this to nil."
+"Non-nil means that font-lock-fontify buffer when recentering.  If
+your computer is slow, you may better set this to nil."
+
 
 `gams-file-extension` ['("gms")]
 
-    "*List of gams program file extensions. If you open a file with an
-    extension included in this list, GAMS mode starts automatically.
-    It doen't matter whether upper case or lower case."
+"*List of gams program file extensions. If you open a file with an
+extension included in this list, GAMS mode starts automatically.
+It doen't matter whether upper case or lower case."
     
+
 `gams-mode-hook ` [nil]
 
-    "*Hook run when gams-mode starts."
+"*Hook run when gams-mode starts."
+
 
 `gams-mode-load-hook` [nil]
 
-    "*List of functions to be called when gams-mode.el is loaded."
+"*List of functions to be called when gams-mode.el is loaded."
+
 
 `gams-close-paren-always` [t]
 
-    "*Non-nil means that close parenthesis."
+"*Non-nil means that close parenthesis."
+
 
 `gams-user-comment`
 
-    "*User defined comment template. You can insert the comment
-    template defined in this variable by executing
-    `gams-insert-comment`.  % in the string indicates the cursor place
-    and will disappear after template insertion. NB: You cannot
-    include double quoatations and backslashes in this variables!"
+"*User defined comment template. You can insert the comment template
+defined in this variable by executing `gams-insert-comment`.  % in the
+string indicates the cursor place and will disappear after template
+insertion. NB: You cannot include double quoatations and backslashes in
+this variables!"
+
 
 `gams-docs-view-program` ["c:/Program Files/Adobe/Acrobat 5.0/Reader/AcroRd32.exe"]
 
-    "The full path to the pdf file viewer."
+"The full path to the pdf file viewer."
     
+
 `gams-system-directory` ["c:/GAMS20.0/"]
 
-    "The GAMS system directory."
+"The GAMS system directory."
+
 
 `gams-inlinecom-symbol-start-default` ["/*"]
 
-    "The default value for inline comment start symbol."
+"The default value for inline comment start symbol."
+
 
 `gams-inlinecom-symbol-end-default` ["*/"]
 
-    "The default value for inline comment end symbol."
+"The default value for inline comment end symbol."
+
 
 `gams-eolcom-symbol-default` ["#"]
 
-    "The default value for eol comment symbol."
+"The default value for eol comment symbol."
     
+
 GAMS-TEMPLATE mode:
 --------------------
 
 `gams-template-file` ["~/.emacs.d/gams-template.txt"]
 
-    "*The name of a file used to store templates."
+"*The name of a file used to store templates."
   
+
 `gams-save-template-change` [nil]
 
-    "Nil means that save the content of `gams-user-template-alist`
-    into `gams-template-file` only when you quit Emacs.  If non-nil,
-    save `gams-user-template-alist` every time you made changes.  If
-    your Emacs often crashes, you may had better set it to non-nil."
+"Nil means that save the content of `gams-user-template-alist` into
+`gams-template-file` only when you quit Emacs.  If non-nil, save
+`gams-user-template-alist` every time you made changes.  If your Emacs
+often crashes, you may had better set it to non-nil."
+
 
 GAMS-OUTLINE mode:
 --------------------
 
 `gams-ol-height` [15]
 
-    "*The height of the GAMS-OUTLINE buffer with one LST buffer."
+"*The height of the GAMS-OUTLINE buffer with one LST buffer."
+
 
 `gams-ol-height-two` [8]
 
-    "*The height of the GAMS-OUTLINE buffer with two LST buffers."
+"*The height of the GAMS-OUTLINE buffer with two LST buffers."
 
 
 There are also other customizable variables, mainly keybindings and fonts.
