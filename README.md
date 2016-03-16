@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-16 10:15:37 st>
+Time-stamp: <2016-03-16 10:52:59 st>
 -->
 
 GAMS-mode
@@ -271,14 +271,22 @@ Windows, please see the web site
 
 ## Installation of GAMS mode.
 
-You can install GAMS mode (gams-mode.el) from MELPA repository.
+You can install GAMS mode (gams-mode.el) from MELPA repository.  Type M-x
+list-packages and select gams-mode.
 
-Type M-x list-packages and select gams-mode.
+To use melpa, put the following code in your init.el file.
 
-This enables you to install gams-mode.el. But it installs only
-gams-mode.el file and does not install sample files and explanatory text.
-So to use GAMS mode, you had better read GAMS mode web site first.
-<http://shirotakeda.org/en/gams/gams-mode/>
+    (add-to-list 'package-archives
+                 '("melpa" . "http://melpa.milkbox.net/packages/") t)
+    (add-to-list 'package-archives
+                 '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+				 
+If you want to use a stable version, use GAMS mode in melpa-stable.  If
+you want to use a developing version, use GAMS mode in melpa.
+				 
+Note that it installs only gams-mode.el file and does not install sample
+files and explanatory files.  So to use GAMS mode, you had better read
+GAMS mode web site first.  <http://shirotakeda.org/en/gams/gams-mode/>
 
 Note that to use GAMS mode, you have to configure init.el file.
 
