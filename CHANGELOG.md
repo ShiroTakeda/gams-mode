@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-16 10:22:39 st>
+Time-stamp: <2016-03-16 10:23:52 st>
 -->
 
 ----------------------------------------------------
@@ -213,30 +213,30 @@ Version 4.0 (2012-09-08)
   default). In addition, note that this command may depend on the version
   of Org-mode. I test in Org-mode of 7.8.11.
 
-  + How to change symbols for headlines
+  [How to change symbols for headlines]
 
-    In the default setting, "*@" is used as symbols to represent
-    headlines. This is determined by the lisp variable
-    `gams-outline-regexp`. This variable specifies the regular expressions
-    of the symbol used to represent headlines and its default value is
+  In the default setting, "*@" is used as symbols to represent
+  headlines. This is determined by the lisp variable
+  `gams-outline-regexp`. This variable specifies the regular expressions
+  of the symbol used to represent headlines and its default value is 
 
         "\\*@+[ \t]"
 
-    If you change the value of this variable, you can change symbols for
-    headlines. For example, add the following expression to your init.el
-    file
+  If you change the value of this variable, you can change symbols for
+  headlines. For example, add the following expression to your init.el
+  file
 
         (setq gams-outline-regexp "[ \t]*display \"@+[ \t]")
   
-    And open "org-minor-mode-alt.gms".
+  And open "org-minor-mode-alt.gms".
   
 
-  + Other commands for outline handling
+  [Other commands for outline handling]
 
-    - "C-cC-:n" -> Move to the next headlines (`outline-next-visible-heading`).
-    - "C-cC-:p" -> Move to the previous headlines (`outline-previous-visible-heading`).
-    - "C-cC-:f" -> Fold the current tree (`gams-org-fold-current-tree`).
-    - "C-cC-:k" -> Show branches (`show-branches`).
+  + "C-cC-:n" -> Move to the next headlines (`outline-next-visible-heading`).
+  + "C-cC-:p" -> Move to the previous headlines (`outline-previous-visible-heading`).
+  + "C-cC-:f" -> Fold the current tree (`gams-org-fold-current-tree`).
+  + "C-cC-:k" -> Show branches (`show-branches`).
   
 
 * Changed the default indent number from 8 to 4.
