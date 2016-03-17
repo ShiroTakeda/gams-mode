@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-16 10:52:59 st>
+Time-stamp: <2016-03-18 08:12:49 st>
 -->
 
 GAMS-mode
@@ -9,6 +9,10 @@ GAMS-mode
 
 This package offers the Emacs lisp program for using the numerical
 software GAMS in Emacs (GAMS mode for Emacs).
+
+If you want to know how to install GAMS mode, read
+[Installation](#installation) below. If you want to know the latest
+changes added to GAMS mode, see `CHANGELOG.md` file.
 
 ------------------------------------------------------------
 
@@ -36,7 +40,7 @@ using GAMS in Emacs.
 This section presents brief overview of what GAMS mode for Emacs is.
 Please read the section "Installation"' below for information about how to
 install GAMS mode.  If you are upgrading from the previous version of GAMS
-mode, the latest changes can be found in `CHANGELOG.txt` file.
+mode, the latest changes can be found in `CHANGELOG.md` file.
 
 You can obtain the latest version of this program at the web site
 [GAMS mode for Emacs (http://shirotakeda.org/en/gams/gams-mode/)](http://shirotakeda.org/en/gams/gams-mode/).
@@ -185,7 +189,7 @@ First, I explain the files distributed in the package.
 | Filename                  | Explanation                                                           |
 |:--------------------------|:----------------------------------------------------------------------|
 | `README.txt`              | This file.  First read this.                                          |
-| `CHANGELOG.txt`           | Change log file.  If you want to know changes and newly added functions, please read it. |
+| `CHANGELOG.md`            | Change log file.  If you want to know changes and newly added functions, please read it. |
 | `BUGS_PROBLEMS.txt`       | Known bugs and problems                                               |
 | `gams-mode.el`            | The main lisp program.                                                |
 | `gams-setting-sample.el`  | A sample file for setting.                                            |
