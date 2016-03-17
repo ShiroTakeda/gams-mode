@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-16 10:23:52 st>
+Time-stamp: <2016-03-17 16:19:44 st>
 -->
 
 ----------------------------------------------------
@@ -9,7 +9,7 @@ Time-stamp: <2016-03-16 10:23:52 st>
 Change logs of GAMS mode.
 ====================================================
 
-Version 6.0.1 ()
+Version 6.1 (2016-03-17)
 ----------------------------------
 
 * Modified GAMS-TEMPLATE mode.
