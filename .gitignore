@@ -1,0 +1,13 @@
+*.lst
+*.aux
+sample/
+*.xls
+*.gdx
+*.lxi
+*.GEN
+sample_gams_code/test.*
+*.dat
+*.plt
+*.org
+*-test.el
+copy_files.bat
