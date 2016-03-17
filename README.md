@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-18 08:12:49 st>
+Time-stamp: <2016-03-18 08:13:58 st>
 -->
 
 GAMS-mode
@@ -12,7 +12,7 @@ software GAMS in Emacs (GAMS mode for Emacs).
 
 If you want to know how to install GAMS mode, read
 [Installation](#installation) below. If you want to know the latest
-changes added to GAMS mode, see `CHANGELOG.md` file.
+changes added to GAMS mode, see [CHANGELOG.md](CHANGELOG.md) file.
 
 ------------------------------------------------------------
 
