@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-06 18:10:05 st>
+Time-stamp: <2016-03-17 15:26:50 st>
 -----------------------------------------------------
 
 Known bugs and problems of GAMS mode.
@@ -8,11 +8,10 @@ Known bugs and problems of GAMS mode.
 Note: When you open this file in Emacs, this buffer must be in Org-mode. To
 unfold items, push TAB key (or Shift + TAB).
 
-
 * The old version Emacs
 
-I only test gams-mode.el in Emacs 23 and 24. So gams-mode.el is likely not
-to work well in the old version of Emacs.
+I only test gams-mode.el in Emacs 25. So gams-mode.el is likely not to work
+well in the old version of Emacs.
 
 
 * XEmacs is not supported
@@ -22,7 +21,8 @@ XEmacs is not supported. GAMS mode does not work in XEmacs.
 
 * Viewing documents
 
-`gams-view-docs' does not work in the old versions of GAMS.
+`gams-view-docs' does not work in the old versions of GAMS which has
+different folder structure to the current GAMS.
 
 
 * End gams statement block with `;'
@@ -61,16 +61,6 @@ code in your ".emacs.el":
 
 By this code, TAB key is binded to inserting TAB character and F2 key is
 binded to the indentation.
-
-
-* `comment-style' variable in new Emacs
-
-In the new Emacs (ver 23.0.9), the default value of `comment-style' changed
-from `plain' to `indent'. By this change, `gams-comment-region' (or
-`comment-region') command fails. To avoid this, please set plain to
-comment-style as the old Emacs:
-
-  (setq comment-style 'plain)
 
 
 * File name
@@ -123,28 +113,30 @@ coloring speed in Emacs but it often causes troubles in GAMS mode.
 
 You have two choices for this:
 
-  1. Make font-lock-support-mode off in GAMS mode.
+1. Make font-lock-support-mode off in GAMS mode.
 
-     Quit using font-lock support mode. By this setting, it is likey to take
-     more time for opening large gms files but you will encounter much less
-     troubles. To make font-lock support mode off in GAMS mode, put the
-     following setting in your ".emacs.el" (or "init.el").
+   One choice is to quit using font-lock support mode. By this setting, it
+   is likey to take more time for opening large gms files but you will
+   encounter much less troubles. To make font-lock support mode off in GAMS
+   mode, put the following setting in your "init.el".
 
-     (setq font-lock-support-mode
-	    '((gams-mode . nil) (t . jit-lock-mode)))
+   (setq font-lock-support-mode
+       '((gams-mode . nil) (t . jit-lock-mode)))
 
-  2. Use `jit-lock-mode' with a sufficiently large value of
-     `jit-lock-chunk-size'.
+2. Use `jit-lock-mode' with a sufficiently large value of
+   `jit-lock-chunk-size'.
 
-     When you use `jit-lock-mode', the coloring ofen fails, in particular,
-     coloring over multiple lines. However, setting sufficiently large value
-     to the variable `jit-lock-chunk-size' may resolve this problem. So add
-     the following setting in your ".emacs.el" (or "init.el").
+   When you use `jit-lock-mode', the coloring ofen fails, in particular,
+   coloring over multiple lines. However, setting sufficiently large value
+   to the variable `jit-lock-chunk-size' may resolve this problem. So add
+   the following setting in your "init.el".
 
-     (setq jit-lock-chunk-size 50000)
+   (setq jit-lock-chunk-size 50000)
 
-     But note that the large value of `jit-lock-chunk-size' often causes
-     Emacs to hang up.
+   But note that the large value of `jit-lock-chunk-size' often causes Emacs
+   to hang up.
+
+
 
 -------------------
 Local Variables:
