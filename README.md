@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-18 08:13:58 st>
+Time-stamp: <2016-03-18 08:14:26 st>
 -->
 
 GAMS-mode
