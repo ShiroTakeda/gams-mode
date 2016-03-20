@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-19 08:21:47 st>
+;; Time-stamp: <2016-03-20 18:27:27 st>
 ;; Version: 6.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -34,8 +34,8 @@
 ;; http://shirotakeda.org/en/gams/gams-mode/
 ;;
 ;; If you install this file from MLPA repository, gams-mode.el is downloaded
-;; from GitHub <https://github.com/ShiroTakeda/gams-mode/tree/devel>. Please see
-;; CHANGELOG.md at GitHub for the latest changes.
+;; from GitHub <https://github.com/ShiroTakeda/gams-mode/tree/master>. Please
+;; see CHANGELOG.md at GitHub for the latest changes.
 
 
 
