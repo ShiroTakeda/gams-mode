@@ -1,7 +1,7 @@
 $title GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
 ** gams-lst-file: .\doc\lst-sample.lst
 $ontext
-Time-stamp:     <2016-02-28 20:31:10 st>
+Time-stamp:     <2016-04-03 14:56:47 st>
 Filename:       "gams-sample-ja.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -16,9 +16,6 @@ First-written:  <2001/08/13>
   * 「バッファ」，「ミニバッファ」，「ウィンドウ」等の Emacs の用語についても
     tutorialを参照してください．
 
-  * "include-sample.gms", "include-sample-2.gms" をこのファイルと同じフォルダ
-    に置いてください．
-
   * "C-cC-v"のような表記は通常のEmacsの説明と同じような意味を表します．例えば，
 
     `C-cC-v' ==>  "Control key + c" を押して，その後 "Control + v" を押す
@@ -26,11 +23,11 @@ First-written:  <2001/08/13>
     `M-q'    ==>  "Alt key + q" を押すということです．
 
   * M-x describe-variable や M-x describe-function というコマンドにより変数や
-    関数の説明を読むことができます．例えば，`gams:process-command-name' とい
+    関数の説明を読むことができます．例えば，`gams-process-command-name' とい
     う変数の説明を読みたいときには
 
     M-x describe-variable ENTER
-    gams:process-command-name ENTER
+    gams-process-command-name ENTER
 
     とタイプすればよいです．
 
@@ -39,12 +36,12 @@ First-written:  <2001/08/13>
 
 $offtext
 
-*	Inline comment symbol の設定．
+*       Inline comment symbol の設定．
 $inlinecom /* */
-*	End-of-line comment symbol の設定．
+*       End-of-line comment symbol の設定．
 $eolcom #
 
-*	読み込むファイルの名前
+*       読み込むファイルの名前
 $setglobal sub_program ./include/include-sample.gms
 
 $ontext
@@ -63,7 +60,7 @@ $ontext
 ミニバッファーに次のようなメッセージがでるはずです．
 
 
-        Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
+    Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
 
 
 ここで `s' を押すと下側にウィンドウが開き，GAMS が実行されます．または，[f9]
@@ -74,8 +71,8 @@ $ontext
 
   + .emacs.el 内で shell (bash や cmdproxy) を適切に設定していますか？ 
 
-  + 変数 `gams:process-command-name' が適切に設定されていますか？ GAMS のシス
-  テムフォルダにパスを通していないのなら，変数 `gams:process-command-name' に
+  + 変数 `gams-process-command-name' が適切に設定されていますか？ GAMS のシス
+  テムフォルダにパスを通していないのなら，変数 `gams-process-command-name' に
   gams.exe へのフルパスを指定しないといけないです．
 
 GAMSのプロセスが終了したら，`C-cC-v' か [f10] を押してください．これで LSTファ
@@ -96,21 +93,21 @@ $ontext
 実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，ウィンドウ
 が二つに分割され，ミニバッファーに次のようなメッセージが表示されます．
 
-        Key: [u]=Jump to the error place, [i]=Jump to the input file.
+    Key: [u]=Jump to the error place, [i]=Jump to the input file.
 
 上のウィンドウはエラーの行，下のウィンドウはエラーの内容を表示します．
 
 上のウィンドウは次のような表示になっているはずです．
 
-	
-	      次に，以下にある * で始まる行の * を消去して，GAMS を実行してください
-	      (`C-cC-t' を押し， `s' を押す)．
-	       
-	 114               この行のコメントをとってください．エラーの位置．
-	 ***               $409
-	 *** LINE     86 INPUT       c:\WorkDir\gams\gams-sample-ja.gms
-	      実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，ウィンドウ
-	      が二つに分割され，ミニバッファーに次のようなメッセージが表示されます．
+        
+              次に，以下にある * で始まる行の * を消去して，GAMS を実行してください
+              (`C-cC-t' を押し， `s' を押す)．
+               
+         114               この行のコメントをとってください．エラーの位置．
+         ***               $409
+         *** LINE     86 INPUT       c:\WorkDir\gams\gams-sample-ja.gms
+              実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，ウィンドウ
+              が二つに分割され，ミニバッファーに次のようなメッセージが表示されます．
 
 
 これは，ごく普通の構文エラー (syntax error) です．エラーの位置とエラー番号
@@ -120,13 +117,13 @@ $ontext
 このケースは，"Unknown symbol" というエラーだということがわかります．
 
 
-	409  Unrecognizable item - skip to find a new statement
-	       looking for a ';' or a key word to get started again
-	
-	*** 1 ERROR(S)   0 WARNING(S)
-	GAMS Rev 231  WIN-VIS 23.1.1 x86/MS Windows                       09/16/09 01:34:32 Page 3
-	GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
-	Include File Summary
+        409  Unrecognizable item - skip to find a new statement
+               looking for a ';' or a key word to get started again
+        
+        *** 1 ERROR(S)   0 WARNING(S)
+        GAMS Rev 231  WIN-VIS 23.1.1 x86/MS Windows                       09/16/09 01:34:32 Page 3
+        GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
+        Include File Summary
 
 
 LSTファイル内で `y' をタイプすると，最初のエラーの位置にジャンプします．
@@ -149,7 +146,7 @@ LSTファイル内で `y' をタイプすると，最初のエラーの位置にジャンプします．
 もしエラーが存在していたら，次のようなメッセージがミニバッファーに表示されま
 す．
 
-        Key: `u' = Jump to the error place, `i' = Jump to the input file.
+    Key: `u' = Jump to the error place, `i' = Jump to the input file.
 
 
 `u' ではエラーの位置にジャンプします． `i' ではインプットファイル (トップレベ
@@ -169,7 +166,7 @@ Syntax エラー以外のエラー (例えば、execution) の場合には，エラー行しか表示さ
 去して，GAMS を実行して、LST ファイルに移動してください。
 $offtext
 parameter a       Parameter a
-	  b       Parameter b;
+          b       Parameter b;
 a = 0;
 * b = 1/a;
 parameter c, d, e;
@@ -187,11 +184,11 @@ $ontext
 
 $offtext
 *        ----------------------------------------------------------------------
-$stitle		GAMS mode のその他のコマンド．
+$stitle         GAMS mode のその他のコマンド．
 *        ----------------------------------------------------------------------
 
 * ------------------
-$stitle		プロセスについて．
+$stitle         プロセスについて．
 * ------------------
 $ontext
 
@@ -204,31 +201,31 @@ $ontext
 `C-uC-cC-t' とタイプしてください．
 
 
-        Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
+    Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
 
 
 ここで `s' を押すと，次のようなメッセージがミニバッファーに表示されます．
 
 
-        Edit command if you want:  gams gams-sample.gms ll=0 lo=3 pw=100
+    Edit command if you want:  gams gams-sample.gms ll=0 lo=3 pw=100
 
 
 ここで自分の望む通りにコマンドラインを修正できます．例えば，
 
 
-        Edit command if you want:  gams gams-sample.gms ll=0 lo=3 pw=120
+    Edit command if you want:  gams gams-sample.gms ll=0 lo=3 pw=120
 
 
 と修正したとします．すると，この後以下のようなメッセージがでます．
 
 
 
-        Use this command line also in the future?
+    Use this command line also in the future?
 
 ここで `y' と答えると，次のような行がこのファイルの第一行目に追加されます．
 
 
-        *#!gams gams gams-sample.gms ll=0 lo=3 pw=120
+    *#!gams gams gams-sample.gms ll=0 lo=3 pw=120
 
 
 次にGAMSを実行するときには，この行がそのままコマンドラインとしてシェルに渡さ
@@ -245,20 +242,20 @@ GMS ファイルの最初の行に *#! で始まる表現があった場合，GAMS mode はその行を
 例えば，一番最初の行に次のように書いてください．
 
 
-	*#!e:/GAMS/GAMS22.8/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+        *#!c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
 
 
 すると，C-cC-s で
 
 
-e:/GAMS/GAMS22.8/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
 
 
 が，そのままコマンドラインとして実行されます．これはシェルスクリプトにおける
 #!/usr/bin/perl や #!/bin/sh といった記法と同じような機能です．
 
 GAMS mode が実行するコマンドラインは，デフォールトでは変数
-`gams:process-command-name' と`gams:process-command-option' によって決定され
+`gams-process-command-name' と`gams-process-command-option' によって決定され
 ます．これは，デフォールトでは全てのファイルに同じコマンドラインが適用される
 ということを意味します．もし，ある特定のファイルについては，コマンドラインを
 変更したい場合には，この "*#!" 記法を使うことで対処できます．
@@ -280,10 +277,10 @@ ontext-oftext のペアを除去するには ontext か offtext の上で `C-cM-c' を実行
 $offtext
 
 $ontext
-*	Type `C-cM-c' on the above ontext!  To comment out them, type
-*	the same.
+*       Type `C-cM-c' on the above ontext!  To comment out them, type
+*       the same.
 
-set	o	/o1*o100000/;
+set     o       /o1*o100000/;
 parameter
     xx(o)
     yy(o)
@@ -309,7 +306,7 @@ $ontext
 登録したオプションは `gams-statement-file' (で決定されるファイル) に保存され
 ます．
 
-デフォールトのオプションの組み合わせは変数 `gams:process-command-option' の
+デフォールトのオプションの組み合わせは変数 `gams-process-command-option' の
 値で決定されます．
 
 
@@ -321,12 +318,12 @@ $ontext
 登録したオプションは `gams-statement-file' (で決定されるファイル) に保存され
 ます．
 
-デフォールトのオプションの組み合わせは変数 `gams:process-command-option' の
+デフォールトのオプションの組み合わせは変数 `gams-process-command-option' の
 値で決定されます．
 
 $offtext
 * ------------------
-$stitle		LST ファイルの名前と場所の指定
+$stitle         LST ファイルの名前と場所の指定
 * ------------------
 $ontext
 
@@ -338,7 +335,7 @@ GMS ファイルに GAMS を実行すると，GAMS ファイルと同じ名前 (拡張子部分のみ異な
 フォルダに出力したいとします．その場合，GMS ファイルに次のような行を加えてお
 きます．
 
-	* gams-lst-file: .\doc\lst-sample-2.lst
+        * gams-lst-file: .\doc\lst-sample-2.lst
 
 
 (* は本当は行頭になくてはなりません)
@@ -357,14 +354,14 @@ GMS ファイルに GAMS を実行すると，GAMS ファイルと同じ名前 (拡張子部分のみ異な
 
 例えば
 
-	* gams-lst-dir: .\lst
+        * gams-lst-dir: .\lst
 
 というコードを加えると gams-sample.lst は ".\lst\" というフォルダに出力され
 ることになります．
 
 $offtext
 * ----------------------------
-$stitle		GAMS の命令の補完入力．
+$stitle         GAMS の命令の補完入力．
 * ----------------------------
 $ontext
 
@@ -372,7 +369,7 @@ GAMS の命令を補完入力できます．`C-cC-k' とタイプしてください．すると，ミニバッ
 ファーに次のようなメッセージが表示されます．
 
 
-        Insert statement (default = set):
+    Insert statement (default = set):
 
 ここで，space か tab キーを押すと，補完入力の候補が表示されます．ここで
 ENTER を押すとデフォールト値である set がそのまま入力されます．あるいは `v'
@@ -386,7 +383,7 @@ ENTER を押すとデフォールト値である set がそのまま入力されます．あるいは `v'
 ると，新しいコマンドに置き換えることができます．
 $offtext
 
-parameter	replace; 	# `parameter' の上で C-uC-cC-k
+parameter       replace;        # `parameter' の上で C-uC-cC-k
 
 $ontext
 
@@ -396,7 +393,7 @@ put を入力する際に，引数等を補完入力することができます．
 
 $offtext
 * -------------------------------------------
-$stitle 	新しいコマンドの登録
+$stitle         新しいコマンドの登録
 * -------------------------------------------
 $ontext
 
@@ -405,13 +402,13 @@ $ontext
 例えば，`C-cC-d' で `gdxin' と入力してください．
 
 
-        Insert dollar control (default = $abort): $gdxin
+    Insert dollar control (default = $abort): $gdxin
 
 
 ここで enter を押すと，次のように聞かれます．
 
 
-        Store `gdxin' for future use?  Type `y' if yes: 
+    Store `gdxin' for future use?  Type `y' if yes: 
 
 
 `y' を押せば dollar control `$gdxin' を登録することができます．登録されれば，
@@ -426,7 +423,7 @@ dollar control だけではなく statement (C-cC-k) の入力についても，同じように登
 $offtext
 
 * ---------------------------
-$stitle		引用記号と括弧
+$stitle         引用記号と括弧
 * ---------------------------
 
 $ontext
@@ -439,7 +436,7 @@ $ontext
 
 $offtext
 * ---------------------------------------
-$stitle		コメント用のテンプレートの入力
+$stitle         コメント用のテンプレートの入力
 * ---------------------------------------
 $ontext
 
@@ -451,24 +448,24 @@ $ontext
 $offtext
 
 * ---------------
-$stitle		GAMS-TEMPLATE mode.
+$stitle         GAMS-TEMPLATE mode.
 * ---------------
 $ontext
 
 GAMS-TEMPLATE mode (デフォールトでは `C-cC-e') によって様々なテンプレートを入
 力することができます．
 
-GAMS mode には `gams-template.txt' というサンプルのテンプレートファイル (テン
-プレートが登録されたファイル) が付属しています．これを HOME ディレクトリに保
-存しておいてください (あるいは `gams-template-file' という変数で指
-定)．GAMS-TEMPLATE mode を使うには GAMS mode のバッファーで`C-cC-e' とタイプ
-してください． GAMS-TEMPLATE mode 内のコマンドについては
+GAMS mode には `gams-template.txt' というサンプルのテンプレートファイル (テ
+ンプレートが登録されたファイル) が付属しています．これを "~/.emacs.d/" ディ
+レクトリに保存しておいてください (あるいは `gams-template-file' という変数で
+指定)．GAMS-TEMPLATE mode を使うには GAMS mode のバッファーで`C-cC-e' とタイ
+プしてください． GAMS-TEMPLATE mode 内のコマンドについては
 *Template List* バッファーで `h' を押してください．
 
 $offtext
 
 * ----------------
-$stitle 	パラグラフの整形
+$stitle         パラグラフの整形
 * ----------------
 $ontext
 
@@ -499,7 +496,7 @@ $ontext
 
 $offtext
 * ---------------------
-$stitle 	コメントアウト
+$stitle         コメントアウト
 * ---------------------
 $ontext
 
@@ -515,7 +512,7 @@ $offtext
 $include %sub_program%
 
 * ---------------------
-$stitle		Font-lock (色付け).
+$stitle         Font-lock (色付け).
 * ---------------------
 $ontext
 
@@ -543,18 +540,18 @@ set    k       Index k                / 1,2 /
        l       Index l                / l1*l10 /;
 
 parameter    s       Parameter s     / 1 /
-	     t       Parameter t     / 2 /
-	     u(k)    Parameter u;
+             t       Parameter t     / 2 /
+             u(k)    Parameter u;
 u(k) = 1;
 
 display "Parameter p/q", u;
 display 'Single quote / p/q', u;
 
 variable
-    p(k)    Variable p;		# End-of-line comment.
+    p(k)    Variable p;         # End-of-line comment.
 
 equation
-    eq_p(k) Equation;		/* Inline comment. */
+    eq_p(k) Equation;           /* Inline comment. */
 
 eq_p(k) .. p(k) =e= u(k);
 
@@ -576,7 +573,7 @@ $ontext
 
 $offtext
 * ---------------------------------------------
-$stitle 	identifier の宣言部分の表示
+$stitle         identifier の宣言部分の表示
 * ---------------------------------------------
 $ontext
 
@@ -592,11 +589,11 @@ variable, equation として宣言されたもの) の宣言をおこなっている部分を確認する
 
 $offtext
 
-a = 1; 			# a の上で F7 を押す．
-display a;		# a の上で F7 を押す．
-u(k) = 1;		# u と k の上で F7 を押す．
+a = 1;                  # a の上で F7 を押す．
+display a;              # a の上で F7 を押す．
+u(k) = 1;               # u と k の上で F7 を押す．
 p.fx(k) = 10;
-display p.l;		# p の上で F7 を押す．
+display p.l;            # p の上で F7 を押す．
 
 $ontext
 例えば、`a' の上で F7 をタイプすると、上に `a' の宣言部分、左にはファイルの構
@@ -621,8 +618,8 @@ d をタイプすると宣言部分に移動します。また、c をタイプすると元々の位置に移動
 さい。"include-sample.gms" ファイル内の宣言部分が表示されます。
 
 $offtext
-display ene; 		# Type F7 on the identifier ene
-display op; 		# Type F7 on the identifier out
+display ene;            # Type F7 on the identifier ene
+display op;             # Type F7 on the identifier out
 display util;
 display m, n;
 
@@ -637,7 +634,7 @@ $ontext
 
 $offtext
 * ---------------------------------------------
-$stitle		identifier のリストの表示
+$stitle         identifier のリストの表示
 * ---------------------------------------------
 $ontext
 
@@ -647,7 +644,7 @@ $ontext
 
 $offtext
 * -----------------------------------
-$stitle		ontext-offtext ペアに関するコマンド
+$stitle         ontext-offtext ペアに関するコマンド
 * -----------------------------------
 $ontext
 
@@ -666,10 +663,10 @@ can remove a pair of ontext-offtext.
 
 $offtext
 display "Try to type C-cC-c, C-uC-cC-c, C-cC-g, C-cM-c, and C-cM-g",
-	"on a ontext or offtext!";
+        "on a ontext or offtext!";
 
 * ---------------------------------------------------------
-$stitle		ブロックの整形
+$stitle         ブロックの整形
 * ---------------------------------------------------------
 $ontext
 `gams-align-block' (C-cC-y) によって table やその他のブロックの整形をするこ
@@ -681,24 +678,24 @@ $ontext
 -> t -> 3 -> y とタイプしてみてください。すると数値の桁をそろえることができま
 す。
 
-*	Before
-table table1	test table
-        	Japan	USA 	  EU	 China	Korea
-agriculture	  70	      4	  24	     197     3
-fishery		      21     8	   0	   17	   27
-textile		  4	    6	   106	   2	     -8
-food		    9	  415	 0	 95	    15
-energy		  0	   8	  6	 -327	  7
+*       Before
+table table1    test table
+                Japan   USA       EU     China  Korea
+agriculture       70          4   24         197     3
+fishery               21     8     0       17      27
+textile           4         6      106     2         -8
+food                9     415    0       95         15
+energy            0        8      6      -327     7
 ;
 
-*	After
-table table1	test table
-               Japan	USA	EU    China    Korea
-agriculture	  70	  4	24	197	   3
-fishery		  21	  8	 0	 17	  27
-textile		   4	  6    106	  2	  -8
-food		   9	415	 0	 95	  15
-energy		   0	  8	 6     -327	   7
+*       After
+table table1    test table
+               Japan    USA     EU    China    Korea
+agriculture       70      4     24      197        3
+fishery           21      8      0       17       27
+textile            4      6    106        2       -8
+food               9    415      0       95       15
+energy             0      8      6     -327        7
 
 [例 2]
 
@@ -708,16 +705,16 @@ energy		   0	  8	 6     -327	   7
 parameter
     abc(*);
 
-*	Before
-*	Start.
+*       Before
+*       Start.
 abc("agriculture") = 100;
 abc("fishery") = 200;
 abc("textile") = 1;
 abc("food") = 20;
 abc("energy") = 123;
-*	End.
+*       End.
 
-*	After
+*       After
 *       Start.
 abc("agriculture") = 100;
 abc("fishery")     = 200;
@@ -730,7 +727,7 @@ display abc;
 $offtext
 
 * ----------------------
-$stitle		自動インデント
+$stitle         自動インデント
 * ----------------------
 $ontext
 
@@ -743,12 +740,12 @@ TAB          =       これはカレントラインをインデント．
 
 $offtext
 
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
 *       ここから．
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
 
 set     i       Index   / i1*i2 /
-	j       Index   / j1*j2 /;
+        j       Index   / j1*j2 /;
 
 parameter
     para(i,j)       Parameter a
@@ -764,9 +761,9 @@ loop((i,j),
 *       Display j.
     display "Display set j", j;
     if((para(i,j) > 0.5),
-	display "para is greater than 0.5!";
+        display "para is greater than 0.5!";
     else
-	display "para is less than 0.5!";
+        display "para is less than 0.5!";
     );
 
     parb(i,j) = para(i,j) * 2;
@@ -776,12 +773,12 @@ loop((i,j),
 *       Display parc.
     display parc;
 );
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
 *       ここまで．
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
 
 $ontext
-=== Note ===自動インデントを上手く機能させるには，各ブロック
+=== Note === 自動インデントを上手く機能させるには，各ブロック
 (e.g. parameter, table, set, display blocks etc.) がセミコロン (;) で終了し
 ている必要があります．ブロックの終了を表すセミコロンは省略できる場合が多いで
 すが，できるだけ省略しないようにしてください．
@@ -789,7 +786,7 @@ $ontext
 $offtext
 
 * -------------
-$stitle		マニュアルの呼出し．
+$stitle         マニュアルの呼出し．
 * -------------
 $ontext
 
@@ -800,7 +797,7 @@ GAMSIDE では HELP -> DOC から GAMS のマニュアル (PDFファイル) を見ることがで
 
 $offtext
 * ----------------------
-$stitle		GAMS モデルライブラリ．
+$stitle         GAMS モデルライブラリ．
 * ----------------------
 $ontext
 
@@ -810,7 +807,7 @@ $ontext
 
 $offtext
 * --------------------------------
-$stitle		インライン・行末コメント
+$stitle         インライン・行末コメント
 * --------------------------------
 $ontext
 
@@ -838,15 +835,15 @@ Try to type M-; and C-cM-;.
 
 $offtext
 parameter
-    eol1	"End-of-line comment.    Type M-;"
-    eol2	"End-of-line comment 2.  Type M-;"
+    eol1        "End-of-line comment.    Type M-;"
+    eol2        "End-of-line comment 2.  Type M-;"
 ;
 parameter
-    inl1	"Inline comment.    Type C-cM-;"
-    inl2	"Inline comment 2.  Type C-cM-;"
+    inl1        "Inline comment.    Type C-cM-;"
+    inl2        "Inline comment 2.  Type C-cM-;"
 ;
 * --------------------------------
-$stitle		コメントのリージョンを隠す
+$stitle         コメントのリージョンを隠す
 * --------------------------------
 $ontext
 
@@ -857,7 +854,7 @@ C-cC-h でコメントのリージョンを隠すことができます．
 $offtext
 *        ----------------------------------------------------------------------
 
-$stitle		GAMS LST mode におけるその他のコマンド．
+$stitle         GAMS LST mode におけるその他のコマンド．
 *        ----------------------------------------------------------------------
 $ontext
 
@@ -872,31 +869,31 @@ Major mode for viewing GAMS LST file.
 
 The following commands are available in the GAMS-LST mode:
 
-y		Jump to the error and show its number and meaning.
-u		Jump back to the error place in the program file.
-i 		Jump to the input (GMS) file.
-q		Close the buffer.
-?		Display this help.
-.		Display the Included File Summary.
+y               Jump to the error and show its number and meaning.
+u               Jump back to the error place in the program file.
+i               Jump to the input (GMS) file.
+q               Close the buffer.
+?               Display this help.
+.               Display the Included File Summary.
 
-o		Start the GAMS-OUTLINE mode.
+o               Start the GAMS-OUTLINE mode.
 
-s(S)		Jump to the next (previous) SOLVE SUMMARY.
-r(R)		Jump to the next (previous) REPORT SUMMARY.
-v(V)		Jump to the next (previous) VAR entry.
-e(E)		Jump to the next (previous) EQU entry.
-p(P)		Jump to the next (previous) PARAMETER entry.
+s(S)            Jump to the next (previous) SOLVE SUMMARY.
+r(R)            Jump to the next (previous) REPORT SUMMARY.
+v(V)            Jump to the next (previous) VAR entry.
+e(E)            Jump to the next (previous) EQU entry.
+p(P)            Jump to the next (previous) PARAMETER entry.
 
-l		Jump to a line you specify.
-L		Jump to a line.
+l               Jump to a line you specify.
+L               Jump to a line.
 
-SPC		Scroll up.
-M-v or DEL	Scroll down.
-1		Widen the window.
-2		Split the window.
-m		Move frame.
-w		Resize frame.
-z		Move a cursor to the other window.
+SPC             Scroll up.
+M-v or DEL      Scroll down.
+1               Widen the window.
+2               Split the window.
+m               Move frame.
+w               Resize frame.
+z               Move a cursor to the other window.
 
 
 [Commands for Scrolling.]
