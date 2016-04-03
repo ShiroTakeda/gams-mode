@@ -1,11 +1,10 @@
 $title  GAMS-OUTLINE mode の説明のためのプログラム．
 display "@ GAMS-OUTLINE mode の説明のためのプログラム．";
 $ontext
-Time-stamp:     <2016-02-28 20:31:25 st>
+Time-stamp:     <2016-04-03 14:57:46 st>
 Filename:       outline-sample.gms
 Author:         Shiro Takeda
 First-written:  <2001/10/26>
-$Id: outline-sample.gms,v 1.9 2009/02/13 15:03:42 st Exp $
 
 [Note]:
 
