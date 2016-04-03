@@ -1,6 +1,6 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2016-02-28 20:31:07 st>
+Time-stamp:     <2016-04-03 14:56:06 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -30,9 +30,6 @@ $ontext
 Commentary:
 
   * For gams-mode.el version 3.6.
-
-  * Place this file, "include-sample.gms" and "include-sample-2.gms" in the
-    same directory.
 
   * Notations like "C-cC-v" follow the Emacs convention. For example,
 
@@ -73,7 +70,7 @@ First, try to run GAMS on this file.  Type `C-cC-t', then you see the
 following message in the mini-buffer.
 
 
-        Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
+    Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
 
 
 Type `s', and GAMS will start.  Or if you type [f9] or `C-cC-s', GAMS will
@@ -84,9 +81,9 @@ some problems in configurations. Please check the following:
 
   + Does a shell (such as bash or cmdproxy) work properly in your Emacs?
 
-  + Check the setting of the variable `gams:process-command-name'. If you do
+  + Check the setting of the variable `gams-process-command-name'. If you do
     not include the GAMS system directory in the environmental variable
-    PATH, you must set the full path to GAMS to `gams:process-command-name'.
+    PATH, you must set the full path to GAMS to `gams-process-command-name'.
 
 
 When the GAMS process finishes, type `C-cC-v' or [f10] to switch to the LST
@@ -108,7 +105,7 @@ $ontext
 Then switch to the LST buffer (C-cC-v or f10) and you will see two windows
 and the following message in the mini-buffer.
 
-        LastMod 2010/07/18 17:40: [u]=Jump to the error place, [i]=Jump to the input file
+    LastMod 2010/07/18 17:40: [u]=Jump to the error place, [i]=Jump to the input file
 
 One window displays an error line, and the other displays an error
 meaning.
@@ -163,7 +160,7 @@ you can easily debug your GMS file.
 If an error exists, the following message will appear in the mini-buffer.
 
 
-        [u]=Jump to the error place, [i]=Jump to the input file
+    [u]=Jump to the error place, [i]=Jump to the input file
 
 
 If there is only one program file, you had better type `u'.  But there may
@@ -194,7 +191,7 @@ $ontext
 Type `l' on the following error line
 
 
-         *** Exec Error at line 185: division by zero (0)
+     *** Exec Error at line 185: division by zero (0)
 
 
 then you will jump to the error line (185).  Moreover, type `b' and you
@@ -220,27 +217,27 @@ edit the command line before starting process.
 If you type `C-uC-cC-t', you see
 
 
-        Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
+    Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
 
 
 If you type `s' here, you encounter a message like
 
 
-        Edit command if you want:  gams gams-sample.gms
+    Edit command if you want:  gams gams-sample.gms
 
 
 and you can edit the command line.  Moreover, when you edit the command
 line, you are asked to use it in the future like this.
 
 
-        Use this command line also in the future?
+    Use this command line also in the future?
 
 
 If you answer `y' to this, the following line will be inserted in the first
 line of this file.
 
 
-        *#!gams gams-sample.gms ll=0 lo=3 pw=95
+    *#!gams gams-sample.gms ll=0 lo=3 pw=95
 
 
 When you evoke GAMS on this file next time, this line is passed to the shell
@@ -254,15 +251,15 @@ When there is a line beginning with *#! on the first line in a GMS file,
 GAMS mode uses its content as a command line.  For example, suppose that
 you write the following statement in the first line
 
-        *#!e:/GAMS/GAMS22.8/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+    *#!c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
 
 Then,
 
-e:/GAMS/GAMS22.8/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
 
 is executed as a command line.  This is a function like #!/usr/bin/perl or
 #!/bin/sh for shell scripts.  By default, the command line is determined by
-`gams:process-command-name' and `gams:process-command-option' and it is
+`gams-process-command-name' and `gams-process-command-option' and it is
 common to all GMS files. But when you want to use a different command line
 for a specific file, use this *#! notation.
 
@@ -307,14 +304,14 @@ the variable `gams-user-option-alist' and saved in the file decided by the
 variable `gams-statement-file'.
 
 The default option combiantion is determinied by the value of
-`gams:process-command-option'.
+`gams-process-command-option'.
 
 
 [Change gams command.]
 
 If you type `c' in the process menu, you can change (and register)
 alternative GAMS commands. You can set the default GAMS pcommand by the
-value of `gams:process-command-name'. But you may often want to use gams.exe
+value of `gams-process-command-name'. But you may often want to use gams.exe
 of different versions. In such cases, register other gams.exe by this menu.
 
 $offtext
@@ -332,7 +329,7 @@ corresponding to this gams-sample.gms and put it in the subdirectory `lst'.
 Then, add the following code somewhere in this file:
 
 
-        * gams-lst-file: .\lst\lst-sample.lst
+    * gams-lst-file: .\lst\lst-sample.lst
 
 
 (Note that * must really be on the beginning of line)
@@ -352,7 +349,7 @@ setting gams-lst-dir.
 
 For example,
 
-        * gams-lst-dir: .\lst
+    * gams-lst-dir: .\lst
 
 This code implies the lst directory is ".\lst\" and the lst file name is
 stored as ".\lst\gams-sample.lst".
@@ -369,7 +366,7 @@ You can insert GAMS statements with completion.  Type `C-cC-k', then the
 following message will appear in the mini-buffer.
 
 
-        Insert statement (default = set):
+    Insert statement (default = set):
 
 
 Type SPACE or TAB key and the list of candidates will appear.  If you type
@@ -442,13 +439,13 @@ If you are to insert a statement not registered by default, you can register
 it for the future use.  For example, if you type `abort' like
 
 
-        Insert statement (default = set): abort
+    Insert statement (default = set): abort
 
 
 and type `ENTER', then you are asked
 
 
-        Store `abort' for future use?  Type `y' if yes:
+    Store `abort' for future use?  Type `y' if yes:
 
 
 If you type `y' here, the statement `abort' is registered and it is included
@@ -488,10 +485,10 @@ by typing `C-cC-o' (gams-insert-comment).  Inserted template is defined by a
 variable `gams-user-comment'.  You can change the value of this variable.
 For example, I put the following in my ".emacs.el".
 
-         (setq gams-user-comment
-               "*       ------------------------------------------------------------------------
-         *      %
-         ")
+     (setq gams-user-comment
+           "*       ------------------------------------------------------------------------
+     *      %
+     ")
 
 Please see the help of `gams-user-comment'.
 
@@ -507,9 +504,10 @@ templates easily.  You can easily insert, re-edit, delete, rename, re-order,
 and add templates.
 
 There is a sample template file "gams-template.txt" which is distributed
-with this file.  Save it in your HOME directory.  To start GAMS-TEMPLATE
-mode, type `C-cC-e' in the GAMS mode buffer.  If you want to know the
-commands in GAMS-TEMPLATE mode, type `h' in the *Template List* buffer.
+with this file.  Save it in your "~/.emacs.d/" directory.  To start
+GAMS-TEMPLATE mode, type `C-cC-e' in the GAMS mode buffer.  If you want to
+know the commands in GAMS-TEMPLATE mode, type `h' in the *Template List*
+buffer.
 
 $offtext
 
@@ -642,7 +640,7 @@ will appear in the upper window and the position of the cursor will be
 displayed in the left window.  You will see the following message in the
 mini-buffer:
 
-        The declaration part of `u': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump
+    The declaration part of `u': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump
 
 If you type n(p), you can move to the next (previous) place where "u"
 appears.  Type d, you can move to the declaration part.  Type c, you can
