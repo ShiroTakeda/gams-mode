@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-03-20 18:27:27 st>
+;; Time-stamp: <2016-04-05 11:25:33 st>
 ;; Version: 6.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -14616,6 +14616,7 @@ DIR: the destination directory."
 	(co 0)
 	dirname)
     (setq lib lib)
+    (setq dir (expand-file-name dir))
     (setq dirname dir)
     (when gams-win32
       (setq lib (gams-convert-filename-from-gnupack lib))
