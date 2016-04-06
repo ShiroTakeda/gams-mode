@@ -4,8 +4,8 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-04-05 11:25:33 st>
-;; Version: 6.1
+;; Time-stamp: <2016-04-06 15:17:35 st>
+;; Version: 6.1.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
 ;; This file is not part of any Emacs.
@@ -73,7 +73,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.1"
+(defconst gams-mode-version "6.1.1"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -3555,7 +3555,7 @@ Otherwise split window conventionally."
 	(setq temp (gams-process-caluculate-time
 		    gams-ps-compile-start-time))
 	(insert
-	 (format "Total compilation time is %s:%s:%s.\n"
+	 (format "Total running time is %s:%s:%s.\n"
 		 (car temp)
 		 (nth 1 temp)
 		 (nth 2 temp)))
