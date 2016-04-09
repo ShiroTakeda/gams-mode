@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-04-06 15:17:35 st>
+;; Time-stamp: <2016-04-07 10:18:01 st>
 ;; Version: 6.1.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -127,7 +127,7 @@ in the file specified by this variable."
   :type 'file
   :group 'gams)
 
-(defcustom gams-system-directory "c:/GAMS20.0/"
+(defcustom gams-system-directory "c:/GAMS/win64/24.7/"
   "*The GAMS system directory (the directory where GAMS is installed).
 This must be assigned the proper value if you want to use
 `gams-view-document' and `gams-model-library'."
@@ -827,8 +827,6 @@ Taken from `org-level-color-stars-only'."
 
 ;; Variables for Emacs version.
 (defvar gams-win32 (memq system-type '(ms-dos windows-nt cygwin)))
-(defvar gams-cygwin (memq system-type '(cygwin)))
-(defvar gams-emacs-21 (= emacs-major-version 21))
 
 (defun gams-convert-filename-gnupack (file)
   "Convert file name to cygwin type."
@@ -3290,9 +3288,7 @@ if `gams-use-mpsge' is non-nil)."
     file-lst))
 
 (defsubst gams-file-attributes (file)
-  (if gams-emacs-21
-      (file-attributes file)
-    (file-attributes file t)))
+  (file-attributes file t))
 
 (defsubst gams-get-lst-modified-time (lst)
   (format-time-string "%x %H:%M" (nth 5 (gams-file-attributes lst))))
@@ -14626,7 +14622,6 @@ DIR: the destination directory."
     (mapcar
      #'(lambda (x)
   	 (call-process glib nil nil nil "-lib" lib x dirname)
-;; 	 (call-process shell-file-name nil nil nil gams-shell-c glib "-lib" lib x dirname)
 	 (setq co (1+ co))
 	 (message (format "Extracting model `%s' [%d%%%%]"
 			  x
@@ -15021,9 +15016,8 @@ If PAGE is non-nil, page scroll."
 (setq-default gams-lxi-last-regions nil)
 
 ;;; Check:
-(when (not gams-emacs-21)
-  (require 'warnings)
-  (add-to-list 'warning-suppress-types '(undo discard-info)))
+(require 'warnings)
+(add-to-list 'warning-suppress-types '(undo discard-info))
 
 (defun gams-lxi-create-lxi-file (lst)
   "Evoke gamslxi.exe to create the LXI file."
