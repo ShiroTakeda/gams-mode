@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-04-07 10:18:01 st>
+;; Time-stamp: <2016-05-01 21:56:01 st>
 ;; Version: 6.1.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -4158,6 +4158,46 @@ Otherwise, comment out or uncomment out the pair."
     (when font-lock-mode
       (font-lock-fontify-block))))
 
+(defun gams-search-matched-paren-fwd ()
+  (let ((right 0)
+        (left 0)
+        po)
+    (setq left 1)
+    (forward-char 1)
+    (catch 'found
+      (while t
+        (if (re-search-forward "\\([)]\\)\\|\\([(]\\)" nil t)
+            (progn
+              (if (match-beginning 1)
+                  (setq right (+ 1 right))
+                (setq left (+ 1 left)))
+              (when (equal right left)
+                (setq po (point))
+                (throw 'found t)))
+          (setq po nil)
+          (throw 'found t))))
+    po))
+
+(defun gams-search-matched-paren-back ()
+  (let ((right 0)
+        (left 0)
+        po)
+    (setq right 1)
+    (forward-char -1)
+    (catch 'found
+      (while t
+        (if (re-search-backward "\\([)]\\)\\|\\([(]\\)" nil t)
+            (progn
+              (if (match-beginning 1)
+                  (setq right (+ 1 right))
+                (setq left (+ 1 left)))
+              (when (equal right left)
+                (setq po (point))
+                (throw 'found t)))
+          (setq po nil)
+          (throw 'found t))))
+    po))
+
 ;;; New function.
 (defun gams-goto-matched-paren ()
   "Jump to the matched parenthesis.
@@ -4165,52 +4205,19 @@ Otherwise, comment out or uncomment out the pair."
 The similar function as F8 in GAMSIDE.  This command is vaild only if the
 cursor is on the parenthesis."
   (interactive)
-  (let ((right 0)
-	(left 0)
-	po)
+  (let (po)
     (save-excursion
       (cond
        ((equal "(" (char-to-string (following-char)))
-	(setq left 1)
-	(forward-char 1))
+        (setq po (gams-search-matched-paren-fwd)))
        ((equal ")" (char-to-string (preceding-char)))
-	(setq right 1)
-	(forward-char -1)))
-      (cond
-       ((equal left 1)
-	;; Search ")"
-	(progn
-	  (catch 'found
-	    (while t
-	      (if (re-search-forward "\\([)]\\)\\|\\([(]\\)" nil t)
-		  (progn
-		    (if (match-beginning 1)
-			(setq right (+ 1 right))
-		      (setq left (+ 1 left)))
-		    (when (equal right left)
-		      (setq po (point))
-		      (throw 'found t)))
-		(message "No matched parenthesis")
-		(throw 'found t))))))
-       ((equal right 1)
-	;; Search "("
-	(catch 'found
-	  (while t
-	    (if (re-search-backward "\\([)]\\)\\|\\([(]\\)" nil t)
-		(progn
-		  (if (match-beginning 1)
-		      (setq right (+ 1 right))
-		    (setq left (+ 1 left)))
-		  (when (equal right left)
-		    (setq po (point))
-		    (throw 'found t)))
-	      (message "No matched parenthesis")
-	      (throw 'found t)))))
+        (setq po (gams-search-matched-paren-back)))
        (t (message "This command is valid only if the cursor is on `(' or `)'."))))
-    (when po
-      (goto-char po)
-      (message "Jump to the matched parenthesis")
-      )))
+    (if po
+        (progn (goto-char po)
+               (message "Jump to the matched parenthesis"))
+      (message "No matched parenthesis!"))
+    ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Insert parens, quotations
@@ -9545,8 +9552,8 @@ LIGHT is t if in light mode.
     (catch 'found
       (while t
 	(if (re-search-forward
-	     (concat "^$\\(sectors\\|commodities\\|"
-		     "consumers\\|auxiliary\\|report\\|prod\\|demand\\|constraint\\):")
+	     (concat "^$\\(sector[s]*\\|commodities\\|commodity"
+		     "consumer[s]*\\|auxiliary\\|report\\|prod\\|demand\\|constraint\\):")
 	     end t)
 	    (progn (setq block-begin (match-end 0))
 		   (setq m-string (gams-buffer-substring
