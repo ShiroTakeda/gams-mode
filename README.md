@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-18 08:14:26 st>
+Time-stamp: <2016-04-29 09:25:46 st>
 -->
 
 GAMS-mode
@@ -47,11 +47,11 @@ You can obtain the latest version of this program at the web site
 
 When you use GAMS, you must do the following jobs:
 
-(1) Edit GAMS program file,
-(2) Call GAMS to execute the program,
-(3) Read the output file,
-(4) Debug the program,
-(5) Examine the numerical values in the output file,
+1. Edit GAMS program file,
+2. Call GAMS to execute the program,
+3. Read the output file,
+4. Debug the program,
+5. Examine the numerical values in the output file,
 
 and so on...  GAMS mode for Emacs offers various kinds of features which
 raise your efficiency in all of these jobs.
@@ -81,9 +81,9 @@ This is the major mode for editing GAMS program file.
 4. Like GAMSIDE, it colors a program file in accordance with the GAMS syntax.
 5. Handling templates of various programs (this is GAMS-TEMPLATE mode).
 6. Automatic indent.
-7. Reading GAMS manual.
-8. Extracting models from GAMS model library.
-9. Viewing GAMS program structure (GAMS-SIL mode).
+7. Viewing GAMS program structure (GAMS-SIL mode).
+8. Reading GAMS manual.
+9. Extracting models from GAMS model library.
 
 I will explain each function in detail.
 
@@ -119,7 +119,17 @@ I think that many people agree with the opinion that the proper indent is
 important for writing programs that other people (or yourself) can read
 easily.  But it is quite tedious to insert spaces and TABs manually by
 yourself.  In GAMS mode, each line is automatically indented according to
-GAMS syntax.
+GAMS syntax (6).
+
+When we write a GAMS program, we define many (sometimes hundreads of)
+variables, equations, sets and parameters and it is difficult to remember
+which identifier represents what.  Feature (7) enables you to show the
+list of all identifiers defined in a program and you can see the structure
+of a program.
+
+In addition, you can call a PDF manual viewer from Emacs (8) to read GAMS
+manuals and you can view GAMS model library in Emacs (9).
+
 
 ## GAMS-LST mode
 

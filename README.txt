@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-16 10:52:59 st>
+Time-stamp: <2016-04-29 09:26:43 st>
 -->
 
 GAMS-mode
@@ -9,6 +9,10 @@ GAMS-mode
 
 This package offers the Emacs lisp program for using the numerical
 software GAMS in Emacs (GAMS mode for Emacs).
+
+If you want to know how to install GAMS mode, read
+[Installation](#installation) below. If you want to know the latest
+changes added to GAMS mode, see [CHANGELOG.md](CHANGELOG.md) file.
 
 ------------------------------------------------------------
 
@@ -36,18 +40,18 @@ using GAMS in Emacs.
 This section presents brief overview of what GAMS mode for Emacs is.
 Please read the section "Installation"' below for information about how to
 install GAMS mode.  If you are upgrading from the previous version of GAMS
-mode, the latest changes can be found in `CHANGELOG.txt` file.
+mode, the latest changes can be found in `CHANGELOG.md` file.
 
 You can obtain the latest version of this program at the web site
 [GAMS mode for Emacs (http://shirotakeda.org/en/gams/gams-mode/)](http://shirotakeda.org/en/gams/gams-mode/).
 
 When you use GAMS, you must do the following jobs:
 
-(1) Edit GAMS program file,
-(2) Call GAMS to execute the program,
-(3) Read the output file,
-(4) Debug the program,
-(5) Examine the numerical values in the output file,
+1. Edit GAMS program file,
+2. Call GAMS to execute the program,
+3. Read the output file,
+4. Debug the program,
+5. Examine the numerical values in the output file,
 
 and so on...  GAMS mode for Emacs offers various kinds of features which
 raise your efficiency in all of these jobs.
@@ -77,9 +81,9 @@ This is the major mode for editing GAMS program file.
 4. Like GAMSIDE, it colors a program file in accordance with the GAMS syntax.
 5. Handling templates of various programs (this is GAMS-TEMPLATE mode).
 6. Automatic indent.
-7. Reading GAMS manual.
-8. Extracting models from GAMS model library.
-9. Viewing GAMS program structure (GAMS-SIL mode).
+7. Viewing GAMS program structure (GAMS-SIL mode).
+8. Reading GAMS manual.
+9. Extracting models from GAMS model library.
 
 I will explain each function in detail.
 
@@ -115,7 +119,17 @@ I think that many people agree with the opinion that the proper indent is
 important for writing programs that other people (or yourself) can read
 easily.  But it is quite tedious to insert spaces and TABs manually by
 yourself.  In GAMS mode, each line is automatically indented according to
-GAMS syntax.
+GAMS syntax (6).
+
+When we write a GAMS program, we define many (sometimes hundreads of)
+variables, equations, sets and parameters and it is difficult to remember
+which identifier represents what.  Feature (7) enables you to show the
+list of all identifiers defined in a program and you can see the structure
+of a program.
+
+In addition, you can call a PDF manual viewer from Emacs (8) to read GAMS
+manuals and you can view GAMS model library in Emacs (9).
+
 
 ## GAMS-LST mode
 
@@ -185,7 +199,7 @@ First, I explain the files distributed in the package.
 | Filename                  | Explanation                                                           |
 |:--------------------------|:----------------------------------------------------------------------|
 | `README.txt`              | This file.  First read this.                                          |
-| `CHANGELOG.txt`           | Change log file.  If you want to know changes and newly added functions, please read it. |
+| `CHANGELOG.md`            | Change log file.  If you want to know changes and newly added functions, please read it. |
 | `BUGS_PROBLEMS.txt`       | Known bugs and problems                                               |
 | `gams-mode.el`            | The main lisp program.                                                |
 | `gams-setting-sample.el`  | A sample file for setting.                                            |
