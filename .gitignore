@@ -11,3 +11,5 @@ sample_gams_code/test.*
 *.org
 *-test.el
 copy_files.bat
+new/
+emacs.exe.stackdump

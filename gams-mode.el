@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-05-06 21:20:53 st>
+;; Time-stamp: <2016-07-28 12:02:09 st>
 ;; Version: 6.1.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -2130,8 +2130,16 @@ CURRENT is the current point.  END is the point of the declaration block."
          (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
+        ;; MPSGE dollar control options.
+        ("\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
+         (0 gams-mpsge-face t t))
+        ;; the ontext - offtext pair.
+        (gams-store-point-ontext (0 gams-comment-face t t))
         )
-     "Font lock keyboards for GAMS mode.  Level 1.")
+      "Font lock keyboards for GAMS mode.  Level 1.")
+      
+;; Generate regular expression.
+;; (gams-regexp-opt (list "BUG" "FIXME" "TODO")) "\\(?:BUG\\|FIXME\\|TODO\\)"
 
 (defvar gams-font-lock-keywords-2
       '(
@@ -2174,6 +2182,7 @@ CURRENT is the current point.  END is the point of the declaration block."
         ("^\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DATECH\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):" (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
+        ("\\(?:BUG\\|FIXME\\|TODO\\)" (0 gams-lst-warning-face t t))
         )
       "Font-Lock keyboards.")
 

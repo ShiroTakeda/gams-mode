@@ -1,13 +1,19 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-17 16:19:44 st>
+Time-stamp: <2016-07-28 11:57:50 st>
 -->
 
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ====================================================
+
+Version 6.1.1 ()
+----------------------------------
+
+* Highlight TODO/BUG/FIXME in commented out text.
+
 
 Version 6.1 (2016-03-17)
 ----------------------------------

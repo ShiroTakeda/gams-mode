@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-05-22 21:58:27 st>
+Time-stamp: <2016-05-22 22:00:44 st>
 -->
 
 GAMS-mode
@@ -326,7 +326,6 @@ contains a lot of useful templates for writing gms files.
 There are several lisp variables which decide the important behaviors of
 GAMS and the GAMS mode.  So, please read the customization part below,
 too.
-
 
 
 ### Install manually
