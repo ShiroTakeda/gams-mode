@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-07-28 11:57:50 st>
+Time-stamp: <2016-09-23 19:30:42 st>
 -->
 
 ----------------------------------------------------
@@ -9,10 +9,16 @@ Time-stamp: <2016-07-28 11:57:50 st>
 Change logs of GAMS mode.
 ====================================================
 
-Version 6.1.1 ()
+Version 6.1.1 (2016-09-23)
 ----------------------------------
 
-* Highlight TODO/BUG/FIXME in commented out text.
+* Added new variable `gams-highlighted-keywords-in-comment`.
+  In this variable, you specify the list of keywords highlighted even in comment region.
+
+  In comment region, all texts are colored by `gams-comment-face`.  But
+  the words registered in this list are colored by
+  `gams-highlighted-keywords-face` even in comment region.
+  The default keywords are TODO, BUG, FIXME.
 
 
 Version 6.1 (2016-03-17)

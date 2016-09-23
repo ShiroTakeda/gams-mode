@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-07-28 12:02:09 st>
+;; Time-stamp: <2016-09-23 19:28:39 st>
 ;; Version: 6.1.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -1035,6 +1035,7 @@ The default value is nil.")
 (defvar gams-sil-file-face-2 'gams-sil-file-face-2)
 (defvar gams-func-face 'gams-func-face)
 (defvar gams-def-face 'gams-def-face)
+(defvar gams-warning-face 'gams-warning-face "Face for warning in GAMS mode.")
 
 (defvar gams-dollar-regexp
   (gams-regexp-opt
@@ -1253,6 +1254,14 @@ It is used for font-lock of level 2.")
     (((class color) (background dark))
      (:bold t :foreground "red")))
   "Face for warnings in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-warning-face
+  '((((class color) (background light))
+     (:bold t :foreground "red"))
+    (((class color) (background dark))
+     (:bold t :foreground "red")))
+  "Face for warnings in GAMS mode."
   :group 'gams-faces)
 
 (defface gams-lst-program-face
@@ -2097,6 +2106,39 @@ CURRENT is the current point.  END is the point of the declaration block."
         (store-match-data (list beg end))
         t))))
 
+(defvar gams-highlighted-keywords-face
+  'gams-highlighted-keywords-face
+  "Face for highlighted keywords in comment region.")
+(defface gams-highlighted-keywords-face
+  '((((class color) (background light))
+     (:bold t :foreground "red"))
+    (((class color) (background dark))
+     (:bold t :foreground "yellow")))
+  "Face for highlighted keywords in comment region."
+  :group 'gams-faces)
+
+(defcustom gams-highlighted-keywords-in-comment 
+  '("TODO" "BUG" "FIXME")
+  "The default list of highlighted keywords in comment region.
+In comment region, all texts are colored by `gams-comment-face'.
+But the words registered in this list are colored by
+`gams-highlighted-keywords-face' even in comment region."
+  :type '(repeat (string :tag "keyword"))
+  :group 'gams)
+
+;; Generate regular expression.
+(defvar gams-highlighted-keywords-in-comment-regexp
+  (gams-regexp-opt gams-highlighted-keywords-in-comment))
+
+(defun gams-store-point-highlighted-keywords (limit)
+  (let ((key gams-highlighted-keywords-in-comment-regexp) len)
+    (when (re-search-forward key limit t)
+      (let (beg end)
+        (setq beg (match-beginning 0))
+        (setq end (match-end 0))
+        (store-match-data (list beg end))
+        t))))
+  
 (defvar gams-font-lock-keywords-1
       '(
         ;; Conditional dollar.
@@ -2137,9 +2179,6 @@ CURRENT is the current point.  END is the point of the declaration block."
         (gams-store-point-ontext (0 gams-comment-face t t))
         )
       "Font lock keyboards for GAMS mode.  Level 1.")
-      
-;; Generate regular expression.
-;; (gams-regexp-opt (list "BUG" "FIXME" "TODO")) "\\(?:BUG\\|FIXME\\|TODO\\)"
 
 (defvar gams-font-lock-keywords-2
       '(
@@ -2182,7 +2221,8 @@ CURRENT is the current point.  END is the point of the declaration block."
         ("^\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DATECH\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):" (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
-        ("\\(?:BUG\\|FIXME\\|TODO\\)" (0 gams-lst-warning-face t t))
+        (gams-store-point-highlighted-keywords
+         (0 gams-highlighted-keywords-face t t))
         )
       "Font-Lock keyboards.")
 
