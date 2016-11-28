@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-09-23 19:28:39 st>
+;; Time-stamp: <2016-11-28 18:31:35 st>
 ;; Version: 6.1.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -8899,6 +8899,12 @@ If PAGE is non-nil, page scroll."
      )
     str))
 
+(defcustom gams-sil-display-column-num 25
+"*The default column number in GAMS-SIL mode.
+The column number for displaying explanatory texts for identifier."
+  :type 'integer
+  :group 'gams)
+
 (defsubst gams-sil-display-list-message (buffer)
   (format
    "Identifier list on %s
@@ -8909,6 +8915,7 @@ SPC=view, TAB=goto, ENT=goto+hide, [q]uit, [r]escan, ?=Help
 (defun gams-sil-display-list (alist buffer)
   "Display the identifier list"
   (let* ((idlist alist)
+         (coln gams-sil-display-column-num)
          (col -3)
          ele type id exp)
     (goto-char (point-min))
@@ -8961,8 +8968,8 @@ SPC=view, TAB=goto, ENT=goto+hide, [q]uit, [r]escan, ?=Help
           (cond
            ((string-match "par\\|set\\|var\\|equ\\|mps\\|mod\\|sol\\|fun\\|def"
                           (symbol-name type))
-            (indent-to (+ col 20))
-            (when (<= 14 (length id))
+            (indent-to (+ col coln))
+            (when (<= (- coln 6) (length id))
               (insert "   ")))
            ((equal type 'dol) (insert " "))
            ((equal type 'fil) (insert " ")))
@@ -9560,26 +9567,34 @@ LIGHT is t if in light mode.
 
 (defsubst gams-sil-get-mpsge-variable (fnum)
   "FNUM is the file number in which the identifier is defined."
-  (let ((end (line-end-position))
-        beg id exp)
-    (when (re-search-forward "^[ \t]*\\([0-9a-zA-Z_]+\\)" end t)
+  (let ((lend (line-end-position))
+        beg end id exp)
+    (when (re-search-forward "^[ \t]*\\([0-9a-zA-Z_]+\\)" lend t)
       (setq beg (match-beginning 1))
-      (setq id (gams-buffer-substring beg (match-end 1)))
-      (when (re-search-forward "!" end t)
+      (setq end (match-end 1))
+      (when (looking-at "(")
+        (goto-char (gams-search-matched-paren-fwd))
+        (setq end (point)))
+      (setq id (gams-buffer-substring beg end))
+      (when (re-search-forward "!" lend t)
         (skip-chars-forward "[! \t]")
-        (setq exp (gams-buffer-substring (point) end)))
+        (setq exp (gams-buffer-substring (point) lend)))
       (gams-sil-make-alist 'mps fnum beg id exp))))
 
 (defsubst gams-sil-get-mpsge-report-variable (fnum)
   "FNUM is the file number in which the identifier is defined."
-  (let ((end (line-end-position))
-        beg id exp)
-    (when (re-search-forward "^[ \t]*v:\\([0-9a-zA-Z_]+\\)" end t)
+  (let ((lend (line-end-position))
+        beg end id exp)
+    (when (re-search-forward "^[ \t]*v:\\([0-9a-zA-Z_]+\\)" lend t)
       (setq beg (match-beginning 1))
-      (setq id (gams-buffer-substring beg (match-end 1)))
-      (when (re-search-forward "!" end t)
+      (setq end (match-end 1))
+      (when (looking-at "(")
+        (goto-char (gams-search-matched-paren-fwd))
+        (setq end (point)))
+      (setq id (gams-buffer-substring beg end))
+      (when (re-search-forward "!" lend t)
         (skip-chars-forward "[! \t]")
-        (setq exp (gams-buffer-substring (point) end)))
+        (setq exp (gams-buffer-substring (point) lend)))
       (gams-sil-make-alist 'mps fnum beg id exp))))
 
 (defsubst gams-sil-get-mpsge-variable-definition (fnum)
@@ -9712,6 +9727,8 @@ TYPE is the type of identifier."
             (setq po-beg (point)
                   po (point))
             (skip-chars-forward "[a-zA-Z0-9_]")
+            (when (looking-at "(")
+             (goto-char (gams-search-matched-paren-fwd)))
             (setq id (gams-buffer-substring po-beg (point)))
             (setq f-id t))))))
     alist))
