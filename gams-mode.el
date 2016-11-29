@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-11-28 18:31:35 st>
+;; Time-stamp: <2016-11-29 10:10:56 st>
 ;; Version: 6.1.1
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -8515,6 +8515,12 @@ Nil -> split vertically."
   :type 'boolean
   :group 'gams)
 
+(defcustom gams-sil-display-column-num 25
+"*The default column number in GAMS-SIL mode.
+The column number for displaying explanatory texts for identifier."
+  :type 'integer
+  :group 'gams)
+
 (defun gams-sil-toggle-display-style ()
   "Toggle the display style in the GAMS-SIL mode."
   (interactive)
@@ -8898,12 +8904,6 @@ If PAGE is non-nil, page scroll."
       (put-text-property 0 len 'face gams-sil-file-face-2 str))
      )
     str))
-
-(defcustom gams-sil-display-column-num 25
-"*The default column number in GAMS-SIL mode.
-The column number for displaying explanatory texts for identifier."
-  :type 'integer
-  :group 'gams)
 
 (defsubst gams-sil-display-list-message (buffer)
   (format
