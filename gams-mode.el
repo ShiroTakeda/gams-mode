@@ -5,8 +5,8 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-11-29 10:10:56 st>
-;; Version: 6.1.1
+;; Time-stamp: <2016-12-03 19:30:51 st>
+;; Version: 6.1.2
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
 ;; This file is not part of any Emacs.
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.1.1"
+(defconst gams-mode-version "6.1.2"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -355,12 +355,12 @@ Non-nil may make the speed of template-mode slow."
   :type 'number
   :group 'gams)
 
-(defcustom gams-sil-window-width 40
+(defcustom gams-sil-window-width 50
   "The default width of GAMS-SIL buffer."
   :type 'number
   :group 'gams)
 
-(defcustom gams-sid-tree-buffer-width 30
+(defcustom gams-sid-tree-buffer-width 40
   "Width of GAMS-SID Tree buffer."
   :type 'integer
   :group 'gams)

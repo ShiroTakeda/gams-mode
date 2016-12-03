@@ -1,13 +1,24 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-09-23 19:30:42 st>
+Time-stamp: <2016-12-03 19:30:23 st>
 -->
 
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ====================================================
+
+Version 6.1.2 (2016-12-03)
+----------------------------------
+
+* Added a customizable variable `gams-sil-display-column-num`.  This
+  variable determiens the column width for displaying identifer name in
+  GAMS-SIL mode.
+  
+* Made changes to display names of parameters, variables and equations
+  with index (set) in GAMS-SIL mode.
+
 
 Version 6.1.1 (2016-09-23)
 ----------------------------------

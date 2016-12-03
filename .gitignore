@@ -13,3 +13,4 @@ sample_gams_code/test.*
 copy_files.bat
 new/
 emacs.exe.stackdump
+identifier/
