@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-12-03 19:30:51 st>
+;; Time-stamp: <2016-12-29 18:22:54 st>
 ;; Version: 6.1.2
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -11258,20 +11258,24 @@ file number
 type
 marker
 position"
-  (let (ele res)
+  (let (ele res name_)
     (catch 'found
       (while idst
         (setq ele (car idst))
         (if (string-match "par\\|var\\|set\\|equ\\|mod\\|mps"
                           (symbol-name (nth 0 ele)))
-            (if (equal (downcase name) (downcase (nth 3 ele)))
-                (progn
-                  (setq res (list (nth 1 ele)
-                                  (nth 0 ele)
-                                  (nth 5 ele)
-                                  (nth 2 ele)))
-                  (throw 'found t))
-              (setq idst (cdr idst)))
+            (progn
+              (setq name_ (downcase (nth 3 ele)))
+              (when (string-match "(" name_)
+                (setq name_ (substring name_ 0 (string-match "(" name_))))
+              (if (equal (downcase name) name_)
+                  (progn
+                    (setq res (list (nth 1 ele)
+                                    (nth 0 ele)
+                                    (nth 5 ele)
+                                    (nth 2 ele)))
+                    (throw 'found t))
+                (setq idst (cdr idst))))
           (setq idst (cdr idst)))))
     res))
 
