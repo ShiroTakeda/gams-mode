@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2016-12-29 18:22:54 st>
+;; Time-stamp: <2017-01-08 17:34:21 st>
 ;; Version: 6.1.2
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -10861,30 +10861,37 @@ $batinclude or $include."
 
 (defun gams-sid-show-help ()
   (interactive)
-  (let ((temp-buf (get-buffer-create "*SD-HELP")))
+  (let ((cbuf (current-buffer))
+	(cpo (point))
+	(temp-buf (get-buffer-create "*SD-HELP"))
+	key)
     (save-window-excursion
       (switch-to-buffer temp-buf)
+      (setq buffer-read-only nil)
       (erase-buffer)
       (insert "[Help for GAMS show identifier]
 `gams-show-identifier' is a command to search and show the
 identifier which appears in various parts of the program.
 
-d               Show the declaration (first) part
-n               Show the next part.
-p               Show the previous part.
-c               Show the original part.
-e               Copy (extract) the explanatory text from the identifier declaration part.
-r               Rescan the identifier structure information.
-SPACE           Quit and restore the window configuration.
-ENT             Jump to the highligtened part.
-TAB             Jump to the highligtened part keeping window.
-Other key       Just quit.
-?               Show this help.
+d		Show the declaration (first) part
+n		Show the next part.
+p		Show the previous part.
+c		Show the original part.
+e		Copy (extract) the explanatory text from the identifier declaration part.
+r		Rescan the identifier structure information.
+SPACE		Quit and restore the window configuration.
+ENT		Jump to the highligtened part.
+TAB		Jump to the highligtened part keeping window.
+Other key	Just quit.
+?		Show this help.
 
-Type any key to close this buffer.")
+Type `q` to close this buffer.")
       (setq buffer-read-only t)
       (goto-char (point-min))
-      (kill-buffer temp-buf))))
+      (setq key (read-char))
+      (when (equal key ?q)
+        (kill-buffer temp-buf))
+      )))
 
 (defun gams-in-parenthesis-p ()
   "Return t if the current point is in parenthesis.
