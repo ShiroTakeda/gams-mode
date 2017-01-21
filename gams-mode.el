@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2017-01-08 17:34:21 st>
+;; Time-stamp: <2017-01-19 14:45:51 st>
 ;; Version: 6.1.2
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -10769,7 +10769,7 @@ if prev is non-nil, move up after toggle."
             ;; If found,
             (setq temp (match-beginning 0))
             (skip-chars-backward " \t\n")
-            (when (and (not (looking-at "[a-zA-Z0-9_]"))
+            (when (and (not (and (not (looking-back ";" )) (looking-at "[a-zA-Z0-9_]")))
                        (not (gams-check-line-type))
                        (not (gams-in-comment-p))
                        (not (gams-in-quote-p))
