@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2017-02-22 15:32:10 st>
+;; Time-stamp: <2017-02-22 16:37:58 st>
 ;; Version: 6.1.2
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -1441,11 +1441,9 @@ It is used for font-lock of level 2.")
 
 (defvar gams-regexp-declaration-2
   (concat
-   "\\(parameter\\|scalar\\|table"
+   "\\(parameter\\|set\\|scalar\\|table"
    "\\|\\(free\\|positive\\|negative\\|nonnegative"
-   "\\|binary\\|integer\\)*[ ]*variable\\|equation"
-   "\\|\\(singleton\\)*[ ]*set"
-   "\\|model\\|file"
+   "\\|binary\\|integer\\)*[ ]*variable\\|equation\\|model\\|file"
    "\\)[s]?"
    ))
 
@@ -2275,9 +2273,8 @@ But the words registered in this list are colored by
 (defvar gams-regexp-declaration
       (concat
        "\\("
-       "parameter[s]?\\|\\(singleton\\)*[ ]*set[s]?\\|scalar[s]?\\|table"
-       "\\|alias\\|acronym[s]?"
-       "\\|\\(free\\|positive"
+       "parameter[s]?\\|set[s]?\\|scalar[s]?\\|table"
+       "\\|alias\\|acronym[s]?\\|\\(free\\|positive"
        "\\|negative\\|binary\\|integer\\|nonnegative\\)*[ ]*variable[s]?"
        "\\|equation[s]?\\|model[s]?"
        "\\)[ \t\n(]+")
@@ -9102,7 +9099,7 @@ There are 2 types:
          "include\\|^[*][ \t]*gams-include-file:\\)[ \t]*\\|" ; 2
          "[^=]\\(==\\)[^=]\\|"                   ; 3
          "^\\([$][ ]*macro\\)[ \t]+\\|"          ; 4
-         "^[ \t]*\\(parameter[s]?\\|\\(singleton\\)*[ \t]*set[s]?\\|scalar[s]?\\|table\\|alias\\|acronym[s]?\\|\\(free\\|positive\\|negative\\|binary\\|integer\\|nonnegative\\)*[ \t]*variable[s]?\\|equation[s]?\\|model[s]?\\)[ \t\n(]+\\|" ; 5
+         "^[ \t]*\\(parameter[s]?\\|set[s]?\\|scalar[s]?\\|table\\|alias\\|acronym[s]?\\|\\(free\\|positive\\|negative\\|binary\\|integer\\|nonnegative\\)*[ \t]*variable[s]?\\|equation[s]?\\|model[s]?\\)[ \t\n(]+\\|" ; 5
          "\\(^$model:\\)[a-zA-Z]+"      ; 7
          )))
 
@@ -10738,7 +10735,7 @@ if prev is non-nil, move up after toggle."
 (defvar gams-regexp-declaration-3
       (concat
        "^[ \t]*\\("
-       "parameter[s]?\\|\\(singleton\\)*[ ]*set[s]?\\|scalar[s]?\\|table\\|alias"
+       "parameter[s]?\\|set[s]?\\|scalar[s]?\\|table\\|alias"
        "\\|acronym[s]?\\|\\(free\\|positive"
        "\\|negative\\|binary\\|integer\\|nonnegative\\)*[ ]*variable[s]?"
        "\\|equation[s]?\\|model[s]?\\|$model:"
