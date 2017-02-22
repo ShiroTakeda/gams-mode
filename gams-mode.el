@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2017-01-19 14:45:51 st>
+;; Time-stamp: <2017-02-22 15:32:10 st>
 ;; Version: 6.1.2
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -639,6 +639,7 @@ You can change the width of the LXI buffer with
         "NEGATIVE VARIABLE" "NEGATIVE VARIABLES"
         "INTEGER VARIABLE" "INTEGER VARIABLES"
         "BINARY VARIABLE" "BINARY VARIABLES"
+        "SINGLETON SET" "SINGLETON SETS"
         "ALIAS"
         "OPTION"
         "EXECUTE_UNLOAD"
@@ -1067,6 +1068,7 @@ The default value is nil.")
     "model" "models" 
     "negative" "nonnegative" "option" "options" "parameter" "parameters" "positive" 
     "sameas" "scalar" "scalars" "set" "sets" "sos1" "sos2" "system"
+    "singleton" 
     "table" "variable" "variables" "xor" "repeat" "until" "while" "if"
     "then" "else" "elseif" "semicont" "semiint" "file" "files" "put"
     "putpage" "puttl" "free" "solve" "for" "errorf" "floor" "mapval" "mod"
@@ -1082,7 +1084,7 @@ The default value is nil.")
         "minimising" "minimizing" "model"
         "models" "na" "ne" "negative" "nonnegative" "not" "option" "options" "or" "ord"
         "parameter" "parameters" "positive" "prod" "sameas" "scalar" "scalars"
-        "set" "sets" "smax" "smin" "sos1" "sos2" "sum" "system" "table"
+        "set" "sets" "smax" "smin" "sos1" "sos2" "sum" "system" "singleton" "table"
         "using" "variable" "variables" "xor" "yes" "repeat" "until" "while"
         "if" "then" "else" "elseif" "semicont" "semiint" "file" "files" "put"
         "putpage" "puttl" "free" "no" "solve" "for" "abort" "abs" "arctan"
@@ -1090,7 +1092,8 @@ The default value is nil.")
         "mod" "normal" "power" "round" "sign" "sin" "sqr" "sqrt" "trunc"
         "uniform" "putclose"
         "positive variable" "binary variable" "positive variables" "binary variables"
-        "nonnegative variable" "nonnegative variables" 
+        "nonnegative variable" "nonnegative variables"
+        "singleton set" "singleton sets"
         ))
 
 (defvar gams-statement-regexp-base
@@ -1438,9 +1441,11 @@ It is used for font-lock of level 2.")
 
 (defvar gams-regexp-declaration-2
   (concat
-   "\\(parameter\\|set\\|scalar\\|table"
+   "\\(parameter\\|scalar\\|table"
    "\\|\\(free\\|positive\\|negative\\|nonnegative"
-   "\\|binary\\|integer\\)*[ ]*variable\\|equation\\|model\\|file"
+   "\\|binary\\|integer\\)*[ ]*variable\\|equation"
+   "\\|\\(singleton\\)*[ ]*set"
+   "\\|model\\|file"
    "\\)[s]?"
    ))
 
@@ -2118,7 +2123,7 @@ CURRENT is the current point.  END is the point of the declaration block."
   :group 'gams-faces)
 
 (defcustom gams-highlighted-keywords-in-comment 
-  '("TODO" "BUG" "FIXME")
+  '("_TODO_" "_BUG_" "_FIXME_")
   "The default list of highlighted keywords in comment region.
 In comment region, all texts are colored by `gams-comment-face'.
 But the words registered in this list are colored by
@@ -2270,8 +2275,9 @@ But the words registered in this list are colored by
 (defvar gams-regexp-declaration
       (concat
        "\\("
-       "parameter[s]?\\|set[s]?\\|scalar[s]?\\|table"
-       "\\|alias\\|acronym[s]?\\|\\(free\\|positive"
+       "parameter[s]?\\|\\(singleton\\)*[ ]*set[s]?\\|scalar[s]?\\|table"
+       "\\|alias\\|acronym[s]?"
+       "\\|\\(free\\|positive"
        "\\|negative\\|binary\\|integer\\|nonnegative\\)*[ ]*variable[s]?"
        "\\|equation[s]?\\|model[s]?"
        "\\)[ \t\n(]+")
@@ -9096,7 +9102,7 @@ There are 2 types:
          "include\\|^[*][ \t]*gams-include-file:\\)[ \t]*\\|" ; 2
          "[^=]\\(==\\)[^=]\\|"                   ; 3
          "^\\([$][ ]*macro\\)[ \t]+\\|"          ; 4
-         "^[ \t]*\\(parameter[s]?\\|set[s]?\\|scalar[s]?\\|table\\|alias\\|acronym[s]?\\|\\(free\\|positive\\|negative\\|binary\\|integer\\|nonnegative\\)*[ \t]*variable[s]?\\|equation[s]?\\|model[s]?\\)[ \t\n(]+\\|" ; 5
+         "^[ \t]*\\(parameter[s]?\\|\\(singleton\\)*[ \t]*set[s]?\\|scalar[s]?\\|table\\|alias\\|acronym[s]?\\|\\(free\\|positive\\|negative\\|binary\\|integer\\|nonnegative\\)*[ \t]*variable[s]?\\|equation[s]?\\|model[s]?\\)[ \t\n(]+\\|" ; 5
          "\\(^$model:\\)[a-zA-Z]+"      ; 7
          )))
 
@@ -10732,7 +10738,7 @@ if prev is non-nil, move up after toggle."
 (defvar gams-regexp-declaration-3
       (concat
        "^[ \t]*\\("
-       "parameter[s]?\\|set[s]?\\|scalar[s]?\\|table\\|alias"
+       "parameter[s]?\\|\\(singleton\\)*[ ]*set[s]?\\|scalar[s]?\\|table\\|alias"
        "\\|acronym[s]?\\|\\(free\\|positive"
        "\\|negative\\|binary\\|integer\\|nonnegative\\)*[ ]*variable[s]?"
        "\\|equation[s]?\\|model[s]?\\|$model:"
