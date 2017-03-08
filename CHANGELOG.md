@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-12-03 19:30:23 st>
+Time-stamp: <2017-03-08 12:27:30 st>
 -->
 
 ----------------------------------------------------
@@ -9,15 +9,20 @@ Time-stamp: <2016-12-03 19:30:23 st>
 Change logs of GAMS mode.
 ====================================================
 
-Version 6.1.2 (2016-12-03)
+Version 6.2 (2017-03-08)
 ----------------------------------
+
+* Supported "singleton set".
+
+* Changed the default value of gams-highlighted-keywords-in-comment to
+  ("_TODO_" "_BUG_" "_FIXME_").
 
 * Added a customizable variable `gams-sil-display-column-num`.  This
   variable determiens the column width for displaying identifer name in
   GAMS-SIL mode.
   
-* Made changes to display names of parameters, variables and equations
-  with index (set) in GAMS-SIL mode.
+* Made changes to show names of parameters, variables and equations with
+  index (set) in GAMS-SIL mode.
 
 
 Version 6.1.1 (2016-09-23)
