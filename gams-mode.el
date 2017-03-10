@@ -5,8 +5,8 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2016 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2017-02-22 18:26:01 st>
-;; Version: 6.1.2
+;; Time-stamp: <2017-03-10 15:03:43 st>
+;; Version: 6.2
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
 ;; This file is not part of any Emacs.
