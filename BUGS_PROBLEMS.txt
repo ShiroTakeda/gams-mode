@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-03-17 15:26:50 st>
+Time-stamp: <2017-07-02 17:13:03 st>
 -----------------------------------------------------
 
 Known bugs and problems of GAMS mode.
@@ -12,11 +12,6 @@ unfold items, push TAB key (or Shift + TAB).
 
 I only test gams-mode.el in Emacs 25. So gams-mode.el is likely not to work
 well in the old version of Emacs.
-
-
-* XEmacs is not supported
-
-XEmacs is not supported. GAMS mode does not work in XEmacs.
 
 
 * Viewing documents
