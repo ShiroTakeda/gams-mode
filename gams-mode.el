@@ -3,9 +3,9 @@
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
-;; Copyright (C) 2001-2016 Shiro Takeda
+;; Copyright (C) 2001-2017 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2017-03-10 15:03:43 st>
+;; Time-stamp: <2017-07-06 17:36:18 st>
 ;; Version: 6.2
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.1.2"
+(defconst gams-mode-version "6.2"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2134,7 +2134,7 @@ But the words registered in this list are colored by
   (gams-regexp-opt gams-highlighted-keywords-in-comment))
 
 (defun gams-store-point-highlighted-keywords (limit)
-  (let ((key gams-highlighted-keywords-in-comment-regexp) len)
+  (let ((key gams-highlighted-keywords-in-comment-regexp))
     (when (re-search-forward key limit t)
       (let (beg end)
         (setq beg (match-beginning 0))
@@ -2383,7 +2383,7 @@ Otherwise, return the mode name of current buffer."
         (progn (font-lock-mode -1)
                (font-lock-mode 1)
                (when (not font-lock-fontified)
-                 (font-lock-fontify-buffer)))
+                 (font-lock-ensure)))
       (font-lock-mode -1))))
 
 (defun gams-choose-font-lock-level ()
@@ -2824,7 +2824,7 @@ The following commands are available in the GAMS mode:
   (setq buffer-invisibility-spec '((gams . t) (outline . t)))
   (if (and (not (equal gams-font-lock-keywords nil))
            font-lock-mode)
-      (font-lock-fontify-buffer)
+      (font-lock-ensure)
     (if (equal gams-font-lock-keywords nil)
         (font-lock-mode -1)))
   ) ;;; gams-mode ends.
@@ -3590,9 +3590,8 @@ Otherwise split window conventionally."
 (setq-default gams-ps-orig-frame-title nil)
 
 ;;; From epop.el
-(defun gams-process-sentinel (proc mess)
+(defun gams-process-sentinel (proc state)
   "Display the end of process buffer."
-  ;; (format "%s" mess)
   (cond
    ((memq (process-status proc) '(signal exit))
     (save-excursion
@@ -5698,7 +5697,7 @@ overlay onto the gams-invisible-areas-list list"
   '("GAMS-LST"
     ["Jump to the error and show its meaning" gams-lst-view-error t]
     ["Jump to the error place in the program file" gams-lst-jump-to-error-file t]
-    ["Jump to the input file" gams-lst-jump-to-input-file t]
+    ["Jump to the main input file" gams-lst-jump-to-input-file t]
     ["Close the buffer" gams-lst-kill-buffer t]
     ["Exit the lst mode" gams-lst-exit t]
     ["Display Include File Summary" gams-lst-file-summary t]
@@ -5732,76 +5731,76 @@ overlay onto the gams-invisible-areas-list list"
 
 The following commands are available in the GAMS-LST mode:
 
-\\[gams-lst-view-error]         Jump to the error and show its number and meaning.
-\\[gams-lst-jump-to-error-file]         Jump back to the error place in the program file.
-\\[gams-lst-jump-to-input-file]                 Jump to the input (GMS) file.
-\\[gams-lst-kill-buffer]                Close the buffer.
-\\[gams-lst-file-summary]               Display Include File Summary.
-\\[gams-lst-help]               Display this help.
+\\[gams-lst-view-error]	Jump to the error and show its number and meaning.
+\\[gams-lst-jump-to-error-file]	Jump back to the error place in the program file.
+\\[gams-lst-jump-to-input-file]	Jump to the input (GMS) file.
+\\[gams-lst-kill-buffer]	Close the buffer.
+\\[gams-lst-file-summary]	Display Include File Summary.
+\\[gams-lst-help]	Display this help.
 
-\\[gams-outline]                Start the GAMS-OUTLINE mode.
+\\[gams-outline]	Start the GAMS-OUTLINE mode.
 
-\\[gams-lst-solve-summary]/\\[gams-lst-solve-summary-back]              Jump to the next/previous SOLVE SUMMARY.
-\\[gams-lst-report-summary]/\\[gams-lst-report-summary-back]            Jump to the next/previous REPORT SUMMARY.
-\\[gams-lst-next-var]/\\[gams-lst-previous-var]         Jump to the next/previous VAR entry.
-\\[gams-lst-next-equ]/\\[gams-lst-previous-equ]         Jump to the next/previous EQU entry.
-\\[gams-lst-next-par]/\\[gams-lst-previous-par]         Jump to the next/previous PARAMETER entry.
-\\[gams-lst-next-elt]/\\[gams-lst-previous-elt]         Jump to the next/previous Equation Listing entry.
-\\[gams-lst-next-clt]/\\[gams-lst-previous-clt]         Jump to the next/previous Column Listing entry.
+\\[gams-lst-solve-summary]/\\[gams-lst-solve-summary-back]	Jump to the next/previous SOLVE SUMMARY.
+\\[gams-lst-report-summary]/\\[gams-lst-report-summary-back]	Jump to the next/previous REPORT SUMMARY.
+\\[gams-lst-next-var]/\\[gams-lst-previous-var]	Jump to the next/previous VAR entry.
+\\[gams-lst-next-equ]/\\[gams-lst-previous-equ]	Jump to the next/previous EQU entry.
+\\[gams-lst-next-par]/\\[gams-lst-previous-par]	Jump to the next/previous PARAMETER entry.
+\\[gams-lst-next-elt]/\\[gams-lst-previous-elt]	Jump to the next/previous Equation Listing entry.
+\\[gams-lst-next-clt]/\\[gams-lst-previous-clt]	Jump to the next/previous Column Listing entry.
 
-\\[gams-lst-query-jump-to-line]         Jump to a line you specify.
-\\[gams-lst-jump-to-line]               Jump to a line.
+\\[gams-lst-query-jump-to-line]	Jump to a line you specify.
+\\[gams-lst-jump-to-line]	Jump to a line.
 
-\\[scroll-up]           Scroll up.
-\\[scroll-down] or DEL  Scroll down.
-\\[gams-lst-widen-window]               Widen the window.
-\\[gams-lst-split-window]               Split the window.
-\\[gams-lst-move-frame]         Move frame.
-\\[gams-lst-resize-frame]               Resize frame.
-\\[gams-lst-move-cursor]                Move a cursor to the other window.
+\\[scroll-up]	Scroll up.
+\\[scroll-down] or DEL	Scroll down.
+\\[gams-lst-widen-window]	Widen the window.
+\\[gams-lst-split-window]	Split the window.
+\\[gams-lst-move-frame]	Move frame.
+\\[gams-lst-resize-frame]	Resize frame.
+\\[gams-lst-move-cursor]	Move a cursor to the other window.
 
 [Commands for Scrolling.]
 
 Suppose that there are two windows displayed like
 
-    __________________    
-   |                  |  
-   |  LST buffer 1    |  ==>  LST-1.
-   |                  |  
-   |  CURSOR  here    |  
-   |                  |  
-   |------------------|  
-   |                  | 
-   |  LST buffer 2    |  ==>  LST-2.
-   |                  |  
-   |                  | 
+    __________________	  
+   |		      |	 
+   |  LST buffer 1    |	 ==>  LST-1.
+   |		      |	 
+   |  CURSOR  here    |	 
+   |		      |	 
+   |------------------|	 
+   |		      | 
+   |  LST buffer 2    |	 ==>  LST-2.
+   |		      |	 
+   |		      | 
     ------------------
 
-\\[gams-lst-scroll-1]/\\[gams-lst-scroll-down-1]                Scroll the current buffer LST-1 up/down one line.
-\\[gams-lst-scroll-2]/\\[gams-lst-scroll-down-2]                Scroll the next buffer LST-2 up/down one line.
-\\[gams-lst-scroll-double]/\\[gams-lst-scroll-down-double]              Scroll two buffers LST-1 and LST-2 up/down one line.
+\\[gams-lst-scroll-1]/\\[gams-lst-scroll-down-1]		Scroll the current buffer LST-1 up/down one line.
+\\[gams-lst-scroll-2]/\\[gams-lst-scroll-down-2]		Scroll the next buffer LST-2 up/down one line.
+\\[gams-lst-scroll-double]/\\[gams-lst-scroll-down-double]		Scroll two buffers LST-1 and LST-2 up/down one line.
 
 Keyboard.
-
   _____________________________________________________________
-  |         |         |         |         |         |         |
-  |    d    |    f    |    g    |    h    |    j    |    k    |
-  |         |         |         |         |         |         |
+  |	    |	      |		|	  |	    |	      |
+  |    d    |	 f    |	   g	|    h	  |    j    |	 k    |
+  |	    |	      |		|	  |	    |	      |
   -------------------------------------------------------------
 
-       |         |         |         |         |         |
+       |	 |	   |	     |	       |	 |
 
-      UP        DOWN      UP        DOWN      UP        DOWN
-         LST-1               LST-2             LST-1 & 2
+      UP	DOWN	  UP	    DOWN      UP	DOWN
+	 LST-1		     LST-2	       LST-1 & 2
 
 If only one window exists, the above three commands have the same function
 i.e. scroll up/down the current buffer.
 
-The followings are page scroll commands.  Just changed to upper cases.
+The followings are page scroll commands.  Just changed to upper case letters.
 
-\\[gams-lst-scroll-page-1]/\\[gams-lst-scroll-page-down-1]              Scroll up/down the current buffer LST-1 by a page.
-\\[gams-lst-scroll-page-2]/\\[gams-lst-scroll-page-down-2]              Scroll up/down the next buffer LST-2 by a page.
-\\[gams-lst-scroll-page-double]/\\[gams-lst-scroll-page-down-double]            Scroll up/down two buffers LST-1 and LST-2 by a page."
+\\[gams-lst-scroll-page-1]/\\[gams-lst-scroll-page-down-1]	Scroll up/down the current buffer LST-1 by a page.
+\\[gams-lst-scroll-page-2]/\\[gams-lst-scroll-page-down-2]	Scroll up/down the next buffer LST-2 by a page.
+\\[gams-lst-scroll-page-double]/\\[gams-lst-scroll-page-down-double]	Scroll up/down two buffers LST-1 and LST-2 by a page.
+"
   (interactive)
   (setq major-mode 'gams-lst-mode)
   (setq mode-name "GAMS-LST")
@@ -5827,7 +5826,7 @@ The followings are page scroll commands.  Just changed to upper cases.
   (run-hooks 'gams-lst-mode-hook)
   (if (and (not (equal gams-lst-font-lock-keywords nil))
            font-lock-mode)
-        (font-lock-fontify-buffer)
+        (font-lock-ensure)
     (if (equal gams-lst-font-lock-keywords nil)
         (font-lock-mode -1)))
 )
@@ -5886,7 +5885,7 @@ and show its meaning in another window if error number is displayed."
                                             (match-end 2)))
           (message
            (concat mess
-                   (format "[%s]=Jump to the error place, [%s]=Jump to the input file"
+                   (format "[%s]=Jump to the error place, [%s]=Jump to the main input file"
                            gams-lk-2 gams-lk-1)))
           (if error-num
               (progn
@@ -7285,7 +7284,7 @@ The following commands are available in this mode.
     ;; Turn on font-lock.
     (if (and (not (equal gams-font-lock-keywords nil))
              font-lock-mode)
-        (font-lock-fontify-buffer)
+        (font-lock-ensure)
       (if (equal gams-font-lock-keywords nil)
           (font-lock-mode -1))))
   (buffer-name)
@@ -7699,8 +7698,7 @@ Key-bindings are almost the same as GAMS mode.
      ((equal flag 'reedit)
       nil)
      ((equal flag t)
-      (save-excursion
-        (set-buffer gams-temp-buffer)
+      (with-current-buffer gams-temp-buffer
         (gams-temp-show-list)
         (goto-char (point-min))
         (gams-temp-add-key)))
@@ -7801,8 +7799,7 @@ red = re-edit."
 (defun gams-temp-create-template-file (file alist)
   "FILE is `gams-template-file' and ALIST is `gams-user-template-alist'."
   (let ((tfile (expand-file-name file)))
-    (save-excursion
-      (set-buffer (get-buffer-create " *gams-temporary*"))
+    (with-current-buffer (get-buffer-create " *gams-temporary*")
       (unwind-protect
           (progn
             (gams-temp-write-alist alist)
@@ -7813,12 +7810,11 @@ red = re-edit."
   "Save the content of `gams-user-template-alist' into the file
 `gams-user-template-alist'."
   (interactive)
-  (let ((file (expand-file-name gams-template-file)))
-    (save-excursion
-      (when gams-user-template-alist
-        (if (equal gams-user-template-alist gams-user-template-alist-init)
-            (message "No change added to the original template list.")
-          (gams-temp-write-alist-to-file-internal))))))
+  (save-excursion
+    (when gams-user-template-alist
+      (if (equal gams-user-template-alist gams-user-template-alist-init)
+          (message "No change added to the original template list.")
+        (gams-temp-write-alist-to-file-internal)))))
  
 (defun gams-temp-write-alist-to-file-internal ()
   (interactive)
@@ -7903,8 +7899,7 @@ BEGIN and END are points."
 (defun gams-temp-change-template-file ()
   "Change to other gams-template-file."
   (interactive)
-  (let ((tfile gams-template-file)
-        file key change)
+  (let (file key change)
     ;; Save gams-user-template-alist before switching to other
     ;; `gams-template-file'.
     (when gams-user-template-alist
@@ -9375,7 +9370,7 @@ LIGHT is t if in light mode.
                       ;; (message "point is %d" (point)) ;; for debug
                       ;; (char-to-string (char-before)) ;; for debug
 
-                      (if (or (looking-back "[ \t\n\f]")
+                      (if (or (looking-back "[ \t\n\f]" nil)
                               (equal (point) (point-min)))
                           (progn
                             ;;  (setq dol (gams-buffer-substring (1- beg) po-end)) ; 1- for marker
@@ -10772,7 +10767,7 @@ if prev is non-nil, move up after toggle."
             ;; If found,
             (setq temp (match-beginning 0))
             (skip-chars-backward " \t\n")
-            (when (and (not (and (not (looking-back ";" )) (looking-at "[a-zA-Z0-9_]")))
+            (when (and (not (and (not (looking-back ";" nil)) (looking-at "[a-zA-Z0-9_]")))
                        (not (gams-check-line-type))
                        (not (gams-in-comment-p))
                        (not (gams-in-quote-p))
@@ -10864,9 +10859,7 @@ $batinclude or $include."
 
 (defun gams-sid-show-help ()
   (interactive)
-  (let ((cbuf (current-buffer))
-	(cpo (point))
-	(temp-buf (get-buffer-create "*SD-HELP"))
+  (let ((temp-buf (get-buffer-create "*SD-HELP"))
 	key)
     (save-window-excursion
       (switch-to-buffer temp-buf)
@@ -11560,7 +11553,7 @@ Index is determined by gams-file-structure."
   (let (flag)
     (save-excursion
       (goto-char beg)
-      (when (looking-back "=")
+      (when (looking-back "=" nil)
         (goto-char end)
         (when (looking-at "=")
           (setq flag t))))
@@ -12304,7 +12297,7 @@ The followings are page scroll commands.  Just changed to upper cases.
   ;; Turn on font-lock.
   (if (and (not (equal gams-ol-font-lock-keywords nil))
            font-lock-mode)
-      (font-lock-fontify-buffer)
+      (font-lock-ensure)
     (if (equal gams-ol-font-lock-keywords nil)
         (font-lock-mode -1)))
   ) ;;; ends.
