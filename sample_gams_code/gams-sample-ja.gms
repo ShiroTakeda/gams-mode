@@ -1,11 +1,30 @@
 $title GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
-** gams-lst-file: .\doc\lst-sample.lst
 $ontext
-Time-stamp:     <2016-04-03 14:56:47 st>
+Time-stamp:     <2017-07-05 15:12:24 st>
 Filename:       "gams-sample-ja.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
+$offtext
 
+*       ----------------------------------------------------------------------
+$stitle         LST ファイルの名前と場所の指定:
+$ontext
+LST ファイル名の指定を有効にするには「**」のうちの一つを除去してください。
+$offtext
+
+** gams-lst-file: .\lst\lst-sample.lst
+*       The above code means that lst file -> .\lst\sample.lst:
+
+** gams-lst-file: c:\sample.lst
+*       The above code means that lst file -> c:\sample.lst:
+
+** gams-lst-dir: .\lst\
+*       The above code means that lst file -> .\lst\gams-sample.lst
+
+** gams-lst-dir: c:\
+*       The above code means that lst file -> c:\gams-sample.lst
+
+$ontext
 注：
 
   * gams.el version 4.0 用の説明．
@@ -47,8 +66,8 @@ $setglobal sub_program ./include/include-sample.gms
 $ontext
 適切に設定されていれば，このバッファーのモードは GAMS modeになっているはずで
 す (モードラインに GAMS という文字があれば，GAMS mode になっています)． GAMS
-modeになっていない場合には "~/.emacs.el" ファイルの設定 (特に load-path の設
-定) をもう一度チェックしてください．
+modeになっていない場合には "~/.emacs.d/init.el" ファイルの設定 (特に
+load-path の設定) をもう一度チェックしてください．
 
         ----------------------------------------------------------------------
 $offtext
@@ -69,7 +88,7 @@ $ontext
 「注」 GAMS がスタートしない，あるいは上手く実行されないときには，適切な設定
 がされていないはずです．次の点をチェックしてください．
 
-  + .emacs.el 内で shell (bash や cmdproxy) を適切に設定していますか？ 
+  + .init.el 内で shell (bash や cmdproxy) を適切に設定していますか？ 
 
   + 変数 `gams-process-command-name' が適切に設定されていますか？ GAMS のシス
   テムフォルダにパスを通していないのなら，変数 `gams-process-command-name' に
@@ -520,8 +539,8 @@ GAMS mode ではコードの色付けに対応しています (色付け機能は Emacs 用語で
 font-lock 機能と言います)．
 
 font-lock をオンにすると，GAMS の syntax に従いコードが自動で色付けされます．
-font-lock をオンにするには "~/.emacs.el" ファイルに以下のコードを付け加えてお
-けばよいです．
+font-lock をオンにするには "~/.emacs.d/init.el" ファイルに以下のコードを付け
+加えておけばよいです．
 
 (global-font-lock-mode t)
 

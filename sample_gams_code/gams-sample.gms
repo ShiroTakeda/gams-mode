@@ -1,9 +1,11 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2017-02-22 15:35:09 st>
+Time-stamp:     <2017-07-06 21:11:10 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
+
+_TODO_: 
 
 $offtext
 
@@ -58,9 +60,8 @@ $setglobal sub_program ./include/include-sample.gms
 $ontext
 If your setting is proper, this buffer must be in GAMS mode (if the mode
 line contains the string "GAMS", you are in GAMS mode).  If you aren't in
-GAMS mode, please check your configuration in "~/.emacs.el" (in particular,
-load-path setting).
-
+GAMS mode, please check your configuration in "~/.emacs.d/init.el" (in
+particular, load-path setting).
 $offtext
 *        ----------------------------------------------------------------------
 $stitle         Basic usage.
@@ -74,21 +75,21 @@ following message in the mini-buffer.
     Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
 
 
-Type `s', and GAMS will start.  Or if you type [f9] or `C-cC-s', GAMS will
+Type `s', and GAMS will start.  Or if you type F9 key or `C-cC-s', GAMS will
 directly start.
 
 [Note] if GAMS doesn't start or doesn't work well, there are likely to be
 some problems in configurations. Please check the following:
 
-  + Does a shell (such as bash or cmdproxy) work properly in your Emacs?
+  + Does a shell (such as cmdproxy or bash) work properly in your Emacs?
 
   + Check the setting of the variable `gams-process-command-name'. If you do
     not include the GAMS system directory in the environmental variable
     PATH, you must set the full path to GAMS to `gams-process-command-name'.
 
 
-When the GAMS process finishes, type `C-cC-v' or [f10] to switch to the LST
-file buffer.
+When the GAMS process finishes, type `C-cC-v' or F10 key to switch to the
+LST file buffer.
 
 In the LST buffer, you will see a message "No error message is found" in the
 mini-buffer.  This message means that this gms file was executed
@@ -100,13 +101,13 @@ Next, uncomment the following line (delete *) and run GAMS (type `C-cC-t' and
 type `s').
 
 $offtext
-*             Uncomment this line.  Error is here.
+*              Uncomment this line.  Error is here.
 $ontext
 
 Then switch to the LST buffer (C-cC-v or f10) and you will see two windows
 and the following message in the mini-buffer.
 
-    LastMod 2010/07/18 17:40: [u]=Jump to the error place, [i]=Jump to the input file
+    LastMod 2010/07/18 17:40: [u]=Jump to the error place, [i]=Jump to the main input file
 
 One window displays an error line, and the other displays an error
 meaning.
@@ -148,20 +149,20 @@ the program file buffer.
 
 Repeating the same procedure
 
-o Run GAMS (`f9' or `C-cC-s').
-o Switch to LST buffer (`f10' or `C-cC-v').
+o Run GAMS (`F9' or `C-cC-s').
+o Switch to LST buffer (`F10' or `C-cC-v').
 o See the error line and its meaning.
 o Jump back to the error line in the program file buffer (`u')
 
 you can easily debug your GMS file.
 
 
-[NB] The difference between `u' and `i' (or `b').
+[Note] The difference between `u' and `i' (or `b').
 
 If an error exists, the following message will appear in the mini-buffer.
 
 
-    [u]=Jump to the error place, [i]=Jump to the input file
+    [u]=Jump to the error place, [i]=Jump to the main input file
 
 
 If there is only one program file, you had better type `u'.  But there may
@@ -173,9 +174,9 @@ instead of `u'.
 `u' = Jump to the error place ==> Jump to the file where the error exists
 (it may be a subroutine file).
 
-`i' (or `b') = Jump to the input file. ==> The input file is the top level
-program file (its name is taken from the FILE SUMMARY field in the LST
-file.)
+`i' (or `b') = Jump to the main input file. ==> The main input file is the
+top level program file (its name is taken from the FILE SUMMARY field in the
+LST file.)
 
 When you encounter another types of errors, only the error line may be
 displayed.  For example, uncomment the line "* b = 1/a;" below (delete
@@ -451,9 +452,9 @@ and type `ENTER', then you are asked
 
 If you type `y' here, the statement `abort' is registered and it is included
 in the list of candidates of statement completion.  These registered
-statements are saved in the file "~/gams-statement.txt".  If you have
-registered unnecessary statements, open the file "~/gams-statement.txt" and
-delete them manually.
+statements are saved in the file "~/.emacs.d/gams-statement.txt".  If you
+have registered unnecessary statements, open the file
+"~/.emacs.d/gams-statement.txt" and delete them manually.
 
 GAMS has a lot of statements.  But only basic statements are registered in
 gams-mode.el by default.  So, please register statements that you frequently use
@@ -569,8 +570,6 @@ GAMS-LST mode, and GAMS-OUTLINE mode.  To set font-lock-mode on in these
 three modes, put the following your "~/.emacs.el" file:
 
 (global-font-lock-mode t)
-
-
 
 You can choose three coloring levels by `gams-choose-font-lock-level'
 (binded to C-cC-f).
@@ -692,6 +691,23 @@ $ontext
 list identifiers defined in the current file.  To learn how to use this
 command, try C-cC-a and type `?'.
 
+If you use `gams-show-identifier-list' (C-cC-a), it shows all identifiers
+including those which are defined in subroutine files. However, if you use
+the following expression to include subroutine files, GAMS mode cannot read
+the subroutine files because GAMS mode does not know the value of
+%sub_program%.
+
+    $include %sub_program%
+
+In this case, you can make GAMS mode read the subroutine
+`./include/include-sample.gms' by adding to the following code before
+$include command.
+
+    * gams-include-file: ./include/include-sample.gms
+    $include %sub_program%
+
+The line starting with "* gams-include-file:" specifies the subroutine file
+for `gams-show-identifier-list'.
 
 $offtext
 
