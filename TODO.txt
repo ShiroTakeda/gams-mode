@@ -1,8 +1,7 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-04-23 10:45:19 st>
+Time-stamp: <2017-06-30 11:11:14 st>
 ------------------------------------------------------------
-
 
 * A list of TODO for GAMS mode.
 
@@ -95,7 +94,7 @@ Time-stamp: <2016-04-23 10:45:19 st>
 
 --------------------
 Local Variables:
-mode: indented-text
+mode: org
 coding: utf-8-dos
 fill-column: 74
 End:

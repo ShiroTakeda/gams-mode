@@ -1,13 +1,19 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2017-03-08 12:27:30 st>
+Time-stamp: <2017-07-02 16:17:19 st>
 -->
 
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ====================================================
+
+Version 6.2.1 (2017-07-02)
+----------------------------------
+
+* Remove unnecessary variables and modified obolete functions.
+
 
 Version 6.2 (2017-03-08)
 ----------------------------------
