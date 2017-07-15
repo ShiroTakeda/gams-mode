@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-04-29 09:26:43 st>
+Time-stamp: <2016-05-22 22:00:44 st>
 -->
 
 GAMS-mode
@@ -252,38 +252,21 @@ non-nil.  So, when I say "set non-nil to x", set t to x (i.e. (setq x t)).
 ## Setting for shell
 
 If you would like to call GAMS (gams.exe) from Emacs, it is necessary that
-you have installed the shell.  There are two choices for this.  The first
-one is the bash.  If you are UNIX user, bash must have been installed.  If
-you are MS windows user, you can use bash.exe offered by Cygwin project
-<http://www.cygwin.com/>.  If you want to install bash, download
-<http://www.cygwin.com/setup.exe>.  If you execute this executable file
-and select bash, you can install it. If you are UNIX user, you can use
-tsch instead of bash.
+you have installed the shell.  If you are Emacs user on Windows, the
+default shell will be "cmdproxy.exe". Try to type F1 and v and
+shell-file-name RET. Then the default shell will be displayed.
 
-The second one is cmdproxy.exe which is distributed with NTEmacs.  If you
-have installed NTEmacs, cmdproxy.exe is also installed in the same directory
-as runemacs.exe.
-
-MS Windows has cmd.exe as the shell.  But it is not recommended to use
-cmd.exe.  So MS Windows users had better use bash or cmdproxy, too.
-
-If you use bash(.exe), write the following in "~/.emacs.d/init.el"
+If you are not MS Windows user, you have to use other shell.  If you use,
+for example, bash(.exe), add the following in "~/.emacs.d/init.el"
 
     (setq shell-file-name "bash")
-    (setq shell-command-option "-c")
-
-and if you use cmdproxy.exe,
-
-    (setq shell-file-name "cmdproxy")
-    (setq shell-command-option "-c")
-
-For more details of shell setting in "~/.emacs.d/init.el" on Emacs in
-Windows, please see the web site
-<http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html>.
+    
 
 ------------------------------------------------------------
 
 ## Installation of GAMS mode.
+
+### Install from MELPA repository.
 
 You can install GAMS mode (gams-mode.el) from MELPA repository.  Type M-x
 list-packages and select gams-mode.
@@ -294,15 +277,58 @@ To use melpa, put the following code in your init.el file.
                  '("melpa" . "http://melpa.milkbox.net/packages/") t)
     (add-to-list 'package-archives
                  '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-				 
+                 
 If you want to use a stable version, use GAMS mode in melpa-stable.  If
 you want to use a developing version, use GAMS mode in melpa.
-				 
+                 
 Note that it installs only gams-mode.el file and does not install sample
 files and explanatory files.  So to use GAMS mode, you had better read
 GAMS mode web site first.  <http://shirotakeda.org/en/gams/gams-mode/>
 
-Note that to use GAMS mode, you have to configure init.el file.
+If the GAMS system folder is not included in PATH environemtal variable,
+you need to set GAMS system folder to PATH or you need to set the full
+path to gams.exe to the variable 'gams-process-command-name'. For example,
+your gams.exe is placed at "c:/GAMS/win64/GAMS24.1/", then add the
+following line to init.el:
+
+    (setq gams-process-command-name "c:/GAMS/win64/GAMS24.1/gams.exe")
+
+In addition, you had better set 'gams-system-directory' like
+   
+    (setq gams-system-directory "c:/GAMS/win64/GAMS24.1/")
+    
+If you want to color an Emacs buffer, add the followings, too.
+
+    (require 'font-lock)
+    (global-font-lock-mode t)
+    (setq font-lock-support-mode
+           '((gams-mode . nil)
+         (t . jit-lock-mode)))
+
+This make the colorization function of Emacs on and GAMS mode buffer will
+be colored. The third line is required because `jit-lock-mode` often
+causes troubles in GAMS mode.
+
+Basically, this is all you must set.  With these settings, when you open a
+file with extension "gms" ("lst"), GAMS mode (GAMS-LST mode) will
+automatically start.  Byte-compiling gams-mode.el may raise the speed of
+GAMS mode (but you need not necessarily do it).
+
+For Emacs 23 user, please read BUGS_PROBLEMS.txt file, too.
+
+There is a sample setting file ("gams-setting-sample.el") distributed with
+this file.  Please read it, too.
+
+If you want to use GAMS-TEMPLATE mode, you had better copy the sample
+template file "gams-template.txt" in "~/.emacs.d/".  This sample file
+contains a lot of useful templates for writing gms files.
+
+There are several lisp variables which decide the important behaviors of
+GAMS and the GAMS mode.  So, please read the customization part below,
+too.
+
+
+### Install manually
 
 To install gams-mode.el manually, you need to follow the procedure below
 (1 and 2 are not necessary when you install gams-mode.el by MELPA).
@@ -322,43 +348,9 @@ To install gams-mode.el manually, you need to follow the procedure below
 
         (require 'gams-mode)
 
-3. If the GAMS system folder is not included in PATH environemtal
-   variable, you need to set GAMS system folder to PATH or you need to set
-   the full path to gams.exe to the variable {gams-process-command-name'
-   like
+3. In addition, you had better set proper values to
+   `gams-process-command-name` and `gams-system-directory`.
 
-        (setq gams-process-command-name "c:/GAMS23.5/gams.exe")
-
-
-Basically, this is all you must set.  With these settings, when you open a
-file with extension "gms" ("lst"), GAMS mode (GAMS-LST mode) will
-automatically start.  Byte-compiling gams-mode.el may raise the speed of GAMS
-mode (but you need not necessarily do it).
-
-4.  If you want to color an Emacs buffer, add the followings, too.
-
-        (require 'font-lock)
-        (global-font-lock-mode t)
-        (setq font-lock-support-mode
-               '((gams-mode . nil)
-             (t . jit-lock-mode)))
-
-This make the colorization function of Emacs on and GAMS mode buffer will
-be colored. The third line is required because `jit-lock-mode` often
-causes troubles in GAMS mode.
-
-For Emacs 21-23 user, please read BUGS_PROBLEMS.txt file, too.
-
-There is a sample setting file ("gams-setting-sample.el") distributed with this
-file.  Please read it, too.
-
-If you want to use GAMS-TEMPLATE mode, you had better copy the sample
-template file "gams-template.txt" in "~/.emacs.d/".  This sample file
-contains a lot of useful templates for writing gms files.
-
-There are several lisp variables which decide the important behaviors of
-GAMS and the GAMS mode.  So, please read the customization part below,
-too.
 
 ------------------------------------------------------------
 
