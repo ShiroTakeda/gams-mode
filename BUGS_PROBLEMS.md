@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2017-07-31 10:33:47 st>
+Time-stamp: <2017-07-31 10:36:48 st>
 -->
 
 Known bugs and problems of GAMS mode.
@@ -10,19 +10,19 @@ Known bugs and problems of GAMS mode.
 Note: When you open this file in Emacs, this buffer must be in Org-mode. To
 unfold items, push TAB key (or Shift + TAB).
 
-# The old version Emacs
+## The old version Emacs
 
 I only test gams-mode.el in Emacs 25 and gams-mode.el is likely not to work
 well in the old version of Emacs.
 
 
-# Viewing documents
+## Viewing documents
 
 `gams-view-docs` does not work in the old versions of GAMS which has
 different folder structure to the current GAMS.
 
 
-# End gams statement block with `;`
+## End gams statement block with `;`
 
 Automatic indent and coloring often fail when gams statement blocks do not
 end with character `;` (semicolon). Although gams syntax does not
@@ -30,7 +30,7 @@ necessarily require `;` (`;` is often omissible), please end statement
 blocks with `;`.
 
 
-# Make each gams declaration (definition) block small
+## Make each gams declaration (definition) block small
 
 You may often include many elements into one declaration block. For example,
 you may declare dozens of sets in one `set` statement. But, such large
@@ -39,7 +39,7 @@ lot of time to color the buffer. So, you had better divide a large
 declaration block into several small blocks.
 
 
-# TAB key
+## TAB key
 
 Emacs comes with various major modes such as C mode, Perl mode, Fortran
 mode, Java mode, LaTeX mode etc. In these major modes, TAB key is
@@ -60,7 +60,7 @@ By this code, TAB key is binded to inserting TAB character and F2 key is
 binded to the indentation.
 
 
-# File name
+## File name
 
 In GAMS mode, file names with spaces and characters other than alphabet and
 number often cause troubles (e.g. file name like "test (example 1).gms").
@@ -68,7 +68,7 @@ To avoid troubles, you had better use file name only with alphabet and
 number.
 
   
-# Troubles in coloring
+## Troubles in coloring
 
 First of all, there could be a lot of bugs in the coloring function of the
 GAMS mode. If you find abormal behaviors, please report them.
@@ -78,7 +78,7 @@ the built-in function of Emacs. GAMS mode gives the information of coloring
 pattern to the font-lock and then the font-lock colors the buffer according
 to the coloring information.
 
-## Coloring for expressions that span multiple lines
+### Coloring for expressions that span multiple lines
 
 Coloring function in Emacs (font-lock function) is not basically designed
 for coloring expressions that span multiple lines. It does not mean that
@@ -102,7 +102,7 @@ If you edit $ontext-$offtext command and coloring of texts fails, please
 recolor the buffer manually by `C-l`.
 
 
-## Setting for font-lock support mode
+### Setting for font-lock support mode
 
 In the default setting (in recent Emacs), `jit-lock-mode` is set to the
 value of `font-lock-support-mode`. `jit-lock-mode` usually speeds up
@@ -135,9 +135,11 @@ You have two choices for this:
 
 
 
+<!--
 --------------------
 Local Variables:
 mode: markdown
 fill-column: 76
 coding: utf-8-dos
 End:
+-->
