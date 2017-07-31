@@ -1,14 +1,11 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2017-07-31 10:36:48 st>
+Time-stamp: <2017-07-31 10:38:06 st>
 -->
 
 Known bugs and problems of GAMS mode.
 ============================================================
-
-Note: When you open this file in Emacs, this buffer must be in Org-mode. To
-unfold items, push TAB key (or Shift + TAB).
 
 ## The old version Emacs
 
