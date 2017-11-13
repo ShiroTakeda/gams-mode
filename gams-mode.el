@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2017 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2017-07-06 17:36:18 st>
+;; Time-stamp: <2017-08-06 12:51:58 st>
 ;; Version: 6.2
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -2125,7 +2125,8 @@ CURRENT is the current point.  END is the point of the declaration block."
   "The default list of highlighted keywords in comment region.
 In comment region, all texts are colored by `gams-comment-face'.
 But the words registered in this list are colored by
-`gams-highlighted-keywords-face' even in comment region."
+`gams-highlighted-keywords-face' even in comment region.
+"
   :type '(repeat (string :tag "keyword"))
   :group 'gams)
 

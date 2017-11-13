@@ -5,7 +5,7 @@
 
   Version: 1.0
   $Id: gamslxi-import.c,v 1.1 2009/06/15 17:13:18 st Exp $
-  Time-stamp: <2009-06-15 23:45:59 Shiro Takeda>
+  Time-stamp: <2017-11-11 12:45:19 st>
 
   Author: Shiro Takeda
   Maintainer: Shiro Takeda
@@ -34,14 +34,18 @@
 
   Compilation etc.:
 
-  The binary file (gamslxi-import.exe) is compiled with Borland C++Builder
-  command line tool on MS Windows XP
+  The binary file (gamslxi-import.exe) is compiled with embarcadero C++Builder
+  command line tool on MS Windows 10
 
   % bcc32 -w -O2 gamslxi-import.c
 
-  Borland C++Builder command line tool is freely available at the Borland
-  web site.  I have tested this program only on Windows XP.  I don't
-  know if the binary works on other Windows platforms.
+  Embarcadero C++Builder command line tool (bcc32.exe) is included in
+  "C++Compiler" downloadable from
+
+  https://www.embarcadero.com/free-tools
+
+  I have tested this program only on Windows 10.  I don't know if the binary
+  works on other Windows platforms.
 
   Usage:
 

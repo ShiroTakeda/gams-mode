@@ -1,6 +1,6 @@
 $title GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
 $ontext
-Time-stamp:     <2017-07-05 15:12:24 st>
+Time-stamp:     <2017-07-13 20:43:32 st>
 Filename:       "gams-sample-ja.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -9,25 +9,25 @@ $offtext
 *       ----------------------------------------------------------------------
 $stitle         LST ファイルの名前と場所の指定:
 $ontext
-LST ファイル名の指定を有効にするには「**」のうちの一つを除去してください。
+以下のコードは、LST ファイルの名前と場所を指定するためのものです。指定を有効
+にするには、先頭の「**」のうちの一つを除去してください。
 $offtext
-
 ** gams-lst-file: .\lst\lst-sample.lst
-*       The above code means that lst file -> .\lst\sample.lst:
+*       この指定では LST ファイルは→のようになります -> .\lst\sample.lst:
 
 ** gams-lst-file: c:\sample.lst
-*       The above code means that lst file -> c:\sample.lst:
+*       この指定では LST ファイルは→のようになります -> c:\sample.lst:
 
 ** gams-lst-dir: .\lst\
-*       The above code means that lst file -> .\lst\gams-sample.lst
+*       この指定では LST ファイルは→のようになります -> .\lst\gams-sample.lst
 
 ** gams-lst-dir: c:\
-*       The above code means that lst file -> c:\gams-sample.lst
+*       この指定では LST ファイルは→のようになります -> c:\gams-sample.lst
 
 $ontext
-注：
+解説：
 
-  * gams.el version 4.0 用の説明．
+  * gams.el version 6.2 用の説明．
 
   * Emacs (or Meadow) の操作の基本的なことについては，Emacs のメニューのヘル
     プ→ Emacs tutorial を読んでください．
@@ -35,11 +35,12 @@ $ontext
   * 「バッファ」，「ミニバッファ」，「ウィンドウ」等の Emacs の用語についても
     tutorialを参照してください．
 
-  * "C-cC-v"のような表記は通常のEmacsの説明と同じような意味を表します．例えば，
+  * "C-cC-v"のような表記は通常の Emacs の説明と同じような意味を表します．例
+    えば，
 
-    `C-cC-v' ==>  "Control key + c" を押して，その後 "Control + v" を押す
+    `C-cC-v' -->  "Control key + c" を押して，その後 "Control + v" を押す
                    ということ．
-    `M-q'    ==>  "Alt key + q" を押すということです．
+    `M-q'    -->  "Alt key + q" を押すということです．
 
   * M-x describe-variable や M-x describe-function というコマンドにより変数や
     関数の説明を読むことができます．例えば，`gams-process-command-name' とい
@@ -52,12 +53,11 @@ $ontext
 
   * バグの報告には M-x gams-report-bug コマンドを利用してください．
 
-
 $offtext
 
-*       Inline comment symbol の設定．
+*       これは Inline comment symbol の設定．
 $inlinecom /* */
-*       End-of-line comment symbol の設定．
+*       これは End-of-line comment symbol の設定．
 $eolcom #
 
 *       読み込むファイルの名前
@@ -82,7 +82,7 @@ $ontext
     Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
 
 
-ここで `s' を押すと下側にウィンドウが開き，GAMS が実行されます．または，[f9]
+ここで `s' を押すと下側にウィンドウが開き，GAMS が実行されます．または，[F9]
 か `C-cC-s' を押しても同じように GAMS がスタートします．
 
 「注」 GAMS がスタートしない，あるいは上手く実行されないときには，適切な設定
@@ -94,12 +94,12 @@ $ontext
   テムフォルダにパスを通していないのなら，変数 `gams-process-command-name' に
   gams.exe へのフルパスを指定しないといけないです．
 
-GAMSのプロセスが終了したら，`C-cC-v' か [f10] を押してください．これで LSTファ
+GAMSのプロセスが終了したら，`C-cC-v' か [F10] を押してください．これで LSTファ
 イルに移動します．
 
 LSTファイルを開いたら，"No error message is found" というメッセージがミニバッ
-ファーに出るはずです．これはこの gms ファイルがエラーがなく上手く実行されたと
-いうことを意味します．
+ファーに出るはずです．これはこの gms ファイルがエラーがなく上手く実行された
+ということを意味します．
 
 ここで，`i' (か `b') を押すと，元の GMS ファイルのバッファーに戻ります．
 
@@ -112,7 +112,7 @@ $ontext
 実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，ウィンドウ
 が二つに分割され，ミニバッファーに次のようなメッセージが表示されます．
 
-    Key: [u]=Jump to the error place, [i]=Jump to the input file.
+    Key: [u]=Jump to the error place, [i]=Jump to the main input file.
 
 上のウィンドウはエラーの行，下のウィンドウはエラーの内容を表示します．
 
@@ -137,10 +137,10 @@ $ontext
 
 
         409  Unrecognizable item - skip to find a new statement
-               looking for a ';' or a key word to get started again
-        
-        *** 1 ERROR(S)   0 WARNING(S)
-        GAMS Rev 231  WIN-VIS 23.1.1 x86/MS Windows                       09/16/09 01:34:32 Page 3
+                looking for a ';' or a key word to get started again
+
+        **** 1 ERROR(S)   0 WARNING(S)
+        GAMS 24.5.6  r55090 Released Nov 27, 2015 WEX-WEI x86 64bit/MS Windows                                   07/13/17 20:42:00 Page 28
         GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
         Include File Summary
 

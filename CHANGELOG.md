@@ -1,13 +1,21 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2017-07-02 16:17:19 st>
+Time-stamp: <2017-11-13 11:15:13 st>
 -->
 
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ====================================================
+
+Version 6.2.2 ()
+----------------------------------
+
+* Modified licence statement.
+
+* Added executable files "gamslxi.exe" and "gamslxi-import.exe".
+
 
 Version 6.2.1 (2017-07-02)
 ----------------------------------

@@ -1,6 +1,6 @@
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2017-06-30 11:11:14 st>
+Time-stamp: <2017-08-06 12:52:27 st>
 ------------------------------------------------------------
 
 * A list of TODO for GAMS mode.
@@ -12,6 +12,7 @@ Time-stamp: <2017-06-30 11:11:14 st>
 ** TODO A command that converts equations to LaTeX format.
 
 ** TODO import されるファイル、export されたファイルのリストを作成する機能．
+
 
 * List of variables
 

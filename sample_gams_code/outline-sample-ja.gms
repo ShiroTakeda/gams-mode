@@ -1,7 +1,7 @@
 $title  GAMS-OUTLINE mode の説明のためのプログラム．
 display "@ GAMS-OUTLINE mode の説明のためのプログラム．";
 $ontext
-Time-stamp:     <2016-04-03 14:57:46 st>
+Time-stamp:     <2017-07-15 12:52:51 st>
 Filename:       outline-sample.gms
 Author:         Shiro Takeda
 First-written:  <2001/10/26>
@@ -309,15 +309,14 @@ display "";
 display "";
 
 *       Model M2-1s: Closed 2x2 Tax-Ridden Economy --  Vector Syntax
-
 table bmflow(*,*)  Benchmark flows (in value terms)
-                 x       y        w     cons
-        x      100             -100
-        y              100     -100
-        w                       200     -200
-        l      -20     -60                80
-        k      -60     -40               100
-        tax    -20       0                20
+               x       y        w     cons
+x            100       0     -100        0
+y              0     100     -100        0
+w              0       0      200     -200
+l            -20     -60        0       80
+k            -60     -40        0      100
+tax          -20       0        0       20
 ;
 set     i       Goods index  /x, y/
         f       Factors index /l, k/;

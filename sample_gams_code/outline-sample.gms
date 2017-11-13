@@ -1,14 +1,14 @@
-$title	A sample program for GAMS-OUTLINE mode.
+$title A sample program for GAMS-OUTLINE mode.
 display "@ A sample program for GAMS-OUTLINE mode.";
 $ontext
-Time-stamp:	<2016-02-28 20:31:19 st>
+Time-stamp:	<2017-07-15 12:54:26 st>
 Filename:	outline-sample.gms
 Author:		Shiro Takeda
 First-written:	<2001/10/26>
 
 [Note]:
 
-  For gams-mode.el version 3.6.
+  For gams-mode.el version 6.2.
 
   This program is written to show how to use GAMS-OUTLINE mode (abbreviated as
   GAMS-OL mode).
@@ -310,16 +310,15 @@ display "";
 display "";
 
 *	Model M2-1s: Closed 2x2 Tax-Ridden Economy --  Vector Syntax
-
 table bmflow(*,*)  Benchmark flows (in value terms)
-		 x	 y	  w	cons
-	x      100	       -100
-	y	       100     -100
-	w			200	-200
-	l      -20     -60		  80
-	k      -60     -40		 100
-	tax    -20	 0		  20
-
+               x       y        w     cons
+x            100       0     -100        0
+y              0     100     -100        0
+w              0       0      200     -200
+l            -20     -60        0       80
+k            -60     -40        0      100
+tax          -20       0        0       20
+;
 set	i	Goods index	/ x, y /
 	f	Factors index	/ l, k /;
 alias (i,j)
@@ -401,6 +400,7 @@ $include M2_1.GEN
 display utility;
 
 display "@ Program ends here.";
+
 
 * --------------------
 * Local Variables:

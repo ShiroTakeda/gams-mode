@@ -14,7 +14,9 @@ copy_files.bat
 new/
 emacs.exe.stackdump
 identifier/
-
-lxi/exe/gamslxi-import.exe
-lxi/exe/gamslxi.exe
 modlib/
+lxi/old_exe/gamslxi.c
+lxi/old_exe/
+lxi/work/
+lxi/exe/
+*.tds
