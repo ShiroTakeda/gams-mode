@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2017-07-31 10:38:06 st>
+Time-stamp: <2017-11-18 11:09:31 st>
 -->
 
 Known bugs and problems of GAMS mode.
@@ -46,7 +46,7 @@ convention of major modes. So, in GAMS mode, TAB key is used to make
 indentation of the current line and not used to insert TAB character.
 
 But if you want to use TAB key to insert TAB character, put the following
-code in your ".emacs.el":
+code in your "init.el":
 
     ;; Bind indent-line to F2.
     (define-key gams-mode-map [f2] 'gams-indent-line)
