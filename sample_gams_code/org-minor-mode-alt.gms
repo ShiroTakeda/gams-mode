@@ -1,13 +1,13 @@
 $title	A sample file for showing Org-mode feature in GAMS mode
 display "@ A sample file for showing Org-mode feature in GAMS mode";
 $ontext
-Time-stamp: 	<2016-02-28 14:18:57 st>
+Time-stamp: 	<2017-11-18 11:11:33 st>
 First-written:	<2012/07/25>
 
 -----------------------------------------------------------------------------
 [Note] ----------------------------------------------------------------------
 
-To use this file, add the following line to your .emacs.el (init.el).
+To use this file, add the following line to your init.el.
 
     (setq gams-outline-regexp "[ \t]*display \"@+[ \t]")
     (setq gams-outline-regexp-font-lock "[ \t]*display \\(\"\\@*\\)\\(\\@[ \t]\\)\\(.*\\)")

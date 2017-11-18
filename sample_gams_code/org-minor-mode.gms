@@ -1,7 +1,7 @@
 $title	A sample file for showing Org-mode feature in GAMS mode
 *@ 	A sample file for showing Org-mode feature in GAMS mode
 $ontext
-Time-stamp: 	<2016-02-28 14:19:08 st>
+Time-stamp: 	<2017-11-18 11:12:12 st>
 First-written:	<2012/07/25>
 
 (setq gams-outline-regexp "\\*@+[ \t]")
@@ -65,8 +65,8 @@ $eolcom #
 $ontext
 If your setting is proper, this buffer must be in GAMS mode (if the mode
 line contains the string "GAMS", you are in GAMS mode).  If you aren't in
-GAMS mode, please check your configuration in "~/.emacs.el" (in particular,
-load-path setting).
+GAMS mode, please check your configuration in "~/.emacs.d/init.el" (in
+particular, load-path setting).  
 
 $offtext
 *        ----------------------------------------------------------------------
@@ -499,7 +499,7 @@ To write a gms file that other people (or yourself) can understand easily,
 it is good to use comments effectively.  You can insert a comment template
 by typing `C-cC-o' (gams-insert-comment).  Inserted template is defined by a
 variable `gams-user-comment'.  You can change the value of this variable.
-For example, I put the following in my ".emacs.el".
+For example, I put the following in my "init.el".
 
          (setq gams-user-comment
                "*       ------------------------------------------------------------------------
@@ -578,7 +578,7 @@ terminology).
 
 If you set font-lock-mode on, coloring automatically works in GAMS mode,
 GAMS-LST mode, and GAMS-OUTLINE mode.  To set font-lock-mode on in these
-three modes, put the following your "~/.emacs.el" file:
+three modes, put the following your "~/.emacs.d/init.el" file:
 
 (global-font-lock-mode t)
 

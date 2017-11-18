@@ -1,6 +1,6 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2017-07-06 21:11:10 st>
+Time-stamp:     <2017-11-18 11:11:05 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -485,7 +485,7 @@ To write a gms file that other people (or yourself) can understand easily,
 it is good to use comments effectively.  You can insert a comment template
 by typing `C-cC-o' (gams-insert-comment).  Inserted template is defined by a
 variable `gams-user-comment'.  You can change the value of this variable.
-For example, I put the following in my ".emacs.el".
+For example, I put the following in my "init.el".
 
      (setq gams-user-comment
            "*       ------------------------------------------------------------------------
@@ -567,7 +567,7 @@ terminology).
 
 If you set font-lock-mode on, coloring automatically works in GAMS mode,
 GAMS-LST mode, and GAMS-OUTLINE mode.  To set font-lock-mode on in these
-three modes, put the following your "~/.emacs.el" file:
+three modes, put the following your "~/.emacs.d/init.el" file:
 
 (global-font-lock-mode t)
 
