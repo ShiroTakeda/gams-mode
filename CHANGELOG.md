@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-01-24 19:26:16 st>
+Time-stamp: <2018-01-24 19:36:32 st>
 -->
 
 ----------------------------------------------------
@@ -12,8 +12,15 @@ Change logs of GAMS mode.
 Version 6.x (?)
 ----------------------------------
 
-* Added hook variables `gams-sil-mode-hook`, `gams-lxi-mode-hook`, and gams-ol-mode-hook`.
+* Added hook variables `gams-sil-mode-hook`, `gams-lxi-mode-hook`, and
+  gams-ol-mode-hook`.
 
+* Added new list code "gams-auto-complete.el". This enables you to use
+  auto-complete mode in GAMS mode. 
+  
+  If you want to use auto-complete mode in GAMS mode, you first need to
+  install auto-complete.el. auto-complete.el can be installed from MELPA.
+  
 
 Version 6.3 (2017-11-18)
 ----------------------------------
