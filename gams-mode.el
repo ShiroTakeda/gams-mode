@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2017 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2017-11-18 11:14:33 st>
+;; Time-stamp: <2018-01-24 19:24:51 st>
 ;; Version: 6.3
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -176,7 +176,7 @@ case.  For example,
 
 (defcustom gams-mode-hook  nil
   "*Hook run when gams-mode starts."
-  :type 'hook
+   :type 'hook
   :group 'gams)
 
 ;; from yatex.el
@@ -506,6 +506,12 @@ on the top, you must write MAR at the fisrt in this alist."
   :type 'integer
   :group 'gams)
 
+(defcustom gams-ol-mode-hook nil
+  "*Hook run when GAMS-OUTLINE mode starts."
+   :type 'hook
+  :group 'gams)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;     Variables for GAMS-LXI mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -556,6 +562,11 @@ need to set the full path to gamslxi-import.exe, for example,
 You can change the width of the LXI buffer with
 `gams-lxi-narrow-one-line' and `gams-lxi-widen-one-line'."
   :type 'integer
+  :group 'gams)
+
+(defcustom gams-lxi-mode-hook nil
+  "*GAMS-LXI mode hooks."
+  :type 'hook
   :group 'gams)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -757,6 +768,11 @@ In GAMS-SIL mode, the contents of files included by $include
 commands are always expanded. But files included by $batinclude are
 not expanded if `gams-sil-expand-batinclude' is nil."
   :type 'boolean
+  :group 'gams)
+
+(defcustom gams-sil-mode-hook  nil
+  "*Hook run when GAMS-SIL mode starts."
+   :type 'hook
   :group 'gams)
 
 (defcustom gams-n-level-faces 8
@@ -8404,6 +8420,7 @@ This command cannot identify aliased set identifer."
    (setq gams-sil-view-item-default (gams-sil-make-list-view-item gams-sil-view-item)))
  (setq truncate-lines t)
  (setq font-lock-mode nil)
+ (run-hooks 'gams-sil-mode-hook)
  (setq buffer-read-only t))
 
 (defun gams-sil-item-make-alist (alist)
@@ -15420,6 +15437,7 @@ If PAGE is non-nil, page scroll."
         truncate-lines t)
   (setq font-lock-defaults '(gams-lxi-font-lock-keywords t t))
   (easy-menu-add gams-lxi-menu)
+  (run-hooks 'gams-lxi-mode-hook)
   )
 
 (setq-default gams-lxi-fold-all-items-p t)
@@ -17648,6 +17666,8 @@ static unsigned char gams_mark_bits[] = {
    'gams-mode-load-hook
    'gams-ol-buffer-point
    'gams-ol-mode-hook
+   'gams-sil-mode-hook
+   'gams-lxi-mode-hook
    'gams-ol-view-item-default
    'gams-paragraph-start
    'gams-sil-column-width
@@ -17668,7 +17688,7 @@ problems."
       (switch-to-buffer buf)
       (erase-buffer)
       (insert "\n")
-      (insert "--- Copy and paste the content of this buffer to email. ---\n\n")
+      (insert "--- Copy and paste the content of this buffer to email. It is used for debug. ---\n\n")
       ;;
       (insert "General Emacs settings:\n\n")
       (dolist (mode gams-emacs-variables-list)

@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2017-11-13 11:15:13 st>
+Time-stamp: <2018-01-24 19:26:16 st>
 -->
 
 ----------------------------------------------------
@@ -9,7 +9,13 @@ Time-stamp: <2017-11-13 11:15:13 st>
 Change logs of GAMS mode.
 ====================================================
 
-Version 6.2.2 ()
+Version 6.x (?)
+----------------------------------
+
+* Added hook variables `gams-sil-mode-hook`, `gams-lxi-mode-hook`, and gams-ol-mode-hook`.
+
+
+Version 6.3 (2017-11-18)
 ----------------------------------
 
 * Modified licence statement.
