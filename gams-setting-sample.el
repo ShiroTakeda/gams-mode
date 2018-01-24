@@ -1,7 +1,7 @@
 ;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2016-03-07 09:20:25 st>
+;;  Time-stamp:         <2018-01-24 19:30:59 st>
 ;;
 ;;  This file is created for gams-mode.el version 6.0.
 ;;
@@ -21,18 +21,13 @@
 ;; gams-mode.el is installed.  Then you should add the following.
 (add-to-list 'load-path "c:/home/gams")
 ;; Please change the directory name according to your environment.
+;; Note: This setting is not necessary if you install GAMS mode from MELPA.
 
 ;; By default, GAMS mode will automatically start only when you open a file with
 ;; an extension `gms'. If you want to add files with another extensions (for
-;; example, `dat'), you need to set the following.  NB: This setting must be
-;; placed before (require 'gams) below.
+;; example, `dat'), you need to set the following.
+;; NB: This setting must be placed before (require 'gams) command below.
 (setq gams-file-extension '("gms" "dat"))
-
-;; Load the program file `gams-mode.el'.
-(require 'gams-mode)
-;; NB: If you use this (require 'gams-mode), you had better put this at the end
-;; of all configurations about gams-mode.el.  Because of the bug, the
-;; configurations after (require 'gams-mode) may not come into effect.
 
 ;; If you are an experienced user of Emacs, you may prefer the following
 ;; `auto-mode-alist' and `autoload' instead of (require 'gams-mode).
@@ -83,7 +78,7 @@
 ;; Command line options passed to gams.  The default value is
 ; (setq gams-process-command-option "ll=0 lo=3 pw=100 ps=9999")
 ;
-; Notice: If you are a Emacs on MS windows user, you should include lo=3 option!!!
+; Notice: If you are an Emacs user on MS windows, you should include lo=3 option!!!
 
 ;; GAMS system directory.  The directory where gams.exe exists.  This is
 ;; necessary for `gams-model-library' and `gams-view-doccument' command.
@@ -137,6 +132,13 @@
 ; buffer according to this order.  So, if you want to show COM on the top in the
 ; SELECT-ITEM mode, you must write COM at the fisrt in this alist.
 
+;; Setting for auto-complete-mode in GAMS.
+;;
+;; To use auto-complete-mode in GAMS, you need to install auto-complete.el.
+;;
+;; (require 'gams-auto-complete)
+;; (gams-ac-after-init-setup)
+;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	 Other customizations.
@@ -308,6 +310,13 @@
 ; (setq shell-file-name-chars "~/A-Za-z0-9_^$!#%&{}@`'.,:()-")
 ; (setq w32-quote-process-args t)
 ; (setq w32-start-process-show-window nil)
+
+
+;; Load the program file `gams-mode.el'.
+(require 'gams-mode)
+;; If you use this (require 'gams-mode), you had better put this at the end
+;; of all configurations about gams-mode.el.  Because of the bug, the
+;; configurations after (require 'gams-mode) may not come into effect.
 
 
 ; --------------------
