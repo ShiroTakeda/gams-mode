@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2018 Shiro Takeda
 ;; First Created: Tue Jan 23, 2018 
-;; Time-stamp: <2018-01-24 18:32:13 st>
+;; Time-stamp: <2018-01-24 19:28:14 st>
 ;; Version: 0.9
 ;; Keywords: GAMS, auto-complete
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -45,9 +45,8 @@
 ;; If you want to add more keywords, for example, "computable", "general",
 ;; "equilibrium", Add the following into your init.el.
 ;;
-;;  (setq gams-ac-source-user-keywords*
-;;         '("computable" "general" "equilibriumtequila"))
-;;
+;;  (setq gams-ac-source-user-keywords
+;;         '("computable" "general" "equilibrium"))
 ;;
 
 ;;; Code:
