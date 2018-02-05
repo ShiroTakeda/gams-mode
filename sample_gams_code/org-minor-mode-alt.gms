@@ -1,7 +1,7 @@
 $title	A sample file for showing Org-mode feature in GAMS mode
 display "@ A sample file for showing Org-mode feature in GAMS mode";
 $ontext
-Time-stamp: 	<2017-11-18 11:11:33 st>
+Time-stamp: 	<2018-02-02 12:22:39 st>
 First-written:	<2012/07/25>
 
 -----------------------------------------------------------------------------
@@ -482,6 +482,33 @@ delete them manually.
 GAMS has a lot of statements.  But only basic statements are registered in
 gams-mode.el by default.  So, please register statements that you frequently use
 by yourself.
+
+$offtext
+
+* ---------------------------------------------------------
+display "@ auto-complete mode for GAM mode.";
+* ---------------------------------------------------------
+$ontext
+
+auto-complete.el (auto-complete minor mode) enables you to complete words
+with popup menu. You can use auto-complete mode in GAMS mode.
+
+To use auto-complete, you first need to install "auto-complete.el" which can
+be installed from MELPA.
+  
+To use auto-complete in GAMS mode, add the following code to init.el.
+  
+        ;; Load gams-auto-complete.
+        (require 'gams-auto-complete)
+        ;; Initial setup for auto-complete in GAMS mode.
+        (gams-ac-after-init-setup)
+        
+If you want to add words for auto-complete mode by yourself, add words
+to the variable `gams-ac-source-user-keywords-list` like
+
+        ;; Add the following words to candidates of auto-complete.
+        (setq gams-ac-source-user-keywords-list
+              '("computable" "general" "equilibrium"))
 
 $offtext
 

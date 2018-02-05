@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2018 Shiro Takeda
 ;; First Created: Tue Jan 23, 2018 
-;; Time-stamp: <2018-01-24 19:28:14 st>
+;; Time-stamp: <2018-02-02 12:36:24 st>
 ;; Version: 0.9
 ;; Keywords: GAMS, auto-complete
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -59,8 +59,7 @@
 (defvar gams-ac-source-user-keywords-list nil
   "A list of user keywords.")
 
-;;(defvar gams-ac-sources
-(setq gams-ac-sources
+(defvar gams-ac-sources
   '(
     gams-ac-source-user-keywords
     gams-ac-source-basic-commands
@@ -75,7 +74,7 @@
   (add-hook 'gams-mode-hook 'gams-ac-setup)
   )
 
-;;;; keywords
+;; keywords
 (defmacro gams-ac-define-dictionary-source (name list)
   `(defconst ,name
      '((candidates . (lambda () (all-completions ac-prefix ,list)))
@@ -101,8 +100,6 @@
   (gams-alist-to-list gams-dollar-control-alist)))
 
 (provide 'gams-auto-complete)
-
-
 
 
 ;;; gams-auto-complete.el ends here.

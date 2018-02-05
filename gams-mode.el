@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2017 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-01-24 19:24:51 st>
+;; Time-stamp: <2018-01-31 17:12:23 st>
 ;; Version: 6.3
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -176,7 +176,7 @@ case.  For example,
 
 (defcustom gams-mode-hook  nil
   "*Hook run when gams-mode starts."
-   :type 'hook
+  :type 'hook
   :group 'gams)
 
 ;; from yatex.el
@@ -508,7 +508,7 @@ on the top, you must write MAR at the fisrt in this alist."
 
 (defcustom gams-ol-mode-hook nil
   "*Hook run when GAMS-OUTLINE mode starts."
-   :type 'hook
+  :type 'hook
   :group 'gams)
 
 
@@ -772,7 +772,7 @@ not expanded if `gams-sil-expand-batinclude' is nil."
 
 (defcustom gams-sil-mode-hook  nil
   "*Hook run when GAMS-SIL mode starts."
-   :type 'hook
+  :type 'hook
   :group 'gams)
 
 (defcustom gams-n-level-faces 8

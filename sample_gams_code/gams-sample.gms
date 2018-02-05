@@ -1,11 +1,11 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2017-11-18 11:11:05 st>
+Time-stamp:     <2018-02-02 12:20:01 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
 
-_TODO_: 
+_TODO_:
 
 $offtext
 
@@ -101,7 +101,7 @@ Next, uncomment the following line (delete *) and run GAMS (type `C-cC-t' and
 type `s').
 
 $offtext
-*              Uncomment this line.  Error is here.
+              Uncomment this line.  Error is here.
 $ontext
 
 Then switch to the LST buffer (C-cC-v or f10) and you will see two windows
@@ -459,6 +459,33 @@ have registered unnecessary statements, open the file
 GAMS has a lot of statements.  But only basic statements are registered in
 gams-mode.el by default.  So, please register statements that you frequently use
 by yourself.
+
+$offtext
+
+* ---------------------------------------------------------
+$stitle         auto-complete mode for GAM mode.
+* ---------------------------------------------------------
+$ontext
+
+auto-complete.el (auto-complete minor mode) enables you to complete words
+with popup menu. You can use auto-complete mode in GAMS mode.
+
+To use auto-complete, you first need to install "auto-complete.el" which can
+be installed from MELPA.
+  
+To use auto-complete in GAMS mode, add the following code to init.el.
+  
+        ;; Load gams-auto-complete.
+        (require 'gams-auto-complete)
+        ;; Initial setup for auto-complete in GAMS mode.
+        (gams-ac-after-init-setup)
+        
+If you want to add words for auto-complete mode by yourself, add words
+to the variable `gams-ac-source-user-keywords-list` like
+
+        ;; Add the following words to candidates of auto-complete.
+        (setq gams-ac-source-user-keywords-list
+              '("computable" "general" "equilibrium"))
 
 $offtext
 

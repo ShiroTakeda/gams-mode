@@ -20,3 +20,10 @@ lxi/old_exe/
 lxi/work/
 lxi/exe/
 *.tds
+ac/
+*.obj
+*.~gm
+*.log
+old_20171206/
+gams-treee/gamstools.zip
+sample_gams_code/test2.gms

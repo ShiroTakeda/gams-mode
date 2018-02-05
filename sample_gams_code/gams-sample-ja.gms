@@ -1,6 +1,6 @@
 $title GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
 $ontext
-Time-stamp:     <2017-07-13 20:43:32 st>
+Time-stamp:     <2018-02-02 12:20:57 st>
 Filename:       "gams-sample-ja.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -438,6 +438,33 @@ $ontext
 dollar control だけではなく statement (C-cC-k) の入力についても，同じように登
 録できます．デフォールトの gams.el には全ての命令は登録されていません．
 よく利用する命令については自分で登録するようにしてください．
+
+$offtext
+
+* ---------------------------------------------------------
+$stitle         GAMS mode での auto-complete mode の利用
+* ---------------------------------------------------------
+$ontext
+
+auto-complete.el (auto-complete minor mode) enables you to complete words
+with popup menu. You can use auto-complete mode in GAMS mode.
+
+To use auto-complete, you first need to install "auto-complete.el" which can
+be installed from MELPA.
+  
+To use auto-complete in GAMS mode, add the following code to init.el.
+  
+        ;; Load gams-auto-complete.
+        (require 'gams-auto-complete)
+        ;; Initial setup for auto-complete in GAMS mode.
+        (gams-ac-after-init-setup)
+        
+If you want to add words for auto-complete mode by yourself, add words
+to the variable `gams-ac-source-user-keywords-list` like
+
+        ;; Add the following words to candidates of auto-complete.
+        (setq gams-ac-source-user-keywords-list
+              '("computable" "general" "equilibrium"))
 
 $offtext
 

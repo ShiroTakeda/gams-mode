@@ -1,7 +1,7 @@
 ;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2018-01-24 19:30:59 st>
+;;  Time-stamp:         <2018-02-02 12:34:22 st>
 ;;
 ;;  This file is created for gams-mode.el version 6.0.
 ;;
@@ -278,6 +278,24 @@
 ; 	     (define-key gams-ol-mode-map [down] 'gams-ol-view-next)
 ; 	     (define-key gams-ol-mode-map [up] 'gams-ol-view-prev)
 ; 	     ))
+
+; (add-hook
+;  'gams-sil-mode-hook
+;  '(lambda () (linum-mode -1)))
+;
+; (add-hook
+;  'gams-lxi-mode-hook
+;  '(lambda () (linum-mode -1)))
+
+
+;;; If you want to use auto-complete mode in GAMS mode, add the following code:
+;;
+;; (require 'gams-auto-complete)
+;; (gams-ac-after-init-setup)
+
+;; Add the following words to candidates of auto-complete.
+;; (setq gams-ac-source-user-keywords-list
+;;      '("computable" "general" "equilibrium"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

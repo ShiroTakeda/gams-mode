@@ -1,16 +1,16 @@
 /*
   gamslxi.c	C program for making the LXI file from the LST file.
 
-  Copyright (C) 2009 Shiro Takeda <shiro.takeda@gmail.com>
+  Copyright (C) 2009-2018 Shiro Takeda <shiro.takeda@gmail.com>
 
-  Version: 1.0
+  Version: 2.0
   $Id: gamslxi.c,v 1.1 2009/06/15 17:13:18 st Exp $
-  Time-stamp: <2017-11-11 12:44:41 st>
+  Time-stamp: <2018-01-24 19:05:59 st>
 
   Author: Shiro Takeda
   Maintainer: Shiro Takeda
   First Created: Wed Dec 10 2008
-  Copyright (C) 2008-2009 Shiro Takeda
+  Copyright (C) 2008-2018 Shiro Takeda
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@
   line tool on MS Windows 10
 
   % bcc32 -w -O2 gamslxi.c
+  
 
   Embarcadero C++Builder command line tool (bcc32.exe) is included in
   "C++Compiler" downloadable from
@@ -240,7 +241,9 @@ int main(int argc, char *argv[]){
 
     } else if ((strcmp(i_type,"b_com") != 0)
 	       && (0 == regexec(&preg_b_com, line, 9, pmatch, REG_NOTEOL))) {
-      fprintf(fout,"%s %i %s\n", type_l, linum_l, ma_l);
+      if (linum_l != 0) {
+        fprintf(fout,"%s %i %s\n", type_l, linum_l, ma_l);
+      }
       strcpy(type_ll,type_l);
       linum_l = linum;
       strcpy(type_l,"B");
@@ -445,7 +448,6 @@ int main(int argc, char *argv[]){
   fprintf(fout,"%s %i %s\n", type_l, linum_l, ma_l);
   strcpy(type_ll,type_l);
   
-  fprintf(fout,"line=[%i]\n", linum);
   fclose(fin);
   fclose(fout);
   return (0);
@@ -457,3 +459,4 @@ void usage(void){
 	  "Usage: gamslxi LST-file [output-file]\n", gamsver);
   exit(0);
 }
+
