@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2018 Shiro Takeda
 ;; First Created: Tue Jan 23, 2018 
-;; Time-stamp: <2018-02-02 12:36:24 st>
+;; Time-stamp: <2018-02-05 15:18:33 st>
 ;; Version: 0.9
 ;; Keywords: GAMS, auto-complete
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -24,16 +24,13 @@
 ;; program's author or from the Free Software Foundation,
 ;; Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-;;; Requirements:
+;;; Commentary:
 
-;; To use auto-complete mode in GAMS mode, you need auto-complete.el.
-;;
-;; https://github.com/auto-complete/auto-complete
+;; To use auto-complete mode in GAMS mode, you first need to install
+;; auto-complete.el (https://github.com/auto-complete/auto-complete)
 ;;
 ;; You can install auto-complete.el from MELPA.
 ;;
-
-;;; Commentary:
 
 ;; Put this file into your load-path and add the following into your init.el
 ;; file.
@@ -47,7 +44,6 @@
 ;;
 ;;  (setq gams-ac-source-user-keywords
 ;;         '("computable" "general" "equilibrium"))
-;;
 
 ;;; Code:
 
