@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-02-02 12:13:49 st>
+Time-stamp: <2018-03-22 12:21:33 st>
 -->
 
 ----------------------------------------------------
@@ -9,33 +9,32 @@ Time-stamp: <2018-02-02 12:13:49 st>
 Change logs of GAMS mode.
 ====================================================
 
-Version 6.x (?)
+Version 6.4 (2018-03-22)
 ----------------------------------
 
 * Added hook variables `gams-sil-mode-hook`, `gams-lxi-mode-hook`, and
   `gams-ol-mode-hook`.
 
 * Added new list code "gams-auto-complete.el". This enables you to use
-  auto-complete mode in GAMS mode. 
-  
+  auto-complete mode in GAMS mode.
+
   If you want to use auto-complete mode in GAMS mode, you first need to
   install "auto-complete.el" which can be installed from MELPA.
-  
+
   To use auto-complete in GAMS mode, add the following code to init.el.
-  
+
         ;; Load gams-auto-complete.
         (require 'gams-auto-complete)
         ;; Initial setup for auto-complete in GAMS mode.
         (gams-ac-after-init-setup)
-        
+
   If you want to add words for auto-complete mode by yourself, add words
   to the variable `gams-ac-source-user-keywords-list`. See
   "gams-setting-sample.el" for details.
-  
 
-  
-* Changed gamslxi.exe. 
-  
+
+* Changed gamslxi.exe.
+
 
 Version 6.3 (2017-11-18)
 ----------------------------------
@@ -62,7 +61,7 @@ Version 6.2 (2017-03-08)
 * Added a customizable variable `gams-sil-display-column-num`.  This
   variable determiens the column width for displaying identifer name in
   GAMS-SIL mode.
-  
+
 * Made changes to show names of parameters, variables and equations with
   index (set) in GAMS-SIL mode.
 
@@ -121,7 +120,7 @@ Version 6.0 (2016-03-02)
 
 * Change the default value of variables `gams-statement-file` and
   `gams-template-file`.
-  
+
         gams-statement-file -> "~/.emacs.d/gams-statement.txt"
         gams-template-file -> "~/.emacs.d/gams-template.txt"
 
@@ -155,10 +154,10 @@ Version 5.0 (2016-02-03)
 
   So the items in "sub_program_default.gms" are listed by
   `gams-show-identifier-list`.
-  
+
   The specification by "gams-include-file" is used in the sample file
-  "gams-sample.gms". 
-  
+  "gams-sample.gms".
+
 * Fixed the bug (wrong number of arguments) in
   `gams-insert-statement-extended`.
 
@@ -241,7 +240,7 @@ Version 4.0 (2012-09-08)
   If you always want to expand the content of conditionally inluced files,
   then set non-nil to the lisp variable `gams-sil-expand-file-more`.
 
-  
+
 * Added the new lisp variable `gams-sil-expand-batinclude` (default value is t).
 
   In GAMS-SIL mode, the contents of files included by $include commands
@@ -288,7 +287,7 @@ Version 4.0 (2012-09-08)
   In the default setting, "*@" is used as symbols to represent
   headlines. This is determined by the lisp variable
   `gams-outline-regexp`. This variable specifies the regular expressions
-  of the symbol used to represent headlines and its default value is 
+  of the symbol used to represent headlines and its default value is
 
         "\\*@+[ \t]"
 
@@ -297,9 +296,9 @@ Version 4.0 (2012-09-08)
   file
 
         (setq gams-outline-regexp "[ \t]*display \"@+[ \t]")
-  
+
   And open "org-minor-mode-alt.gms".
-  
+
 
   [Other commands for outline handling]
 
@@ -307,7 +306,7 @@ Version 4.0 (2012-09-08)
   + "C-cC-:p" -> Move to the previous headlines (`outline-previous-visible-heading`).
   + "C-cC-:f" -> Fold the current tree (`gams-org-fold-current-tree`).
   + "C-cC-:k" -> Show branches (`show-branches`).
-  
+
 
 * Changed the default indent number from 8 to 4.
 
@@ -328,7 +327,7 @@ Version 3.6.6 (2012-06-02)
 * Fixed a bug in `gams-show-identifier`.
 
 * Fixed many minor bugs.
-  
+
 
 
 Version 3.6.5 (2011-10-15)
@@ -479,7 +478,7 @@ Version 3.2 (2009-12-21)
   To use this feature, put the following code in your gms file.
 
   [Example]
-  
+
         * gams-lst-file: .\listing\sample.lst
         * gams-lst-dir: .\result
 
@@ -507,15 +506,15 @@ Version 3.2 (2009-12-21)
         * gams-lst-dir: .\listing\
 
   Then the above code means that the lst file is ".\listing\gams-sample.lst".
-  
+
   Example 4:
 
-  Similarly, 
+  Similarly,
 
         * gams-lst-dir: c:\
 
   This code means that the lst file is "c:\gams-sample.lst".
-  
+
 
   Notes:
 
@@ -598,7 +597,7 @@ Version 3.1 (2009-08-03)
      *absolute* (full) path.
 
   2. This function does not support file and directory name with spaces.
-  
+
   3. If gams-lst-file is not set, gams-mode assumes that the LST file has
      the same name and is placed at the same directory as the GMS file.
 
@@ -692,7 +691,7 @@ Version 2.7 (2009-03-10)
 * Bug fix for the pretest version of Emacs23 (Emacs 23.0.9x).  The
   GAMS-OUTLINE mode in the previous gams.el does not work well in pretest
   version of Emacs 23.
-  
+
 * In the new Emacs (ver 23.0.9), the default value of `comment-style`
   changed from `plain` to `indent`.  By this change, `gams-comment-region`
   (and `comment-region`) command fails.  To avoid this, please set plain
@@ -861,8 +860,8 @@ Version 2.0 (Tue Sep 9, 2003)
             c   Commodity index /
             agr, man, ser /;
 
-  On the other hande, if gams-indent-more-indent is t, 
-        
+  On the other hande, if gams-indent-more-indent is t,
+
         set
             i   Sector index / agr, man1, man2, ser /,
             f   Primary factor index
@@ -901,7 +900,7 @@ Version 1.10 (Sun Feb 16, 2003)
 
 * Modified display in GAMS-OUTLINE mode.
 
- 
+
 
 Version 1.9 (Tue Jan 14, 2003)
 ----------------------------------
@@ -931,14 +930,14 @@ Version 1.8 (Sat Dec  7, 2002)
   parenthesis.
 
   The position of the cursor where this command is valid (e.g)
-  
+
     (a + b + c + d * f * h)
     ＾                     ＾
        Here and       here
 
   Note that with respect to the right parenthesis ), the cursor should be
   placed at the _next_ point after the ).
-  
+
 * Fixed the bug in `gams-ol-view-next`.  Until the previous, in Emacs 20
   and XEmacs, the `gams-ol-view-next` (binded to `N` by default) sometimes
   doesn't work properly in GAMS-OUTLINE buffer: a window doesn't scroll if
@@ -991,7 +990,7 @@ Version 1.8 (Sat Dec  7, 2002)
   two variables above are set to nil).  See the help discription of these
   variables.  Moreover, gamsolc.exe or gamsolperl.pl must be placed at the
   proper place.
-  
+
 * Fixed the various bugs of codes for XEmacs (thanks to H. Kremers).  Now,
   the full coloring works also on XEmacs.  But generally speaking this
   program is likely to work better on GNU Emacs.
@@ -1008,7 +1007,7 @@ Version 1.7 (Tue Oct 22, 2002)
 * Added the new function `gams-from-gms-to-outline` (binded to C-cC-i and
   F10 by default).  With this command, you can jump directly to the
   OUTLINE buffer from gms file buffer.
-  
+
 * Added the new function `gams-from-outline-to-gms` (binded to `;` by
   default).  With this command, you can jump directly to the gms file
   buffer from the OUTLINE buffer.
@@ -1021,12 +1020,12 @@ Version 1.7 (Tue Oct 22, 2002)
   nil, the process buffer does not popup.  `gams-popup-process-buffer`
   makes the process buffer popup.
 
-  
+
 * Changed the default value of `gams-template-cont-color` to nil.  Non-nil
   makes the program very slow.  If you want to make the template content
   buffer colored, set it by yourself.
 
-  
+
 * If you are an Emacs21 user, please set `gams-display-small-logo` to t.
   Something may happen on the modeline :-)
 
@@ -1042,9 +1041,9 @@ Version 1.7 (Tue Oct 22, 2002)
 
   I tested the program only with XEmacs 21.4 on MS windows.
 
-  
+
 * Fixed the bug in GAMS-TEMPLATE mode.
-  
+
 
 Version 1.6 (Sat Sep  7, 2002)
 ----------------------------------
@@ -1117,7 +1116,7 @@ Version 1.5 (Fri Aug 23, 2002)
 
 * Added the refcard.
 
-  
+
 Version 1.4 (Mon Aug  5, 2002)
 ----------------------------------
 
@@ -1132,7 +1131,7 @@ Version 1.4 (Mon Aug  5, 2002)
 
 * Fixed bugs in automatic indentation and coloring.  Thanks to Marko
   Loparik.
-  
+
 * Added the new variable `gams-indent-equation-on` Non-nil means indent
   equation blocks.  If nil, already written equations are not affected by
   TAB.  Its default value is t.
@@ -1159,7 +1158,7 @@ Version 1.4 (Mon Aug  5, 2002)
   in GAMS-ITEM-SELECT mode.
 
 * Fixed the bug in automatic indentation.
-    
+
 
 Version 1.3.1 (Sun Apr 14, 2002)
 ----------------------------------
@@ -1179,7 +1178,7 @@ Version 1.3 (Mon Apr  1, 2002)
 ----------------------------------
 
 * Supported automatic indentation.  You can indent GAMS program according
-  to GAMS syntax. 
+  to GAMS syntax.
 
   As in most major modes in Emacs, the indent-line function
   (`gams-indent-line`) is binded to TAB key.  By typing TAB key, you can
@@ -1196,7 +1195,7 @@ Version 1.3 (Mon Apr  1, 2002)
                  (let ((map gams-mode-map))
                   (define-key map [f2] 'gams-indent-line)
                   (define-key map "\t" 'gams-insert-tab))))
-        
+
   In this example, `gams-indent-line` is binded to F2 key and the command
   for inserting TAB (`gams-insert-tab`) is binded to TAB key.
 
@@ -1257,12 +1256,12 @@ Version 1.3 (Mon Apr  1, 2002)
 * Supported `font-lock-fontify-block` (binded to M-gM-g).  With this
   command, you can re-color a part around the cursor (not an entire
   buffer).
-  
+
 * Added the new variable `gams-mode-load-hook`.  The content of this hook
   variable is run after "gams.el" is loaded.
 
 * Changed `gams-outline` to make GAMS-OUTLINE mode faster.
-  
+
 * Added the new variable `gams-system-directory`.
 
 * Added the new function `gams-modlib` (binded to C-cz).  With this
@@ -1318,8 +1317,8 @@ Version 1.3 (Mon Apr  1, 2002)
   works faster.
 
 * Fixed various minor bugs.
-  
-  
+
+
 Version 1.2 (Tue Feb  5, 2002)
 ----------------------------------
 
@@ -1331,7 +1330,7 @@ Version 1.2 (Tue Feb  5, 2002)
   When this command is executed on a $ontext ($offtext), both $ontext
   $offtext are commented out (or uncommented out if they are already
   commented out).
-  
+
 * Added a new function `gams-remove-on-off-text` (binded to `C-cG`).  When
   this command is executed on a $ontext ($offtext), both $ontext
   ($offtext) and the corresponding $offtext ($ontext) are removed.
@@ -1342,7 +1341,7 @@ Version 1.2 (Tue Feb  5, 2002)
 * Supported comment prefix other than *.  If you use $comment control to
   set your own comment prefix, it is automatically used in GAMS mode.  But
   a comment prefix other than * may not be recommended (?)
-  
+
 * Fixed the bug of font-lock in GAMS.  Until the previous version, the
   ontext-offtext region which includes dollar mark is not colored in Emacs
   20.  Now, such a region can be colored both in Emacs 20 and 21.
@@ -1455,7 +1454,7 @@ Version 1.06 (Thu Sep 13, 2001)
 
 * Fixed various bugs.
 
- 
+
 
 Version 1.05 (Mon Sep  3, 2001)
 ----------------------------------
@@ -1486,7 +1485,7 @@ Version 1.04 (Sat Sep  1, 2001)
 * Added font-lock (colorization) to GAMS-LST mode so that keyword VAR,
   PARAMETER etc. are colorized.
 
-  
+
 
 Version 1.03 (Sat Aug 25, 2001)
 ----------------------------------
@@ -1500,7 +1499,7 @@ Version 1.03 (Sat Aug 25, 2001)
 
 * Set the auto-fill-mode off by default.
 
-  
+
 
 Version 1.02 (Thu Aug 23, 2001)
 ----------------------------------

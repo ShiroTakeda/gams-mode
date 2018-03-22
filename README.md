@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2016-05-22 22:00:44 st>
+Time-stamp: <2018-03-22 12:23:43 st>
 -->
 
 GAMS-mode
@@ -198,10 +198,11 @@ First, I explain the files distributed in the package.
 
 | Filename                  | Explanation                                                           |
 |:--------------------------|:----------------------------------------------------------------------|
-| `README.txt`              | This file.  First read this.                                          |
+| `README.md`               | This file.  First read this.                                          |
 | `CHANGELOG.md`            | Change log file.  If you want to know changes and newly added functions, please read it. |
-| `BUGS_PROBLEMS.txt`       | Known bugs and problems                                               |
+| `BUGS_PROBLEMS.md`        | Known bugs and problems                                               |
 | `gams-mode.el`            | The main lisp program.                                                |
+| `gams-auto-complete.el`   | A GAMS extention for auto-complete-mode.                              |
 | `gams-setting-sample.el`  | A sample file for setting.                                            |
 | `gams-template.txt`       | A sample file of templates.                                           |
 | `sample_gams_code`        | The foder of sample gams files.                                       |

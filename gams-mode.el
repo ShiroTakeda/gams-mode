@@ -5,8 +5,8 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2017 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-01-31 17:12:23 st>
-;; Version: 6.3
+;; Time-stamp: <2018-03-22 12:27:19 st>
+;; Version: 6.4
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
 ;; This file is not part of any Emacs.
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.3"
+(defconst gams-mode-version "6.4"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

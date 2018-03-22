@@ -1,6 +1,6 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2018-02-02 12:20:01 st>
+Time-stamp:     <2018-03-22 12:26:09 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -32,7 +32,7 @@ $ontext
 
 Commentary:
 
-  * For gams-mode.el version 3.6.
+  * For gams-mode.el version 6.3.
 
   * Notations like "C-cC-v" follow the Emacs convention. For example,
 
@@ -101,7 +101,7 @@ Next, uncomment the following line (delete *) and run GAMS (type `C-cC-t' and
 type `s').
 
 $offtext
-              Uncomment this line.  Error is here.
+*              Uncomment this line.  Error is here.
 $ontext
 
 Then switch to the LST buffer (C-cC-v or f10) and you will see two windows
