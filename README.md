@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-03-26 10:02:44 st>
+Time-stamp: <2018-03-26 10:06:37 st>
 -->
 
 GAMS-mode
@@ -21,7 +21,7 @@ changes added to GAMS mode, see [CHANGELOG.md](CHANGELOG.md) file.
 <!-- some long code -->
 
 1. [Introduction (brief overview)](#introduction-brief-overview)
-2. [Screenshots](#Screenshots)
+2. [Screenshots](#screenshots)
 3. [Installation](#installation)
 4. [Basic Usage](#basic-usage)
 5. [Customization](#customization)
