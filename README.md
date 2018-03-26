@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-03-22 12:23:43 st>
+Time-stamp: <2018-03-26 10:02:44 st>
 -->
 
 GAMS-mode
@@ -21,12 +21,13 @@ changes added to GAMS mode, see [CHANGELOG.md](CHANGELOG.md) file.
 <!-- some long code -->
 
 1. [Introduction (brief overview)](#introduction-brief-overview)
-2. [Installation](#installation)
-3. [Basic Usage](#basic-usage)
-4. [Customization](#customization)
-5. [TODO](#todo)
-6. [Miscellaneous](#miscellaneous)
-7. [Acknowledgments](#acknowledgments)
+2. [Screenshots](#Screenshots)
+3. [Installation](#installation)
+4. [Basic Usage](#basic-usage)
+5. [Customization](#customization)
+6. [TODO](#todo)
+7. [Miscellaneous](#miscellaneous)
+8. [Acknowledgments](#acknowledgments)
 
 ------------------------------------------------------------
 
@@ -189,6 +190,14 @@ their environments.  So, this program probably works in other Emacs and
 OS.
 
 Bug reports, requests, and suggestions are all welcome!
+
+
+------------------------------------------------------------
+
+# Screenshots
+
+See [Screenshots page](https://www.flickr.com/search/?sort=date-taken-desc&safe_search=1&tags=gamsmode&user_id=144666886%40N07&view_all=1)
+
 
 ------------------------------------------------------------
 
