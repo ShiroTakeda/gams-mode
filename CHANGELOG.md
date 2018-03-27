@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-03-27 15:23:23 st>
+Time-stamp: <2018-03-27 21:50:56 st>
 -->
 
 ----------------------------------------------------
@@ -12,10 +12,10 @@ Change logs of GAMS mode.
 Version 6.5 (2018-03-27)
 ----------------------------------
 
-* Removed "gams-auto-complete.el" from GAMS mode
-  package. "gams-auto-complete.el" is renamed to "gams-ac.el" and released
+* Removed `gams-auto-complete.el` from GAMS mode
+  package. `gams-auto-complete.el` is renamed to `gams-ac.el` and released
   as a separate package in gams-ac repository.
-  https://github.com/ShiroTakeda/gams-ac.
+  [https://github.com/ShiroTakeda/gams-ac/]
 
 
 Version 6.4 (2018-03-22)
@@ -24,11 +24,11 @@ Version 6.4 (2018-03-22)
 * Added hook variables `gams-sil-mode-hook`, `gams-lxi-mode-hook`, and
   `gams-ol-mode-hook`.
 
-* Added new list code "gams-auto-complete.el". This enables you to use
+* Added new list code `gams-auto-complete.el`. This enables you to use
   auto-complete mode in GAMS mode.
 
   If you want to use auto-complete mode in GAMS mode, you first need to
-  install "auto-complete.el" which can be installed from MELPA.
+  install `auto-complete.el` which can be installed from MELPA.
 
   To use auto-complete in GAMS mode, add the following code to init.el.
 
@@ -50,7 +50,7 @@ Version 6.3 (2017-11-18)
 
 * Modified licence statement.
 
-* Added executable files "gamslxi.exe" and "gamslxi-import.exe".
+* Added executable files `gamslxi.exe` and `gamslxi-import.exe`.
 
 
 Version 6.2.1 (2017-07-02)
