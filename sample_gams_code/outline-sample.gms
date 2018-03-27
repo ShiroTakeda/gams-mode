@@ -1,7 +1,7 @@
 $title A sample program for GAMS-OUTLINE mode.
 display "@ A sample program for GAMS-OUTLINE mode.";
 $ontext
-Time-stamp:	<2017-07-15 12:54:26 st>
+Time-stamp:	<2018-03-26 16:32:25 st>
 Filename:	outline-sample.gms
 Author:		Shiro Takeda
 First-written:	<2001/10/26>

@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2017 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-03-23 10:19:21 st>
+;; Time-stamp: <2018-03-26 11:00:03 st>
 ;; Version: 6.4
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -7147,24 +7147,24 @@ BUFF-NAME is the name of the current LST file buffer.
 
 The following commands are available in this mode.
 
-\\[gams-temp-show-cont]         Show a content of a template.
-\\[gams-temp-exit]              Insert a template.
-\\[gams-temp-quit]              Quit.
-\\[gams-temp-add]               Add a new template.
+\\[gams-temp-show-cont]			Show a content of a template.
+\\[gams-temp-exit]				Insert a template.
+\\[gams-temp-quit]				Quit.
+\\[gams-temp-add]				Add a new template.
 
-\\[gams-temp-delete]            Delete a template.
-\\[gams-temp-reedit]            Re-edit a template.
-\\[gams-temp-rename]            Rename a template.
-\\[gams-temp-up]                Move a template up.
-\\[gams-temp-down]              Move a template down.
+\\[gams-temp-delete]			Delete a template.
+\\[gams-temp-reedit]			Re-edit a template.
+\\[gams-temp-rename]			Rename a template.
+\\[gams-temp-up]				Move a template up.
+\\[gams-temp-down]				Move a template down.
 
-\\[gams-temp-gms]               Back to the gms file buffer.
-\\[gams-temp-scroll](\\[gams-temp-scdown])              Scroll up (down) *Template Content* buffer.
-\\[gams-temp-help]              Show this help.
-\\[gams-temp-write-alist-to-file]               Save the content of gams-user-template-alist.
+\\[gams-temp-gms]				Back to the gms file buffer.
+\\[gams-temp-scroll](\\[gams-temp-scdown])				Scroll up (down) *Template Content* buffer.
+\\[gams-temp-help]			Show this help.
+\\[gams-temp-write-alist-to-file]			Save the content of gams-user-template-alist.
 
-\\[gams-temp-prev]              Show the previous template.
-\\[gams-temp-next]              Show the next template."
+\\[gams-temp-prev]			Show the previous template.
+\\[gams-temp-next]			Show the next template."
   (kill-all-local-variables)
   (setq mode-name "GAMS-TEMPLATE"
         major-mode 'gams-template-mode)

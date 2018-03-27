@@ -1,7 +1,7 @@
 ;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2018-02-02 12:34:22 st>
+;;  Time-stamp:         <2018-03-27 15:24:25 st>
 ;;
 ;;  This file is created for gams-mode.el version 6.0.
 ;;
@@ -288,9 +288,10 @@
 ;  '(lambda () (linum-mode -1)))
 
 
-;;; If you want to use auto-complete mode in GAMS mode, add the following code:
+;;; If you want to use auto-complete mode for GAMS mode (gams-ac.el), add the
+;;; following code:
 ;;
-;; (require 'gams-auto-complete)
+;; (require 'gams-ac)
 ;; (gams-ac-after-init-setup)
 
 ;; Add the following words to candidates of auto-complete.

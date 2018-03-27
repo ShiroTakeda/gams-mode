@@ -1,13 +1,22 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-03-22 12:21:33 st>
+Time-stamp: <2018-03-27 15:23:23 st>
 -->
 
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ====================================================
+
+Version 6.5 (2018-03-27)
+----------------------------------
+
+* Removed "gams-auto-complete.el" from GAMS mode
+  package. "gams-auto-complete.el" is renamed to "gams-ac.el" and released
+  as a separate package in gams-ac repository.
+  https://github.com/ShiroTakeda/gams-ac.
+
 
 Version 6.4 (2018-03-22)
 ----------------------------------
