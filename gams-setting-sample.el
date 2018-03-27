@@ -1,7 +1,7 @@
 ;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
-;;  Time-stamp:         <2018-03-27 15:24:25 st>
+;;  Time-stamp:         <2018-03-27 21:52:13 st>
 ;;
 ;;  This file is created for gams-mode.el version 6.0.
 ;;
