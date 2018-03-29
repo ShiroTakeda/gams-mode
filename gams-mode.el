@@ -1,14 +1,16 @@
 ;;; -*- coding: utf-8; lexical-binding: t -*-
-;;; gams-mode.el --- Major mode for editing GAMS (General Algebraic Modeling System) files.
+;;; gams-mode.el --- Major mode for General Algebraic Modeling System (GAMS).
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
-;; Copyright (C) 2001-2017 Shiro Takeda
+;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-03-29 13:27:27 st>
+;; Time-stamp: <2018-03-30 00:50:27 st>
 ;; Version: 6.4
-;; Keywords: GAMS
+;; Package-Requires: ((emacs "24.3"))
+;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
+
 ;; This file is not part of any Emacs.
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -121,7 +123,7 @@ process."
   :type 'string
   :group 'gams)
 
-(defcustom gams-statement-file "~/.emacs.d/gams-statement.txt"
+(defcustom gams-statement-file (concat user-emacs-directory "gams-statement.txt")
   "*The name of the file in which user specific statements are stored.
 If you register new statements and dollar control options, they are saved
 in the file specified by this variable."
@@ -315,7 +317,7 @@ Specify the regular expressions of the symbol used to represent headlines."
 ;;;     Variables for GAMS-TEMPLATE mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams-template-file "~/.emacs.d/gams-template.txt"
+(defcustom gams-template-file (concat user-emacs-directory "gams-template.txt")
   "*The name of a file used to store templates."
   :type 'file
   :group 'gams)
@@ -2435,7 +2437,7 @@ the current mode name."
         (progn (font-lock-mode -1)
                (font-lock-mode 1)
                (when (not font-lock-fontified)
-                 (font-lock-ensure)))
+                 (font-lock-fontify-buffer)))
       (font-lock-mode -1))))
 
 (defun gams-choose-font-lock-level ()
@@ -2591,7 +2593,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map "\C-c\C-c" 'gams-insert-on-off-text)
       (define-key map "\C-c\C-m" 'gams-view-document)
       (define-key map "\C-c\C-z" 'gams-model-library)
-      (define-key map "\C-c\C-h" 'gams-toggle-hide/show-comment-lines)
+      (define-key map "\C-c\C-h" 'gams-toggle-hide-show-comment-lines)
       (define-key map "\C-c\C-x" 'gams-lxi)
       (define-key map "\C-c\C-l" 'gams-popup-process-buffer)
       (define-key map "\C-c\C-s" 'gams-start-processor)
@@ -2668,7 +2670,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
      ["Insert end-of-line comment" gams-comment-dwim t]
      ["Insert inline comment" gams-comment-dwim-inline t]
      ["Comment out region" gams-comment-region t]
-     ["Toggle hide/show comment blocks" gams-toggle-hide/show-comment-lines t]
+     ["Toggle hide/show comment blocks" gams-toggle-hide-show-comment-lines t]
      )
     "--"
     ["View GAMS manuals" gams-view-document t]
@@ -2856,7 +2858,7 @@ The following commands are available in the GAMS mode:
   (setq buffer-invisibility-spec '((gams . t) (outline . t)))
   (if (and (not (equal gams-font-lock-keywords nil))
            font-lock-mode)
-      (font-lock-ensure)
+      (font-lock-fontify-buffer)
     (if (equal gams-font-lock-keywords nil)
         (font-lock-mode -1)))
   ) ;;; gams-mode ends.
@@ -4323,7 +4325,7 @@ cursor is on the parenthesis."
 ;;; From yatex.el
 (defun gams-insert-parens (arg)
   "Insert a parenthesis pair if `gams-close-paren-always' is non-nil.
-If you attach the prefix argument, just insert `('."
+If you attach the prefix argument ARG, just insert `('."
   (interactive "P")
   (if gams-close-paren-always
       (if arg
@@ -4351,8 +4353,9 @@ Otherwise nil.  If DOUBLE is non-nil, check double quoatation."
 
 (defun gams-insert-double-quotation (&optional arg)
   "Insert double quotation.
-If `gams-close-double-quotation-always' is non-nil,
-insert a double quotation pair."
+If `gams-close-double-quotation-always' is non-nil, insert a
+double quotation pair.  If you attach universal argument ARG,
+just insert one double quotation."
   (interactive "P")
   (if arg
       (insert "\"")
@@ -4364,8 +4367,9 @@ insert a double quotation pair."
 
 (defun gams-insert-single-quotation (&optional arg)
   "Insert single quotation.
-If `gams-close-single-quotation-always' is non-nil,
-insert a single quotation pair."
+If `gams-close-single-quotation-always' is non-nil, insert a
+single quotation pair.  If you attach universal argument ARG,
+just insert one single quotation."
   (interactive "P")
   (if arg
       (insert "'")
@@ -4389,8 +4393,9 @@ defined by `gams-statement-file'.")
 (setq gams-user-option-alist-initial gams-user-option-alist)
       
 (defvar gams-option-alist nil
-  "The list of combinations of options in which
-`gams-process-command-option' and `gams-user-option-alist' are combined.")
+  "The list of combinations of options.
+This stores the combinations of `gams-process-command-option' and
+`gams-user-option-alist' are combined.")
 
 (defvar gams-command-gms-buffer nil)
 (setq-default gams-command-gms-buffer nil)
@@ -4405,8 +4410,9 @@ defined by `gams-statement-file'.")
 (setq gams-user-command-alist-initial gams-user-command-alist)
       
 (defvar gams-command-alist nil
-  "The list of combinations of options in which
-`gams-process-command-option' and `gams-user-option-alist' are combined.")
+  "The list of combinations of options.
+This stores of the combinations of `gams-process-command-option'
+and `gams-user-option-alist' are combined.")
 
 (defvar gams-opt-gms-buffer nil)
 (setq-default gams-opt-gms-buffer nil)
@@ -4415,8 +4421,8 @@ defined by `gams-statement-file'.")
 (setq gams-current-option-num "default")
 
 (defun gams-opt-view (&optional com)
-  "
-com -> gams command
+  "Command for viewing gams option.
+COM is non-nil -> gams command
 Otherwise -> option
 
 Display the content of `gams-option-alist' in a buffer."
@@ -4465,7 +4471,7 @@ The default GAMS command line option is determined by the variable
     (gams-opt-select-mode cur-buf)
     ))
 
-(defvar gams-opt-select-mode-map (make-keymap) "keymap for gams-mode")
+(defvar gams-opt-select-mode-map (make-keymap) "Keymap for `gams-mode'.")
 (let ((map gams-opt-select-mode-map))
   (define-key map "n" 'gams-opt-next)
   (define-key map "p" 'gams-opt-prev)
@@ -4488,6 +4494,7 @@ The default GAMS command line option is determined by the variable
      "[q]uit."))
 
 (defun gams-opt-show-key ()
+  "Show keybinding."
   (message gams-opt-key-mess))
 
 (defun gams-opt-next ()
@@ -4514,8 +4521,8 @@ The default GAMS command line option is determined by the variable
     (delete-other-windows)))
 
 (defun gams-opt-add-new-option-to-alist (option &optional com)
-  "Add OPTION to the alist `gams-user-option-alist', and update
-`gams-option-alist'."
+  "Add new OPTION to the alist `gams-user-option-alist'.
+If COM is non-nil, it adds command to `gams-user-command-alist'."
   (let* ((user-alist (if com gams-user-command-alist gams-user-option-alist))
          (num (number-to-string (1+ (gams-list-length user-alist)))))
     (if com
@@ -4524,7 +4531,8 @@ The default GAMS command line option is determined by the variable
     (gams-opt-make-alist com)))
 
 (defun gams-opt-add-new-option (&optional com)
-  "Add a new option combination."
+  "Add a new option combination.
+If COM is non-nil, command is added."
   (interactive)
   (let (opt mess)
     (setq opt (read-string (if com "Insert a new command name: " "Insert a new option set: ")))
@@ -4534,7 +4542,8 @@ The default GAMS command line option is determined by the variable
     (message (concat mess (format "\"%s\"" opt)))))
 
 (defun gams-opt-renumber (&optional com)
-  "Change the number of option alist."
+  "Change the number of option alist.
+If COM is non-nil, change command."
   (let* ((alist (if com gams-user-command-alist gams-user-option-alist))
          (num (gams-list-length alist))
          new-alist)
@@ -4581,7 +4590,9 @@ Return the modified ALIST."
           (gams-opt-view)))))))
 
 (defun gams-opt-return-option (&optional com num)
-  "Return the option combination of the current line."
+  "Return the option combination of the current line.
+Non-nil of COM -> command
+NUM is ?."
   (if com
       (cdr (assoc (or num gams-current-command-num) gams-command-alist))
     (cdr (assoc (or num gams-current-option-num) gams-option-alist))))
@@ -4599,7 +4610,8 @@ Return the modified ALIST."
       num)))
       
 (defun gams-opt-change (&optional com)
-  "Set the option combination on the current line to the new option combination."
+  "Set the option combination on the current line to the new option combination.
+Non-nil of COM -> command."
   (interactive)
   (let ((num (gams-opt-return-option-num))
         (cur-buf (current-buffer)))
@@ -4616,7 +4628,8 @@ Return the modified ALIST."
       (delete-other-windows))))
 
 (defun gams-opt-select-mode (buff)
-  "Mode for changing command line options."
+  "Mode for changing command line options.
+BUFF is buffer name."
   (kill-all-local-variables)
   (setq mode-name "OPTION"
         major-mode 'gams-opt-select-mode)
@@ -4626,16 +4639,18 @@ Return the modified ALIST."
   (setq buffer-read-only t))
 
 (defun gams-register-option ()
-  "Save the content of `gams-user-option-alist' into the file
-`gams-statement-file'."
+  "Save the content of `gams-user-option-alist'.
+Save to the file `gams-statement-file'."
   (gams-register-option-command))
 
 (defun gams-register-command ()
-  "Save the content of `gams-user-option-alist' into the file
-`gams-statement-file'."
+  "Save the content of `gams-user-option-alist'.
+Save to the file `gams-statement-file'."
   (gams-register-option-command t))
 
 (defun gams-option-updated (&optional com)
+  "Update option.
+If COM is non-nil, update command."
   (if com
       (and gams-user-command-alist
            (not (equal gams-user-command-alist gams-user-command-alist-initial)))
@@ -4643,8 +4658,9 @@ Return the modified ALIST."
          (not (equal gams-user-option-alist gams-user-option-alist-initial)))))
 
 (defun gams-register-option-command (&optional com)
-  "Save the content of `gams-user-option-alist' into the file
-`gams-statement-file'."
+  "Save the content of `gams-user-option-alist'.
+Save to the file `gams-statement-file'.
+Non-nil of COM -> command."
   (interactive)
   (if (gams-option-updated com)
       (progn
@@ -4702,7 +4718,8 @@ Return the modified ALIST."
             )))))
 
 (defun gams-opt-edit (&optional com)
-  "Edit the option combination on the current line."
+  "Edit the option combination on the current line.
+Non-nil of COM, edit command."
   (interactive)
   (let ((cur-num (gams-opt-return-option-num))
         (cur-po (point))
@@ -4773,7 +4790,8 @@ The default GAMS command is determined by the variable
     ))
 
 (defun gams-command-select-mode (buff)
-  "Mode for changing command line options."
+  "Mode for changing command line options.
+BUFF is buffer name."
   (kill-all-local-variables)
   (setq mode-name "GAMS-COMMAND"
         major-mode 'gams-command-select-mode)
@@ -5539,7 +5557,7 @@ Completion of internal file name."
 (setq-default gams-invisible-areas-list ())
 (setq-default gams-invisible-exist-p nil)
 
-(defun gams-toggle-hide/show-comment-lines ()
+(defun gams-toggle-hide-show-comment-lines ()
   "Toggle hide/show of comment lines.
 Note that this command just hide comment lines and makes no
 modification to the buffer.  In addition, mpsge block is not
@@ -5871,7 +5889,7 @@ The followings are page scroll commands.  Just changed to upper case letters.
   (run-hooks 'gams-lst-mode-hook)
   (if (and (not (equal gams-lst-font-lock-keywords nil))
            font-lock-mode)
-        (font-lock-ensure)
+        (font-lock-fontify-buffer)
     (if (equal gams-lst-font-lock-keywords nil)
         (font-lock-mode -1)))
 )
@@ -6359,72 +6377,72 @@ If FLAG is non-nil, jump to the previous item."
         (message (concat "No more " item " entry"))))))
 
 (defun gams-lst-solve-summary ()
-  "Jump to the next SOLVE SUMMARY"
+  "Jump to the next SOLVE SUMMARY."
   (interactive)
   (gams-lst-jump-item "SUM"))
 
 (defun gams-lst-solve-summary-back ()
-  "Jump to the previous SOLVE SUMMARY"
+  "Jump to the previous SOLVE SUMMARY."
   (interactive)
   (gams-lst-jump-item "SUM" t))
 
 (defun gams-lst-report-summary ()
-  "Jump to the next REPORT SUMMARY"
+  "Jump to the next REPORT SUMMARY."
   (interactive)
   (gams-lst-jump-item "REP"))
 
 (defun gams-lst-report-summary-back ()
-  "Jump to the previous REPORT SUMMARY"
+  "Jump to the previous REPORT SUMMARY."
   (interactive)
   (gams-lst-jump-item "REP" t))
 
 (defun gams-lst-next-var ()
-  "Jump to the next VAR entry"
+  "Jump to the next VAR entry."
   (interactive)
   (gams-lst-jump-item "VAR"))
 
 (defun gams-lst-previous-var ()
-  "Jump to the previous VAR entry"
+  "Jump to the previous VAR entry."
   (interactive)
   (gams-lst-jump-item "VAR" t))
 
 (defun gams-lst-next-equ ()
-  "Jump to the next EQU entry"
+  "Jump to the next EQU entry."
   (interactive)
   (gams-lst-jump-item "EQU"))
 
 (defun gams-lst-previous-equ ()
-  "Jump to the previous EQU entry"
+  "Jump to the previous EQU entry."
   (interactive)
   (gams-lst-jump-item "EQU" t))
 
 (defun gams-lst-next-par ()
-  "Jump to the next PARAMETER entry"
+  "Jump to the next PARAMETER entry."
   (interactive)
   (gams-lst-jump-item "PAR"))
 
 (defun gams-lst-previous-par ()
-  "Jump to the next PARAMETER entry"
+  "Jump to the next PARAMETER entry."
   (interactive)
   (gams-lst-jump-item "PAR" t))
 
 (defun gams-lst-next-elt ()
-  "Jump to the next Equation Listing"
+  "Jump to the next Equation Listing."
   (interactive)
   (gams-lst-jump-item "ELT"))
 
 (defun gams-lst-previous-elt ()
-  "Jump to the previous Equation Listing"
+  "Jump to the previous Equation Listing."
   (interactive)
   (gams-lst-jump-item "ELT" t))
 
 (defun gams-lst-next-clt ()
-  "Jump to the next Column Listing"
+  "Jump to the next Column Listing."
   (interactive)
   (gams-lst-jump-item "CLT"))
 
 (defun gams-lst-previous-clt ()
-  "Jump to the previous Column Listing"
+  "Jump to the previous Column Listing."
   (interactive)
   (gams-lst-jump-item "CLT" t))
 
@@ -7329,7 +7347,7 @@ The following commands are available in this mode.
     ;; Turn on font-lock.
     (if (and (not (equal gams-font-lock-keywords nil))
              font-lock-mode)
-        (font-lock-ensure)
+        (font-lock-fontify-buffer)
       (if (equal gams-font-lock-keywords nil)
           (font-lock-mode -1))))
   (buffer-name)
@@ -12343,7 +12361,7 @@ The followings are page scroll commands.  Just changed to upper cases.
   ;; Turn on font-lock.
   (if (and (not (equal gams-ol-font-lock-keywords nil))
            font-lock-mode)
-      (font-lock-ensure)
+      (font-lock-fontify-buffer)
     (if (equal gams-ol-font-lock-keywords nil)
         (font-lock-mode -1)))
   ) ;;; ends.
