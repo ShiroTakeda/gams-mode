@@ -1,13 +1,19 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-03-27 21:50:56 st>
+Time-stamp: <2018-03-29 13:28:25 st>
 -->
 
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ====================================================
+
+Version 7.0 ()
+----------------------------------
+
+* Modified explanatory strings.
+
 
 Version 6.5 (2018-03-27)
 ----------------------------------
