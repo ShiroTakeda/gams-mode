@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-03-30 00:50:27 st>
+;; Time-stamp: <2018-03-31 00:21:03 st>
 ;; Version: 6.4
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -4749,6 +4749,8 @@ Non-nil of COM, edit command."
               (goto-char cur-po))))
 
 (defun gams-opt-edit-sub (alist num new)
+  "Edit option ALIST.
+NUM is number and NEW is ?."
   (let (new-alist ele)
     (while alist
       (setq ele (car alist))
@@ -5012,10 +5014,10 @@ If STRING contains only spaces, return null string."
   (insert " "))
 
 ;;; Define variables to store histories.
-(defvar gams-st-hist-statement nil "")
-(defvar gams-st-hist-solve-model nil "")
-(defvar gams-st-hist-solve-solver nil "")
-(defvar gams-st-hist-solve-maximin nil "")
+(defvar gams-st-hist-statement nil)
+(defvar gams-st-hist-solve-model nil)
+(defvar gams-st-hist-solve-solver nil)
+(defvar gams-st-hist-solve-maximin nil)
 (put 'gams-st-hist-statement 'no-default t)
 (put 'gams-st-hist-solve-model 'no-default t)
 (put 'gams-st-hist-solve-solver 'no-default t)
