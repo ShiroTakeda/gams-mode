@@ -1,13 +1,21 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-03-27 21:50:56 st>
+Time-stamp: <2018-04-05 00:35:14 st>
 -->
 
 ----------------------------------------------------
 
 Change logs of GAMS mode.
 ====================================================
+
+Version 6.6 (?)
+----------------------------------
+
+* Modified `gams-model-library` so that it works under the recent versions
+  of GAMS.
+
+
 
 Version 6.5 (2018-03-27)
 ----------------------------------

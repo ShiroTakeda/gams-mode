@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2017 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-03-26 11:00:03 st>
+;; Time-stamp: <2018-04-05 00:31:44 st>
 ;; Version: 6.4
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -14014,34 +14014,44 @@ To register the viewable item combinations, use `gams-ol-select-item'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defconst gams-modlib-directory-names
-  '((mod . "gamslib_ml")
+  '((gam . "gamslib_ml")
     (tes . "testlib_ml")
-    (fin . "finlib_ml")
     (dat . "datalib_ml")
-    (emp . "emplib_ml"))
+    (emp . "emplib_ml")
+    (api . "apilib_ml")
+    (fin . "finlib_ml")
+    (noa . "noalib_ml")
+    )
   "The alist of library directories.")
 
 (defconst gams-modlib-summary-file
-  '((mod . "gamslib.glb")
+  '((gam . "gamslib.glb")
     (tes . "testlib.glb")
+    (dat . "datalib.glb")
     (emp . "emplib.glb")
+    (api . "apilib.glb")
     (fin . "finlib.glb")
-    (dat . "datalib.glb"))
+    (noa . "noalib.glb")
+    )
   "The alist of library summary files.")
 
 ;; The variables that stores library information.
 (defvar gams-modlib-gamslib nil)
 (defvar gams-modlib-testlib nil)
-(defvar gams-modlib-emplib nil)
-(defvar gams-modlib-finlib nil)
 (defvar gams-modlib-datalib nil)
+(defvar gams-modlib-emplib nil)
+(defvar gams-modlib-apilib nil)
+(defvar gams-modlib-finlib nil)
+(defvar gams-modlib-noalib nil)
 
 ;; The variables that stores library index information.
 (defvar gams-modlib-gamslib-index nil)
 (defvar gams-modlib-testlib-index nil)
-(defvar gams-modlib-emplib-index nil)
-(defvar gams-modlib-finlib-index nil)
 (defvar gams-modlib-datalib-index nil)
+(defvar gams-modlib-emplib-index nil)
+(defvar gams-modlib-apilib-index nil)
+(defvar gams-modlib-finlib-index nil)
+(defvar gams-modlib-noalib-index nil)
 
 (defun gams-modlib-initialize ()
   "Initialize variables related to GAMS-MODLIB mode."
@@ -14049,29 +14059,41 @@ To register the viewable item combinations, use `gams-ol-select-item'."
   (setq gams-modlib-directory-list nil)
   (setq gams-modlib-gamslib nil
         gams-modlib-testlib nil
+        gams-modlib-datalib nil
         gams-modlib-emplib nil
+        gams-modlib-apilib nil
         gams-modlib-finlib nil
-        gams-modlib-datalib nil)
+        gams-modlib-noalib nil
+        )
   (setq gams-modlib-gamslib-index nil
         gams-modlib-testlib-index nil
+        gams-modlib-datalib-index nil)
         gams-modlib-emplib-index nil
+        gams-modlib-apilib-index nil
         gams-modlib-finlib-index nil
-        gams-modlib-datalib-index nil))
+        gams-modlib-noalib-index nil
+  )
 
 (defconst gams-modlib-lib-variable-list
-  '((mod . gams-modlib-gamslib)
+  '((gam . gams-modlib-gamslib)
     (tes . gams-modlib-testlib)
+    (dat . gams-modlib-datalib)
     (emp . gams-modlib-emplib)
+    (api . gams-modlib-apilib)
     (fin . gams-modlib-finlib)
-    (dat . gams-modlib-datalib))
+    (noa . gams-modlib-noalib)
+    )
   "The alist of library information variables")
 
 (defconst gams-modlib-lib-variable-list-index
-  '((mod . gams-modlib-gamslib-index)
+  '((gam . gams-modlib-gamslib-index)
     (tes . gams-modlib-testlib-index)
+    (dat . gams-modlib-datalib-index)
     (emp . gams-modlib-emplib-index)
+    (api . gams-modlib-apilib-index)
     (fin . gams-modlib-finlib-index)
-    (dat . gams-modlib-datalib-index))
+    (noa . gams-modlib-noalib-index)
+    )
   "The alist of library index information variables.")
 
 (defconst gams-modlib-temp-buffer "*modlib-temp*")
@@ -14083,69 +14105,104 @@ To register the viewable item combinations, use `gams-ol-select-item'."
   "Non-nil means the reverse sorting.")
 
 (defconst gams-modlib-width-list
-  '((mod . gams-modlib-mod-width)
-    (dat . gams-modlib-dat-width)
+  '((gam . gams-modlib-mod-width)
     (tes . gams-modlib-tes-width)
+    (dat . gams-modlib-dat-width)
+    (emp . gams-modlib-emp-width)
+    (api . gams-modlib-api-width)
     (fin . gams-modlib-fin-width)
-    (emp . gams-modlib-emp-width))
+    (noa . gams-modlib-noa-width)
+    )
   "The alist of column width variables.")
 
 (defvar gams-modlib-mod-width
   '(("SeqNr" . 7)
-    ("Name" . 10)
+    ("Lic" . 5)
+    ("Name" . 12)
     ("Application Area" . 25)
     ("Type" . 8)
     ("Contributor" . 15))
   "Column width for gamslib")
 
-(defvar gams-modlib-fin-width
+(defvar gams-modlib-tes-width
   '(("SeqNr" . 7)
-    ("Name" . 20)
-    ("Chapter" . 25)
-    ("PFONr" . 15))
-  "Column width for finslib")
+    ("Name" . 15)
+    ("Type" . 10)
+    )
+  "Column width for testlib")
 
 (defvar gams-modlib-dat-width
   '(("SeqNr" . 7)
     ("Name" . 20)
     ("File type" . 15)
-    ("Tool" . 15))
+    ("Tool" . 15)
+    ("Windows Only" . 10)
+    )
   "Column width for datalib")
-
-(defvar gams-modlib-tes-width
-  '(("SeqNr" . 7)
-    ("Name" . 15)
-    ("Type" . 10))
-  "Column width for testlib")
 
 (defvar gams-modlib-emp-width
   '(("SeqNr" . 7)
     ("Name" . 15)
-    ("Type" . 10))
+    ("Type" . 10)
+    )
   "Column width for emplib")
 
+(defvar gams-modlib-api-width
+  '(("SeqNr" . 7)
+    ("Name" . 20)
+    ("Type" . 15)
+    ("Category" . 10)
+    )
+  "Column width for apilib")
+
+(defvar gams-modlib-fin-width
+  '(("SeqNr" . 7)
+    ("Lic" . 5)
+    ("Name" . 20)
+    ("Chapter" . 25)
+    ("PFONr" . 15)
+    )
+  "Column width for finslib")
+
+(defvar gams-modlib-noa-width
+  '(("SeqNr" . 7)
+    ("Lic" . 5)
+    ("Chapter" . 30)
+    ("FigureNr" . 8)
+    )
+  "Column width for noalib")
+
 (defconst gams-modlib-sort-mess
-  '((mod . gams-modlib-mod-sort-mess)
-    (dat . gams-modlib-dat-sort-mess)
+  '((gam . gams-modlib-mod-sort-mess)
     (tes . gams-modlib-tes-sort-mess)
+    (dat . gams-modlib-dat-sort-mess)
+    (emp . gams-modlib-emp-sort-mess)
+    (api . gams-modlib-api-sort-mess)
     (fin . gams-modlib-fin-sort-mess)
-    (emp . gams-modlib-emp-sort-mess))
+    (noa . gams-modlib-noa-sort-mess)
+    )
   "The alist of message variables.")
 
 (defconst gams-modlib-mod-sort-mess
-  '("[s]:SeqNr, [n]:Name, [a]:Application Area, [t]:Type, [c]:Contributor"))
-
-(defconst gams-modlib-fin-sort-mess
-  '("[s]:SeqNr, [n]:Name, [c]:Chapter, [p]:PFONr"))
-
-(defconst gams-modlib-dat-sort-mess
-  '("[s]:SeqNr, [n]:Name, [f]:File type, [t]:Tool"))
+  '("[s]:SeqNr, [l]:Lic, [n]:Name, [a]:Application Area, [t]:Type, [c]:Contributor"))
 
 (defconst gams-modlib-tes-sort-mess
   '("[s]:SeqNr, [n]:Name, [t]:Type"))
 
+(defconst gams-modlib-dat-sort-mess
+  '("[s]:SeqNr, [n]:Name, [f]:File type, [t]:Tool, [w]:Windows Only"))
+
 (defconst gams-modlib-emp-sort-mess
   '("[s]:SeqNr, [n]:Name, [t]:Type"))
+
+(defconst gams-modlib-api-sort-mess
+  '("[s]:SeqNr, [n]:Name, [t]:Type, [c]:Category"))
+
+(defconst gams-modlib-fin-sort-mess
+  '("[s]:SeqNr, [l]:Lic, [n]:Name, [c]:Chapter, [p]:PFONr"))
+
+(defconst gams-modlib-noa-sort-mess
+  '("[s]:SeqNr, [l]:Lic, [n]:Name, [c]:Chapter, [f]:FigureNr"))
 
 (defun gams-modlib-return-directory-list ()
   "Return the alist of library directories."
@@ -14185,27 +14242,33 @@ See also the variable `gams-gamslib-command'."
           key type sfile dir lbuf mess)
 
       (setq mess "View which library?: ")
-      (when (assoc 'mod dir-list) (setq mess (concat mess "[m]odel")))
+      (when (assoc 'gam dir-list) (setq mess (concat mess "[m]odel")))
       (when (assoc 'tes dir-list) (setq mess (concat mess ", [t]est")))
-      (when (assoc 'fin dir-list) (setq mess (concat mess ", [f]inancial")))
       (when (assoc 'dat dir-list) (setq mess (concat mess ", [d]ata")))
       (when (assoc 'emp dir-list) (setq mess (concat mess ", [e]mp")))
+      (when (assoc 'api dir-list) (setq mess (concat mess ", [a]pi")))
+      (when (assoc 'fin dir-list) (setq mess (concat mess ", [f]inancial")))
+      (when (assoc 'noa dir-list) (setq mess (concat mess ", [n]onlinear opt")))
 
       (message mess)
       (setq key (char-to-string (read-char)))
       (cond
        ((equal key "m")
-        (setq type 'mod) (setq lbuf "*gamslib*"))
+        (setq type 'gam) (setq lbuf "*gamslib*"))
        ((equal key "t")
         (setq type 'tes) (setq lbuf "*testlib*"))
-       ((equal key "f")
-        (setq type 'fin) (setq lbuf "*finlib*"))
        ((equal key "d")
         (setq type 'dat) (setq lbuf "*datalib*"))
        ((equal key "e")
         (setq type 'emp) (setq lbuf "*emplib*"))
+       ((equal key "a")
+        (setq type 'api) (setq lbuf "*apilib*"))
+       ((equal key "f")
+        (setq type 'fin) (setq lbuf "*finlib*"))
+       ((equal key "n")
+        (setq type 'noa) (setq lbuf "*noalib*"))
        )
-      (when (string-match "m\\|t\\|f\\|d\\|e" key)
+      (when (string-match "m\\|t\\|d\\|e\\|a\\|f\\|n" key)
         ;;
         (setq lib-cont
               (symbol-value (cdr (assoc type gams-modlib-lib-variable-list))))
@@ -14262,9 +14325,10 @@ See also the variable `gams-gamslib-command'."
       (setq ele2 (car li2))
       (setq wid-sub (cdr ele2))
       (setq item (car ele2))
-      (insert (substring item 0 (min (1- wid-sub) (length item))))
-      (indent-to (+ col wid-sub))
-      (setq col (+ col wid-sub))
+      (when (rassoc item index)
+        (insert (substring item 0 (min (1- wid-sub) (length item))))
+        (indent-to (+ col wid-sub))
+        (setq col (+ col wid-sub)))
       (setq li2 (cdr li2)))
     (insert "Description")
     (insert "\n")
@@ -14280,56 +14344,58 @@ See also the variable `gams-gamslib-command'."
       (setq ele (car li))
       (while li2
         (setq ele2 (car li2))
-        (setq wid-sub (cdr ele2))
-        (setq item (cdr (assoc (car (rassoc (car ele2) index)) ele)))
-        (when item
-          (insert (substring item 0 (min (1- wid-sub) (length item)))))
-        (indent-to (+ col wid-sub))
-        (setq col (+ col wid-sub))
+        (when (rassoc (car ele2) index)
+          (setq wid-sub (cdr ele2))
+          (setq item (cdr (assoc (car (rassoc (car ele2) index)) ele)))
+          (when item
+            (insert (substring item 0 (min (1- wid-sub) (length item)))))
+          (indent-to (+ col wid-sub))
+          (setq col (+ col wid-sub)))
         (setq li2 (cdr li2)))
+      
       (insert
        (cdr (assoc (car (rassoc "Description" index)) ele)))
       (insert "\n")
       (setq li (cdr li)))
     ))
         
-(defun gams-lib-get-lib-info ()
-  (let (lib-info vnum libname colnum inis)
-    (goto-char (point-min))
-    (search-forward "*$*$*$" nil t)
-    (narrow-to-region (point-min) (match-beginning 0))
-    ;;
-    (goto-char (point-min))
-    (when (re-search-forward "^Version = \\([0-9]+\\)" nil t)
-      (setq vnum (gams-buffer-substring (match-beginning 1) (match-end 1))))
-    (goto-char (point-min))
-    (when (re-search-forward "^LibraryName = \\(.+\\)" nil t)
-      (setq libname (gams-buffer-substring (match-beginning 1) (match-end 1))))
-    (goto-char (point-min))
-    (when (re-search-forward "^Columns = \\([0-9]\\)" nil t)
-      (setq colnum (string-to-number
-                    (gams-buffer-substring (match-beginning 1) (match-end 1)))))
-    (goto-char (point-min))
-    (when (re-search-forward "^InitialSort = \\([0-9]\\)" nil t)
-      (setq inis (string-to-number
-                  (gams-buffer-substring (match-beginning 1) (match-end 1)))))
-    (list libname vnum colnum inis)
-    ;;
-    (let ((cnum colnum)
-          (co 1)
-          rege cont)
-      (while (<= co cnum)
-        (goto-char (point-min))
-        (setq rege (concat "^" (number-to-string co) "[ \t]+=[ \t]+\\(.+\\)"))
-        (if (re-search-forward rege nil t)
-            (progn (setq cont
-                         (gams-buffer-substring (match-beginning 1) (match-end 1)))
-                   (setq lib-info (cons (cons co cont) lib-info)))
-          (setq lib-info (append (cons co nil) lib-info)))
-        (setq co (1+ co)))
-      lib-info)
-    ;;
-    (widen)))
+;; (defun gams-lib-get-lib-info ()
+;;   (let (lib-info vnum libname colnum inis)
+;;     (goto-char (point-min))
+;;     (search-forward "*$*$*$" nil t)
+;;     (narrow-to-region (point-min) (match-beginning 0))
+;;     ;;
+;;     (goto-char (point-min))
+;;     (when (re-search-forward "^Version = \\([0-9]+\\)" nil t)
+;;       (setq vnum (gams-buffer-substring (match-beginning 1) (match-end 1))))
+;;     (goto-char (point-min))
+;;     (when (re-search-forward "^LibraryName = \\(.+\\)" nil t)
+;;       (setq libname (gams-buffer-substring (match-beginning 1) (match-end 1))))
+;;     (goto-char (point-min))
+;;     (when (re-search-forward "^Columns = \\([0-9]\\)" nil t)
+;;       (setq colnum (string-to-number
+;;                     (gams-buffer-substring (match-beginning 1) (match-end 1)))))
+;;     (goto-char (point-min))
+;;     (when (re-search-forward "^InitialSort = \\([0-9]\\)" nil t)
+;;       (setq inis (string-to-number
+;;                   (gams-buffer-substring (match-beginning 1) (match-end 1)))))
+;;     (list libname vnum colnum inis)
+;;     ;;
+;;     (let ((cnum colnum)
+;;           (co 1)
+;;           rege cont)
+;;       (while (<= co cnum)
+;;         (goto-char (point-min))
+;;         (setq rege (concat "^" (number-to-string co) "[ \t]+=[ \t]+\\(.+\\)"))
+;;         (if (re-search-forward rege nil t)
+;;             (progn (setq cont
+;;                          (gams-buffer-substring (match-beginning 1) (match-end 1)))
+;;                    (setq lib-info (cons (cons co cont) lib-info)))
+;;           (setq lib-info (append (cons co nil) lib-info)))
+;;         (setq co (1+ co)))
+;;       lib-info)
+;;     ;;
+;;     (widen)))
 
 (defun gams-modlib-create-lib-info-alist (colnum)
   (let ((cnum colnum)
@@ -14402,6 +14468,8 @@ See also the variable `gams-gamslib-command'."
           (while (re-search-forward (concat "^" (number-to-string num) " = \\(.+\\)") nil t)
             (setq cont (gams-buffer-substring (match-beginning 1)
                                               (match-end 1)))
+            (when (string-match "|" cont)
+              (setq cont (substring cont 0 (string-match "|" cont))))
             (setq al (cons (cons num cont) al))
             (setq num (1+ num))
             (goto-char (point-min)))
@@ -14474,15 +14542,20 @@ TYPE is the type of library."
   (let (type)
     (cond
      ((equal (buffer-name) "*gamslib*")
-      (setq type 'mod))
-     ((equal (buffer-name) "*datalib*")
-      (setq type 'dat))
+      (setq type 'gam))
      ((equal (buffer-name) "*testlib*")
       (setq type 'tes))
+     ((equal (buffer-name) "*datalib*")
+      (setq type 'dat))
+     ((equal (buffer-name) "*emplib*")
+      (setq type 'emp))
+     ((equal (buffer-name) "*apilib*")
+      (setq type 'api))
      ((equal (buffer-name) "*finlib*")
       (setq type 'fin))
-     ((equal (buffer-name) "*emplib*")
-      (setq type 'emp)))
+     ((equal (buffer-name) "*noalib*")
+      (setq type 'noa))
+     )
     type))
 
 (defun gams-modlib-get-seqnr ()
@@ -14499,8 +14572,10 @@ TYPE is the type of library."
   (when (get-buffer "*gamslib*") (kill-buffer "*gamslib*"))
   (when (get-buffer "*testlib*") (kill-buffer "*testlib*"))
   (when (get-buffer "*datalib*") (kill-buffer "*datalib*"))
-  (when (get-buffer "*finlib*") (kill-buffer "*finlib*"))
   (when (get-buffer "*emplib*") (kill-buffer "*emplib*"))
+  (when (get-buffer "*apilib*") (kill-buffer "*apilib*"))
+  (when (get-buffer "*finlib*") (kill-buffer "*finlib*"))
+  (when (get-buffer "*noalib*") (kill-buffer "*noalib*"))
   (when (get-buffer "*lib-content*") (kill-buffer "*lib-content*")))
 
 (defvar gams-modlib-mode-map (make-keymap) "Keymap")
@@ -14757,6 +14832,10 @@ DIR: the destination directory."
     (move-to-column end t)
     nil))
 
+(defun gams-modlib-sort-mess-update ()
+
+  )
+
 (defun gams-modlib-sort-library ()
   "Sort items in the library."
   (interactive)
@@ -14774,12 +14853,21 @@ DIR: the destination directory."
              ((equal keychar ?n) "Name")
              ((equal keychar ?a) "Application Area")
              ((equal keychar ?t) (if (equal type 'dat) "Tool" "Type"))
-             ((equal keychar ?f) "File type")
              ((equal keychar ?p) "PFONr")
+             ((equal keychar ?l) "Lic")
+             ((equal keychar ?w) "Windows Only")
              ((equal keychar ?c)
               (cond
-               ((equal type 'mod) "Contributor")
-               ((equal type 'fin) "Chapter")))))
+               ((equal type 'gam) "Contributor")
+               ((equal type 'api) "Category")
+               ((or (equal type 'fin) (equal type 'noa)) "Chapter")
+               )
+              )
+             ((equal keychar ?f)
+              (cond
+               ((equal type 'dat) "File type")
+               ((equal type 'noa) "FigureNr")
+               ))))
       (when skey
         (gams-modlib-sort skey))
       )))
