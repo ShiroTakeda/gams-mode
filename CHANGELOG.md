@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-04-05 00:35:14 st>
+Time-stamp: <2018-04-06 11:19:08 st>
 -->
 
 ----------------------------------------------------
@@ -15,6 +15,11 @@ Version 6.6 (?)
 * Modified `gams-model-library` so that it works under the recent versions
   of GAMS.
 
+* Added a new function `gams-modlib-toggle-show-content` to GAMS model
+  library (GAMS-MODLIB) mode.  You can see the model library in
+  GAMS-MODLIB mode.  In the previous gams-mode.el, GAMS-MODLIB mode shows
+  the program code of models.  In the new gams-mode.el, you can see the
+  explanatory text of models like GAMSIDE.
 
 
 Version 6.5 (2018-03-27)

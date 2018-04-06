@@ -3,10 +3,10 @@
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
-;; Copyright (C) 2001-2017 Shiro Takeda
+;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-04-05 00:31:44 st>
-;; Version: 6.4
+;; Time-stamp: <2018-04-06 11:22:23 st>
+;; Version: 6.5
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
 ;; This file is not part of any Emacs.
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.4"
+(defconst gams-mode-version "6.5"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -14479,31 +14479,58 @@ See also the variable `gams-gamslib-command'."
     (setq al-lib (gams-modlib-create-lib-info-alist (string-to-number colnum)))
     (set (cdr (assoc lib gams-modlib-lib-variable-list)) (reverse al-lib))))
 
-(defvar gams-modlib-buffer-height 15
-  "Height of GAMS-MODLIB mode buffer.")
+(defvar gams-modlib-show-code-buffer-height 15
+  "Height of GAMS-MODLIB mode buffer for showing code.")
+
+(defvar gams-modlib-show-exp-buffer-height 30
+  "Height of GAMS-MODLIB mode buffer for showing explanatory.")
+
+(defcustom gams-modlib-show-code-p-default t
+  "Non-nil -> show code of model.
+Nil -> show explanatory text."
+  :type 'boolean
+  :group 'gams)
+(setq gams-modlib-show-code-p gams-modlib-show-code-p)
+
+(defun gams-modlib-toggle-show-content ()
+  "Toggle code or explanation."
+  (interactive)
+  (if gams-modlib-show-code-p
+      (setq gams-modlib-show-code-p nil)
+    (setq gams-modlib-show-code-p t))
+  (gams-modlib-show-content))
 
 (defun gams-modlib-show-content ()
   (interactive)
-  (let (seqnr type item dir fname)
+  (let (seqnr type item dir fname exp)
     (setq seqnr (gams-modlib-get-seqnr))
     (when seqnr
       (setq type (gams-modlib-return-type))
       (setq item (gams-modlib-return-item type seqnr))
-      (setq dir
-            (file-name-as-directory
-             (expand-file-name (cdr (assoc type gams-modlib-directory-list)))))
-      (setq fname (concat
-                   dir
-                   (nth 0 (gams-modlib-get-filename-list (cdr (assoc "file" item))))))
-
       (delete-other-windows)
-      (split-window (selected-window) gams-modlib-buffer-height)
+      (split-window (selected-window)
+                    (if gams-modlib-show-code-p
+                        gams-modlib-show-code-buffer-height
+                      gams-modlib-show-exp-buffer-height))
       (other-window 1)
       (switch-to-buffer (get-buffer-create "*lib-content*"))
       (setq buffer-read-only nil)
       (erase-buffer)
-      (insert-file-contents fname)
-      (gams-mode)
+      (if gams-modlib-show-code-p
+          (progn
+            (setq dir
+                  (file-name-as-directory
+                   (expand-file-name (cdr (assoc type gams-modlib-directory-list)))))
+            (setq fname (concat
+                         dir
+                         (nth 0 (gams-modlib-get-filename-list (cdr (assoc "file" item))))))
+            (insert-file-contents fname)
+            (gams-mode)
+            )
+        (setq exp (cdr (assoc "cont" item)))
+        (insert exp)
+        (text-mode)
+        )
       (setq buffer-read-only t)
       (other-window 1)
       (message gams-modlib-mess)
@@ -14597,6 +14624,7 @@ TYPE is the type of library."
   (define-key map "U" 'gams-modlib-unmark-all-items)
   (define-key map "f" 'gams-modlib-search-library)
   (define-key map "t" 'gams-modlib-toggle-follow-mode)
+  (define-key map "c" 'gams-modlib-toggle-show-content)
   (define-key map "?" 'gams-modlib-help)
   (define-key map "q" 'gams-modlib-quit)
   (define-key map "m" 'gams-modlib-mark-unmark-item)
@@ -14618,6 +14646,7 @@ TYPE is the type of library."
     ["Sort the library" gams-modlib-sort-library t]
     ["Search in the library" gams-modlib-search-library t]
     ["Toggle follow mode" gams-modlib-toggle-follow-mode t]
+    ["Toggle code or explanatory text" gams-modlib-toggle-show-content t]
     "--"
     ["Mark/unmark" gams-modlib-mark-unmark-item t]
     ["Mark" gams-modlib-mark-item t]
@@ -14630,7 +14659,7 @@ TYPE is the type of library."
     ))
 
 (defconst gams-modlib-mess
-  "Key: [a]=Select lib.,[SPACE]=show,[n]ext,[p]rev,[e]xtract,[s]ort,f=search,[m]ark,[?]=Help.")
+  "Key: [a]=Select lib.,[SPACE]=show,[n]ext,[p]rev,[e]xtract,[s]ort,[f]=search,[m]ark,[c]=toggle,[?]=Help.")
 
 (defvar gams-modlib-follow-mode t)
 
@@ -14664,6 +14693,7 @@ e       Extract models.
 s       Sort the library.
 f       Search in the library.
 t       Toggle the follow mode.
+c       Toggle code or explanatory text.
 
 m       Mark/unmark
 h       Mark
@@ -14808,20 +14838,35 @@ DIR: the destination directory."
 (defun gams-modlib-startkeyfun ()
   "startkeyfun for sort-subr."
   (let* ((type (gams-modlib-return-type))
-         (wid-list (symbol-value (cdr (assoc type gams-modlib-width-list))))
+         (wid-list
+          (symbol-value
+           (cdr
+            (assoc type gams-modlib-width-list))))
+         (index-list
+          (symbol-value
+           (cdr
+            (assoc type gams-modlib-lib-variable-list-index))))
          (beg 2)
-         (key gams-modlib-sort-current-key))
-    (while (and wid-list
-                (not (equal key (car (car wid-list)))))
-      (setq beg (+ beg (cdr (car wid-list))))
+         (key gams-modlib-sort-current-key)
+         ele flag)
+    (while (and wid-list (not flag))
+      (setq ele (car (car wid-list)))
+      (when (and (not (equal key ele))
+                 (rassoc ele index-list))
+        (setq beg (+ beg (cdr (car wid-list)))))
+      (when (equal key ele)
+        (setq flag t))
       (setq wid-list (cdr wid-list)))
     (move-to-column beg t)
     nil))
-             
+
 (defun gams-modlib-endkeyfun ()
   "endkeyfun for sort-subr."
   (let* ((type (gams-modlib-return-type))
-         (wid-list (symbol-value (cdr (assoc type gams-modlib-width-list))))
+         (wid-list
+          (symbol-value
+           (cdr
+            (assoc type gams-modlib-width-list))))
          (cur-col (current-column))
          (key gams-modlib-sort-current-key)
          end)
@@ -14831,10 +14876,6 @@ DIR: the destination directory."
       (setq wid-list (cdr wid-list)))
     (move-to-column end t)
     nil))
-
-(defun gams-modlib-sort-mess-update ()
-
-  )
 
 (defun gams-modlib-sort-library ()
   "Sort items in the library."
@@ -14876,8 +14917,11 @@ DIR: the destination directory."
   (let* ((type (gams-modlib-return-type))
          (wid-list (symbol-value
                     (cdr (assoc type gams-modlib-width-list))))
+         (index-list (symbol-value
+                      (cdr (assoc type gams-modlib-lib-variable-list-index))))
          rev)
-    (if (not (assoc key wid-list))
+    (if (or (not (assoc key wid-list))
+            (not (rassoc key index-list)))
         (message
          (format "Sort key `%s' is not valid in this library." key))
       (when (equal key gams-modlib-last-sort)
@@ -14892,13 +14936,14 @@ DIR: the destination directory."
       (setq gams-modlib-sort-current-key key)
       (save-restriction
         (narrow-to-region (point) (point-max))
-        
-        (sort-subr rev
-                   'forward-line
-                   'end-of-line
-                   'gams-modlib-startkeyfun
-                   'gams-modlib-endkeyfun
-                   )
+
+        (let ((sort-fold-case t))
+          (sort-subr rev
+                     'forward-line
+                     'end-of-line
+                     'gams-modlib-startkeyfun
+                     'gams-modlib-endkeyfun
+                     ))
         
         (setq gams-modlib-last-sort key)
         (goto-char (point-min))
