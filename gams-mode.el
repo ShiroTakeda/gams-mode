@@ -5,8 +5,8 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-04-06 11:22:23 st>
-;; Version: 6.5
+;; Time-stamp: <2018-04-06 18:35:00 st>
+;; Version: 6.6
 ;; Keywords: GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
 ;; This file is not part of any Emacs.
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.5"
+(defconst gams-mode-version "6.6"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -14359,44 +14359,6 @@ See also the variable `gams-gamslib-command'."
       (setq li (cdr li)))
     ))
         
-;; (defun gams-lib-get-lib-info ()
-;;   (let (lib-info vnum libname colnum inis)
-;;     (goto-char (point-min))
-;;     (search-forward "*$*$*$" nil t)
-;;     (narrow-to-region (point-min) (match-beginning 0))
-;;     ;;
-;;     (goto-char (point-min))
-;;     (when (re-search-forward "^Version = \\([0-9]+\\)" nil t)
-;;       (setq vnum (gams-buffer-substring (match-beginning 1) (match-end 1))))
-;;     (goto-char (point-min))
-;;     (when (re-search-forward "^LibraryName = \\(.+\\)" nil t)
-;;       (setq libname (gams-buffer-substring (match-beginning 1) (match-end 1))))
-;;     (goto-char (point-min))
-;;     (when (re-search-forward "^Columns = \\([0-9]\\)" nil t)
-;;       (setq colnum (string-to-number
-;;                     (gams-buffer-substring (match-beginning 1) (match-end 1)))))
-;;     (goto-char (point-min))
-;;     (when (re-search-forward "^InitialSort = \\([0-9]\\)" nil t)
-;;       (setq inis (string-to-number
-;;                   (gams-buffer-substring (match-beginning 1) (match-end 1)))))
-;;     (list libname vnum colnum inis)
-;;     ;;
-;;     (let ((cnum colnum)
-;;           (co 1)
-;;           rege cont)
-;;       (while (<= co cnum)
-;;         (goto-char (point-min))
-;;         (setq rege (concat "^" (number-to-string co) "[ \t]+=[ \t]+\\(.+\\)"))
-;;         (if (re-search-forward rege nil t)
-;;             (progn (setq cont
-;;                          (gams-buffer-substring (match-beginning 1) (match-end 1)))
-;;                    (setq lib-info (cons (cons co cont) lib-info)))
-;;           (setq lib-info (append (cons co nil) lib-info)))
-;;         (setq co (1+ co)))
-;;       lib-info)
-;;     ;;
-;;     (widen)))
-
 (defun gams-modlib-create-lib-info-alist (colnum)
   (let ((cnum colnum)
         co al item cont beg end reg
@@ -14479,18 +14441,18 @@ See also the variable `gams-gamslib-command'."
     (setq al-lib (gams-modlib-create-lib-info-alist (string-to-number colnum)))
     (set (cdr (assoc lib gams-modlib-lib-variable-list)) (reverse al-lib))))
 
-(defvar gams-modlib-show-code-buffer-height 15
+(defvar gams-modlib-show-code-buffer-height nil
   "Height of GAMS-MODLIB mode buffer for showing code.")
 
-(defvar gams-modlib-show-exp-buffer-height 30
+(defvar gams-modlib-show-exp-buffer-height nil
   "Height of GAMS-MODLIB mode buffer for showing explanatory.")
 
-(defcustom gams-modlib-show-code-p-default t
-  "Non-nil -> show code of model.
+(defcustom gams-modlib-show-code-p-default nil
+  "Non-nil -> GAMS-MODLIB mode shows code of model.
 Nil -> show explanatory text."
   :type 'boolean
   :group 'gams)
-(setq gams-modlib-show-code-p gams-modlib-show-code-p)
+(setq gams-modlib-show-code-p gams-modlib-show-code-p-default)
 
 (defun gams-modlib-toggle-show-content ()
   "Toggle code or explanation."
@@ -14530,6 +14492,7 @@ Nil -> show explanatory text."
         (setq exp (cdr (assoc "cont" item)))
         (insert exp)
         (text-mode)
+        (goto-char (point-min))
         )
       (setq buffer-read-only t)
       (other-window 1)
