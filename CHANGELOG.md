@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-04-06 18:54:58 st>
+Time-stamp: <2018-04-11 18:24:41 st>
 -->
 
 ----------------------------------------------------
@@ -24,6 +24,8 @@ Version 6.6 (?)
   `gams-modlib-show-content`.
 
 * Modified explanatory strings.
+
+* Modified `gams-insert-statement-extended`.
 
 
 Version 6.5 (2018-03-27)

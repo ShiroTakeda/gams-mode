@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-04-06 18:53:49 st>
+;; Time-stamp: <2018-04-11 18:16:06 st>
 ;; Version: 6.6
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -976,6 +976,10 @@ grouping constructs."
   (if (boundp 'w32-system-shells)
       (gams-regexp-opt w32-system-shells)
     "command.com\\|cmd.exe\\|start.exe"))
+
+(defsubst gams-get-id-name-without-index (name)
+  "Remove index from NAME."
+  (substring name 0 (string-match "(" name)))
 
 ;;; From yatexprc.el.
 (defvar gams-shell-c
@@ -5120,19 +5124,37 @@ If STRING contains only spaces, return null string."
 
 (setq-default gams-st-solve-model-default nil)
 
-(defsubst gams-store-variable-name ()
-  "Return a list of variables names."
-  (let ((var-list (nreverse (gams-store-identifer-list))))
-    var-list))
+(defun gams-insert-post-solve-modname (alist)
+  (let (al ele mod)
+    (while alist
+      (setq ele (car alist))
+      (when (equal 'mod (nth 0 ele))
+        (setq mod (nth 3 ele))
+        (setq al (cons (list mod) al)))
+      (setq alist (cdr alist)))
+    al))
+
+(defun gams-insert-post-solve-varname (alist)
+  (let (al ele var)
+    (while alist
+      (setq ele (car alist))
+      (when (equal 'var (nth 0 ele))
+        (setq var (nth 3 ele))
+        (setq var (gams-get-id-name-without-index var))
+        (setq al (cons (list var) al)))
+      (setq alist (cdr alist)))
+    al))
 
 (defun gams-insert-post-solve (&optional name)
   (let ((def-solv (or gams-insert-solver-type-previous
                      gams-insert-solver-type-default))
         mod-name sol-type maxmin maximand guess)
     (insert " ")
-    (let ((alist-modname
-           (gams-list-to-alist
-            (gams-store-model-name (point-min) (point)))))
+    (let (alist-modname alist)
+      (unless gams-id-structure
+        (setq gams-id-structure (gams-sil-get-identifier)))
+      (setq alist-modname (gams-insert-post-solve-modname gams-id-structure))
+      
       (setq guess
             (if gams-st-solve-model-default
                 gams-st-solve-model-default
@@ -5170,7 +5192,7 @@ If STRING contains only spaces, return null string."
       (gams-indent-line))
      ((member (list sol-type) gams-insert-solver-optimize-type-list)
       ;; Optimization type.
-      (let ((var-alist (gams-list-to-alist (gams-store-variable-name))))
+      (let ((var-alist (gams-insert-post-solve-varname gams-id-structure)))
         (catch 'key
           (while t
             (message "M(a)ximize or m(i)nimize?: a = maximize, i = minimize.")
@@ -5342,6 +5364,7 @@ BEG and END are points."
   (let (model-list po-beg po-end model po-next)
     (save-excursion
       (goto-char beg)
+      ;; For debug
       (catch 'found
         (while t
           (if (re-search-forward "^[ \t]*\\(model[s]?\\|[$]model[s]?:\\)" end t)
@@ -5378,126 +5401,6 @@ BEG and END are points."
                   (setq f-list (cons f f-list))))
             (throw 'found t)))))
   (nreverse f-list)))
-
-(defun gams-store-identifier-list-sub ()
-  (interactive)
-  (let ((lst nil)
-        po-beg po-end ex-end id f-id)
-    (catch 'found
-      (while t
-        (while (gams-check-line-type)
-          (forward-line 1)
-          (when (eobp)
-            (throw 'found t)))
-        (cond
-         ((eobp)
-          (when f-id
-            (setq lst (cons id lst)))
-          (throw 'found t))
-         ((looking-at "[ \t]")
-          (skip-chars-forward "[ \t]"))
-         ((looking-at (regexp-quote gams-eolcom-symbol))
-          (forward-line 1))
-         ((looking-at (regexp-quote gams-inlinecom-symbol-start))
-          (gams-sid-goto-inline-comment-end))
-         ((looking-at "\n")
-          (when f-id
-            (setq f-id nil)
-            (setq lst (cons id lst))
-            (setq id nil))
-          (forward-char 1))
-         ((looking-at "/")
-          (goto-char (gams-sid-next-slash)))
-         ((or (looking-at "'") (looking-at "\""))
-          (when f-id
-            (setq ex-end (gams-store-identifer-alist-sub-sub))
-            (goto-char ex-end)))
-         ((looking-at ",")
-          (when f-id
-            (setq f-id nil)
-            (setq lst (cons id lst))
-            (setq id nil))
-          (forward-char 1))
-         ((looking-at "(")
-          (re-search-forward ")" nil t))
-         (t (if f-id
-                (progn
-                  (setq ex-end (gams-store-identifer-alist-sub-sub))
-                  (goto-char ex-end)
-                  (setq lst (cons id lst))
-                  (setq id nil)
-                  (setq f-id nil))
-              (setq po-beg (point))
-              (skip-chars-forward "[a-zA-Z0-9_]")
-              (setq po-end (point))
-              (setq id (gams-buffer-substring po-beg po-end))
-              (setq f-id t))))))
-    lst))
-
-(defun gams-store-identifer-alist-sub-sub ()
-  (interactive)
-  (let (po-end)
-    (save-excursion
-      (catch 'found
-        (while t
-          (cond
-           ((eobp)
-            (setq po-end (point))
-            (throw 'found t))
-           ((looking-at "[ \t]")
-            (skip-chars-forward "[ \t]"))
-           ((looking-at (regexp-quote gams-eolcom-symbol))
-            (forward-line 1))
-           ((looking-at (regexp-quote gams-inlinecom-symbol-start))
-            (gams-sid-goto-inline-comment-end))
-           ((looking-at "\n")
-            (setq po-end (point))
-            (throw 'found t))
-           ((looking-at "/")
-            (skip-chars-backward " \t")
-            (setq po-end (point))
-            (throw 'found t))
-           ((looking-at "\"")
-            (goto-char (gams-sid-get-alist-double-quote)))
-           ((looking-at "'")
-            (goto-char (gams-sid-get-alist-single-quote)))
-           ((looking-at ",")
-            (setq po-end (point))
-            (throw 'found t))
-           ((looking-at "(")
-            (re-search-forward ")" nil t))
-           (t (forward-char 1)
-            )))))
-      po-end))
-
-(defun gams-store-identifer-list (&optional limit)
-  (let ((list nil)
-        (case-fold-search t)
-        (reg "^[ \t]*\\(integer\\|binary\\|positive\\|negative\\|nonnegative\\)*[ \t]*\\(variables?\\)[ \t\n(]*")
-        po-beg po-end)
-    (save-excursion
-      (goto-char (point-min))
-      (catch 'found
-        (while t
-          (if (re-search-forward reg limit t)
-              (progn
-                (setq po-beg (match-beginning 0))
-                (goto-char (match-end 2))
-                (cond
-                 ((gams-in-on-off-text-p)
-                  (re-search-forward "$offtext" nil t))
-                 ((gams-check-line-type)
-                  (forward-line 1))
-                 (t
-                  (setq po-end (gams-sid-return-block-end (point)))
-                  (unwind-protect
-                      (progn
-                        (narrow-to-region po-beg po-end)
-                        (setq list (append (gams-store-identifier-list-sub) list))
-                        (goto-char (point-max)))
-                    (widen)))))
-            (throw 'found t)))))
-    list))
 
 (defun gams-insert-statement-extended (&optional cmd)
   "Insert GAMS statement with extended features.  This command has various
@@ -8222,7 +8125,7 @@ TYPE is the type of identifier (def or sol)."
           (setq ele (car al))
           (when (string-match str (symbol-name (nth 0 ele)))
             (setq idname (nth 3 ele))
-            (when (equal id (substring idname 0 (string-match "(" idname)))
+            (when (equal id (gams-get-id-name-without-index idname))
               (setq expl (nth 4 ele))
               (throw 'found t)))
           (setq al (cdr al)))))
@@ -8290,7 +8193,7 @@ TYPE is the type of identifier (def or sol)."
       (when (string-match "set\\|par\\|var\\|equ\\|mps\\|fun"
                           (symbol-name (car ele)))
         (setq id (nth 3 ele))
-        (setq id (substring id 0 (string-match "(" id)))
+        (setq id (gams-get-id-name-without-index id))
         (setq al (cons (list id) al)))
       (setq ids (cdr ids)))
     (reverse al)))
@@ -11335,8 +11238,7 @@ position"
                           (symbol-name (nth 0 ele)))
             (progn
               (setq name_ (downcase (nth 3 ele)))
-              (when (string-match "(" name_)
-                (setq name_ (substring name_ 0 (string-match "(" name_))))
+              (setq name_ (gams-get-id-name-without-index name_))
               (if (equal (downcase name) name_)
                   (progn
                     (setq res (list (nth 1 ele)
