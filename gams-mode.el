@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-04-11 18:16:06 st>
+;; Time-stamp: <2018-04-12 16:00:06 st>
 ;; Version: 6.6
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -105,6 +105,13 @@
 ;;;     Variables for GAMS mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defcustom gams-system-directory "c:/GAMS/win64/24.7/"
+  "*The GAMS system directory (the directory where GAMS is installed).
+This must be assigned the proper value if you want to use
+`gams-view-document' and `gams-model-library'."
+  :type 'file
+  :group 'gams)
+
 (defcustom gams-process-command-name "gams"
   "*GAMS program file name.
 
@@ -127,13 +134,6 @@ process."
   "*The name of the file in which user specific statements are stored.
 If you register new statements and dollar control options, they are saved
 in the file specified by this variable."
-  :type 'file
-  :group 'gams)
-
-(defcustom gams-system-directory "c:/GAMS/win64/24.7/"
-  "*The GAMS system directory (the directory where GAMS is installed).
-This must be assigned the proper value if you want to use
-`gams-view-document' and `gams-model-library'."
   :type 'file
   :group 'gams)
 
@@ -252,8 +252,7 @@ percentage of it.  If nil, use default `pop-to-buffer'."
   :type 'integer
   :group 'gams)
 
-(defcustom gams-docs-view-program
-  "c:/Program Files/Adobe/Acrobat 5.0/Reader/AcroRd32.exe"
+(defcustom gams-docs-view-program "start"
   "*The name of (or path to) the manual file viewer.
 Normally, set the PDF file viewer to this variable.
 
@@ -267,6 +266,19 @@ of PDF file viewer."
 (defcustom gams-docs-directory
   (concat (file-name-as-directory gams-system-directory) "docs")
   "*The GAMS document directory.  By default, it is set to `gams-system-directory' + docs."
+  :type 'file
+  :group 'gams)
+
+(defcustom gams-docs-url "https://www.gams.com/latest/docs/"
+  "*URL for the GAMS document"
+  :type 'url
+  :group 'gams)
+
+(defcustom gams-docs-view-old nil
+  "*Non-nil -> old type document.
+In the recent version of GAMS system, manual documents are
+offered in html format. If you set non-nil to this variable, you
+can read old style manual in PDF format."
   :type 'file
   :group 'gams)
 
@@ -3993,6 +4005,8 @@ PROMPT is prompt string."
   "Alist of the name of GAMS manual files and its abbreviated name (label).
 This list is created from GAMS 22.5 windows version..pdf")
 
+(setq gams-view-document-old nil)
+
 ;;;###autoload
 (defun gams-view-document ()
   "View GAMS manuals.
@@ -4011,37 +4025,52 @@ some documents may not be available on you system."
       (let* ((completion-ignore-case t)
              (buf (get-buffer-create "*View GAMS manual*"))
              (def-dir default-directory)
-             docs-dir
+             (docs-dir (file-name-as-directory gams-docs-directory))
              guess
              statement
              file-name
-             file-name-full
+             file-name-full key
              ) ;; let* ends.
-        (setq docs-dir (file-name-as-directory gams-docs-directory))
         (if (not (file-exists-p docs-dir))
             (message
              (format "\"%s\" does not exist! Check the variable `gams-docs-directory'."
                      docs-dir))
-          (setq statement
-                (progn
-                  (setq guess "User-Manual")
-                  (gams-read-docs
-                   (format "View which manual? (default = %s): " guess))))
-          (setq statement (if (string= statement "") guess statement))
-          (setq file-name (assoc statement gams-manuals-alist))
-          (if (not file-name)
-              (message "Enter the registered label.")
-            (setq file-name-full
-                  (car (find-lisp-find-files
-                        docs-dir (cdr file-name))))
-            (setq default-directory (file-name-directory file-name-full))
-            (setq file-name-full (file-name-nondirectory file-name-full))
-            (if (not file-name-full)
-                (message (format "Manual file for %s is not found." statement))
-              ;; Start process.
-              (start-process "manual" buf gams-docs-view-program file-name-full)
-              (message "Starting manual viewer...")
-              )))
+          (if gams-docs-view-old
+              ;; old style
+              (progn
+                (setq statement
+                      (progn
+                        (setq guess "User-Manual")
+                        (gams-read-docs
+                         (format "View which manual? (default = %s): " guess))))
+                (setq statement (if (string= statement "") guess statement))
+                (setq file-name (assoc statement gams-manuals-alist))
+                (if (not file-name)
+                    (message "Enter the registered label.")
+                  (setq file-name-full
+                        (car (find-lisp-find-files
+                              docs-dir (cdr file-name))))
+                  (setq default-directory (file-name-directory file-name-full))
+                  (setq file-name-full (file-name-nondirectory file-name-full))
+                  (if (not file-name-full)
+                      (message (format "Manual file for %s is not found." statement))
+                    ;; Start process.
+                    (start-process "manual" buf gams-docs-view-program file-name-full)
+                    )))
+            ;; new
+            (message "[o]-> Online manual, [f]-> Offline manual, Other key -> cancel.")
+            (setq key (read-char))
+            (cond
+             ((equal key ?o)
+              (start-process "manual" buf shell-file-name gams-shell-c
+                             (concat gams-docs-view-program " " gams-docs-url))
+              (message "Starting manual viewer..."))
+              
+             ((equal key ?f)
+              (start-process "manual" buf shell-file-name gams-shell-c
+                             (concat gams-docs-view-program " " docs-dir "index.html"))
+              (message "Starting manual viewer..."))
+             (t nil))))
         (setq default-directory def-dir))))
 
 ;;; New command.
@@ -5151,8 +5180,7 @@ If STRING contains only spaces, return null string."
         mod-name sol-type maxmin maximand guess)
     (insert " ")
     (let (alist-modname alist)
-      (unless gams-id-structure
-        (setq gams-id-structure (gams-sil-get-identifier)))
+      (setq gams-id-structure (gams-sil-get-identifier))
       (setq alist-modname (gams-insert-post-solve-modname gams-id-structure))
       
       (setq guess
@@ -5216,10 +5244,35 @@ If STRING contains only spaces, return null string."
       (delete-char -1) (insert ";"))
      )))
 
+(defun gams-insert-model-components-eqname (alist)
+  (let ((cfnum (gams-sil-return-file-num
+                (buffer-file-name
+                 (current-buffer))))
+        (cpo (point))
+        al ele def)
+    (catch 'flag
+      (while t
+        (setq ele (car alist))
+        (when (and (equal (nth 1 ele) cfnum)
+                   (> (nth 2 ele) cpo))
+          (throw 'flag t))
+        (when (equal 'def (nth 0 ele))
+          (setq def (nth 3 ele))
+          (setq def (gams-get-id-name-without-index def))
+          (setq al (cons (list def) al)))
+        (setq alist (cdr alist))
+        (unless alist (throw 'flag t))))
+    (nreverse al)))
+
 (defun gams-insert-model-components ()
-  (let* ((eq-list (gams-store-equation-name (point-min) (point)))
-         (eq-comp (gams-list-to-alist eq-list))
-         ele)
+  (let* (eq-comp ele)
+    (save-excursion
+      (beginning-of-line)
+      (insert "*")
+      (setq gams-id-structure (gams-sil-get-identifier))
+      (beginning-of-line)
+      (delete-char 1))
+    (setq eq-comp (gams-insert-model-components-eqname gams-id-structure))
     (if (not eq-comp)
         (progn (message "No equations are defined yet!")
                (sit-for 1.5))
@@ -5238,10 +5291,10 @@ If STRING contains only spaces, return null string."
             (insert ele)
             (throw 'flag t))
            ((equal ele "@ll")
-            (let ((eq-list-2 eq-list))
-              (while eq-list-2
-                (insert (concat (car eq-list-2) ", "))
-                (setq eq-list-2 (cdr eq-list-2))))
+            (let ((eq-list (gams-alist-to-list eq-comp)))
+              (while eq-list
+                (insert (concat (car eq-list) ", "))
+                (setq eq-list (cdr eq-list))))
             (delete-char -2)
             (throw 'flag t))
            (t (insert (concat ele ", ")))))))))
@@ -5266,7 +5319,7 @@ If STRING contains only spaces, return null string."
         ;; Insert equation labels.
         (gams-insert-model-components)
         (end-of-line)
-        (message "Define another model?: SPACE = yes, other keys = no.")
+        (message "Define another model?: Type `y' = yes, other keys = no.")
         (setq key (read-char))
         (if (equal key ?y)
             (progn (end-of-line)

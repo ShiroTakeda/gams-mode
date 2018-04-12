@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-04-11 18:24:41 st>
+Time-stamp: <2018-04-12 15:58:35 st>
 -->
 
 ----------------------------------------------------
@@ -26,6 +26,11 @@ Version 6.6 (?)
 * Modified explanatory strings.
 
 * Modified `gams-insert-statement-extended`.
+
+* Modified `gams-view-document` so that you can see documents in recent
+  versions of GAMS system. Added new variables `gams-docs-url` and
+  `gams-docs-view-old` and modified the default value of
+  `gams-docs-view-program`.
 
 
 Version 6.5 (2018-03-27)
