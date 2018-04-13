@@ -5,7 +5,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-04-12 16:00:06 st>
+;; Time-stamp: <2018-04-13 17:20:29 st>
 ;; Version: 6.6
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -17624,20 +17624,15 @@ I forgot what this function is..."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defvar gams-mode-line-image-cache t)
+(defconst gams-icon-file-name "gams-logo.xpm")
 (defun gams-mode-line-buffer-identification ()
-  (let ((str "A") temp)
+  (let ((icon gams-icon-file-name)
+        (str "A") temp)
     (if (fboundp 'find-image)
         (progn
           (setq temp
                 (find-image
-                 '((:type xbm :data
-                          "#define gams_mark_width 18
-#define gams_mark_height 12
-static unsigned char gams_mark_bits[] = {
-   0x00, 0x00, 0x00, 0xde, 0xd5, 0x01, 0x42, 0x5d, 0x00, 0xda, 0xdd, 0x01,
-   0x5a, 0x15, 0x01, 0x5e, 0xd5, 0x01, 0x00, 0x00, 0x00, 0xfe, 0xfd, 0x01,
-   0xfe, 0xfd, 0x01, 0xfe, 0xfd, 0x01, 0xfe, 0xfd, 0x01, 0x00, 0x00, 0x00 };"
-                          :ascent center))))
+                 `((:type xpm :file ,icon :ascent center))))
           (if (not temp)
               nil
             (add-text-properties

@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-04-12 15:58:35 st>
+Time-stamp: <2018-04-13 12:35:02 st>
 -->
 
 ----------------------------------------------------
@@ -31,6 +31,8 @@ Version 6.6 (?)
   versions of GAMS system. Added new variables `gams-docs-url` and
   `gams-docs-view-old` and modified the default value of
   `gams-docs-view-program`.
+  
+* Changed GAMS mode icon for modeline.
 
 
 Version 6.5 (2018-03-27)
