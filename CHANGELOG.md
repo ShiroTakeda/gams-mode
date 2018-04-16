@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-04-13 12:35:02 st>
+Time-stamp: <2018-04-13 17:32:41 st>
 -->
 
 ----------------------------------------------------
@@ -9,7 +9,7 @@ Time-stamp: <2018-04-13 12:35:02 st>
 Change logs of GAMS mode.
 ====================================================
 
-Version 6.6 (?)
+Version 6.5 (?)
 ----------------------------------
 
 * Modified `gams-model-library` so that it works under the recent versions
@@ -33,10 +33,6 @@ Version 6.6 (?)
   `gams-docs-view-program`.
   
 * Changed GAMS mode icon for modeline.
-
-
-Version 6.5 (2018-03-27)
-----------------------------------
 
 * Removed `gams-auto-complete.el` from GAMS mode
   package. `gams-auto-complete.el` is renamed to `gams-ac.el` and released
