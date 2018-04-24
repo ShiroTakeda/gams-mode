@@ -1,7 +1,7 @@
 $title	A sample file for showing Org-mode feature in GAMS mode
 display "@ A sample file for showing Org-mode feature in GAMS mode";
 $ontext
-Time-stamp: 	<2018-02-02 12:22:39 st>
+Time-stamp: 	<2018-04-24 14:27:12 st>
 First-written:	<2012/07/25>
 
 -----------------------------------------------------------------------------
@@ -28,16 +28,16 @@ display "@ Specification of lst file or lst file directory (sample code):";
 
 $ontext
 
-** gams-lst-file: .\lst\lst-sample.lst	  	
+** gams-lst-file: .\lst\lst-sample.lst
 *	The above code means that lst file -> .\lst\sample.lst:
 
-** gams-lst-file: c:\sample.lst		
+** gams-lst-file: c:\sample.lst
 *	The above code means that lst file -> c:\sample.lst:
 
 ** gams-lst-dir: .\lst
 *	The above code means that lst file -> .\lst\gams-sample.lst
 
-** gams-lst-dir: c:\	  
+** gams-lst-dir: c:\
 *	The above code means that lst file -> c:\gams-sample.lst
 
 $ontext
@@ -129,10 +129,10 @@ In the upper window, the following message will be displayed.
 
       Next, uncomment the following line (delete *) and run GAMS (type `C-cC-t' and
       type `s').
-       
+
   99               Uncomment this line.  Error is here.
  ***                       $140 $36   $342            $342
-       
+
       Then switch to the LST buffer (C-cC-v or f10) and you will see two windows
       and the following message in the mini-buffer.
 
@@ -196,7 +196,7 @@ displayed.  For example, uncomment the line "* b = 1/a;" below (delete
 $offtext
 parameter a       Parameter a
 	  b       Parameter b
-;	  
+;
 a = 0;
 * b = 1/a;
 parameter c, d, e;
@@ -265,7 +265,7 @@ you write the following statement in the first line
 
 	*#!e:/GAMS/GAMS22.8/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
 
-Then, 
+Then,
 
 e:/GAMS/GAMS22.8/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
 
@@ -344,7 +344,7 @@ display "@@@@@	5th level";
 * ---------------------------------------------------------
 display "@ Specify the place and name of the LST file.";
 
-$ontext    
+$ontext
 
 When you run GAMS on a gms file, GAMS creates the LST file with the same
 name in the same directory.  However, you can specify the name and place of
@@ -495,14 +495,14 @@ with popup menu. You can use auto-complete mode in GAMS mode.
 
 To use auto-complete, you first need to install "auto-complete.el" which can
 be installed from MELPA.
-  
+
 To use auto-complete in GAMS mode, add the following code to init.el.
-  
+
         ;; Load gams-auto-complete.
         (require 'gams-auto-complete)
         ;; Initial setup for auto-complete in GAMS mode.
         (gams-ac-after-init-setup)
-        
+
 If you want to add words for auto-complete mode by yourself, add words
 to the variable `gams-ac-source-user-keywords-list` like
 
