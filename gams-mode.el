@@ -1,11 +1,10 @@
-;;; -*- coding: utf-8; lexical-binding: t -*-
-;;; gams-mode.el --- Major mode for General Algebraic Modeling System (GAMS).
+;;; gams-mode.el --- Major mode for General Algebraic Modeling System (GAMS) -*- lexical-binding: t -*-
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-04-13 17:32:52 st>
+;; Time-stamp: <2018-04-21 13:11:14 st>
 ;; Version: 6.5
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
