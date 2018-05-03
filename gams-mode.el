@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-04-21 13:11:14 st>
+;; Time-stamp: <2018-05-03 10:37:07 st>
 ;; Version: 6.5
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -14024,6 +14024,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     (api . "apilib_ml")
     (fin . "finlib_ml")
     (noa . "noalib_ml")
+    (pso . "psoptlib_ml")
     )
   "The alist of library directories.")
 
@@ -14035,6 +14036,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     (api . "apilib.glb")
     (fin . "finlib.glb")
     (noa . "noalib.glb")
+    (pso . "psoptlib.glb")
     )
   "The alist of library summary files.")
 
@@ -14046,6 +14048,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
 (defvar gams-modlib-apilib nil)
 (defvar gams-modlib-finlib nil)
 (defvar gams-modlib-noalib nil)
+(defvar gams-modlib-psolib nil)
 
 ;; The variables that stores library index information.
 (defvar gams-modlib-gamslib-index nil)
@@ -14055,6 +14058,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
 (defvar gams-modlib-apilib-index nil)
 (defvar gams-modlib-finlib-index nil)
 (defvar gams-modlib-noalib-index nil)
+(defvar gams-modlib-psolib-index nil)
 
 (defun gams-modlib-initialize ()
   "Initialize variables related to GAMS-MODLIB mode."
@@ -14067,15 +14071,15 @@ To register the viewable item combinations, use `gams-ol-select-item'."
         gams-modlib-apilib nil
         gams-modlib-finlib nil
         gams-modlib-noalib nil
-        )
+        gams-modlib-psolib nil)
   (setq gams-modlib-gamslib-index nil
         gams-modlib-testlib-index nil
-        gams-modlib-datalib-index nil)
+        gams-modlib-datalib-index nil
         gams-modlib-emplib-index nil
         gams-modlib-apilib-index nil
         gams-modlib-finlib-index nil
         gams-modlib-noalib-index nil
-  )
+        gams-modlib-psolib-index nil))
 
 (defconst gams-modlib-lib-variable-list
   '((gam . gams-modlib-gamslib)
@@ -14085,7 +14089,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     (api . gams-modlib-apilib)
     (fin . gams-modlib-finlib)
     (noa . gams-modlib-noalib)
-    )
+    (pso . gams-modlib-psolib))
   "The alist of library information variables")
 
 (defconst gams-modlib-lib-variable-list-index
@@ -14096,7 +14100,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     (api . gams-modlib-apilib-index)
     (fin . gams-modlib-finlib-index)
     (noa . gams-modlib-noalib-index)
-    )
+    (pso . gams-modlib-psolib-index))
   "The alist of library index information variables.")
 
 (defconst gams-modlib-temp-buffer "*modlib-temp*")
@@ -14115,7 +14119,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     (api . gams-modlib-api-width)
     (fin . gams-modlib-fin-width)
     (noa . gams-modlib-noa-width)
-    )
+    (pso . gams-modlib-pso-width))
   "The alist of column width variables.")
 
 (defvar gams-modlib-mod-width
@@ -14130,8 +14134,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
 (defvar gams-modlib-tes-width
   '(("SeqNr" . 7)
     ("Name" . 15)
-    ("Type" . 10)
-    )
+    ("Type" . 10))
   "Column width for testlib")
 
 (defvar gams-modlib-dat-width
@@ -14139,23 +14142,20 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     ("Name" . 20)
     ("File type" . 15)
     ("Tool" . 15)
-    ("Windows Only" . 10)
-    )
+    ("Windows Only" . 10))
   "Column width for datalib")
 
 (defvar gams-modlib-emp-width
   '(("SeqNr" . 7)
     ("Name" . 15)
-    ("Type" . 10)
-    )
+    ("Type" . 10))
   "Column width for emplib")
 
 (defvar gams-modlib-api-width
   '(("SeqNr" . 7)
     ("Name" . 20)
     ("Type" . 15)
-    ("Category" . 10)
-    )
+    ("Category" . 10))
   "Column width for apilib")
 
 (defvar gams-modlib-fin-width
@@ -14163,17 +14163,24 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     ("Lic" . 5)
     ("Name" . 20)
     ("Chapter" . 25)
-    ("PFONr" . 15)
-    )
+    ("PFONr" . 15))
   "Column width for finslib")
 
 (defvar gams-modlib-noa-width
   '(("SeqNr" . 7)
     ("Lic" . 5)
+    ("Name" . 15)
     ("Chapter" . 30)
-    ("FigureNr" . 8)
-    )
+    ("FigureNr" . 8))
   "Column width for noalib")
+
+(defvar gams-modlib-pso-width
+  '(("SeqNr" . 7)
+    ("Lic" . 5)
+    ("Name" . 15)
+    ("Chapter" . 30)
+    ("FigureNr" . 8))
+  "Column width for psoptlib")
 
 (defconst gams-modlib-sort-mess
   '((gam . gams-modlib-mod-sort-mess)
@@ -14183,7 +14190,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     (api . gams-modlib-api-sort-mess)
     (fin . gams-modlib-fin-sort-mess)
     (noa . gams-modlib-noa-sort-mess)
-    )
+    (pso . gams-modlib-pso-sort-mess))
   "The alist of message variables.")
 
 (defconst gams-modlib-mod-sort-mess
@@ -14205,6 +14212,9 @@ To register the viewable item combinations, use `gams-ol-select-item'."
   '("[s]:SeqNr, [l]:Lic, [n]:Name, [c]:Chapter, [p]:PFONr"))
 
 (defconst gams-modlib-noa-sort-mess
+  '("[s]:SeqNr, [l]:Lic, [n]:Name, [c]:Chapter, [f]:FigureNr"))
+
+(defconst gams-modlib-pso-sort-mess
   '("[s]:SeqNr, [l]:Lic, [n]:Name, [c]:Chapter, [f]:FigureNr"))
 
 (defun gams-modlib-return-directory-list ()
@@ -14252,6 +14262,7 @@ See also the variable `gams-gamslib-command'."
       (when (assoc 'api dir-list) (setq mess (concat mess ", [a]pi")))
       (when (assoc 'fin dir-list) (setq mess (concat mess ", [f]inancial")))
       (when (assoc 'noa dir-list) (setq mess (concat mess ", [n]onlinear opt")))
+      (when (assoc 'pso dir-list) (setq mess (concat mess ", [p]so")))
 
       (message mess)
       (setq key (char-to-string (read-char)))
@@ -14270,8 +14281,10 @@ See also the variable `gams-gamslib-command'."
         (setq type 'fin) (setq lbuf "*finlib*"))
        ((equal key "n")
         (setq type 'noa) (setq lbuf "*noalib*"))
+       ((equal key "p")
+        (setq type 'pso) (setq lbuf "*psoptlib*"))
        )
-      (when (string-match "m\\|t\\|d\\|e\\|a\\|f\\|n" key)
+      (when (string-match "m\\|t\\|d\\|e\\|a\\|f\\|n\\|p" key)
         ;;
         (setq lib-cont
               (symbol-value (cdr (assoc type gams-modlib-lib-variable-list))))
@@ -14548,7 +14561,8 @@ TYPE is the type of library."
       (setq type 'fin))
      ((equal (buffer-name) "*noalib*")
       (setq type 'noa))
-     )
+     ((equal (buffer-name) "*psoptlib*")
+      (setq type 'pso)))
     type))
 
 (defun gams-modlib-get-seqnr ()
@@ -14569,6 +14583,7 @@ TYPE is the type of library."
   (when (get-buffer "*apilib*") (kill-buffer "*apilib*"))
   (when (get-buffer "*finlib*") (kill-buffer "*finlib*"))
   (when (get-buffer "*noalib*") (kill-buffer "*noalib*"))
+  (when (get-buffer "*psoptlib*") (kill-buffer "*psoptlib*"))
   (when (get-buffer "*lib-content*") (kill-buffer "*lib-content*")))
 
 (defvar gams-modlib-mode-map (make-keymap) "Keymap")
@@ -14867,13 +14882,13 @@ DIR: the destination directory."
               (cond
                ((equal type 'gam) "Contributor")
                ((equal type 'api) "Category")
-               ((or (equal type 'fin) (equal type 'noa)) "Chapter")
+               ((or (equal type 'fin) (equal type 'noa) (equal type 'pso)) "Chapter")
                )
               )
              ((equal keychar ?f)
               (cond
                ((equal type 'dat) "File type")
-               ((equal type 'noa) "FigureNr")
+               ((or (equal type 'noa) (equal type 'pso)) "FigureNr")
                ))))
       (when skey
         (gams-modlib-sort skey))

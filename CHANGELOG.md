@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-04-13 17:32:41 st>
+Time-stamp: <2018-05-03 10:45:07 st>
 -->
 
 ----------------------------------------------------
@@ -9,7 +9,13 @@ Time-stamp: <2018-04-13 17:32:41 st>
 Change logs of GAMS mode.
 ====================================================
 
-Version 6.5 (?)
+Version 6.6
+----------------------------------
+
+* Added changes for psopt library.
+
+
+Version 6.5
 ----------------------------------
 
 * Modified `gams-model-library` so that it works under the recent versions
