@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-05-03 10:37:07 st>
+;; Time-stamp: <2018-11-09 21:39:21 st>
 ;; Version: 6.5
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -5751,75 +5751,75 @@ overlay onto the gams-invisible-areas-list list"
 
 The following commands are available in the GAMS-LST mode:
 
-\\[gams-lst-view-error]	Jump to the error and show its number and meaning.
-\\[gams-lst-jump-to-error-file]	Jump back to the error place in the program file.
-\\[gams-lst-jump-to-input-file]	Jump to the input (GMS) file.
-\\[gams-lst-kill-buffer]	Close the buffer.
-\\[gams-lst-file-summary]	Display Include File Summary.
-\\[gams-lst-help]	Display this help.
+\\[gams-lst-view-error] Jump to the error and show its number and meaning.
+\\[gams-lst-jump-to-error-file] Jump back to the error place in the program file.
+\\[gams-lst-jump-to-input-file] Jump to the input (GMS) file.
+\\[gams-lst-kill-buffer]        Close the buffer.
+\\[gams-lst-file-summary]       Display Include File Summary.
+\\[gams-lst-help]       Display this help.
 
-\\[gams-outline]	Start the GAMS-OUTLINE mode.
+\\[gams-outline]        Start the GAMS-OUTLINE mode.
 
-\\[gams-lst-solve-summary]/\\[gams-lst-solve-summary-back]	Jump to the next/previous SOLVE SUMMARY.
-\\[gams-lst-report-summary]/\\[gams-lst-report-summary-back]	Jump to the next/previous REPORT SUMMARY.
-\\[gams-lst-next-var]/\\[gams-lst-previous-var]	Jump to the next/previous VAR entry.
-\\[gams-lst-next-equ]/\\[gams-lst-previous-equ]	Jump to the next/previous EQU entry.
-\\[gams-lst-next-par]/\\[gams-lst-previous-par]	Jump to the next/previous PARAMETER entry.
-\\[gams-lst-next-elt]/\\[gams-lst-previous-elt]	Jump to the next/previous Equation Listing entry.
-\\[gams-lst-next-clt]/\\[gams-lst-previous-clt]	Jump to the next/previous Column Listing entry.
+\\[gams-lst-solve-summary]/\\[gams-lst-solve-summary-back]      Jump to the next/previous SOLVE SUMMARY.
+\\[gams-lst-report-summary]/\\[gams-lst-report-summary-back]    Jump to the next/previous REPORT SUMMARY.
+\\[gams-lst-next-var]/\\[gams-lst-previous-var] Jump to the next/previous VAR entry.
+\\[gams-lst-next-equ]/\\[gams-lst-previous-equ] Jump to the next/previous EQU entry.
+\\[gams-lst-next-par]/\\[gams-lst-previous-par] Jump to the next/previous PARAMETER entry.
+\\[gams-lst-next-elt]/\\[gams-lst-previous-elt] Jump to the next/previous Equation Listing entry.
+\\[gams-lst-next-clt]/\\[gams-lst-previous-clt] Jump to the next/previous Column Listing entry.
 
-\\[gams-lst-query-jump-to-line]	Jump to a line you specify.
-\\[gams-lst-jump-to-line]	Jump to a line.
+\\[gams-lst-query-jump-to-line] Jump to a line you specify.
+\\[gams-lst-jump-to-line]       Jump to a line.
 
-\\[scroll-up]	Scroll up.
-\\[scroll-down] or DEL	Scroll down.
-\\[gams-lst-widen-window]	Widen the window.
-\\[gams-lst-split-window]	Split the window.
-\\[gams-lst-move-frame]	Move frame.
-\\[gams-lst-resize-frame]	Resize frame.
-\\[gams-lst-move-cursor]	Move a cursor to the other window.
+\\[scroll-up]   Scroll up.
+\\[scroll-down] or DEL  Scroll down.
+\\[gams-lst-widen-window]       Widen the window.
+\\[gams-lst-split-window]       Split the window.
+\\[gams-lst-move-frame] Move frame.
+\\[gams-lst-resize-frame]       Resize frame.
+\\[gams-lst-move-cursor]        Move a cursor to the other window.
 
 [Commands for Scrolling.]
 
 Suppose that there are two windows displayed like
 
     __________________
-   |		      |
-   |  LST buffer 1    |	 ==>  LST-1.
-   |		      |
+   |                  |
+   |  LST buffer 1    |  ==>  LST-1.
+   |                  |
    |  CURSOR  here    |
-   |		      |
+   |                  |
    |------------------|
-   |		      |
-   |  LST buffer 2    |	 ==>  LST-2.
-   |		      |
-   |		      |
+   |                  |
+   |  LST buffer 2    |  ==>  LST-2.
+   |                  |
+   |                  |
     ------------------
 
-\\[gams-lst-scroll-1]/\\[gams-lst-scroll-down-1]		Scroll the current buffer LST-1 up/down one line.
-\\[gams-lst-scroll-2]/\\[gams-lst-scroll-down-2]		Scroll the next buffer LST-2 up/down one line.
-\\[gams-lst-scroll-double]/\\[gams-lst-scroll-down-double]		Scroll two buffers LST-1 and LST-2 up/down one line.
+\\[gams-lst-scroll-1]/\\[gams-lst-scroll-down-1]                Scroll the current buffer LST-1 up/down one line.
+\\[gams-lst-scroll-2]/\\[gams-lst-scroll-down-2]                Scroll the next buffer LST-2 up/down one line.
+\\[gams-lst-scroll-double]/\\[gams-lst-scroll-down-double]              Scroll two buffers LST-1 and LST-2 up/down one line.
 
 Keyboard.
   _____________________________________________________________
-  |	    |	      |		|	  |	    |	      |
-  |    d    |	 f    |	   g	|    h	  |    j    |	 k    |
-  |	    |	      |		|	  |	    |	      |
+  |         |         |         |         |         |         |
+  |    d    |    f    |    g    |    h    |    j    |    k    |
+  |         |         |         |         |         |         |
   -------------------------------------------------------------
 
-       |	 |	   |	     |	       |	 |
+       |         |         |         |         |         |
 
-      UP	DOWN	  UP	    DOWN      UP	DOWN
-	 LST-1		     LST-2	       LST-1 & 2
+      UP        DOWN      UP        DOWN      UP        DOWN
+         LST-1               LST-2             LST-1 & 2
 
 If only one window exists, the above three commands have the same function
 i.e. scroll up/down the current buffer.
 
 The followings are page scroll commands.  Just changed to upper case letters.
 
-\\[gams-lst-scroll-page-1]/\\[gams-lst-scroll-page-down-1]	Scroll up/down the current buffer LST-1 by a page.
-\\[gams-lst-scroll-page-2]/\\[gams-lst-scroll-page-down-2]	Scroll up/down the next buffer LST-2 by a page.
-\\[gams-lst-scroll-page-double]/\\[gams-lst-scroll-page-down-double]	Scroll up/down two buffers LST-1 and LST-2 by a page.
+\\[gams-lst-scroll-page-1]/\\[gams-lst-scroll-page-down-1]      Scroll up/down the current buffer LST-1 by a page.
+\\[gams-lst-scroll-page-2]/\\[gams-lst-scroll-page-down-2]      Scroll up/down the next buffer LST-2 by a page.
+\\[gams-lst-scroll-page-double]/\\[gams-lst-scroll-page-down-double]    Scroll up/down two buffers LST-1 and LST-2 by a page.
 "
   (interactive)
   (setq major-mode 'gams-lst-mode)
@@ -7151,24 +7151,24 @@ BUFF-NAME is the name of the current LST file buffer.
 
 The following commands are available in this mode.
 
-\\[gams-temp-show-cont]			Show a content of a template.
-\\[gams-temp-exit]				Insert a template.
-\\[gams-temp-quit]				Quit.
-\\[gams-temp-add]				Add a new template.
+\\[gams-temp-show-cont]                 Show a content of a template.
+\\[gams-temp-exit]                              Insert a template.
+\\[gams-temp-quit]                              Quit.
+\\[gams-temp-add]                               Add a new template.
 
-\\[gams-temp-delete]			Delete a template.
-\\[gams-temp-reedit]			Re-edit a template.
-\\[gams-temp-rename]			Rename a template.
-\\[gams-temp-up]				Move a template up.
-\\[gams-temp-down]				Move a template down.
+\\[gams-temp-delete]                    Delete a template.
+\\[gams-temp-reedit]                    Re-edit a template.
+\\[gams-temp-rename]                    Rename a template.
+\\[gams-temp-up]                                Move a template up.
+\\[gams-temp-down]                              Move a template down.
 
-\\[gams-temp-gms]				Back to the gms file buffer.
-\\[gams-temp-scroll](\\[gams-temp-scdown])				Scroll up (down) *Template Content* buffer.
-\\[gams-temp-help]			Show this help.
-\\[gams-temp-write-alist-to-file]			Save the content of gams-user-template-alist.
+\\[gams-temp-gms]                               Back to the gms file buffer.
+\\[gams-temp-scroll](\\[gams-temp-scdown])                              Scroll up (down) *Template Content* buffer.
+\\[gams-temp-help]                      Show this help.
+\\[gams-temp-write-alist-to-file]                       Save the content of gams-user-template-alist.
 
-\\[gams-temp-prev]			Show the previous template.
-\\[gams-temp-next]			Show the next template."
+\\[gams-temp-prev]                      Show the previous template.
+\\[gams-temp-next]                      Show the next template."
   (kill-all-local-variables)
   (setq mode-name "GAMS-TEMPLATE"
         major-mode 'gams-template-mode)
@@ -10881,7 +10881,7 @@ $batinclude or $include."
 (defun gams-sid-show-help ()
   (interactive)
   (let ((temp-buf (get-buffer-create "*SD-HELP"))
-	key)
+        key)
     (save-window-excursion
       (switch-to-buffer temp-buf)
       (setq buffer-read-only nil)
@@ -10890,17 +10890,17 @@ $batinclude or $include."
 `gams-show-identifier' is a command to search and show the
 identifier which appears in various parts of the program.
 
-d		Show the declaration (first) part
-n		Show the next part.
-p		Show the previous part.
-c		Show the original part.
-e		Copy (extract) the explanatory text from the identifier declaration part.
-r		Rescan the identifier structure information.
-SPACE		Quit and restore the window configuration.
-ENT		Jump to the highligtened part.
-TAB		Jump to the highligtened part keeping window.
-Other key	Just quit.
-?		Show this help.
+d               Show the declaration (first) part
+n               Show the next part.
+p               Show the previous part.
+c               Show the original part.
+e               Copy (extract) the explanatory text from the identifier declaration part.
+r               Rescan the identifier structure information.
+SPACE           Quit and restore the window configuration.
+ENT             Jump to the highligtened part.
+TAB             Jump to the highligtened part keeping window.
+Other key       Just quit.
+?               Show this help.
 
 Type `q` to close this buffer.")
       (setq buffer-read-only t)
@@ -11051,14 +11051,12 @@ open many files simultaneously.
 
 This command cannot search aliased set identifer."
   (interactive "P")
-  (gams-show-identifier-internal arg)
-  )
+  (gams-show-identifier-internal arg))
 
 (defun gams-show-identifier-rescan (&optional arg)
   "Execute `gams-show-identifier' with rescaning the identifer information."
   (interactive "P")
-  (gams-show-identifier-internal arg t)
-  )
+  (gams-show-identifier-internal arg t))
 
 (defun gams-show-identifier-internal (arg &optional rescan)
   (let* (beg name type temp)
@@ -11087,11 +11085,9 @@ This command cannot search aliased set identifer."
         (setq gams-file-structure (gams-sid-get-file-structure))))))
 
 (defun gams-show-identifier-sub (beg name &optional type)
-  "
-BEG: The point of the identifier
+  "BEG: The point of the identifier
 NAME: The name of the identifier
-TYPE: The type of the identifier
-"
+TYPE: The type of the identifier"
   ;; update master file info.
   ;; (gams-set-master-filename)
 
@@ -11151,41 +11147,31 @@ TYPE: The type of the identifier
        flist                                    ; file list.
        cbuf                                     ; The original buffer
        beg                                      ; The original point
-       exist-p                                  ; non-nil if the declaration part exists.
-       )
-      )
+       exist-p))                                  ; non-nil if the declaration part exists.
 
     (when res
       (unwind-protect
-
           (catch 'ok
             (while t
-
               (setq key (gams-sid-read-key))
-
               (cond
                ;; move to the previous identifier.
                ((equal key (string-to-char "p"))
                 (gams-sid-show-result-prev name type flist fst res))
-
                ;; move to the next identifier.
                ((equal key (string-to-char "n"))
                 (gams-sid-show-result-next name type flist fst))
-
                ;; move to the original position
                ((equal key (string-to-char "c"))
                 (gams-sid-show-result-original name beg cfnum flist cbuf beg))
-
                ;; Show help.
                ((equal key (string-to-char "?"))
                 (gams-sid-show-help))
-
                ;; Move to the declaration part.
                ((equal key (string-to-char "d"))
                 (if exist-p
                     (gams-sid-show-result-def name res flist)
                   (gams-sid-show-result-first name (nth 3 res) (nth 0 res) flist cbuf beg)))
-
                ;; Copy the explanatory text of the identifier from the declaration part.
                ((equal key (string-to-char "e"))
                 (if (not exist-p)
@@ -11193,7 +11179,6 @@ TYPE: The type of the identifier
                      (format "There is no declaration part of `%s'" name))
                   (gams-sid-show-result-def name res flist t)
                   (gams-sid-copy-explanatory-text po-def len)))
-
                ;; Space.
                ((equal key (string-to-char " "))
                 (kill-buffer gams-sid-tree-buffer)
@@ -11204,7 +11189,6 @@ TYPE: The type of the identifier
                 (goto-char cpo)
                 (message "Exit from GAMS-SID and restore the original status.")
                 (throw 'ok t))
-
                ;; jump.
                ((or (equal key (string-to-char "\r"))
                     (equal key 'return))
@@ -11212,7 +11196,6 @@ TYPE: The type of the identifier
                 (delete-other-windows)
                 (message "Exit from GAMS-SID.")
                 (throw 'ok t))
-
                ;; Jump + keep
                ((or (equal key (string-to-char "\t"))
                     (equal key 'tab))
@@ -11226,40 +11209,27 @@ TYPE: The type of the identifier
                 (goto-char cpo)
                 (message "Exit from GAMS-SID.")
                 (throw 'ok t))
-
                ;; rescan
                ((equal key (string-to-char "r"))
-
                 ;; create identifier structure and file structure info.
                 (gams-sid-create-id-structure t)
-
                 (set-buffer mbuf)
-
                 (setq idst gams-id-structure
                       fst gams-file-structure
                       flist gams-file-list
                       cfnum (gams-sil-return-file-num cfname))
-
                 (set-buffer cbuf)
-
                 ;; res is the list of (file_number type marker position)
                 (setq res (gams-sid-return-def-position name idst))
-
                 (if res
                     (setq exist-p t)
                   (setq res (gams-sid-return-first-position name type flist fst)))
-                
                 (when res
                   (if exist-p
                       (setq po-def (or (marker-position (nth 2 res)) (nth 3 res)))
                     (setq po-def (nth 3 res)))
-                  
                   (gams-sid-create-tree-buffer cfnum beg flist fst)
-
-                  (gams-sid-show-result-alt name po-def len (nth 0 res) flist cbuf beg exist-p)
-                  )
-                )
-
+                  (gams-sid-show-result-alt name po-def len (nth 0 res) flist cbuf beg exist-p)))
                ;; Do nothing.
                (t
                 (kill-buffer gams-sid-tree-buffer)
@@ -11268,12 +11238,10 @@ TYPE: The type of the identifier
                 (other-window 1)
                 (set-window-configuration win-conf)
                 (goto-char cpo)
-                (throw 'ok t))
-               )))
+                (throw 'ok t)))))
         
         (setq win-conf nil)
-        (gams-highline-off)
-        ))))
+        (gams-highline-off)))))
 
 (defun gams-sid-return-def-position (name idst)
   "Return the place of identifier NAME
@@ -11959,34 +11927,28 @@ CPO: Original point."
 
 (defun gams-sid-show-current-position-in-tree (cfnum cpo)
   (let* ((part (gams-sid-return-current-position-in-tree cfnum cpo))
-        (str gams-sid-position-symbol)
-        (len (length str))
-        file)
-    (save-excursion
-      (setq buffer-read-only nil)
-      (goto-char (point-min))
-
-      (when (re-search-forward str nil t)
-        (beginning-of-line)
-        (delete-char len)
-        (insert (make-string len ? )))
-
-      (goto-char (point-min))
-
-      (catch 'found
-        (while (not (eobp))
-          (goto-char (or (next-single-property-change (point) :file)
-                         (point-max)))
-          (setq file (get-text-property (point) :file))
-          (when (equal file part)
-            (beginning-of-line)
-
-            (delete-char len)
-            (insert str)
-            (gams-highlight-current-line-tree (line-beginning-position) (+ (line-beginning-position) len))
-
-            (throw 'found t))))
-      (setq buffer-read-only t))))
+         (str gams-sid-position-symbol)
+         (len (length str))
+         file)
+    (setq buffer-read-only nil)
+    (goto-char (point-min))
+    (when (re-search-forward str nil t)
+      (beginning-of-line)
+      (delete-char len)
+      (insert (make-string len ? )))
+    (goto-char (point-min))
+    (catch 'found
+      (while (not (eobp))
+        (goto-char (or (next-single-property-change (point) :file)
+                       (point-max)))
+        (setq file (get-text-property (point) :file))
+        (when (equal file part)
+          (beginning-of-line)
+          (delete-char len)
+          (insert str)
+          (gams-highlight-current-line-tree (line-beginning-position) (+ (line-beginning-position) len))
+          (throw 'found t))))
+    (setq buffer-read-only t)))
 
 (defun gams-sid-return-current-position-in-tree (cfnum cpo)
   "Return the current part index.
@@ -17693,6 +17655,7 @@ I forgot what this function is..."
 
 (defconst gams-mode-variables-list
   (list
+   'gams-mode-version
    'gams-align-default-spacing
    'gams-always-popup-process-buffer
    'gams-close-double-quotation-always
