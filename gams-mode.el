@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-11-09 21:39:21 st>
+;; Time-stamp: <2018-11-10 11:05:49 st>
 ;; Version: 6.5
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -5973,14 +5973,19 @@ and show its meaning in another window if error number is displayed."
         ))))
 ;;; 
 (defun gams-lst-jump-to-error ()
-  "Jump to the error place."
+  "Jump to the error place and return error number."
   (interactive)
-  (let ((current-point (point)))
+  (let ((current-point (point))
+        beg end err-num)
     (goto-char (point-min))
     (if (re-search-forward "\\*\\*\\*\\* [ ]+\\(\\$\\)\\([0-9]+\\)[$]?" nil t)
-        (goto-char (match-beginning 1))
+        (progn (setq beg (match-beginning 2))
+               (setq end (match-end 2))
+               (goto-char (match-beginning 1))
+               (setq err-num (gams-buffer-substring beg end)))
       (goto-char current-point)
-      (message "No error is found!"))))
+      (message "No error is found!"))
+    err-num))
 
 (defun gams-lst-get-gms ()
   "Return a GMS file name from a the current LST file buffer."
@@ -6161,20 +6166,41 @@ The input file name is extract from FILE SUMMARY field."
   "Jump to the error place in GMS buffer."
   (interactive)
   (let (point-b line-num file-name error-column temp-col
-                string col-num err-gms ma3)
-    (if (gams-lst-jump-to-error)
+                string col-num err-gms ma3 err-num type)
+    (if (setq err-num (gams-lst-jump-to-error))
         (progn
-          ;; Store column number.
+          ;; Calculate column number.
           (save-excursion
-            (if (re-search-forward "^\\([ ]*[0-9]+[ ][ ]\\)" nil t)
-                (setq temp-col (current-column))
-              (setq temp-col 1)))
+            (if (re-search-forward
+                 (concat "^\\([ ]*" err-num "[ ]+\\)") nil t)
+                (setq temp-col (current-column)
+                      type 0)
+              (if (re-search-forward
+                   (concat "^\\*\\*\\*\\*[ ]+\\(" err-num "\\)[ ]+") nil t)
+                  (progn (goto-char (match-beginning 1))
+                         (setq temp-col (current-column)
+                               type 1))
+                (setq temp-col 5
+                      type 2))))
           (setq error-column (- (current-column) temp-col))
           (forward-line 1)
+
           (save-excursion
-            (while (not (looking-at "^[ ]*[0-9]+[ ][ ]"))
-              (forward-line 1))
+            (cond
+             ((equal type 0)
+              (while (and (not (looking-at "^[ ]*[0-9]+[ ][ ]"))
+                          (not (eobp)))
+                (forward-line 1)))
+             ((equal type 1)
+              (while (and (not (looking-at "^\\*\\*\\*\\*[ ]+[0-9]+[ ][ ]"))
+                          (not (eobp)))
+                (forward-line 1)))
+             ((equal type 2)
+              (while (and (looking-at "^\\*\\*\\*\\*[ ]+")
+                          (not (eobp)))
+                (forward-line 1))))
             (setq point-b (point)))
+
           ;; Search the file name line.
           (if (re-search-forward
                (concat "^\\*\\*\\*\\* LINE[ \t]+\\([0-9]+\\)[ ]+"

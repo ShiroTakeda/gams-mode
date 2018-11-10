@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2018-05-03 10:45:07 st>
+Time-stamp: <2018-11-10 11:07:45 st>
 -->
 
 ----------------------------------------------------
@@ -13,6 +13,9 @@ Version 6.6
 ----------------------------------
 
 * Added changes for psopt library.
+
+* Fixed the bug in GAMS-LST mode caused by assigning 1 or 2 to GAMS
+  command line option errmsg.
 
 
 Version 6.5
