@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2018-11-12 15:00:25 st>
+;; Time-stamp: <2019-05-05 18:08:43 st>
 ;; Version: 6.6
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -5328,7 +5328,7 @@ If STRING contains only spaces, return null string."
           (throw 'flag t))
         ))))
 
-(defun gams-insert-post-file (&optinal name)
+(defun gams-insert-post-file ()
   (let ((f-comp (gams-list-to-alist
                  (directory-files default-directory)))
         f-label f-exp f-name)
@@ -5340,7 +5340,7 @@ If STRING contains only spaces, return null string."
     (unless (equal f-label "")
       (insert (concat f-label " ")))
     (setq f-exp
-          (gams-read-statement-ext
+         (gams-read-statement-ext
            (concat "Insert file explanatory texts: ")
            nil nil nil gams-mb-map-ext-2))
     (if (equal f-exp "")
@@ -5673,6 +5673,8 @@ overlay onto the gams-invisible-areas-list list"
   (define-key map "E" 'gams-lst-previous-equ)
   (define-key map "p" 'gams-lst-next-par)
   (define-key map "P" 'gams-lst-previous-par)
+  (define-key map "t" 'gams-lst-next-set)
+  (define-key map "T" 'gams-lst-previous-set)
   (define-key map "x" 'gams-lst-next-elt)
   (define-key map "X" 'gams-lst-previous-elt)
   (define-key map "c" 'gams-lst-next-clt)
@@ -5733,6 +5735,7 @@ overlay onto the gams-invisible-areas-list list"
     ["Jump to the next VAR entry" gams-lst-next-var t]
     ["Jump to the next EQU entry" gams-lst-next-equ t]
     ["Jump to the next PARAMETER entry" gams-lst-next-par t]
+    ["Jump to the next SET entry" gams-lst-next-set t]
     ["Jump to the next Equation Listing entry" gams-lst-next-elt t]
     ["Jump to the next Column Listing entry" gams-lst-next-clt t]
     "--"
@@ -5765,6 +5768,7 @@ The following commands are available in the GAMS-LST mode:
 \\[gams-lst-next-var]/\\[gams-lst-previous-var] Jump to the next/previous VAR entry.
 \\[gams-lst-next-equ]/\\[gams-lst-previous-equ] Jump to the next/previous EQU entry.
 \\[gams-lst-next-par]/\\[gams-lst-previous-par] Jump to the next/previous PARAMETER entry.
+\\[gams-lst-next-set]/\\[gams-lst-previous-set] Jump to the next/previous SET entry.
 \\[gams-lst-next-elt]/\\[gams-lst-previous-elt] Jump to the next/previous Equation Listing entry.
 \\[gams-lst-next-clt]/\\[gams-lst-previous-clt] Jump to the next/previous Column Listing entry.
 
@@ -6327,6 +6331,7 @@ If FLAG is non-nil, jump to the previous item."
   (let ((regex-sum "S O L V E      S U M M A R Y")
         (regex-rep "\\*\\*\\*\\* REPORT SUMMARY")
         (regex-par "[0-9]+ PARAMETER ")
+        (regex-set "[0-9]+ SET ")
         (regex-elt "^Equation Listing[ \t]+SOLVE")
         (regex-clt "^Column Listing[ \t]+SOLVE")
         )
@@ -6339,6 +6344,7 @@ If FLAG is non-nil, jump to the previous item."
                 ((equal item "SUM") regex-sum)
                 ((equal item "REP") regex-rep)
                 ((equal item "PAR") regex-par)
+                ((equal item "SET") regex-set)
                 ((equal item "ELT") regex-elt)
                 ((equal item "CLT") regex-clt)
                 (t (concat "^---- " item)))
@@ -6352,6 +6358,7 @@ If FLAG is non-nil, jump to the previous item."
             ((equal item "SUM") regex-sum)
             ((equal item "REP") regex-rep)
             ((equal item "PAR") regex-par)
+            ((equal item "SET") regex-set)
             ((equal item "ELT") regex-elt)
             ((equal item "CLT") regex-clt)
             (t (concat "^---- " item)))
@@ -6408,6 +6415,16 @@ If FLAG is non-nil, jump to the previous item."
   "Jump to the next PARAMETER entry."
   (interactive)
   (gams-lst-jump-item "PAR" t))
+
+(defun gams-lst-next-set ()
+  "Jump to the next SET entry."
+  (interactive)
+  (gams-lst-jump-item "SET"))
+
+(defun gams-lst-previous-set ()
+  "Jump to the next SET entry."
+  (interactive)
+  (gams-lst-jump-item "SET" t))
 
 (defun gams-lst-next-elt ()
   "Jump to the next Equation Listing."
