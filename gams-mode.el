@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2019-05-05 18:08:43 st>
+;; Time-stamp: <2019-11-22 17:40:18 st>
 ;; Version: 6.6
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -3397,7 +3397,7 @@ if `gams-use-mpsge' is non-nil)."
 
 (defsubst gams-get-lst-modified-time (lst)
   "Get the modified time of LST file."
-  (format-time-string "%x %H:%M" (nth 5 (file-attributes lst t))))
+  (format-time-string "%x %H:%M:%S" (nth 5 (file-attributes lst t))))
 
 (defun gams-view-lst ()
   "Switch to the LST file buffer and show the error message."
