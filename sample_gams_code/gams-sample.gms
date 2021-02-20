@@ -1,6 +1,6 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2018-04-16 18:13:27 st>
+Time-stamp:     <2020-07-31 09:49:44 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -476,7 +476,7 @@ installed from MELPA.
 To use auto-complete in GAMS mode, add the following code to init.el.
 
         ;; Load gams-auto-complete.
-        (require 'gams-auto-complete)
+        (require 'gams-ac)
         ;; Initial setup for auto-complete in GAMS mode.
         (gams-ac-after-init-setup)
 
