@@ -1,7 +1,7 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2020-01-31 22:31:38 st>
+Time-stamp: <2020-01-31 23:59:50 st>
 -->
 
 ----------------------------------------------------
@@ -11,8 +11,6 @@ Change logs of GAMS mode.
 
 Version 6.6
 ----------------------------------
-
-* Changed `gams-get-lst-modified-time`.
 
 * Added changes for psopt library.
 

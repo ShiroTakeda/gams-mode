@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2019-11-22 17:40:18 st>
+;; Time-stamp: <2021-02-20 15:57:14 st>
 ;; Version: 6.6
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
@@ -5853,6 +5853,7 @@ The followings are page scroll commands.  Just changed to upper case letters.
         (font-lock-fontify-buffer)
     (if (equal gams-lst-font-lock-keywords nil)
         (font-lock-mode -1)))
+  (set-buffer-modified-p nil)
 )
 ;; gams-lst-mode ends here.
 
@@ -9680,7 +9681,7 @@ LIGHT is t if in light mode.
       (while t
         (if (re-search-forward
              (concat "^$\\(sector[s]*\\|commodities\\|commodity"
-                     "consumer[s]*\\|auxiliary\\|report\\|prod\\|demand\\|constraint\\):")
+                     "consumer\\|consumers\\|auxiliary\\|report\\|prod\\|demand\\|constraint\\):")
              end t)
             (progn (setq block-begin (match-end 0))
                    (setq m-string (gams-buffer-substring
