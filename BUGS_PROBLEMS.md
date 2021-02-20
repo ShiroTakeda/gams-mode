@@ -1,7 +1,6 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2017-11-18 11:09:31 st>
 -->
 
 Known bugs and problems of GAMS mode.

@@ -1,7 +1,6 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2020-01-31 23:59:50 st>
 -->
 
 ----------------------------------------------------
