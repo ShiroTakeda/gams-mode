@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.6
+;; Version: 6.7
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.6"
+(defconst gams-mode-version "6.7"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -250,17 +250,6 @@ percentage of it.  If nil, use default `pop-to-buffer'."
   :type 'integer
   :group 'gams)
 
-(defcustom gams-docs-view-program "start"
-  "*The name of (or path to) the manual file viewer.
-Normally, set the PDF file viewer to this variable.
-
-GAMS ver.22 includes not only PDF manuals but also manuals of
-windows help file (CHM file).  If you want to view such CHM
-files, use the program such as cygstart.exe and fiber.exe instead
-of PDF file viewer."
-  :type 'file
-  :group 'gams)
-
 (defcustom gams-docs-directory
   (concat (file-name-as-directory gams-system-directory) "docs")
   "*The GAMS document directory.  By default, it is set to `gams-system-directory' + docs."
@@ -270,14 +259,6 @@ of PDF file viewer."
 (defcustom gams-docs-url "https://www.gams.com/latest/docs/"
   "*URL for the GAMS document"
   :type 'url
-  :group 'gams)
-
-(defcustom gams-docs-view-old nil
-  "*Non-nil -> old type document.
-In the recent version of GAMS system, manual documents are
-offered in html format. If you set non-nil to this variable, you
-can read old style manual in PDF format."
-  :type 'file
   :group 'gams)
 
 (defcustom gams-insert-dollar-control-on nil
@@ -588,70 +569,6 @@ You can change the width of the LXI buffer with
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;     Other variables.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defconst gams-manuals-alist-base
-  '(("User-Manual" . "GAMSUsersGuide.pdf")
-    ("Solver-Manual (Table of Content)" . "gamssolvers.pdf")
-    ("McCarl-User-Guide" . "mccarlgamsuserguide.pdf")
-
-    ("Tutorial" . "Tutorial.pdf")
-    ("Windows-Install" . "win-install.pdf")
-    ("Unix-Install" . "unix-install.pdf")
-
-    ("Solver-Introduction" ."Introduction.pdf")
-    ("All Solvers" . "allsolvers.pdf")
-    ("ALPHAECP-SOLVER" . "alphaecp.pdf")
-    ("BARON-SOLVER" . "baron.pdf")
-    ("BDMLP-SOLVER" . "bdmlp.pdf")
-    ("BENCH-SOLVER" . "bench.pdf")
-    ("COIN-SOLVER" . "coin.pdf")
-    ("CONOPT-SOLVER" . "conopt.pdf")
-    ("CONVERT-SOLVER" . "convert.pdf")
-    ("CPLEX-SOLVER" . "cplex.pdf")
-    ("DECIS-SOLVER" . "decis.pdf")
-    ("DICOPT-SOLVER" . "dicopt.pdf")
-    ("EMP-SOLVER" . "emp.pdf")
-    ("EXAMINER-SOLVER" . "examiner.pdf")
-    ("GAMSAMPL-SOLVER" . "gamsampl.pdf")
-    ("GAMSCHK-SOLVER" . "gamschk.pdf")
-    ("GAMSLINGO-SOLVER" . "gamslingo.pdf")
-    ("GUROBI-SOLVER" . "gurobi.pdf")
-    ("KNITRO-SOLVER" . "knitro.pdf")
-    ("LGO-SOLVER" . "lgo.pdf")
-    ("LINDOGLOBAL-SOLVER" . "lindoglobal.pdf")
-    ("LOGMIP-SOLVER" . "logmip.pdf")
-    ("MILES-SOLVER" . "miles.pdf")
-    ("MINOS-SOLVER" . "minos.pdf")
-    ("MOSEK-SOLVER" . "mosek.pdf")
-    ("MPSGE-SOLVER" . "mpsge.pdf")
-    ("MSNLP-SOLVER" . "msnlp.pdf")
-    ("NLPEC-SOLVER" . "nlpec.pdf")
-    ("OQNLP-SOLVER" . "oqnlp.pdf")
-    ("OSL-SOLVER" . "osl.pdf")
-    ("OSLSE-SOLVER" . "oslse.pdf")
-    ("PATH-SOLVER" . "path.pdf")
-    ("PATHNLP-SOLVER" . "pathnlp.pdf")
-    ("SBB-SOLVER" . "sbb.pdf")
-    ("SCENRED-SOLVER" . "scenred.pdf")
-    ("SCIP-SOLVER" . "scip.pdf")
-    ("SNOPT-SOLVER" . "snopt.pdf")
-    ("XA-SOLVER" . "xa.pdf")
-    ("XPRESS-SOLVER" . "xpress.pdf")
-
-    ("Ask-Tool" . "ask.pdf")
-    ("GAMSIDE-Tool" . "gamside.pdf")
-    ("GDX2ACESS-Tool" . "gdx2access.pdf")
-    ("GDX2XLS-Tool" . "gdx2xls.pdf")
-    ("GDXMRW-Tool" . "gdxmrw.pdf")
-    ("GDXUTILS-Tool" . "gdxutils.pdf")
-    ("GDXVIEWER-Tool" . "gdxviewer.pdf")
-    ("MDB2GMS-Tool" . "mdb2gms.pdf")
-    ("SHELLEXECUTE-Tool" . "shellexecute.pdf")
-
-    ("SQL2GMS-Tool" . "sql2gms.pdf")
-    ("XLS2GMS-Tool" . "xls2gms.pdf")
-    ("PC-Install" . "pc-install.pdf")
-    ))
 
 (defvar gams-statement-up
       '("SET" "SETS" "SCALAR" "SCALARS" "TABLE" "PARAMETER" "PARAMETERS"
@@ -2688,6 +2605,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
      )
     "--"
     ["View GAMS manuals" gams-view-document t]
+    ["Search in GAMS manuals" (gams-view-document t)]
     ["Extract models from Model library" gams-model-library t]
     "--"
     ["Customize GAMS mode for Emacs" (customize-group 'gams) t]
@@ -3964,111 +3882,73 @@ non-interactive call from menu."
   
 ;;; View manuals.
 
-(defvar gams-read-docs-history nil "Holds history of dollar control.")
-(put 'gams-read-dollar-history 'no-default t)
+(defcustom gams-browse-url-function 'browse-url
+  "Function used to browse urls.
+Possible values include: `browse-url', `browse-url-generic',
+`browse-url-emacs', `eww-browse-url'."
+  :type 'function
+  :group 'gams-mode)
 
-(defvar gams-read-doc-completion-map nil
-  "*Key map for ‘gams-read-docs’.")
-(if gams-read-doc-completion-map nil
-   (setq gams-read-doc-completion-map
-         (copy-keymap minibuffer-local-completion-map))
-   (define-key gams-read-doc-completion-map
-     " " 'minibuffer-complete)
-   (define-key gams-read-doc-completion-map
-     "\C-i" 'minibuffer-complete))
+(defvar gams-view-doc-input-history nil
+  "History of searched words of gams-view-doc.")
 
-(defun gams-read-docs (prompt)
-  "Read document file.
-PROMPT is prompt string."
-  (let ((minibuffer-completion-table
-         (append gams-manuals-alist)))
-    (read-from-minibuffer
-     prompt nil gams-read-doc-completion-map nil
-     'gams-read-docs-history)))
+(defun gams-view-doc-read-string (prompt &optional init history default inherit)
+  (read-string
+   (if default
+       (concat prompt " (default " default "): ")
+     (concat prompt ": "))
+   init history default inherit))
 
-(defvar gams-manuals-alist
-  (if gams-win32
-      (append gams-manuals-alist-base
-              '(("McCarl-User-Guide-chm" . "mccarlgamsuserguide.chm")
-                ("Ask-Tool-chm" . "ask.chm")
-                ("GAMSIDE-Tool-chm" . "gamside.chm")
-                ("GDX2ACESS-Tool-chm" . "gdx2access.chm")
-                ("GDXUTILS-Tool-chm" . "gdxutils.chm")
-                ("GDXVIEWER-Tool-chm" . "gdxviewer.chm")
-                ("MDB2GMS-Tool-chm" . "mdb2gms.chm")
-                ("SHELLEXECUTE-Tool-chm" . "shellexecute.chm")
-                ("SQL2GMS-Tool-chm" . "sql2gms.chm")
-                ("XLS2GMS-Tool-chm" . "xls2gms.chm")))
-      gams-manuals-alist-base)
-  "Alist of the name of GAMS manual files and its abbreviated name (label).
-This list is created from GAMS 22.5 windows version..pdf")
+(defun gams-view-doc-get-word ()
+  (let* ((sym (symbol-at-point))
+         default)
+    (when sym
+      (setq default
+            (substring-no-properties
+             (symbol-name (or (symbol-at-point) "")))))
+    (if (string-equal default "") (setq default nil))
+    (gams-view-doc-read-string
+     "What do you want to search in manual?"
+     nil 'gams-view-doc-input-history default t)))
 
-(setq gams-view-document-old nil)
+(defun gams-view-doc-search-word (word &optional search-url)
+  (let* ((browse-result
+          (funcall gams-browse-url-function
+                   (format (concat (or search-url gams-docs-url)
+                                   "keyword.html?q=%s")
+                           (url-hexify-string word)))))
+    browse-result))
 
-;;;###autoload
-(defun gams-view-document ()
-  "View GAMS manuals.
+(defun gams-view-document (&optional word)
+  "This command opens GAMS Documentation Center through a web browser.
+You can choose online documents or offline documents.  If you
+attach the universal argument \\[universal-argument], then you
+can search a word in the documentation center (this word search
+function is available only in the online manual).
 
-Envoke the PDF file (or windows help file) viewer and see GAMS
-manuals.  The viewer is determined by the variable
-`gams-docs-view-program'.  The directory of GAMS documents is
-determined by the variable `gams-docs-directory'.  By default,
-`gams-docs-directory' is set to `gams-system-directory' + docs.
-
-The list of documents displayed as candidates is created from
-GAMS ver 22.5 for windows.  If you use other version of GAMS,
-some documents may not be available on you system."
-  (interactive)
+The directory of the local GAMS documents is determined by the
+variable `gams-docs-directory'.  By default,
+`gams-docs-directory' is set to `gams-system-directory' + docs."
+  (interactive "P")
   (unwind-protect
       (let* ((completion-ignore-case t)
              (buf (get-buffer-create "*View GAMS manual*"))
              (def-dir default-directory)
              (docs-dir (file-name-as-directory gams-docs-directory))
-             guess
-             statement
-             file-name
-             file-name-full key
+             key
+             fl-docs-dir
              ) ;; let* ends.
-        (if (not (file-exists-p docs-dir))
-            (message
-             (format "\"%s\" does not exist! Check the variable `gams-docs-directory'."
-                     docs-dir))
-          (if gams-docs-view-old
-              ;; old style
-              (progn
-                (setq statement
-                      (progn
-                        (setq guess "User-Manual")
-                        (gams-read-docs
-                         (format "View which manual? (default = %s): " guess))))
-                (setq statement (if (string= statement "") guess statement))
-                (setq file-name (assoc statement gams-manuals-alist))
-                (if (not file-name)
-                    (message "Enter the registered label.")
-                  (setq file-name-full
-                        (car (find-lisp-find-files
-                              docs-dir (cdr file-name))))
-                  (setq default-directory (file-name-directory file-name-full))
-                  (setq file-name-full (file-name-nondirectory file-name-full))
-                  (if (not file-name-full)
-                      (message (format "Manual file for %s is not found." statement))
-                    ;; Start process.
-                    (start-process "manual" buf gams-docs-view-program file-name-full)
-                    )))
-            ;; new
-            (message "[o]-> Online manual, [f]-> Offline manual, Other key -> cancel.")
-            (setq key (read-char))
-            (cond
-             ((equal key ?o)
-              (start-process "manual" buf shell-file-name gams-shell-c
-                             (concat gams-docs-view-program " " gams-docs-url))
-              (message "Starting manual viewer..."))
-              
-             ((equal key ?f)
-              (start-process "manual" buf shell-file-name gams-shell-c
-                             (concat gams-docs-view-program " " docs-dir "index.html"))
-              (message "Starting manual viewer..."))
-             (t nil))))
+        (setq fl-docs-dir (or (file-exists-p docs-dir) nil))
+        (when word
+          (setq word (gams-view-doc-get-word)))
+        (message "Press ENTER key (or `o') if you use online manual. Press other keys for offline manual.")
+        (setq key (read-char))
+        (if (or (equal key ?o) (equal key 13))
+            (if word
+                (gams-view-doc-search-word word nil)
+              (funcall 'browse-url gams-docs-url))
+          (funcall 'browse-url
+                   (browse-url-file-url (concat docs-dir "index.html"))))
         (setq default-directory def-dir))))
 
 ;;; New command.

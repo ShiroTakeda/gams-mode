@@ -8,6 +8,23 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.7
+----------------------------------
+
+* Modified `gams-view-document` function (C-x C-m). The current GAMS
+  system offers manuals in html format (GAMS Documentation Center). The
+  new version of GAMS mode supports the current GAMS document system.
+  
+  This command opens GAMS Documentation Center through a web browser. You
+  can choose online documents or offline documents.  If you attach the
+  universal argument C-u C-x C-m, then you can search a word in the
+  documentation center (this word search function is available only in the
+  online manual).
+  
+  With this change, we abolished `gams-docs-view-program`,
+  `gams-docs-view-old`, `gams-manuals-alist-base`.
+
+
 Version 6.6
 ----------------------------------
 
