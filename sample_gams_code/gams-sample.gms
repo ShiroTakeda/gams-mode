@@ -1,6 +1,5 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2021-02-24 12:47:30 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -17,16 +16,16 @@ beginning of the line.
 $offtext
 
 ** gams-lst-file: ./lst/lst-sample.lst
-*       The above code means that lst file -> .\lst\lst-sample.lst:
+*       The above code means that lst file -> ./lst/lst-sample.lst:
 
 ** gams-lst-file: g:/lst-sample.lst
-*       The above code means that lst file -> g:\lst-sample.lst:
+*       The above code means that lst file -> g:/lst-sample.lst:
 
 ** gams-lst-dir: ./lst/
-*       The above code means that lst file -> .\lst\gams-sample.lst
+*       The above code means that lst file -> ./lst/gams-sample.lst
 
 ** gams-lst-dir: g:/
-*       The above code means that lst file -> g:\gams-sample.lst
+*       The above code means that lst file -> g:/gams-sample.lst
 
 $ontext
 
@@ -242,11 +241,11 @@ When there is a line beginning with *#! on the first line in a GMS file, GAMS
 mode uses its content as a command line.  For example, suppose that you write
 the following statement in the first line
 
-    *#!c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+    *#!c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=./gams-sample-alt.lst
 
 Then,
 
-c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=./gams-sample-alt.lst
 
 is executed as a command line.  This is a function like #!/usr/bin/perl or
 #!/bin/sh for shell scripts.  By default, the command line is determined by
@@ -699,8 +698,8 @@ $stitle         Display the list of identifiers.
 $ontext
 
 `gams-show-identifier-list' (binded to `C-cC-a' by default) displays the list
-identifiers defined in the current program file.  To learn how to use this
-command, try C-cC-a and type `?'.
+identifiers (sets, parameters, variables and so on) defined in the current
+program file.  To learn how to use this command, try C-cC-a and type `?'.
 
 If you use `gams-show-identifier-list' (C-cC-a), it shows all identifiers
 including those which are defined in subroutine files. However, if you use the
@@ -718,6 +717,9 @@ command.
 
 The line starting with "* gams-include-file:" specifies the subroutine file for
 `gams-show-identifier-list'.
+
+The value of %sub_program% changes through $set or $setglobal command, but you
+can specifiy the default subroutine file name by `gams-include-file'.
 
 $offtext
 
