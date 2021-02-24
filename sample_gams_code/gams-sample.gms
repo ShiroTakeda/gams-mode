@@ -1,6 +1,6 @@
 $title A sample file for learning how to use GAMS mode for Emacs.
 $ontext
-Time-stamp:     <2020-07-31 09:49:44 st>
+Time-stamp:     <2021-02-24 12:47:30 st>
 Filename:       "gams-sample.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -16,23 +16,23 @@ To activiate lst file specification, remove one of two asterisks at the
 beginning of the line.
 $offtext
 
-** gams-lst-file: .\lst\lst-sample.lst
-*       The above code means that lst file -> .\lst\sample.lst:
+** gams-lst-file: ./lst/lst-sample.lst
+*       The above code means that lst file -> .\lst\lst-sample.lst:
 
-** gams-lst-file: c:\sample.lst
-*       The above code means that lst file -> c:\sample.lst:
+** gams-lst-file: g:/lst-sample.lst
+*       The above code means that lst file -> g:\lst-sample.lst:
 
-** gams-lst-dir: .\lst\
+** gams-lst-dir: ./lst/
 *       The above code means that lst file -> .\lst\gams-sample.lst
 
-** gams-lst-dir: c:\
-*       The above code means that lst file -> c:\gams-sample.lst
+** gams-lst-dir: g:/
+*       The above code means that lst file -> g:\gams-sample.lst
 
 $ontext
 
 Commentary:
 
-  * For gams-mode.el version 6.5.
+  * For gams-mode.el version 6.7.
 
   * Notations like "C-cC-v" follow the Emacs convention. For example,
 
@@ -45,7 +45,6 @@ Commentary:
   * Bug reports, requests, and suggestions are all welcome!  If you find bugs,
     please use M-x gams-report-bug.
 
-
 $offtext
 
 *       Inline comment symbol
@@ -54,14 +53,14 @@ $inlinecom /* */
 *       End-of-line comment symbol
 $eolcom #
 
-*       The name of included program file.
+*       The name of the included program file.
 $setglobal sub_program ./include/include-sample.gms
 
 $ontext
 If your setting is proper, this buffer must be in GAMS mode (if the mode line
-contains the string "GAMS", you are in GAMS mode).  If you aren't in GAMS mode,
-please check your configuration in "~/.emacs.d/init.el" (in
-particular, load-path setting).
+contains the string "GAMS", you are in GAMS mode).  If you are not in GAMS mode,
+please check your configuration in "~/.emacs.d/init.el" (in particular,
+load-path setting).
 
 $offtext
 *        ----------------------------------------------------------------------
@@ -70,7 +69,7 @@ $stitle         Basic usage.
 $ontext
 
 First, try to run GAMS on this file.  Type `C-cC-t', then you see the following
-message in the mini-buffer.
+message in the echo are (mini-buffer).
 
 
     Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
@@ -79,7 +78,7 @@ message in the mini-buffer.
 Type `s', and GAMS will start.  Or if you type F9 key or `C-cC-s', GAMS will
 directly start.
 
-[Note] if GAMS doesn't start or doesn't work well, there are likely to be some
+[Note] if GAMS does not start or does not work well, there are likely to be some
 problems in configurations. Please check the following:
 
   + Does a shell (such as cmdproxy or bash) work properly in your Emacs?
@@ -93,52 +92,43 @@ When the GAMS process finishes, type `C-cC-v' or F10 key to switch to the LST
 file buffer.
 
 In the LST buffer, you will see a message "No error message is found" in the
-mini-buffer.  This message means that this gms file was executed successfully
+echo are.  This message means that this gms file was executed successfully
 without any error.
 
 Type `i' (or `b') to jump back to the gms file buffer.
 
-Next, uncomment the following line (delete *) and run GAMS (type `C-cC-t' and
-type `s').
+Next, uncomment the following line (delete * before "Uncommen this ..." line)
+and run GAMS (type `C-cC-t' and type `s').
 
 $offtext
 *              Uncomment this line.  Error is here.
 $ontext
 
-Then switch to the LST buffer (C-cC-v or f10) and you will see two windows and
-the following message in the mini-buffer.
+Then, you will see the following message in the echo are
 
-    LastMod 2010/07/18 17:40: [u]=Jump to the error place, [i]=Jump to the main input file
+    GAMS ended with 'Compilation' errors!  C-cC-v or [F10]= LST file.
 
-One window displays an error line, and the other displays an error meaning.
+Switch to the LST buffer (C-cC-v or f10) and you will see two windows and the
+following message in the echo are.
 
-In the upper window, the following message will be displayed.
+    LastMod 2021/02/24 10:37:40: [u]=Jump to the error place, [i]=Jump to the main input file
 
+and you see the following message in the LST buffer
 
-      Next, uncomment the following line (delete *) and run GAMS (type `C-cC-t' and
-      type `s').
+     105                Uncomment this line.  Error is here.
+    ****                        $140 $36   $342            $342
+    ****  36  '=' or '..' or ':=' or '$=' operator expected
+    ****      rest of statement ignored
+    **** 140  Unknown symbol
+    **** 342  Illegal suffix syntax - has to start with a letter
 
-  99               Uncomment this line.  Error is here.
- ***                       $140 $36   $342            $342
+Note that when you encounter errors in GAMS, you should see the _first_ error.
+In this case, the first error is the error of number $140.  This is a typical
+syntax error message in LST files, namely, "Unknown symbol" error. This means
+that you use the symbol not defined (declared) before.
 
-      Then switch to the LST buffer (C-cC-v or f10) and you will see two windows
-      and the following message in the mini-buffer.
-
-
-This is a typical syntax error message in LST files.  This message indicates the
-error line (99) and the error number ($140).
-
-At the same time, the lower window shows the meaning of the error with number
-140.  In this case, "Unknown symbol":
-
-
-  140  Unknown symbol
-  342  Illegal suffix syntax - has to start with a letter
-
-   *** 4 ERROR(S)   0 WARNING(S)
-
-
-  COMPILATION TIME     =        0.000 SECONDS    0.7 Mb      WIN200-121
+The above message also shows the line with the error in the gms buffer, that is,
+105.
 
 
 If you type `y' in the LST file buffer, you can go to the first error place from
@@ -159,7 +149,7 @@ you can easily debug your GMS file.
 
 [Note] The difference between `u' and `i' (or `b').
 
-If an error exists, the following message will appear in the mini-buffer.
+If an error exists, the following message will appear in the echo are.
 
 
     [u]=Jump to the error place, [i]=Jump to the main input file
@@ -171,12 +161,12 @@ subroutine files.  In this case, you may want to jump to the main input file
 instead of the subroutine file with the error.  Then you had better type `i'
 instead of `u'.
 
-`u' = Jump to the error place ==> Jump to the file where the error exists (it
-may be a subroutine file).
+`u' = Jump to the error place
+==> Jump to the file where the error exists (it may be a subroutine file).
 
-`i' (or `b') = Jump to the main input file. ==> The main input file is the top
-level program file (its name is taken from the FILE SUMMARY field in the LST
-file.)
+`i' (or `b') = Jump to the main input file.
+==> The main input file is the top level program file (its name is taken from
+    the FILE SUMMARY field in the LST file.)
 
 When you encounter another types of errors, only the error line may be
 displayed.  For example, uncomment the line "* b = 1/a;" below (delete
@@ -186,7 +176,7 @@ parameter a       Parameter a
           b       Parameter b
 ;
 a = 0;
-* b = 1/a;
+* b = 1/a; # Uncomment this line.
 parameter c, d, e;
 
 $ontext
@@ -198,7 +188,6 @@ Type `l' on the following error line
 
 then you will jump to the error line (185).  Moreover, type `b' and you jump to
 the GMS file.
-
 
 $offtext
 *        ----------------------------------------------------------------------
@@ -331,16 +320,16 @@ corresponding to this gams-sample.gms and put it in the subdirectory `lst'.
 Then, add the following code somewhere in this file:
 
 
-    * gams-lst-file: .\lst\lst-sample.lst
+    * gams-lst-file: ./lst/lst-sample.lst
 
 
 (Note that * must really be on the beginning of line)
 
 This code has two effects
 
-1) gams is executed with option 'o=.\lst\lst-sample.lst'
+1) gams is executed with option 'o=./lst/lst-sample.lst'
 
-2) You can switch from the gms file to .\lst\lst-sample.lst by C-cC-v (or
+2) You can switch from the gms file to ./lst/lst-sample.lst by C-cC-v (or
    F10).
 
 If you want to try this, please delete one `*' in the gams-lst-file line of this
@@ -351,10 +340,10 @@ gams-lst-dir.
 
 For example,
 
-    * gams-lst-dir: .\lst
+    * gams-lst-dir: ./lst
 
-This code implies the lst directory is ".\lst\" and the lst file name is stored
-as ".\lst\gams-sample.lst".
+This code implies the lst directory is "./lst/" and the lst file name is stored
+as "./lst/gams-sample.lst".
 
 
 $offtext
@@ -365,7 +354,7 @@ $stitle         GAMS statement completions.
 $ontext
 
 You can insert GAMS statements with completion.  Type `C-cC-k', then the
-following message will appear in the mini-buffer.
+following message will appear in the echo are.
 
 
     Insert statement (default = set):
@@ -374,7 +363,7 @@ following message will appear in the mini-buffer.
 Type SPACE or TAB key and the list of candidates will appear.  If you type
 ENTER, the default value `set' is inserted.  Or if you type, for example, `v'
 and then `SPACE', and the statement `VARIABLE' will be automatically inserted in
-the mini-buffer.
+the echo are.
 
 Similarly, dollar control options can be inserted with completion.  In this
 case, type `C-cC-d'.
@@ -638,19 +627,19 @@ them.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Display the declaration part of an identifier.
+$stitle         Display the declaration place of an identifier.
 * ---------------------------------------------------------
 $ontext
 
 While you are reading or editing a GAMS program, you may often go back to the
-declaration part of an identifier so as to see its definition.  In such a case,
+declaration place of an identifier so as to see its definition.  In such a case,
 you could use, for example, `isearch-backward' command or something.  But if the
-identifier is used many times at the different parts of the program or
+identifier is used many times at the different places of the program or
 declared/used in the subroutine files, it is difficult to find the declaration
-part of the identifier.
+place of the identifier.
 
 `gams-show-identifier' (binded to F7 or `C-cC-.' by default) enables you to see
-the declaration part of the identifier under the cursor.  Try to type F7 on the
+the declaration place of the identifier under the cursor.  Try to type F7 on the
 following examples.
 
 $offtext
@@ -659,23 +648,23 @@ out.fx(s) = 10;
 display out.l;          # Type F7 on the identifier p
 
 $ontext
-If you type F7 on, for example, the identifier "u", u's declaration part will
+If you type F7 on, for example, the identifier "u", u's declaration place will
 appear in the upper window and the position of the cursor will be displayed in
-the left window.  You will see the following message in the mini-buffer:
+the left window.  You will see the following message in the echo are:
 
-    The declaration part of `u': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
+    The decl. place of `u': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
 
 If you type n(p), you can move to the next (previous) place where "u" appears.
-Type d, you can move to the declaration part.  Type c, you can move to the
+Type d, you can move to the declaration place.  Type c, you can move to the
 original point.
 
 If you type SPC, the previous window position will be restored.  If you type
-ENT, you will jump to the declaration part.  If you type other keys, two buffers
-will continue to be displyed.
+ENT, you will jump to the declaration place.  If you type other keys, two
+buffers will continue to be displyed.
 
 Typing ? will show the help.
 
-`gams-show-identifier' can show the declaration part in the subroutine files.
+`gams-show-identifier' can show the declaration place in the subroutine files.
 
 The identifier "ene", "out", "util", "com", "sec", "m" and "n"" below are
 declared in the subroutine file "include-sample.gms" and "include-sample-2.gms".
@@ -710,8 +699,8 @@ $stitle         Display the list of identifiers.
 $ontext
 
 `gams-show-identifier-list' (binded to `C-cC-a' by default) displays the list
-identifiers defined in the current file.  To learn how to use this command, try
-C-cC-a and type `?'.
+identifiers defined in the current program file.  To learn how to use this
+command, try C-cC-a and type `?'.
 
 If you use `gams-show-identifier-list' (C-cC-a), it shows all identifiers
 including those which are defined in subroutine files. However, if you use the
@@ -913,14 +902,32 @@ $stitle         View manual.
 * ---------------------------------------------------------
 $ontext
 
-In GAMSIDE, you can view GAMS pdf manuals (HELP => DOC).  The same kind of
-command is available in GAMS mode.  The command name is `gams-view-docs' and it
-is binded to `C-cC-m' by default.
+In GAMS Studio (or GAMSIDE), you can view GAMS manuals from Help.  The same kind
+of command is available in GAMS mode.  The command name is `gams-view-document'
+and it is binded to `C-cC-m' by default.
+
+Try type `C-cC-m' in the GAMS mode buffer. Then you see the following message in
+echo area.
+
+    Press ENTER key if you use online manual. Press other keys for offline manual.
+
+If you press ENTER key, then the default brower opens GAMS online manual (GAMS
+Documentation Center). If you press other key, the brower opens local GAMS
+manual.
+
+In addition, you can search a command in GAMS manuals. Try C-uC-cC-m on the
+command `uniform' in the code below, then you can directly search `uniform' in
+the GAMS online manual (this command search function is only available on the
+online manual).
+$offtext
+loop((i,j),
+    parb(i,j) = uniform(0,1); # Press C-uC-cC-m on the command `uniform'.
+);
+$ontext
 
 To use this command, you need to set the proper values to the variables
-`gams-system-directory', `gams-docs-directory' and `gams-docs-view-program'.
-See the explanation of two variables.
-
+`gams-system-directory', `gams-docs-directory'.  See the explanation of two
+variables.
 $offtext
 
 * ---------------------------------------------------------
@@ -1100,4 +1107,5 @@ $show
 * Local Variables:
 * fill-column: 80
 * mode: gams
+* coding: utf-8-dos
 * End:
