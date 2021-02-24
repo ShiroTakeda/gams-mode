@@ -3929,7 +3929,7 @@ The current GAMS system offers manuals in html format (GAMS
 Documentation Center). This command enables you to open manuals
 from GAMS mode.  You can choose online documents or offline
 documents.  If you attach the universal argument
-\\[universal-argument]C-xC-m, then you can search a command under
+\\[universal-argument]C-cC-m, then you can search a command under
 the cursor in the documentation center (this command search function
 is available only in the online manual).
 

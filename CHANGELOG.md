@@ -11,12 +11,12 @@ Change logs of GAMS mode.
 Version 6.7
 ----------------------------------
 
-* Modified `gams-view-document` function (C-xC-m). The current GAMS
+* Modified `gams-view-document` function (C-cC-m). The current GAMS
   system offers manuals in html format (GAMS Documentation Center). The
   new version of GAMS mode enables you to open documents from GAMS mode.
   
   You can choose online documents or offline documents.  If you attach the
-  universal argument C-uC-xC-m, then you can search a command under the
+  universal argument C-uC-cC-m, then you can search a command under the
   cursor in the documentation center (this command search function is
   available only in the online manual).
 
