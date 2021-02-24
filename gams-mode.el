@@ -3948,14 +3948,15 @@ variable `gams-docs-directory'.  By default,
         (setq fl-docs-dir (or (file-exists-p docs-dir) nil))
         (when command
           (setq command (gams-view-doc-get-command)))
-        (message "Press SPACE key if you use online manual. Press other keys for offline manual.")
-        (setq key (read-char))
-        (if (equal key 32)
-            (if command
-                (gams-view-doc-search-command command nil)
-              (funcall 'browse-url gams-docs-url))
-          (funcall 'browse-url
-                   (browse-url-file-url (concat docs-dir "index.html"))))
+        (if (and command
+                 (not (equal command "")))
+            (gams-view-doc-search-command command nil)
+          (message "Press ENTER key if you use online manual. Press other keys for offline manual.")
+          (setq key (read-char))
+          (if (equal key 13)
+              (funcall 'browse-url gams-docs-url)
+            (funcall 'browse-url
+                     (browse-url-file-url (concat docs-dir "index.html")))))
         (setq default-directory def-dir))))
 
 ;;; New command.
