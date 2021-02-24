@@ -2560,7 +2560,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
     ["Insert GAMS statement" gams-insert-statement t]
     ["Insert GAMS dollar control" gams-insert-dollar-control t]
     ["Insert GAMS statement with extended features" gams-insert-statement-extended t]
-    ["Show the identifier declaration part" gams-show-identifier t]
+    ["Show the identifier declaration place" gams-show-identifier t]
     ["Show the identifier list" gams-show-identifier-list t]
     ["Open included file" gams-open-included-file t]
     "--"
@@ -8704,7 +8704,7 @@ It does not kill SIL buffer."
 
 There are two listing styles: 1) listing by sequential order and 2) listing by type.
 
-SPACE   Show the declaration part of the identifier in the gms file.
+SPACE   Show the declaration place of the identifier in the gms file.
 n / p   next-line / previous-line.
 d / f   Scroll up / down.
 t       Toggle follow-mode.
@@ -10653,7 +10653,7 @@ if prev is non-nil, move up after toggle."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;;     Show the declaration part of an identifier (SID)
+;;;     Show the declaration place of an identifier (SID)
 ;;;     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -10819,17 +10819,17 @@ $batinclude or $include."
       (erase-buffer)
       (insert "[Help for GAMS show identifier]
 `gams-show-identifier' is a command to search and show the
-identifier which appears in various parts of the program.
+identifier which appears in various places of the program.
 
-d               Show the declaration (first) part
-n               Show the next part.
-p               Show the previous part.
-c               Show the original part.
-e               Copy (extract) the explanatory text from the identifier declaration part.
+d               Show the declaration (first) place
+n               Show the next place.
+p               Show the previous place.
+c               Show the original place.
+e               Copy (extract) the explanatory text from the identifier declaration place.
 r               Rescan the identifier structure information.
 SPACE           Quit and restore the window configuration.
-ENT             Jump to the highligtened part.
-TAB             Jump to the highligtened part keeping window.
+ENT             Jump to the highligtened place.
+TAB             Jump to the highligtened place keeping window.
 Other key       Just quit.
 ?               Show this help.
 
@@ -10957,24 +10957,24 @@ Return the starting point of the alias if in alias block."
     beg-po))
 
 (defun gams-show-identifier (&optional arg)
-  "Show the declaration (definition or first) part of the
+  "Show the declaration (definition or first) place of the
 identifier under the cursor.  You can also show and move to the
 various places.  Execute this command with the cursor on the
 identifier.  Or execute this command with the universal-argument
 and you will be asked the identifier name you want to search.
 
 When you are reading or editing a GAMS program, you may often go
-back to the declaration part of an identifier so as to see its
+back to the declaration place of an identifier so as to see its
 definition.  Or you may go to the place where an identifier is
 assigned some value.
 
 In such a case, you could use, for example, `isearch-backward'
 and `isearch-forward' command or something to search the
 identifier.  But if the identifier is used many times at the
-different parts of the program, it is difficult to find the
-declaration part of the identifier.  Or if the identifier is
+different places of the program, it is difficult to find the
+declaration place of the identifier.  Or if the identifier is
 declared in a subroutine file, it is quite messy to search the
-declaration part.  This command enables you to search the
+declaration place.  This command enables you to search the
 identifier easily.
 
 This command parses the whole identifier structure and thus may
@@ -11033,7 +11033,7 @@ TYPE: The type of the identifier"
          flist                          ; gams-file-list
          cfnum                          ; File number of the current file
          res
-         exist-p                        ; non-nil if the declaration part exists.
+         exist-p                        ; non-nil if the declaration place exists.
          
          po-def key win-conf)
 
@@ -11078,7 +11078,7 @@ TYPE: The type of the identifier"
        flist                                    ; file list.
        cbuf                                     ; The original buffer
        beg                                      ; The original point
-       exist-p))                                  ; non-nil if the declaration part exists.
+       exist-p))                                  ; non-nil if the declaration place exists.
 
     (when res
       (unwind-protect
@@ -11098,16 +11098,16 @@ TYPE: The type of the identifier"
                ;; Show help.
                ((equal key (string-to-char "?"))
                 (gams-sid-show-help))
-               ;; Move to the declaration part.
+               ;; Move to the declaration place.
                ((equal key (string-to-char "d"))
                 (if exist-p
                     (gams-sid-show-result-def name res flist)
                   (gams-sid-show-result-first name (nth 3 res) (nth 0 res) flist cbuf beg)))
-               ;; Copy the explanatory text of the identifier from the declaration part.
+               ;; Copy the explanatory text of the identifier from the declaration place.
                ((equal key (string-to-char "e"))
                 (if (not exist-p)
                     (message
-                     (format "There is no declaration part of `%s'" name))
+                     (format "There is no declaration place of `%s'" name))
                   (gams-sid-show-result-def name res flist t)
                   (gams-sid-copy-explanatory-text po-def len)))
                ;; Space.
@@ -11280,7 +11280,7 @@ FNUM is the file number where the matched identifier exists.
 FLIST is the gams-file-list.
 CBUF: the original buffer.
 CPO: the original point of the original buffer.
-DEFP: non-nil if the declaration part exists."
+DEFP: non-nil if the declaration place exists."
   (let ((fname (cdr (assoc fnum flist))))
     (delete-other-windows)
     (switch-to-buffer gams-sid-tree-buffer)
@@ -11301,10 +11301,10 @@ DEFP: non-nil if the declaration part exists."
     (goto-char cpo)
     (if defp
         (message
-         (concat (format "The declaration part of `%s': " name)
+         (concat (format "The declaration place of `%s': " name)
                  gams-sid-mess-1))
       (message
-       (concat (format "The first part of `%s': " name)
+       (concat (format "The first place of `%s': " name)
                gams-sid-mess-1)))
     (sit-for 0)
     ))
@@ -11557,7 +11557,7 @@ FST: file structure"
            (concat (format "`%s' :" name) gams-sid-mess-1))
           )
       (message
-       (concat (format "Already in the decl. (first) part of `%s' :" name) gams-sid-mess-1))
+       (concat (format "Already in the decl. (first) place of `%s' :" name) gams-sid-mess-1))
       (other-window 1)
       (goto-char cpo))
     ))
@@ -11593,7 +11593,7 @@ FST: file structure"
       (if (and (equal cfnum fnum-def)
                (<= cpo po-def))
 
-          (message "You are in the declaration part.")
+          (message "You are in the declaration place.")
 
         (forward-char len)
 
@@ -11642,7 +11642,7 @@ FST: file structure"
 
 (defun gams-sid-show-result-def (name res flist &optional nomess)
   "NOMESS -> no message
-DEF is t if declaration part exists."
+DEF is t if declaration place exists."
   (let ((cpo (point))
         (cbuf (current-buffer))
         (cfnum (car (rassoc (buffer-file-name) flist)))
@@ -11655,29 +11655,29 @@ DEF is t if declaration part exists."
     (if (and (equal cfnum fnum)
                (<= cpo po-def))
         (when (not nomess)
-          (message (concat "You are already in the declaration part: "
+          (message (concat "You are already in the declaration place: "
                            gams-sid-mess-1)))
 
       (gams-sid-show-result po-def len fnum flist cbuf cpo)
       (when (not nomess)
         (message (concat
-                  (format "The declaration part of `%s': " name)
+                  (format "The decl. place of `%s': " name)
                   gams-sid-mess-1))))
     ))
 
 (defun gams-sid-show-result-first (name po fnum flist cbuf cpo)
   "NOMESS -> no message
-DEF is t if declaration part exists."
+DEF is t if declaration place exists."
   (let ((len (length name)))
     (other-window 2)
     (gams-sid-show-result po len fnum flist cbuf cpo)
     (message (concat
-              (format "The first part of `%s': " name)
+              (format "The first place of `%s': " name)
               gams-sid-mess-1))
     ))
 
 (defun gams-sid-copy-explanatory-text (po-def len)
-  "Copy (extract) the explanatory text of the identifier from the declaration part."
+  "Copy (extract) the explanatory text of the identifier from the declaration place."
   (let ((case-fold-search t)
         fl_q fl_e beg end etxt)
 
@@ -11720,7 +11720,7 @@ DEF is t if declaration part exists."
         (setq etxt (substring etxt 0 (string-match "[ \t]+$" etxt)))))
     (if etxt
         (progn (kill-new etxt)
-               (message "Copy (extract) explanatory text from the declaration part."))
+               (message "Copy (extract) explanatory text from the declaration place."))
       (message "No explanatory text is found."))
     
   (other-window 1)))
@@ -11882,8 +11882,8 @@ CPO: Original point."
     (setq buffer-read-only t)))
 
 (defun gams-sid-return-current-position-in-tree (cfnum cpo)
-  "Return the current part index.
-part index is determined by `gams-sid-tree-structure'."
+  "Return the current place index.
+place index is determined by `gams-sid-tree-structure'."
   (let ((tree gams-sid-tree-structure)
         ele part)
     (catch 'found
