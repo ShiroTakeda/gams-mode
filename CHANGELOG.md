@@ -11,16 +11,19 @@ Change logs of GAMS mode.
 Version 6.7
 ----------------------------------
 
-* Modified `gams-view-document` function (C-x C-m). The current GAMS
+* Modified `gams-view-document` function (C-xC-m). The current GAMS
   system offers manuals in html format (GAMS Documentation Center). The
-  new version of GAMS mode supports the current GAMS document system.
+  new version of GAMS mode enables you to open documents from GAMS mode.
   
-  This command opens GAMS Documentation Center through a web browser. You
-  can choose online documents or offline documents.  If you attach the
-  universal argument C-u C-x C-m, then you can search a word in the
-  documentation center (this word search function is available only in the
-  online manual).
-  
+  You can choose online documents or offline documents.  If you attach the
+  universal argument C-uC-xC-m, then you can search a command under the
+  cursor in the documentation center (this command search function is
+  available only in the online manual).
+
+  The directory of the local GAMS documents is determined by the variable
+  `gams-docs-directory`.  By default, `gams-docs-directory` is set to
+  `gams-system-directory' + docs.
+
   With this change, we abolished `gams-docs-view-program`,
   `gams-docs-view-old`, `gams-manuals-alist-base`.
 

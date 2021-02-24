@@ -2604,8 +2604,11 @@ If you do not want to specify the lst file directory, set nil to this variable."
      ["Toggle hide/show comment blocks" gams-toggle-hide-show-comment-lines t]
      )
     "--"
-    ["View GAMS manuals" gams-view-document t]
-    ["Search in GAMS manuals" (gams-view-document t)]
+    ("Manuals"
+     ["View GAMS manuals" gams-view-document t]
+     ["Search command in GAMS manuals" (gams-view-document t)]
+     )
+    "--"
     ["Extract models from Model library" gams-model-library t]
     "--"
     ["Customize GAMS mode for Emacs" (customize-group 'gams) t]
@@ -3890,16 +3893,16 @@ Possible values include: `browse-url', `browse-url-generic',
   :group 'gams-mode)
 
 (defvar gams-view-doc-input-history nil
-  "History of searched words of gams-view-doc.")
+  "History of searched commands of gams-view-doc.")
 
 (defun gams-view-doc-read-string (prompt &optional init history default inherit)
   (read-string
    (if default
-       (concat prompt " (default " default "): ")
+       (concat prompt " (default = " default "): ")
      (concat prompt ": "))
    init history default inherit))
 
-(defun gams-view-doc-get-word ()
+(defun gams-view-doc-get-command ()
   (let* ((sym (symbol-at-point))
          default)
     (when sym
@@ -3911,20 +3914,24 @@ Possible values include: `browse-url', `browse-url-generic',
      "What do you want to search in manual?"
      nil 'gams-view-doc-input-history default t)))
 
-(defun gams-view-doc-search-word (word &optional search-url)
+(defun gams-view-doc-search-command (command &optional search-url)
   (let* ((browse-result
           (funcall gams-browse-url-function
                    (format (concat (or search-url gams-docs-url)
                                    "keyword.html?q=%s")
-                           (url-hexify-string word)))))
+                           (url-hexify-string command)))))
     browse-result))
 
-(defun gams-view-document (&optional word)
+(defun gams-view-document (&optional command)
   "This command opens GAMS Documentation Center through a web browser.
-You can choose online documents or offline documents.  If you
-attach the universal argument \\[universal-argument], then you
-can search a word in the documentation center (this word search
-function is available only in the online manual).
+
+The current GAMS system offers manuals in html format (GAMS
+Documentation Center). This command enables you to open manuals
+from GAMS mode.  You can choose online documents or offline
+documents.  If you attach the universal argument
+\\[universal-argument]C-xC-m, then you can search a command under
+the cursor in the documentation center (this command search function
+is available only in the online manual).
 
 The directory of the local GAMS documents is determined by the
 variable `gams-docs-directory'.  By default,
@@ -3939,13 +3946,13 @@ variable `gams-docs-directory'.  By default,
              fl-docs-dir
              ) ;; let* ends.
         (setq fl-docs-dir (or (file-exists-p docs-dir) nil))
-        (when word
-          (setq word (gams-view-doc-get-word)))
-        (message "Press ENTER key (or `o') if you use online manual. Press other keys for offline manual.")
+        (when command
+          (setq command (gams-view-doc-get-command)))
+        (message "Press SPACE key if you use online manual. Press other keys for offline manual.")
         (setq key (read-char))
-        (if (or (equal key ?o) (equal key 13))
-            (if word
-                (gams-view-doc-search-word word nil)
+        (if (equal key 32)
+            (if command
+                (gams-view-doc-search-command command nil)
               (funcall 'browse-url gams-docs-url))
           (funcall 'browse-url
                    (browse-url-file-url (concat docs-dir "index.html"))))
