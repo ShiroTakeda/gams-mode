@@ -11301,7 +11301,7 @@ DEFP: non-nil if the declaration place exists."
     (goto-char cpo)
     (if defp
         (message
-         (concat (format "The declaration place of `%s': " name)
+         (concat (format "The decl. place of `%s': " name)
                  gams-sid-mess-1))
       (message
        (concat (format "The first place of `%s': " name)
