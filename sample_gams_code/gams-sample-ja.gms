@@ -1,6 +1,5 @@
 $title GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
 $ontext
-Time-stamp:     <2021-02-23 22:29:03 st>
 Filename:       "gams-sample-ja.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
@@ -12,27 +11,27 @@ $ontext
 以下のコードは、LST ファイルの名前と場所を指定するためのものです。指定を有効にす
 るには、先頭の「**」のうちの一つを除去してください。
 $offtext
-** gams-lst-file: .\lst\lst-sample.lst
-*       この指定では LST ファイルは→のようになります -> .\lst\sample.lst:
+** gams-lst-file: ./lst/lst-sample.lst
+*       この指定では LST ファイルは→のようになります -> ./lst/sample.lst:
 
-** gams-lst-file: c:\sample.lst
-*       この指定では LST ファイルは→のようになります -> c:\sample.lst:
+** gams-lst-file: g:/sample.lst
+*       この指定では LST ファイルは→のようになります -> g:/sample.lst:
 
-** gams-lst-dir: .\lst\
-*       この指定では LST ファイルは→のようになります -> .\lst\gams-sample.lst
+** gams-lst-dir: ./lst/
+*       この指定では LST ファイルは→のようになります -> ./lst/gams-sample.lst
 
-** gams-lst-dir: c:\
-*       この指定では LST ファイルは→のようになります -> c:\gams-sample.lst
+* gams-lst-dir: g:/
+*       この指定では LST ファイルは→のようになります -> g:/gams-sample.lst
 
 $ontext
 解説：
 
-  * gams.el version 6.2 用の説明．
+  * gams.el version 6.7 用の説明．
 
   * Emacs (or Meadow) の操作の基本的なことについては，Emacs のメニューのヘルプ→
     Emacs tutorial を読んでください．
 
-  * 「バッファ」，「ミニバッファ」，「ウィンドウ」等の Emacs の用語についても
+  * 「バッファ」，「エコーエリア」，「ウィンドウ」等の Emacs の用語についても
     tutorialを参照してください．
 
   * "C-cC-v"のような表記は通常の Emacs の説明と同じような意味を表します．例えば，
@@ -75,7 +74,7 @@ $ontext
         ----------------------------------------------------------------------
 
 まず，このファイルに対して GAMS を実行してみます．`C-cC-t'とタイプしてください．
-ミニバッファーに次のようなメッセージがでるはずです．
+エコーエリア（ミニバッファー）に次のようなメッセージがでるはずです．
 
 
     Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
@@ -90,13 +89,13 @@ $ontext
   + .init.el 内で shell (bash や cmdproxy) を適切に設定していますか？
 
   + 変数 `gams-process-command-name' が適切に設定されていますか？ GAMS のシステ
-  ムフォルダにパスを通していないのなら，変数 `gams-process-command-name' に
-  gams.exe へのフルパスを指定しないといけないです．
+    ムフォルダにパスを通していないのなら，変数 `gams-process-command-name' に
+    gams.exe へのフルパスを指定しないといけないです．
 
 GAMSのプロセスが終了したら，`C-cC-v' か [F10] を押してください．これで LSTファイ
 ルに移動します．
 
-LSTファイルを開いたら，"No error message is found" というメッセージがミニバッファー
+LSTファイルを開いたら，"No error message is found" というメッセージがエコーエリア
 に出るはずです．これはこの gms ファイルがエラーがなく上手く実行されたということ
 を意味します．
 
@@ -108,40 +107,26 @@ LSTファイルを開いたら，"No error message is found" というメッセ�
 $offtext
 *               この行のコメントをとってください．エラーの位置．
 $ontext
-実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，ウィンドウが
-二つに分割され，ミニバッファーに次のようなメッセージが表示されます．
+実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，エコーエリアに次のようなメッセージが表示されます．
 
     Key: [u]=Jump to the error place, [i]=Jump to the main input file.
 
-上のウィンドウはエラーの行，下のウィンドウはエラーの内容を表示します．
-
-上のウィンドウは次のような表示になっているはずです．
+さらに、LST ファイルのウィンドウに次のように表示されるはずです．
 
 
-              次に，以下にある * で始まる行の * を消去して，GAMS を実行してください
-              (`C-cC-t' を押し， `s' を押す)．
+     108                 この行のコメントをとってください．エラーの位置．
+    ****                 $409
+    **** 409  Unrecognizable item - skip to find a new statement
+    ****        looking for a ';' or a key word to get started again
+          実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，ウィンドウが
+          二つに分割され，エコーエリアに次のようなメッセージが表示されます．
 
-         114               この行のコメントをとってください．エラーの位置．
-         ***               $409
-         *** LINE     86 INPUT       c:\WorkDir\gams\gams-sample-ja.gms
-              実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，ウィンドウ
-              が二つに分割され，ミニバッファーに次のようなメッセージが表示されます．
+GAMS でエラーが生じているときには、「最初のエラー」に注目します．この例の場合は
+「$409」のエラーになります。これは「Unrecognizable item」というエラーです（この
+行．．．という文が GAMS には命令として認識できないというエラー）。
 
-
-これは，ごく普通の構文エラー (syntax error) です．エラーの位置とエラー番号(140)
-を示しています．
-
-同時に下側のウィンドウはエラーの内容 (エラー番号 140 の意味) を表示します．この
-ケースは，"Unknown symbol" というエラーだということがわかります．
-
-
-        409  Unrecognizable item - skip to find a new statement
-                looking for a ';' or a key word to get started again
-
-        **** 1 ERROR(S)   0 WARNING(S)
-        GAMS 24.5.6  r55090 Released Nov 27, 2015 WEX-WEI x86 64bit/MS Windows                                   07/13/17 20:42:00 Page 28
-        GAMS mode for Emacsの使い方を説明するためのサンプルプログラム
-        Include File Summary
+エラー箇所にエラー番号が表示され、さらにその下にエラーの意味が表示されます。また、
+エラーの箇所の行番号も表示されます。このエラーでは「108」というのが行番号です。
 
 
 LSTファイル内で `y' をタイプすると，最初のエラーの位置にジャンプします．
@@ -161,9 +146,10 @@ LSTファイル内で `y' をタイプすると，最初のエラーの位置に
 
 (*) `u' と `i' (or `b') の違い．
 
-もしエラーが存在していたら，次のようなメッセージがミニバッファーに表示されます．
+もしエラーが存在していたら，次のようなメッセージがエコーエリアに表示されます．
 
-    Key: `u' = Jump to the error place, `i' = Jump to the input file.
+
+    Key: [u]=Jump to the error place, [i]=Jump to the main input file.
 
 
 `u' ではエラーの位置にジャンプします． `i' ではインプットファイル (トップレベル
@@ -178,14 +164,14 @@ LSTファイル内で `y' をタイプすると，最初のエラーの位置に
 ら取得されます．
 
 
-Syntax エラー以外のエラー (例えば、execution) の場合には，エラー行しか表示されな
-いかもしれません．例えば，以下にある "* b = 1/a;" という行の先頭の * を除去して，
-GAMS を実行して、LST ファイルに移動してください。
+Syntax エラー以外のエラー (例えば、execution error) の場合には，エラー行しか表示
+されないかもしれません．例えば，以下にある "* b = 1/a;" という行の先頭の * を除
+去して，GAMS を実行して、LST ファイルに移動してください。
 $offtext
 parameter a       Parameter a
           b       Parameter b;
 a = 0;
-* b = 1/a;
+* b = 1/a;      # * を消してみてください．
 parameter c, d, e;
 
 $ontext
@@ -193,10 +179,10 @@ $ontext
 次の行で `l' をタイプしてください．
 
 
- *** Exec Error at line 197: division by zero (0)
+**** Exec Error at line 174: division by zero (0)
 
 
-すると，エラー行 (197) にジャンプします．さらに，そこで `b' をタイプすれば，GMS
+すると，エラー行 (174) にジャンプします．さらに，そこで `b' をタイプすれば，GMS
 ファイル内のエラーの位置にジャンプします．
 
 $offtext
@@ -221,7 +207,7 @@ $ontext
     Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
 
 
-ここで `s' を押すと，次のようなメッセージがミニバッファーに表示されます．
+ここで `s' を押すと，次のようなメッセージがエコーエリアに表示されます．
 
 
     Edit command if you want:  gams gams-sample.gms ll=0 lo=3 pw=100
@@ -258,13 +244,13 @@ GMS ファイルの最初の行に *#! で始まる表現があった場合，GA
 例えば，一番最初の行に次のように書いてください．
 
 
-        *#!c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+        *#!c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=./gams-sample-alt.lst
 
 
 すると，C-cC-s で
 
 
-c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.gams-sample-alt.lst
 
 
 が，そのままコマンドラインとして実行されます．これはシェルスクリプトにおける
@@ -348,28 +334,28 @@ GMS ファイルに GAMS を実行すると，GAMS ファイルと同じ名前 (
 例えば，LST ファイルの名前を lst-sample.lst とし，さらにそれを doc というサブフォ
 ルダに出力したいとします．その場合，GMS ファイルに次のような行を加えておきます．
 
-        * gams-lst-file: .\doc\lst-sample-2.lst
+        * gams-lst-file: ./doc/lst-sample-2.lst
 
 
 (* は本当は行頭になくてはなりません)
 
 このコードは次の二つの意味を持ちます．
 
-1) GAMS が 'o=.\doc\lst-sample.lst' というオプション付きで実行される．
+1) GAMS が 'o=./doc/lst-sample.lst' というオプション付きで実行される．
 
-2) この GMS ファイルから C-cC-v (or F10) キーで .\doc\lst-sample.lst に移動
+2) この GMS ファイルから C-cC-v (or F10) キーで ./doc/lst-sample.lst に移動
    できます．
 
-この機能を試しに利用してみたいときには，この GMS ファイルの 3 行目の行頭の`**'
-を `*' に変更してください．
+この機能を試しに利用してみたいときには，この GMS ファイルの始めのところにある
+「** gams-lst-file:...」という行の行頭を「*」に変更してみてください。
 
 同様に，`gams-lst-dir' を使えばLSTファイルを出力する「フォルダ」を指定できます．
 
 例えば
 
-        * gams-lst-dir: .\lst
+        * gams-lst-dir: ./lst
 
-というコードを加えると gams-sample.lst は ".\lst\" というフォルダに出力されるこ
+というコードを加えると gams-sample.lst は "./lst/" というフォルダに出力されるこ
 とになります．
 
 $offtext
@@ -378,7 +364,7 @@ $stitle         GAMS の命令の補完入力．
 * ----------------------------
 $ontext
 
-GAMS の命令を補完入力できます．`C-cC-k' とタイプしてください．すると，ミニバッファー
+GAMS の命令を補完入力できます．`C-cC-k' とタイプしてください．すると，エコーエリア
 に次のようなメッセージが表示されます．
 
 
@@ -386,7 +372,7 @@ GAMS の命令を補完入力できます．`C-cC-k' とタイプしてくださ
 
 ここで，space か tab キーを押すと，補完入力の候補が表示されます．ここでENTER を
 押すとデフォールト値である set がそのまま入力されます．あるいは `v'を押して
-space を押すと `VARIABLE' が自動的にミニバッファーに入力 (補完) されます．
+space を押すと `VARIABLE' が自動的にエコーエリアに入力 (補完) されます．
 
 同様に，dollar control option も補完入力できます．この場合は， `C-cC-d' をタイプ
 してください．
@@ -420,7 +406,7 @@ $ontext
 ここで enter を押すと，次のように聞かれます．
 
 
-    Store `gdxin' for future use?  Type `y' if yes: 
+    Store `gdxin' for future use?  Type `y' if yes:
 
 
 `y' を押せば dollar control `$gdxin' を登録することができます．登録されれば，補
@@ -612,7 +598,7 @@ $ontext
 
 $offtext
 * ---------------------------------------------
-$stitle         identifier の宣言部分の表示
+$stitle         identifier の宣言場所の表示
 * ---------------------------------------------
 $ontext
 
@@ -638,9 +624,9 @@ $ontext
 例えば、`a' の上で F7 をタイプすると、上に `a' の宣言部分、左にはファイルの構造
 が表示されます．
 
-ミニバッファーに次のような表示が現れます。
+エコーエリアに次のような表示が現れます。
 
-The declaration part of `a': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
+The decl. place of `a': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
 
 ここで n (or p) をタイプすると次に (一個前に) a が現れる位置にジャンプします。d
 をタイプすると宣言部分に移動します。また、c をタイプすると元々の位置に移動します。
@@ -677,8 +663,26 @@ $stitle         identifier のリストの表示
 $ontext
 
 `gams-show-identifier-list' (binded to `C-cC-a' by default) を使えば、現在のファ
-イル内で定義されている identifier のリストを表示します。使い方は、 C-cC-a のあと
-? をタイプしてください。
+イル内で定義されている identifier（sets, parameters, variables and so on）のリス
+トを表示します。使い方は、 C-cC-a のあと? をタイプしてください。
+
+この `gams-show-identifier-list' (C-cC-a) ではサブルーチンファイルで定義されてい
+る identifier も表示されます．ただし、以下のような表現を使っている場合には、GAMS
+mode は %sub_program% の実際の値がわからないので、サブルーチンファイル内を読むこ
+とができません。
+
+    $include %sub_program%
+
+このような場合には、$include ファイル命令の前に以下のような命令を書くことで
+「./include/include-sample.gms」というサブルーチンファイルを読むことが可能になり
+ます。
+
+    * gams-include-file: ./include/include-sample.gms
+    $include %sub_program%
+
+%sub_program% の中身は $set（あるいは、$setglobal）命令によって変わりますが、と
+りあえずデフォールトで読み込んで欲しいファイルを、この gams-include-file で指定
+しおくと良いです。
 
 $offtext
 * -----------------------------------
@@ -827,10 +831,31 @@ $stitle         マニュアルの呼出し．
 * -------------
 $ontext
 
-GAMSIDE では HELP -> DOC から GAMS のマニュアル (PDFファイル) を見ることができま
-す．GAMS mode でも `C-cC-m' によって同じことができます．このコマンドを利用するに
-は変数 `gams-docs-directory', `gams-docs-view-program' が適切に設定されている必
-要があります．
+GAMS Studio (あるいは、GAMSIDE) では HELP から GAMS のマニュアルを見ることができ
+ます．GAMS mode でも `gams-view-document (C-cC-m) によって同じことができます．
+
+GAMS modeのバッファーで `C-cC-m' を押してみてください。次のようなメッセージがエ
+コーエリアに表示されます。
+
+    Press ENTER key if you use online manual. Press other keys for offline manual.
+
+ここで「エンターキー」を押すと、デフォールトのブラウザが GAMS のオンラインマニュ
+アル（GAMS Documentation Center）を表示します。他のキーを押すと、ローカルのマニュ
+アルを表示します。
+
+さらに、マニュアルで命令を検索できます。例えば、以下のコードの `uniform' という
+命令の上で `C-uC-cC-m' と押してください。すると、GAMS のオンラインマニュアルで
+`uniform' という命令を検索した結果が表示されます（命令を直接検索する機能はオンラ
+インのマニュアルでのみ使えまず）。
+
+$offtext
+loop((i,j),
+    parb(i,j) = uniform(0,1); # `uniform' 命令の上で C-uC-cC-m を押してください。
+);
+$ontext
+
+このコマンドを利用するには変数 `gams-docs-directory', `gams-docs-view-program'
+が適切に設定されている必要があります．
 
 $offtext
 * ----------------------
@@ -838,9 +863,12 @@ $stitle         GAMS モデルライブラリ．
 * ----------------------
 $ontext
 
-`gams-modlib' (C-cC-z) のよって GAMS モデルライブラリを見ることができます．この
-コマンドを利用するには `gams-system-directory' に適切な値が設定されている必要が
-あります．
+`gams-model-library' (C-cC-z) のよって GAMS モデルライブラリを見ることができます．
+このコマンドを利用するには `gams-system-directory' に適切な値が設定されている必
+要があります．
+
+この機能は古いバージョンの GAMS 上では使えません（モデルライブラリのフォルダ構造
+などが変わってしまったため）。
 
 $offtext
 * --------------------------------
