@@ -11,6 +11,9 @@ Change logs of GAMS mode.
 Version 6.7
 ----------------------------------
 
+* Updated the function for using outline representation like Org mode. See
+  `orglike-headline.gms` file in sample_gams_code folder for details.
+
 * Modified `gams-view-document` function (C-cC-m). The current GAMS
   system offers manuals in html format (GAMS Documentation Center). The
   new version of GAMS mode enables you to open documents from GAMS mode.

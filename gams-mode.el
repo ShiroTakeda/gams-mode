@@ -2541,11 +2541,11 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map [f7] 'gams-show-identifier)
       (define-key map "\C-c\C-a" 'gams-show-identifier-list)
       (define-key map [f12] 'gams-show-identifier-list)
-      (define-key map [S-tab] 'org-global-cycle)
+      (define-key map [S-tab] 'gams-orglike-global-cycle)
       (define-key map (kbd "C-c C-: n") 'outline-next-visible-heading)
       (define-key map (kbd "C-c C-: p") 'outline-previous-visible-heading)
-      (define-key map (kbd "C-c C-: f") 'gams-org-fold-current-tree)
-      (define-key map (kbd "C-c C-: k") 'show-branches)
+      (define-key map (kbd "C-c C-: f") 'outline-hide-leaves)
+      (define-key map (kbd "C-c C-: k") 'outline-show-branches)
       (define-key map gams-choose-font-lock-level-key
         'gams-choose-font-lock-level)
       (define-key map "\M-;" 'gams-comment-dwim)
@@ -2768,12 +2768,8 @@ The following commands are available in the GAMS mode:
 
   (mapc
    'make-local-variable
-   '(outline-regexp
-     org-outline-regexp-bol
-     org-outline-regexp))
-  (setq outline-regexp gams-outline-regexp
-        org-outline-regexp-bol outline-regexp
-        org-outline-regexp outline-regexp)
+   '(outline-regexp))
+  (setq outline-regexp gams-outline-regexp)
 
   ;; Setting for font-lock.
   (make-local-variable 'font-lock-defaults)
@@ -2807,16 +2803,95 @@ The following commands are available in the GAMS mode:
               'gams-mode))
 (autoload 'gams-mode "gams" "Enter GAMS mode" t)
 
-(defun gams-org-fold-current-tree ()
-  "Fold the current tree."
+(defun gams-unlogged-message (&rest args)
+  "Display a message, but avoid logging it in the *Messages* buffer."
+  (let ((message-log-max nil))
+    (apply #'message args)))
+
+;;; From `org-content' in org.el (version 9.1.9)
+(defun gams-orglike-content ()
+  "Show all headlines in the buffer, like a table of contents."
   (interactive)
-  (let ((reg gams-outline-regexp))
-    (if (fboundp 'org-cycle-internal-local)
-        (when (re-search-backward reg nil t)
-          (beginning-of-line)
-          (org-cycle-internal-local)
-          (message "Folded the current tree."))
-      (message "`org-cycle-internal-local' is not defined."))))
+  (gams-orglike-overview)
+  (save-excursion
+    ;; Visit all headings and show their offspring
+    (goto-char (point-max))
+    (catch 'exit
+      (while (and (progn (condition-case nil
+			     (outline-previous-visible-heading 1)
+			   (error (goto-char (point-min))))
+			 t)
+		  (looking-at outline-regexp))
+	(outline-show-branches)
+	(when (bobp) (throw 'exit nil))))))
+
+;;; From `org-overview' in org.el (version 9.1.9)
+(defun gams-orglike-overview ()
+  "Switch to overview mode, showing only top-level headlines.
+This shows all headlines with a level equal or greater than the level
+of the first headline in the buffer.  This is important, because if the
+first headline is not level one, then (hide-sublevels 1) gives confusing
+results."
+  (interactive)
+  (save-excursion
+    (let ((level
+	   (save-excursion
+	     (goto-char (point-min))
+	     (when (re-search-forward (concat "^" outline-regexp) nil t)
+	       (goto-char (match-beginning 0))
+	       (funcall outline-level)))))
+      (and level (outline-hide-sublevels level)))))
+
+(defvar-local gams-orglike-cycle-status nil)
+
+(defun gams-orglike-cycle ()
+  "Do the cycling action."
+  (interactive)
+  (cond
+   ((eq gams-orglike-cycle-status 'hide-subtree)
+    (outline-show-branches)
+    (gams-unlogged-message "Show brances.")
+    (setq gams-orglike-cycle-status 'show-branches))
+   ((eq gams-orglike-cycle-status 'show-branches)
+    (outline-show-subtree)
+    (gams-unlogged-message "Show all.")
+    (setq gams-orglike-cycle-status 'show-all))
+   ((or (not gams-orglike-cycle-status)
+        (eq gams-orglike-cycle-status 'show-all))
+     ;; We just showed the table of contents - now show everything
+    (outline-hide-subtree)
+    (gams-unlogged-message "Hide subtree.")
+    (setq gams-orglike-cycle-status 'hide-subtree))
+   ))
+
+(defvar-local gams-orglike-cycle-global-status nil)
+
+;;; From `org-cycle-internal-global' in org.el (version 9.1.9)
+(defun gams-orglike-global-cycle ()
+  "Do the global cycling action."
+  ;; Hack to avoid display of messages for .org  attachments in Gnus
+  (interactive)
+  (cond
+   ((and (eq last-command this-command)
+	 (eq gams-orglike-cycle-global-status 'overview))
+    ;; We just created the overview - now do table of contents
+    ;; This can be slow in very large buffers, so indicate action
+    (gams-unlogged-message "CONTENTS...")
+    (gams-orglike-content)
+    (gams-unlogged-message "CONTENTS...done")
+    (setq gams-orglike-cycle-global-status 'contents))
+   ((and (eq last-command this-command)
+	 (eq gams-orglike-cycle-global-status 'contents))
+     ;; We just showed the table of contents - now show everything
+    (outline-show-all)
+    (gams-unlogged-message "SHOW ALL")
+    (setq gams-orglike-cycle-global-status 'all))
+   (t
+    ;; Default action: go to overview
+    (gams-orglike-overview)
+    (gams-unlogged-message "OVERVIEW")
+    (setq gams-orglike-cycle-global-status 'overview))
+   ))
 
 (defsubst gams-list-to-alist (list)
   "Trasform a LIST to an ALIST."
@@ -16992,8 +17067,7 @@ is provided by COLUMN."
           (looking-at outline-regexp))
         (progn
           (gams-indent-function nil)
-          (when (fboundp 'org-cycle)
-            (org-cycle)))
+          (gams-orglike-cycle))
       (beginning-of-line)
       (gams-indent-function nil))))
 
