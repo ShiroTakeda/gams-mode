@@ -13,8 +13,8 @@ This folder (directory) includes sample files for learning how to use GAMS mode.
 | `gams-sample-ja.gms`                       | A sample file to show how to use GAMS mode for Emacs (in Japanese).     |
 | `outline-sample.gms`                       | A sample file to show how to use GAMS-OUTLINE mode.                     |
 | `outline-sample-ja.gms`                    | A sample file to show how to use GAMS-OUTLINE mode (in Japanese).       |
-| `org-minor-mode.gms`                       | A sample file to show how to use org-mdoe in GAMS-mode.                 |
-| `org-minor-mode-alt.gms`                   | A sample file to show how to use org-mdoe in GAMS-mode.                 |
+| `orglike-headline.gms`                     | A sample file to show how to use org-mdoe in GAMS-mode.                 |
+| `orglike-headline-alt.gms`                 | A sample file to show how to use org-mdoe in GAMS-mode.                 |
 
 
 <!--

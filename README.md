@@ -78,7 +78,7 @@ This is the major mode for editing GAMS program file.
 1. Inserting GAMS statements and dollar control options.
 2. Automatic registering of new statements and dollar control options.
 3. Calling GAMS from Emacs
-4. Like GAMSIDE, it colors a program file in accordance with the GAMS syntax.
+4. Syntax hilighting.
 5. Handling templates of various programs (this is GAMS-TEMPLATE mode).
 6. Automatic indent.
 7. Viewing GAMS program structure (GAMS-SIL mode).
@@ -103,8 +103,8 @@ frequently use to the candidate for command inserting function of (1).
 (3) is the function to call GAMS directly from Emacs for executing the gms
 file.
 
-Like the GAMSIDE, (4) provides the colorization of GAMS program files
-accoring to GAMS syntax.
+Like GAMS Studio (or GAMSIDE), (4) provides the colorization of GAMS
+program files accoring to GAMS syntax.
 
 When editing GAMS program files, you may often use similar patterns
 frequently.  In that case, you may copy and paste the program repeatedly.
@@ -176,17 +176,12 @@ important elements (PARAMETER, VAR, EQU etc.) in LST files.
 You can see where the particular PARAMETER or VAR are and can see the
 content of them.  You can also compare the numerical values in a part of
 the file with that in another part.  You are able to know what this
-function is like by looking at the screenshots placed at
-<http://shirotakeda.org/en/gams/gams-mode/gams-ss.html>.
+function is like by looking at the screenshots placed at [screenshots
+page](https://www.flickr.com/search/?sort=date-taken-desc&safe_search=1&tags=gamsmode&user_id=144666886%40N07&view_all=1).
+
 
 These are the simple explanation of this program.  Of course, there are a
 lot of other functions!
-
-This program has been tested under GNU Emacs of version 24.5 on MS Windows
-8 and not tested under other versions of Emacs and OS. But I received
-reports from persons who use other Emacs and OS that it works well in
-their environments.  So, this program probably works in other Emacs and
-OS.
 
 Bug reports, requests, and suggestions are all welcome!
 
@@ -204,24 +199,17 @@ See [screenshots page](https://www.flickr.com/search/?sort=date-taken-desc&safe_
 
 First, I explain the files distributed in the package.
 
-| Filename                  | Explanation                                                           |
-|:--------------------------|:----------------------------------------------------------------------|
-| `README.md`               | This file.  First read this.                                          |
-| `CHANGELOG.md`            | Change log file.  If you want to know changes and newly added functions, please read it. |
-| `BUGS_PROBLEMS.md`        | Known bugs and problems                                               |
-| `gams-mode.el`            | The main lisp program.                                                |
-| `gams-setting-sample.el`  | A sample file for setting.                                            |
-| `gams-template.txt`       | A sample file of templates.                                           |
-| `sample_gams_code`        | The foder of sample gams files.                                       |
-| `gams-sample.gms`         | A sample file to show how to use GAMS mode for Emacs.                 |
-| `gams-sample-ja.gms`      | A sample file to show how to use GAMS mode for Emacs (in Japanese)    |
-| `outline-sample.gms`      | A sample file to show how to use GAMS-OUTLINE mode.                   |
-| `outline-sample-ja.gms`   | A sample file to show how to use GAMS-OUTLINE mode (in Japanese)      |
-| `org-minor-mode.gms`      | A sample file to show how to use org-mdoe in GAMS-mode                |
-| `org-minor-mode-alt.gms`  | A sample file to show how to use org-mdoe in GAMS-mode                |
-| `doc`                     | Document folder                                                       |
-| `refcard-gams.pdf`        | Referece card of keybindins.                                          |
-| `lxi`                     | Folder of files used to explain GAMS-LXI mode                         |
+| Filename                    | Explanation                                                                              |
+| :-------------------------- | :----------------------------------------------------------------------                  |
+| `README.md`                 | This file.  First read this.                                                             |
+| `CHANGELOG.md`              | Change log file.  If you want to know changes and newly added functions, please read it. |
+| `BUGS_PROBLEMS.md`          | Known bugs and problems                                                                  |
+| `gams-mode.el`              | The main lisp program.                                                                   |
+| `gams-setting-sample.el`    | A sample file for setting.                                                               |
+| `gams-template.txt`         | A sample file of templates.                                                              |
+| `sample_gams_code`          | The foder of sample gams files.                                                          |
+| `doc`                       | Document folder                                                                          |
+| `lxi`                       | Folder of files used to explain GAMS-LXI mode                                            |
  
 If you are well acquainted with Emacs, installation is very easy.  Here, I
 explain basic Emacs terminologies used below.  But if you are a novice
@@ -233,12 +221,11 @@ user of Emacs, I recommend you to read the web site such as
 
 This is Unix terminology rather than Emacs'. This represents a user's HOME
 directory. A user's HOME directory means the directory (folder) where his
-configuration files are placed. If you are MS Windows VISTA/7/8 user, the
-default HOME directory is set to "c:\Users\username\AppData\Roaming". If
-you want to know to which directory your home directory is set, evaluate
-(getenv "HOME") in the *scratch* buffer on Emacs.  You can set your HOME
-directory by the environemtal variable HOME. If you are MS Window
-VISTA/7/8 user, use control panel.
+configuration files are placed. If you are MS Windows, the default HOME
+directory is set to "c:\Users\username\AppData\Roaming". If you want to
+know to which directory your home directory is set, evaluate (getenv
+"HOME") in the *scratch* buffer on Emacs.  You can set your HOME directory
+by the environemtal variable HOME.
 
 
 `"~/.emacs.d/init.el"` or `"init.el"`
@@ -254,21 +241,6 @@ has created it for you).
 In Emacs terminology, non-nil means anything other than nil, and values
 such as 0, "a", or t all mean non-nil.  But we usually use symbol t as
 non-nil.  So, when I say "set non-nil to x", set t to x (i.e. (setq x t)).
-
-------------------------------------------------------------
-
-## Setting for shell
-
-If you would like to call GAMS (gams.exe) from Emacs, it is necessary that
-you have installed the shell.  If you are Emacs user on Windows, the
-default shell will be "cmdproxy.exe". Try to type F1 and v and
-shell-file-name RET. Then the default shell will be displayed.
-
-If you are not MS Windows user, you have to use other shell.  If you use,
-for example, bash(.exe), add the following in "~/.emacs.d/init.el"
-
-    (setq shell-file-name "bash")
-    
 
 ------------------------------------------------------------
 
@@ -291,7 +263,7 @@ you want to use a developing version, use GAMS mode in melpa.
                  
 Note that it installs only gams-mode.el file and does not install sample
 files and explanatory files.  So to use GAMS mode, you had better read
-GAMS mode web site first.  <http://shirotakeda.org/en/gams/gams-mode/>
+GAMS mode web site first.  <https://github.com/ShiroTakeda/gams-mode/>
 
 If the GAMS system folder is not included in PATH environemtal variable,
 you need to set GAMS system folder to PATH or you need to set the full
@@ -309,20 +281,11 @@ If you want to color an Emacs buffer, add the followings, too.
 
     (require 'font-lock)
     (global-font-lock-mode t)
-    (setq font-lock-support-mode
-           '((gams-mode . nil)
-         (t . jit-lock-mode)))
-
-This make the colorization function of Emacs on and GAMS mode buffer will
-be colored. The third line is required because `jit-lock-mode` often
-causes troubles in GAMS mode.
 
 Basically, this is all you must set.  With these settings, when you open a
 file with extension "gms" ("lst"), GAMS mode (GAMS-LST mode) will
 automatically start.  Byte-compiling gams-mode.el may raise the speed of
 GAMS mode (but you need not necessarily do it).
-
-For Emacs 23 user, please read BUGS_PROBLEMS.txt file, too.
 
 There is a sample setting file ("gams-setting-sample.el") distributed with
 this file.  Please read it, too.
@@ -460,7 +423,7 @@ You can change the value of these variables by adding in your
     (setq gams-statement-upcase nil)
 
 Or you can use `customize` built in Emacs.  Try M-x
-customize-apropos-groups [RET] gams [RET.]
+customize-apropos-groups [ENTER] gams [ENTER.]
 
 Please read the sample file "gams-setting-sample.el", too.
 
@@ -526,12 +489,7 @@ insertion. NB: You cannot include double quoatations and backslashes in
 this variables!"
 
 
-`gams-docs-view-program` ["c:/Program Files/Adobe/Acrobat 5.0/Reader/AcroRd32.exe"]
-
-"The full path to the pdf file viewer."
-    
-
-`gams-system-directory` ["c:/GAMS20.0/"]
+`gams-system-directory` ["c:/GAMS/win64/24.7/"]
 
 "The GAMS system directory."
 
@@ -581,8 +539,8 @@ often crashes, you may had better set it to non-nil."
 There are also other customizable variables, mainly keybindings and fonts.
 You can see a full list of customizable variables by executing:
 
-    M-x customize-apropos-groups [RET]
-    gams [RET]
+    M-x customize-groups [ENTER]
+    gams [ENTER]
 
     
 ------------------------------------------------------------
