@@ -1,7 +1,7 @@
 $title  GAMS-OUTLINE mode の説明のためのプログラム．
 display "@ GAMS-OUTLINE mode の説明のためのプログラム．";
 $ontext
-Time-stamp:     <2021-02-23 22:29:21 st>
+Time-stamp:     <2021-02-26 17:02:20 st>
 Filename:       outline-sample.gms
 Author:         Shiro Takeda
 First-written:  <2001/10/26>
@@ -154,6 +154,8 @@ display "";
 display "組み合わせを登録したら `T' (gams-ol-item) をタイプすることで選択することができます．";
 display "";
 
+display "@@ 集合とパラメータ";
+
 * The model presented in this example is the core-periphery model of Chap 5 in
 * Fujita, Krugman, and Venables (1999) "Spatial Economy", MIT press.
 set     itr     Times of iteration (lambda)             /iter1*iter11/
@@ -174,6 +176,8 @@ parameters
     vt      Value of transport cost,
     lam     The share of workers in region one;
 
+display "@@ 変数と式";
+
 *       Declare endogenous variables.
 variables
     wone    Nominal wage of region one,
@@ -189,6 +193,8 @@ equations
     rweqone         Real wage equation for omega one,
     rweqtwo         Real wage equation for omega two,
     eqratio         eq for RATIO;
+
+display "@@ 式の定義";
 
 *       Equation definitions:
 weqone ..
@@ -219,9 +225,13 @@ rweqtwo ..
 
 eqratio .. ratio =e= omeone / ometwo;
 
+display "@@ モデル";
+
 *       Declare model.
 model   fkv     Core and periphery model
         / weqone, weqtwo, rweqone, rweqtwo, eqratio /;
+
+display "@@ モデルを解く";
 
 *       ----------------------------------------------------------------------
 *       Insert numerical values in parameters.
@@ -247,7 +257,7 @@ parameters
 
 *       ----------------------------------------------------------------------
 *       Loop.
-display "@ Loop の始まり";
+display "@@@ Loop の始まり";
 
 loop(tc,
     count2 = (ord(tc) - 1)/(card(tc) - 1);
@@ -296,7 +306,7 @@ loop(tc,
     );
 );
 
-display "ループの結果", log;
+display "@@@ ループの結果", log;
 * $libinclude plot log
 
 *       ----------------------------------------------------------------------
@@ -307,6 +317,8 @@ display "";
 display "@ 例 4: ベクトル変数";
 display "";
 display "";
+
+display "@@ パラメータ";
 
 *       Model M2-1s: Closed 2x2 Tax-Ridden Economy --  Vector Syntax
 table bmflow(*,*)  Benchmark flows (in value terms)
@@ -343,6 +355,8 @@ txf("l",i)      =  -bmflow("tax",i) / fdbar("l",i);
 pbar(f,i)       = 1 + txf(f,i);
 txo(i)          = 0;
 
+display "@@ モデル";
+
 $ontext
 
 $model:m2_1
@@ -374,6 +388,8 @@ $demand:cons
 $offtext
 $sysinclude mpsgeset m2_1
 
+display "@@ ベンチマーク・レプリケーション";
+
 m2_1.iterlim = 0;
 $include M2_1.GEN
 solve m2_1 using mcp;
@@ -381,7 +397,7 @@ m2_1.iterlim = 2000;
 
 *       ----------------------------------------------------------------------
 *       賦存量の増加
-display "@ 賦存量の増加";
+display "@@ 賦存量の増加";
 
 set     sce     / sce1*sce10 /;
 parameter
@@ -398,7 +414,7 @@ $include M2_1.GEN
 );
 display utility;
 
-display "@ おしまい．";
+display "@ プログラム終了．";
 
 * --------------------
 * Local Variables:

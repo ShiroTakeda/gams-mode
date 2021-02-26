@@ -1,10 +1,9 @@
 $title A sample program for GAMS-OUTLINE mode.
 display "@ A sample program for GAMS-OUTLINE mode.";
 $ontext
-Time-stamp:	<2018-03-26 16:32:25 st>
-Filename:	outline-sample.gms
-Author:		Shiro Takeda
-First-written:	<2001/10/26>
+Filename:       outline-sample.gms
+Author:         Shiro Takeda
+First-written:  <2001/10/26>
 
 [Note]:
 
@@ -27,8 +26,8 @@ display "";
 display "@ Basic explanation and usage.";
 display "";
 
-*	----------------------------------------------------------------------
-*	Types of viewable items.
+*       ----------------------------------------------------------------------
+*       Types of viewable items.
 display "Types of displayed items:";
 display "";
 display "Strings are labelled as OTH (other).";
@@ -43,66 +42,66 @@ display "A special comment line is enclosed with [ and ].";
 display "";
 display "Basic keybindings:";
 display "";
-display "SPACE	= Show the content of the item on the current line.";
-display "N	= Show the content of the next item.";
-display "P	= Show the content of the previous item.";
-display "t	= Select viewable items.";
-display "T	= Select registered item combination.";
+display "SPACE  = Show the content of the item on the current line.";
+display "N      = Show the content of the next item.";
+display "P      = Show the content of the previous item.";
+display "t      = Select viewable items.";
+display "T      = Select registered item combination.";
 display "";
-display "m	= Mark an item.";
-display "u	= Unmark an item.";
-display "y	= Jump to the marked item.";
+display "m      = Mark an item.";
+display "u      = Unmark an item.";
+display "y      = Jump to the marked item.";
 display "";
-display "i	= Switch back to the LST buffer.";
-display ";	= Switch back to the GMS buffer.";
-display "?	= Show the help.";
-display "q	= Quit GAMS-OUTLINE mode.";
+display "i      = Switch back to the LST buffer.";
+display ";      = Switch back to the GMS buffer.";
+display "?      = Show the help.";
+display "q      = Quit GAMS-OUTLINE mode.";
 display "";
-display "c	= Toggle the follow mode.";
-display "x	= Toggle the display style.";
-display "l	= Widen the window with one line.";
-display "o	= Narrow the window with one line.";
-display "1	= Widen the window.";
-display "C-l	= Recenter.";
+display "c      = Toggle the follow mode.";
+display "x      = Toggle the display style.";
+display "l      = Widen the window with one line.";
+display "o      = Narrow the window with one line.";
+display "1      = Widen the window.";
+display "C-l    = Recenter.";
 display "";
-display "RET	= Scroll up.";
-display "DEL	= Scroll down.";
-display "n	= Next line.";
-display "p	= Previous line.";
-display ",	= Go to the beginning of the buffer.";
-display ".	= Go to the end of the buffer.";
+display "RET    = Scroll up.";
+display "DEL    = Scroll down.";
+display "n      = Next line.";
+display "p      = Previous line.";
+display ",      = Go to the beginning of the buffer.";
+display ".      = Go to the end of the buffer.";
 display "";
-display "w	= Resize frame.";
-display "e	= Move frame.";
+display "w      = Resize frame.";
+display "e      = Move frame.";
 display "";
 display "C-cC-f = Choose font-lock level.";
 display "";
-display "Try each command by yourself.	See the help for other keybindings.";
+display "Try each command by yourself.  See the help for other keybindings.";
 
-*	----------------------------------------------------------------------
-*	If you want to display a special comment line in a GAMS-OL mode buffer,
-*	use the statement display with "@" like this:
+*       ----------------------------------------------------------------------
+*       If you want to display a special comment line in a GAMS-OL mode buffer,
+*       use the statement display with "@" like this:
 display "";
 display "@ The line starting with @ like this line is a special comment line.";
 display ""
 display "To create a special comment line, use the display statement with @";
 display "See the sample gms file.";
 
-*	----------------------------------------------------------------------
-*	Example 1.
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
+*       Example 1.
+*       ----------------------------------------------------------------------
 display "";
 display "@ Example 1: A simple example.";
 display "";
 
 set
-    iter Iteration index		/ iter1*iter20 /
+    iter Iteration index                / iter1*iter20 /
 ;
 parameter
-    num		    Iteration number
-    a(iter)	    Parameter a
-    b(iter)	    Parameter b
-    c(iter,*)	    Parameter for a and b;
+    num             Iteration number
+    a(iter)         Parameter a
+    b(iter)         Parameter b
+    c(iter,*)       Parameter for a and b;
 a("iter1") = 0;
 
 loop(iter,
@@ -116,9 +115,9 @@ loop(iter,
 display "'PARAMTERS' in the LST file are displayed like:", a, b, c;
 display "";
 
-*	----------------------------------------------------------------------
-*	Example 2.
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
+*       Example 2.
+*       ----------------------------------------------------------------------
 display "";
 display "@ Example 2: Mark an item and view two items simultaneously.";
 display "";
@@ -136,9 +135,9 @@ display "";
 display here;
 display "";
 
-*	----------------------------------------------------------------------
-*	Example 3.
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
+*       Example 3.
+*       ----------------------------------------------------------------------
 display "";
 display "@ Example 3: Solve the core and periphery model.  Select viewable items.";
 display "";
@@ -155,11 +154,13 @@ display "If you have registered various viewable item combinations,";
 display "then you can select them by typing `T' (gams-ol-item)";
 display "";
 
+display "@@ Set and parameter declaration.";
+
 * The model presented in this example is the core-periphery model of Chap 5 in
 * Fujita, Krugman, and Venables (1999) "Spatial Economy", MIT press.
-set	itr	Times of iteration (lambda)		/ iter1*iter11 /
-	tc	Times of iteration (transport cost)	/ 1*5 /
-	allo	Vector of omegas			/ omone, omtwo, omratio /;
+set     itr     Times of iteration (lambda)             / iter1*iter11 /
+        tc      Times of iteration (transport cost)     / 1*5 /
+        allo    Vector of omegas                        / omone, omtwo, omratio /;
 
 parameters
     lowest  The lowest value of transport cost
@@ -167,15 +168,17 @@ parameters
 lowest = 1.3;
 highest = 2;
 
-*	Declare model parameters.
+*       Declare model parameters.
 parameters
-    mu	    Expenditure share on manufactured goods
-    sig	    Elasticity of subustitution
+    mu      Expenditure share on manufactured goods
+    sig     Elasticity of subustitution
     sigm    one minus sig
-    vt	    Value of transport cost
-    lam	    The share of workers in region one;
+    vt      Value of transport cost
+    lam     The share of workers in region one;
 
-*	Declare endogenous variables.
+display "@@ Variable and equation declaration.";
+
+*       Declare endogenous variables.
 variables
     wone    Nominal wage of region one
     wtwo    Nominal wage of region two
@@ -183,19 +186,21 @@ variables
     ometwo  Real wage of region two
     ratio   Ratio of real wage omeone devided by onetwo;
 
-*	Declare equations.
+*       Declare equations.
 equations
-    weqone	    Wage equation for wone
-    weqtwo	    Wage equation for wtwo
-    rweqone	    Real wage equation for omega one
-    rweqtwo	    Real wage equation for omega two
-    eqratio	    eq for RATIO;
+    weqone          Wage equation for wone
+    weqtwo          Wage equation for wtwo
+    rweqone         Real wage equation for omega one
+    rweqtwo         Real wage equation for omega two
+    eqratio         eq for RATIO;
 
-*	Equation definitions:
+display "@@ Equation definitions.";
+
+*       Equation definitions:
 weqone ..
 
     (wone**sig)
-    =e= (mu *	lam * wone + (1-mu) /2)
+    =e= (mu *   lam * wone + (1-mu) /2)
     / (lam * (wone**sigm) + (1-lam) * ((wtwo * vt)**sigm))
     + ((mu * (1-lam) * wtwo + (1-mu)/2) * (vt**sigm))
     /(lam * ((wone * vt)**sigm) + (1-lam) * (wtwo**sigm));
@@ -211,50 +216,54 @@ weqtwo ..
 rweqone ..
 
     omeone =e= wone * (lam * (wone**sigm)
-	+ (1-lam) * ((wtwo * vt)**sigm))**(-mu/sigm);
+        + (1-lam) * ((wtwo * vt)**sigm))**(-mu/sigm);
 
 rweqtwo ..
 
     ometwo =e= wtwo * (lam * ((wone * vt)**sigm)
-	+ (1-lam) * (wtwo**sigm))**(-mu/sigm);
+        + (1-lam) * (wtwo**sigm))**(-mu/sigm);
 
 eqratio .. ratio =e= omeone / ometwo;
 
-*	Declare model.
-model	fkv	Core and periphery model
-	/ weqone, weqtwo, rweqone, rweqtwo, eqratio /;
+display "@@ Model definitions.";
 
-*	----------------------------------------------------------------------
-*	Insert numerical values in parameters.
+*       Declare model.
+model   fkv     Core and periphery model
+        / weqone, weqtwo, rweqone, rweqtwo, eqratio /;
+
+display "@@ Solve model.";
+
+*       ----------------------------------------------------------------------
+*       Insert numerical values in parameters.
 mu = 0.4;
 sig = 5;
 sigm = 1 - sig;
 
 parameter
-    lambda	    Value of lam,
-    iterlog	    Iteration log,
-    log		    Ratio of real wages in two regions;
+    lambda          Value of lam,
+    iterlog         Iteration log,
+    log             Ratio of real wages in two regions;
 
 parameters
     count1,
     count2;
 
-*	Initial values parameters.
+*       Initial values parameters.
 parameters
     wone0   Initial value
     wtwo0   Initial value
     omeone0 Initial value
     ometwo0 Initial value;
 
-*	----------------------------------------------------------------------
-*	Loop.
-display "@ Loop starts here.";
+*       ----------------------------------------------------------------------
+*       Loop.
+display "@@@ Loop starts here.";
 
 loop(tc,
     count2 = (ord(tc) - 1)/(card(tc) - 1);
     vt = (1-count2) * lowest + count2 * highest;
 
-*	Set initial values of the first iteration (tc).
+*       Set initial values of the first iteration (tc).
     wone0 = 2;
     wtwo0 = 2;
     omeone0 = 2;
@@ -262,54 +271,56 @@ loop(tc,
     display tc;
 
     loop(itr,
-	display itr;
-	display "Current transport cost:", vt;
+        display itr;
+        display "Current transport cost:", vt;
 
-*	Determine `lam'.
-	count1 = (ord(itr) - 1)/(card(itr) - 1);
-	lambda(itr) = (1-count1)*0 + count1*1;
-	lam = lambda(itr);
+*       Determine `lam'.
+        count1 = (ord(itr) - 1)/(card(itr) - 1);
+        lambda(itr) = (1-count1)*0 + count1*1;
+        lam = lambda(itr);
 
-	display "Current lambda:", lam;
+        display "Current lambda:", lam;
 
-	wone.l = wone0;
-	wtwo.l = wtwo0;
-	omeone.l = omeone0;
-	ometwo.l = ometwo0;
+        wone.l = wone0;
+        wtwo.l = wtwo0;
+        omeone.l = omeone0;
+        ometwo.l = ometwo0;
 
-	display "Initail values",
-	    wone.l, wtwo.l, omeone.l, ometwo.l;
+        display "Initail values",
+            wone.l, wtwo.l, omeone.l, ometwo.l;
 
-	fkv.iterlim = 3000;
-	solve fkv using mcp;
+        fkv.iterlim = 3000;
+        solve fkv using mcp;
 
-	display weqone.m, weqtwo.m;
-	iterlog(itr, tc,  "omone") = omeone.l;
-	iterlog(itr, tc, "omtwo") = ometwo.l;
-	iterlog(itr, tc, "omratio") = ratio.l;
+        display weqone.m, weqtwo.m;
+        iterlog(itr, tc,  "omone") = omeone.l;
+        iterlog(itr, tc, "omtwo") = ometwo.l;
+        iterlog(itr, tc, "omratio") = ratio.l;
 
-	log(itr, tc) = iterlog(itr, tc, "omratio");
+        log(itr, tc) = iterlog(itr, tc, "omratio");
 
-	wone0 = wone.l;
-	wtwo0 = wtwo.l;
-	omeone0 = omeone.l;
-	ometwo0 = ometwo.L;
+        wone0 = wone.l;
+        wtwo0 = wtwo.l;
+        omeone0 = omeone.l;
+        ometwo0 = ometwo.L;
     );
 );
 
-display "@@ Show the results from loop. ", log;
+display "@@@ Show the results from loop. ", log;
 * $libinclude plot log
 
-*	----------------------------------------------------------------------
-*	Example 4.
-*	----------------------------------------------------------------------
+*       ----------------------------------------------------------------------
+*       Example 4.
+*       ----------------------------------------------------------------------
 display "";
 display "";
 display "@ Example 4: Vector variable";
 display "";
 display "";
 
-*	Model M2-1s: Closed 2x2 Tax-Ridden Economy --  Vector Syntax
+display "@@ Parameters";
+
+*       Model M2-1s: Closed 2x2 Tax-Ridden Economy --  Vector Syntax
 table bmflow(*,*)  Benchmark flows (in value terms)
                x       y        w     cons
 x            100       0     -100        0
@@ -319,30 +330,32 @@ l            -20     -60        0       80
 k            -60     -40        0      100
 tax          -20       0        0       20
 ;
-set	i	Goods index	/ x, y /
-	f	Factors index	/ l, k /;
+set     i       Goods index     / x, y /
+        f       Factors index   / l, k /;
 alias (i,j)
 
 parameter
-    ybar(i)	    Benchmark output levels
-    fdbar(f,i)	    Benchmark factor inputs
-    cbar(i)	    Benchmark final demand
-    pbar(f,i)	    Benchmark factor price
-    endow0(f)	    Factor endowments
-    txf(f,i)	    Ad-valorem tax rate on sector i inputs
-    txo(i)	    Proportioanl tax rate on sector i outputs
-    ubar	    Benchmark expenditure;
+    ybar(i)         Benchmark output levels
+    fdbar(f,i)      Benchmark factor inputs
+    cbar(i)         Benchmark final demand
+    pbar(f,i)       Benchmark factor price
+    endow0(f)       Factor endowments
+    txf(f,i)        Ad-valorem tax rate on sector i inputs
+    txo(i)          Proportioanl tax rate on sector i outputs
+    ubar            Benchmark expenditure;
 
-*	Extract values from the table:
-ybar(i)		= bmflow(i,i);
-fdbar(f,i)	= -bmflow(f,i);
-cbar(i)		= -bmflow(i,"w");
-ubar		= sum(i, cbar(i));
-endow0(f)	 = bmflow(f,"cons");
+*       Extract values from the table:
+ybar(i)         = bmflow(i,i);
+fdbar(f,i)      = -bmflow(f,i);
+cbar(i)         = -bmflow(i,"w");
+ubar            = sum(i, cbar(i));
+endow0(f)        = bmflow(f,"cons");
 
-txf("l",i)	=  -bmflow("tax",i) / fdbar("l",i);
-pbar(f,i)	= 1 + txf(f,i);
-txo(i)		= 0;
+txf("l",i)      =  -bmflow("tax",i) / fdbar("l",i);
+pbar(f,i)       = 1 + txf(f,i);
+txo(i)          = 0;
+
+display "@@ Model";
 
 $ontext
 
@@ -375,16 +388,18 @@ $demand:cons
 $offtext
 $sysinclude mpsgeset m2_1
 
+display "@@ Benchmark replication";
+
 m2_1.iterlim = 0;
 $include M2_1.GEN
 solve m2_1 using mcp;
 m2_1.iterlim = 2000;
 
-*	----------------------------------------------------------------------
-*	Increase the endowment.
-display "@ Increase the endowment.";
+*       ----------------------------------------------------------------------
+*       Increase the endowment.
+display "@@ Increase the endowment.";
 
-set	sce	/ sce1*sce10 /;
+set     sce     / sce1*sce10 /;
 parameter
     endow(f)
     utility Utility level;
