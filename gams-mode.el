@@ -257,7 +257,7 @@ percentage of it.  If nil, use default `pop-to-buffer'."
   :group 'gams)
 
 (defcustom gams-docs-url "https://www.gams.com/latest/docs/"
-  "*URL for the GAMS document"
+  "*URL for the GAMS document."
   :type 'url
   :group 'gams)
 
@@ -2804,7 +2804,7 @@ The following commands are available in the GAMS mode:
 (autoload 'gams-mode "gams" "Enter GAMS mode" t)
 
 (defun gams-unlogged-message (&rest args)
-  "Display a message, but avoid logging it in the *Messages* buffer."
+  "Display ARG as a message, but avoid logging it in the *Messages* buffer."
   (let ((message-log-max nil))
     (apply #'message args)))
 
@@ -2827,7 +2827,7 @@ The following commands are available in the GAMS mode:
 
 ;;; From `org-overview' in org.el (version 9.1.9)
 (defun gams-orglike-overview ()
-  "Switch to overview mode, showing only top-level headlines.
+  "Switch to overview mode, showing only top level headlines.
 This shows all headlines with a level equal or greater than the level
 of the first headline in the buffer.  This is important, because if the
 first headline is not level one, then (hide-sublevels 1) gives confusing
