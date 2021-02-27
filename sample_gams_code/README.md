@@ -11,8 +11,8 @@ This folder (directory) includes sample files for learning how to use GAMS mode.
 | :-------------------------- | :---------------------------------------------------------------------- |
 | `gams-sample.gms`           | This file shows how to use GAMS mode for Emacs.                         |
 | `outline-sample.gms`        | This file shows how to use GAMS-OUTLINE mode.                           |
-| `orglike-headline.gms`      | This file shows how to use Org-mode function in GAMS-mode.              |
-| `orglike-headline-alt.gms`  | This file shows how to use Org-mode function in GAMS-mode.              |
+| `orglike-headline.gms`      | This file shows how to use Org-mode like function in GAMS-mode.         |
+| `orglike-headline-alt.gms`  | This file shows how to use Org-mode like function in GAMS-mode.         |
 | `gams-sample-ja.gms`        | `gams-sample.gms` written in Japanese.                                  |
 | `outline-sample-ja.gms`     | `outline-sample.gms` written in Japanese.                               |
 
