@@ -14444,10 +14444,16 @@ Nil -> show explanatory text."
   (if gams-modlib-show-code-p
       (setq gams-modlib-show-code-p nil)
     (setq gams-modlib-show-code-p t))
-  (gams-modlib-show-content))
+  (gams-modlib-show-content-internal)
+  (message gams-modlib-mess))
 
 (defun gams-modlib-show-content ()
+  "Show the content of the model under the cursor."
   (interactive)
+  (gams-modlib-show-content-internal)
+  (message gams-modlib-mess))
+
+(defun gams-modlib-show-content-internal ()
   (let (seqnr type item dir fname exp)
     (setq seqnr (gams-modlib-get-seqnr))
     (when seqnr
@@ -14480,7 +14486,6 @@ Nil -> show explanatory text."
         )
       (setq buffer-read-only t)
       (other-window 1)
-      (message gams-modlib-mess)
       )))
 
 (defun gams-modlib-get-filename-list (fname)
@@ -14675,14 +14680,14 @@ U       Unmark all items
   (interactive)
   (forward-line 1)
   (when gams-modlib-follow-mode
-    (gams-modlib-show-content))
+    (gams-modlib-show-content-internal))
   (message gams-modlib-mess))
 
 (defun gams-modlib-show-prev ()
   (interactive)
   (forward-line -1)
   (when gams-modlib-follow-mode
-    (gams-modlib-show-content))
+    (gams-modlib-show-content-internal))
   (message gams-modlib-mess))
 
 (defvar gams-modlib-extract-dir nil)
