@@ -1,7 +1,6 @@
 <!--
 Author: Shiro Takeda
 Maintainer: Shiro Takeda
-Time-stamp: <2020-01-31 22:31:38 st>
 -->
 
 ----------------------------------------------------
@@ -9,10 +8,38 @@ Time-stamp: <2020-01-31 22:31:38 st>
 Change logs of GAMS mode.
 ====================================================
 
-Version 6.6
+Version 6.7
 ----------------------------------
 
-* Changed `gams-get-lst-modified-time`.
+* Updated explanation in `README.md` file.
+
+* Updated example settings in `gams-setting-sample.el` file.
+
+* Added a function for opening GAMS online manual for commandline options
+  from "Change options" in "Process menu".
+
+* Updated the function for using outline representation like Org mode. See
+  `orglike-headline.gms` file in sample_gams_code folder for details.
+
+* Modified `gams-view-document` function (C-cC-m). The current GAMS
+  system offers manuals in html format (GAMS Documentation Center). The
+  new version of GAMS mode enables you to open documents from GAMS mode.
+  
+  You can choose online documents or offline documents.  If you attach the
+  universal argument C-uC-cC-m, then you can search a command under the
+  cursor in the documentation center (this command search function is
+  available only in the online manual).
+
+  The directory of the local GAMS documents is determined by the variable
+  `gams-docs-directory`.  By default, `gams-docs-directory` is set to
+  `gams-system-directory' + docs.
+
+  With this change, we abolished `gams-docs-view-program`,
+  `gams-docs-view-old`, `gams-manuals-alist-base`.
+
+
+Version 6.6
+----------------------------------
 
 * Added changes for psopt library.
 

@@ -4,8 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Time-stamp: <2019-11-22 17:40:18 st>
-;; Version: 6.6
+;; Version: 6.7
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -75,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.6"
+(defconst gams-mode-version "6.7"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -251,17 +250,6 @@ percentage of it.  If nil, use default `pop-to-buffer'."
   :type 'integer
   :group 'gams)
 
-(defcustom gams-docs-view-program "start"
-  "*The name of (or path to) the manual file viewer.
-Normally, set the PDF file viewer to this variable.
-
-GAMS ver.22 includes not only PDF manuals but also manuals of
-windows help file (CHM file).  If you want to view such CHM
-files, use the program such as cygstart.exe and fiber.exe instead
-of PDF file viewer."
-  :type 'file
-  :group 'gams)
-
 (defcustom gams-docs-directory
   (concat (file-name-as-directory gams-system-directory) "docs")
   "*The GAMS document directory.  By default, it is set to `gams-system-directory' + docs."
@@ -269,16 +257,8 @@ of PDF file viewer."
   :group 'gams)
 
 (defcustom gams-docs-url "https://www.gams.com/latest/docs/"
-  "*URL for the GAMS document"
+  "*URL for the GAMS document."
   :type 'url
-  :group 'gams)
-
-(defcustom gams-docs-view-old nil
-  "*Non-nil -> old type document.
-In the recent version of GAMS system, manual documents are
-offered in html format. If you set non-nil to this variable, you
-can read old style manual in PDF format."
-  :type 'file
   :group 'gams)
 
 (defcustom gams-insert-dollar-control-on nil
@@ -589,70 +569,6 @@ You can change the width of the LXI buffer with
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;     Other variables.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defconst gams-manuals-alist-base
-  '(("User-Manual" . "GAMSUsersGuide.pdf")
-    ("Solver-Manual (Table of Content)" . "gamssolvers.pdf")
-    ("McCarl-User-Guide" . "mccarlgamsuserguide.pdf")
-
-    ("Tutorial" . "Tutorial.pdf")
-    ("Windows-Install" . "win-install.pdf")
-    ("Unix-Install" . "unix-install.pdf")
-
-    ("Solver-Introduction" ."Introduction.pdf")
-    ("All Solvers" . "allsolvers.pdf")
-    ("ALPHAECP-SOLVER" . "alphaecp.pdf")
-    ("BARON-SOLVER" . "baron.pdf")
-    ("BDMLP-SOLVER" . "bdmlp.pdf")
-    ("BENCH-SOLVER" . "bench.pdf")
-    ("COIN-SOLVER" . "coin.pdf")
-    ("CONOPT-SOLVER" . "conopt.pdf")
-    ("CONVERT-SOLVER" . "convert.pdf")
-    ("CPLEX-SOLVER" . "cplex.pdf")
-    ("DECIS-SOLVER" . "decis.pdf")
-    ("DICOPT-SOLVER" . "dicopt.pdf")
-    ("EMP-SOLVER" . "emp.pdf")
-    ("EXAMINER-SOLVER" . "examiner.pdf")
-    ("GAMSAMPL-SOLVER" . "gamsampl.pdf")
-    ("GAMSCHK-SOLVER" . "gamschk.pdf")
-    ("GAMSLINGO-SOLVER" . "gamslingo.pdf")
-    ("GUROBI-SOLVER" . "gurobi.pdf")
-    ("KNITRO-SOLVER" . "knitro.pdf")
-    ("LGO-SOLVER" . "lgo.pdf")
-    ("LINDOGLOBAL-SOLVER" . "lindoglobal.pdf")
-    ("LOGMIP-SOLVER" . "logmip.pdf")
-    ("MILES-SOLVER" . "miles.pdf")
-    ("MINOS-SOLVER" . "minos.pdf")
-    ("MOSEK-SOLVER" . "mosek.pdf")
-    ("MPSGE-SOLVER" . "mpsge.pdf")
-    ("MSNLP-SOLVER" . "msnlp.pdf")
-    ("NLPEC-SOLVER" . "nlpec.pdf")
-    ("OQNLP-SOLVER" . "oqnlp.pdf")
-    ("OSL-SOLVER" . "osl.pdf")
-    ("OSLSE-SOLVER" . "oslse.pdf")
-    ("PATH-SOLVER" . "path.pdf")
-    ("PATHNLP-SOLVER" . "pathnlp.pdf")
-    ("SBB-SOLVER" . "sbb.pdf")
-    ("SCENRED-SOLVER" . "scenred.pdf")
-    ("SCIP-SOLVER" . "scip.pdf")
-    ("SNOPT-SOLVER" . "snopt.pdf")
-    ("XA-SOLVER" . "xa.pdf")
-    ("XPRESS-SOLVER" . "xpress.pdf")
-
-    ("Ask-Tool" . "ask.pdf")
-    ("GAMSIDE-Tool" . "gamside.pdf")
-    ("GDX2ACESS-Tool" . "gdx2access.pdf")
-    ("GDX2XLS-Tool" . "gdx2xls.pdf")
-    ("GDXMRW-Tool" . "gdxmrw.pdf")
-    ("GDXUTILS-Tool" . "gdxutils.pdf")
-    ("GDXVIEWER-Tool" . "gdxviewer.pdf")
-    ("MDB2GMS-Tool" . "mdb2gms.pdf")
-    ("SHELLEXECUTE-Tool" . "shellexecute.pdf")
-
-    ("SQL2GMS-Tool" . "sql2gms.pdf")
-    ("XLS2GMS-Tool" . "xls2gms.pdf")
-    ("PC-Install" . "pc-install.pdf")
-    ))
 
 (defvar gams-statement-up
       '("SET" "SETS" "SCALAR" "SCALARS" "TABLE" "PARAMETER" "PARAMETERS"
@@ -2625,11 +2541,11 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map [f7] 'gams-show-identifier)
       (define-key map "\C-c\C-a" 'gams-show-identifier-list)
       (define-key map [f12] 'gams-show-identifier-list)
-      (define-key map [S-tab] 'org-global-cycle)
+      (define-key map [S-tab] 'gams-orglike-global-cycle)
       (define-key map (kbd "C-c C-: n") 'outline-next-visible-heading)
       (define-key map (kbd "C-c C-: p") 'outline-previous-visible-heading)
-      (define-key map (kbd "C-c C-: f") 'gams-org-fold-current-tree)
-      (define-key map (kbd "C-c C-: k") 'show-branches)
+      (define-key map (kbd "C-c C-: f") 'outline-hide-leaves)
+      (define-key map (kbd "C-c C-: k") 'outline-show-branches)
       (define-key map gams-choose-font-lock-level-key
         'gams-choose-font-lock-level)
       (define-key map "\M-;" 'gams-comment-dwim)
@@ -2644,7 +2560,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
     ["Insert GAMS statement" gams-insert-statement t]
     ["Insert GAMS dollar control" gams-insert-dollar-control t]
     ["Insert GAMS statement with extended features" gams-insert-statement-extended t]
-    ["Show the identifier declaration part" gams-show-identifier t]
+    ["Show the identifier declaration place" gams-show-identifier t]
     ["Show the identifier list" gams-show-identifier-list t]
     ["Open included file" gams-open-included-file t]
     "--"
@@ -2688,7 +2604,11 @@ If you do not want to specify the lst file directory, set nil to this variable."
      ["Toggle hide/show comment blocks" gams-toggle-hide-show-comment-lines t]
      )
     "--"
-    ["View GAMS manuals" gams-view-document t]
+    ("Manuals"
+     ["View GAMS manuals" gams-view-document t]
+     ["Search command in GAMS manuals" (gams-view-document t)]
+     )
+    "--"
     ["Extract models from Model library" gams-model-library t]
     "--"
     ["Customize GAMS mode for Emacs" (customize-group 'gams) t]
@@ -2848,12 +2768,8 @@ The following commands are available in the GAMS mode:
 
   (mapc
    'make-local-variable
-   '(outline-regexp
-     org-outline-regexp-bol
-     org-outline-regexp))
-  (setq outline-regexp gams-outline-regexp
-        org-outline-regexp-bol outline-regexp
-        org-outline-regexp outline-regexp)
+   '(outline-regexp))
+  (setq outline-regexp gams-outline-regexp)
 
   ;; Setting for font-lock.
   (make-local-variable 'font-lock-defaults)
@@ -2887,16 +2803,95 @@ The following commands are available in the GAMS mode:
               'gams-mode))
 (autoload 'gams-mode "gams" "Enter GAMS mode" t)
 
-(defun gams-org-fold-current-tree ()
-  "Fold the current tree."
+(defun gams-unlogged-message (&rest args)
+  "Display ARG as a message, but avoid logging it in the *Messages* buffer."
+  (let ((message-log-max nil))
+    (apply #'message args)))
+
+;;; From `org-content' in org.el (version 9.1.9)
+(defun gams-orglike-content ()
+  "Show all headlines in the buffer, like a table of contents."
   (interactive)
-  (let ((reg gams-outline-regexp))
-    (if (fboundp 'org-cycle-internal-local)
-        (when (re-search-backward reg nil t)
-          (beginning-of-line)
-          (org-cycle-internal-local)
-          (message "Folded the current tree."))
-      (message "`org-cycle-internal-local' is not defined."))))
+  (gams-orglike-overview)
+  (save-excursion
+    ;; Visit all headings and show their offspring
+    (goto-char (point-max))
+    (catch 'exit
+      (while (and (progn (condition-case nil
+			     (outline-previous-visible-heading 1)
+			   (error (goto-char (point-min))))
+			 t)
+		  (looking-at outline-regexp))
+	(outline-show-branches)
+	(when (bobp) (throw 'exit nil))))))
+
+;;; From `org-overview' in org.el (version 9.1.9)
+(defun gams-orglike-overview ()
+  "Switch to overview mode, showing only top level headlines.
+This shows all headlines with a level equal or greater than the level
+of the first headline in the buffer.  This is important, because if the
+first headline is not level one, then (hide-sublevels 1) gives confusing
+results."
+  (interactive)
+  (save-excursion
+    (let ((level
+	   (save-excursion
+	     (goto-char (point-min))
+	     (when (re-search-forward (concat "^" outline-regexp) nil t)
+	       (goto-char (match-beginning 0))
+	       (funcall outline-level)))))
+      (and level (outline-hide-sublevels level)))))
+
+(defvar-local gams-orglike-cycle-status nil)
+
+(defun gams-orglike-cycle ()
+  "Do the cycling action."
+  (interactive)
+  (cond
+   ((eq gams-orglike-cycle-status 'hide-subtree)
+    (outline-show-branches)
+    (gams-unlogged-message "Show brances.")
+    (setq gams-orglike-cycle-status 'show-branches))
+   ((eq gams-orglike-cycle-status 'show-branches)
+    (outline-show-subtree)
+    (gams-unlogged-message "Show all.")
+    (setq gams-orglike-cycle-status 'show-all))
+   ((or (not gams-orglike-cycle-status)
+        (eq gams-orglike-cycle-status 'show-all))
+     ;; We just showed the table of contents - now show everything
+    (outline-hide-subtree)
+    (gams-unlogged-message "Hide subtree.")
+    (setq gams-orglike-cycle-status 'hide-subtree))
+   ))
+
+(defvar-local gams-orglike-cycle-global-status nil)
+
+;;; From `org-cycle-internal-global' in org.el (version 9.1.9)
+(defun gams-orglike-global-cycle ()
+  "Do the global cycling action."
+  ;; Hack to avoid display of messages for .org  attachments in Gnus
+  (interactive)
+  (cond
+   ((and (eq last-command this-command)
+	 (eq gams-orglike-cycle-global-status 'overview))
+    ;; We just created the overview - now do table of contents
+    ;; This can be slow in very large buffers, so indicate action
+    (gams-unlogged-message "CONTENTS...")
+    (gams-orglike-content)
+    (gams-unlogged-message "CONTENTS...done")
+    (setq gams-orglike-cycle-global-status 'contents))
+   ((and (eq last-command this-command)
+	 (eq gams-orglike-cycle-global-status 'contents))
+     ;; We just showed the table of contents - now show everything
+    (outline-show-all)
+    (gams-unlogged-message "SHOW ALL")
+    (setq gams-orglike-cycle-global-status 'all))
+   (t
+    ;; Default action: go to overview
+    (gams-orglike-overview)
+    (gams-unlogged-message "OVERVIEW")
+    (setq gams-orglike-cycle-global-status 'overview))
+   ))
 
 (defsubst gams-list-to-alist (list)
   "Trasform a LIST to an ALIST."
@@ -3965,111 +3960,78 @@ non-interactive call from menu."
   
 ;;; View manuals.
 
-(defvar gams-read-docs-history nil "Holds history of dollar control.")
-(put 'gams-read-dollar-history 'no-default t)
+(defcustom gams-browse-url-function 'browse-url
+  "Function used to browse urls.
+Possible values include: `browse-url', `browse-url-generic',
+`browse-url-emacs', `eww-browse-url'."
+  :type 'function
+  :group 'gams-mode)
 
-(defvar gams-read-doc-completion-map nil
-  "*Key map for ‘gams-read-docs’.")
-(if gams-read-doc-completion-map nil
-   (setq gams-read-doc-completion-map
-         (copy-keymap minibuffer-local-completion-map))
-   (define-key gams-read-doc-completion-map
-     " " 'minibuffer-complete)
-   (define-key gams-read-doc-completion-map
-     "\C-i" 'minibuffer-complete))
+(defvar gams-view-doc-input-history nil
+  "History of searched commands of gams-view-doc.")
 
-(defun gams-read-docs (prompt)
-  "Read document file.
-PROMPT is prompt string."
-  (let ((minibuffer-completion-table
-         (append gams-manuals-alist)))
-    (read-from-minibuffer
-     prompt nil gams-read-doc-completion-map nil
-     'gams-read-docs-history)))
+(defun gams-view-doc-read-string (prompt &optional init history default inherit)
+  (read-string
+   (if default
+       (concat prompt " (default = " default "): ")
+     (concat prompt ": "))
+   init history default inherit))
 
-(defvar gams-manuals-alist
-  (if gams-win32
-      (append gams-manuals-alist-base
-              '(("McCarl-User-Guide-chm" . "mccarlgamsuserguide.chm")
-                ("Ask-Tool-chm" . "ask.chm")
-                ("GAMSIDE-Tool-chm" . "gamside.chm")
-                ("GDX2ACESS-Tool-chm" . "gdx2access.chm")
-                ("GDXUTILS-Tool-chm" . "gdxutils.chm")
-                ("GDXVIEWER-Tool-chm" . "gdxviewer.chm")
-                ("MDB2GMS-Tool-chm" . "mdb2gms.chm")
-                ("SHELLEXECUTE-Tool-chm" . "shellexecute.chm")
-                ("SQL2GMS-Tool-chm" . "sql2gms.chm")
-                ("XLS2GMS-Tool-chm" . "xls2gms.chm")))
-      gams-manuals-alist-base)
-  "Alist of the name of GAMS manual files and its abbreviated name (label).
-This list is created from GAMS 22.5 windows version..pdf")
+(defun gams-view-doc-get-command ()
+  (let* ((sym (symbol-at-point))
+         default)
+    (when sym
+      (setq default
+            (substring-no-properties
+             (symbol-name (or (symbol-at-point) "")))))
+    (if (string-equal default "") (setq default nil))
+    (gams-view-doc-read-string
+     "What do you want to search in manual?"
+     nil 'gams-view-doc-input-history default t)))
 
-(setq gams-view-document-old nil)
+(defun gams-view-doc-search-command (command &optional search-url)
+  (let* ((browse-result
+          (funcall gams-browse-url-function
+                   (format (concat (or search-url gams-docs-url)
+                                   "keyword.html?q=%s")
+                           (url-hexify-string command)))))
+    browse-result))
 
-;;;###autoload
-(defun gams-view-document ()
-  "View GAMS manuals.
+(defun gams-view-document (&optional command)
+  "This command opens GAMS Documentation Center through a web browser.
 
-Envoke the PDF file (or windows help file) viewer and see GAMS
-manuals.  The viewer is determined by the variable
-`gams-docs-view-program'.  The directory of GAMS documents is
-determined by the variable `gams-docs-directory'.  By default,
-`gams-docs-directory' is set to `gams-system-directory' + docs.
+The current GAMS system offers manuals in html format (GAMS
+Documentation Center). This command enables you to open manuals
+from GAMS mode.  You can choose online documents or offline
+documents.  If you attach the universal argument
+\\[universal-argument]C-cC-m, then you can search a command under
+the cursor in the documentation center (this command search function
+is available only in the online manual).
 
-The list of documents displayed as candidates is created from
-GAMS ver 22.5 for windows.  If you use other version of GAMS,
-some documents may not be available on you system."
-  (interactive)
+The directory of the local GAMS documents is determined by the
+variable `gams-docs-directory'.  By default,
+`gams-docs-directory' is set to `gams-system-directory' + docs."
+  (interactive "P")
   (unwind-protect
       (let* ((completion-ignore-case t)
              (buf (get-buffer-create "*View GAMS manual*"))
              (def-dir default-directory)
              (docs-dir (file-name-as-directory gams-docs-directory))
-             guess
-             statement
-             file-name
-             file-name-full key
+             key
+             fl-docs-dir
              ) ;; let* ends.
-        (if (not (file-exists-p docs-dir))
-            (message
-             (format "\"%s\" does not exist! Check the variable `gams-docs-directory'."
-                     docs-dir))
-          (if gams-docs-view-old
-              ;; old style
-              (progn
-                (setq statement
-                      (progn
-                        (setq guess "User-Manual")
-                        (gams-read-docs
-                         (format "View which manual? (default = %s): " guess))))
-                (setq statement (if (string= statement "") guess statement))
-                (setq file-name (assoc statement gams-manuals-alist))
-                (if (not file-name)
-                    (message "Enter the registered label.")
-                  (setq file-name-full
-                        (car (find-lisp-find-files
-                              docs-dir (cdr file-name))))
-                  (setq default-directory (file-name-directory file-name-full))
-                  (setq file-name-full (file-name-nondirectory file-name-full))
-                  (if (not file-name-full)
-                      (message (format "Manual file for %s is not found." statement))
-                    ;; Start process.
-                    (start-process "manual" buf gams-docs-view-program file-name-full)
-                    )))
-            ;; new
-            (message "[o]-> Online manual, [f]-> Offline manual, Other key -> cancel.")
-            (setq key (read-char))
-            (cond
-             ((equal key ?o)
-              (start-process "manual" buf shell-file-name gams-shell-c
-                             (concat gams-docs-view-program " " gams-docs-url))
-              (message "Starting manual viewer..."))
-              
-             ((equal key ?f)
-              (start-process "manual" buf shell-file-name gams-shell-c
-                             (concat gams-docs-view-program " " docs-dir "index.html"))
-              (message "Starting manual viewer..."))
-             (t nil))))
+        (setq fl-docs-dir (or (file-exists-p docs-dir) nil))
+        (when command
+          (setq command (gams-view-doc-get-command)))
+        (if (and command
+                 (not (equal command "")))
+            (gams-view-doc-search-command command nil)
+          (message "Press ENTER key if you use online manual. Press other keys for offline manual.")
+          (setq key (read-char))
+          (if (equal key 13)
+              (funcall 'browse-url gams-docs-url)
+            (funcall 'browse-url
+                     (browse-url-file-url (concat docs-dir "index.html")))))
         (setq default-directory def-dir))))
 
 ;;; New command.
@@ -4484,7 +4446,9 @@ Display the content of `gams-option-alist' in a buffer."
       (insert "\n")
       (setq temp-alist (cdr temp-alist)))
     (insert "\n")
-    (insert gams-opt-key-mess)
+    (if com
+        (insert gams-opt-key-mess-command)
+      (insert gams-opt-key-mess-option))
     (insert "\n")
     (goto-char (point-min))
     (setq buffer-read-only t)))
@@ -4511,19 +4475,35 @@ The default GAMS command line option is determined by the variable
   (define-key map "e" 'gams-opt-edit)
   (define-key map "q" 'gams-opt-quit)
   (define-key map "a" 'gams-opt-add-new-option)
+  (define-key map "m" 'gams-opt-see-manual)
   (define-key map "d" 'gams-opt-delete))
 
-(defvar gams-opt-key-mess
+(defvar gams-opt-key-mess-command
   (concat
-     "[*] => the current choice, "
-     "Key: "
-     "[n]ext, "
-     "[p]rev, "
-     "ENT = select, "
-     "[e]dit, "
-     "[a]dd, "
-     "[d]elete, "
-     "[q]uit."))
+   "[*] => the current choice, "
+   "\n"
+   "Key: "
+   "[n]ext, "
+   "[p]rev, "
+   "ENT = select, "
+   "[e]dit, "
+   "[a]dd, "
+   "[d]elete, "
+   "[q]uit."))
+
+(defvar gams-opt-key-mess-option
+  (concat
+   "[*] => the current choice, "
+   "\n"
+   "Key: "
+   "[n]ext, "
+   "[p]rev, "
+   "ENT = select, "
+   "[e]dit, "
+   "[a]dd, "
+   "[d]elete, "
+   "[q]uit, "
+   "[m]anual for option."))
 
 (defun gams-opt-show-key ()
   "Show keybinding."
@@ -4540,6 +4520,15 @@ The default GAMS command line option is determined by the variable
   (interactive)
   (forward-line -1)
   (gams-opt-show-key))
+
+(defvar gams-manual-option-url
+  "https://www.gams.com/latest/docs/UG_GamsCall.html#UG_GamsCall_ListOfCommandLineParameters")
+
+(defun gams-opt-see-manual ()
+  "See online manual for GAMS commandline options."
+  (interactive)
+  (let ((url gams-manual-option-url))
+    (funcall gams-browse-url-function url)))
 
 (defun gams-opt-quit ()
   "Quit."
@@ -4567,7 +4556,7 @@ If COM is non-nil, it adds command to `gams-user-command-alist'."
 If COM is non-nil, command is added."
   (interactive)
   (let (opt mess)
-    (setq opt (read-string (if com "Insert a new command name: " "Insert a new option set: ")))
+    (setq opt (read-string (if com "Insert a new command: " "Insert a new option set: ")))
     (gams-opt-add-new-option-to-alist opt com)
     (gams-opt-view com)
     (setq mess (if com "Added the new command " "Added the new option "))
@@ -5853,6 +5842,7 @@ The followings are page scroll commands.  Just changed to upper case letters.
         (font-lock-fontify-buffer)
     (if (equal gams-lst-font-lock-keywords nil)
         (font-lock-mode -1)))
+  (set-buffer-modified-p nil)
 )
 ;; gams-lst-mode ends here.
 
@@ -8816,7 +8806,7 @@ It does not kill SIL buffer."
 
 There are two listing styles: 1) listing by sequential order and 2) listing by type.
 
-SPACE   Show the declaration part of the identifier in the gms file.
+SPACE   Show the declaration place of the identifier in the gms file.
 n / p   next-line / previous-line.
 d / f   Scroll up / down.
 t       Toggle follow-mode.
@@ -9680,7 +9670,7 @@ LIGHT is t if in light mode.
       (while t
         (if (re-search-forward
              (concat "^$\\(sector[s]*\\|commodities\\|commodity"
-                     "consumer[s]*\\|auxiliary\\|report\\|prod\\|demand\\|constraint\\):")
+                     "consumer\\|consumers\\|auxiliary\\|report\\|prod\\|demand\\|constraint\\):")
              end t)
             (progn (setq block-begin (match-end 0))
                    (setq m-string (gams-buffer-substring
@@ -10765,7 +10755,7 @@ if prev is non-nil, move up after toggle."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;;     Show the declaration part of an identifier (SID)
+;;;     Show the declaration place of an identifier (SID)
 ;;;     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -10931,17 +10921,17 @@ $batinclude or $include."
       (erase-buffer)
       (insert "[Help for GAMS show identifier]
 `gams-show-identifier' is a command to search and show the
-identifier which appears in various parts of the program.
+identifier which appears in various places of the program.
 
-d               Show the declaration (first) part
-n               Show the next part.
-p               Show the previous part.
-c               Show the original part.
-e               Copy (extract) the explanatory text from the identifier declaration part.
+d               Show the declaration (first) place
+n               Show the next place.
+p               Show the previous place.
+c               Show the original place.
+e               Copy (extract) the explanatory text from the identifier declaration place.
 r               Rescan the identifier structure information.
 SPACE           Quit and restore the window configuration.
-ENT             Jump to the highligtened part.
-TAB             Jump to the highligtened part keeping window.
+ENT             Jump to the highligtened place.
+TAB             Jump to the highligtened place keeping window.
 Other key       Just quit.
 ?               Show this help.
 
@@ -11069,24 +11059,24 @@ Return the starting point of the alias if in alias block."
     beg-po))
 
 (defun gams-show-identifier (&optional arg)
-  "Show the declaration (definition or first) part of the
+  "Show the declaration (definition or first) place of the
 identifier under the cursor.  You can also show and move to the
 various places.  Execute this command with the cursor on the
 identifier.  Or execute this command with the universal-argument
 and you will be asked the identifier name you want to search.
 
 When you are reading or editing a GAMS program, you may often go
-back to the declaration part of an identifier so as to see its
+back to the declaration place of an identifier so as to see its
 definition.  Or you may go to the place where an identifier is
 assigned some value.
 
 In such a case, you could use, for example, `isearch-backward'
 and `isearch-forward' command or something to search the
 identifier.  But if the identifier is used many times at the
-different parts of the program, it is difficult to find the
-declaration part of the identifier.  Or if the identifier is
+different places of the program, it is difficult to find the
+declaration place of the identifier.  Or if the identifier is
 declared in a subroutine file, it is quite messy to search the
-declaration part.  This command enables you to search the
+declaration place.  This command enables you to search the
 identifier easily.
 
 This command parses the whole identifier structure and thus may
@@ -11145,7 +11135,7 @@ TYPE: The type of the identifier"
          flist                          ; gams-file-list
          cfnum                          ; File number of the current file
          res
-         exist-p                        ; non-nil if the declaration part exists.
+         exist-p                        ; non-nil if the declaration place exists.
          
          po-def key win-conf)
 
@@ -11190,7 +11180,7 @@ TYPE: The type of the identifier"
        flist                                    ; file list.
        cbuf                                     ; The original buffer
        beg                                      ; The original point
-       exist-p))                                  ; non-nil if the declaration part exists.
+       exist-p))                                  ; non-nil if the declaration place exists.
 
     (when res
       (unwind-protect
@@ -11210,16 +11200,16 @@ TYPE: The type of the identifier"
                ;; Show help.
                ((equal key (string-to-char "?"))
                 (gams-sid-show-help))
-               ;; Move to the declaration part.
+               ;; Move to the declaration place.
                ((equal key (string-to-char "d"))
                 (if exist-p
                     (gams-sid-show-result-def name res flist)
                   (gams-sid-show-result-first name (nth 3 res) (nth 0 res) flist cbuf beg)))
-               ;; Copy the explanatory text of the identifier from the declaration part.
+               ;; Copy the explanatory text of the identifier from the declaration place.
                ((equal key (string-to-char "e"))
                 (if (not exist-p)
                     (message
-                     (format "There is no declaration part of `%s'" name))
+                     (format "There is no declaration place of `%s'" name))
                   (gams-sid-show-result-def name res flist t)
                   (gams-sid-copy-explanatory-text po-def len)))
                ;; Space.
@@ -11392,7 +11382,7 @@ FNUM is the file number where the matched identifier exists.
 FLIST is the gams-file-list.
 CBUF: the original buffer.
 CPO: the original point of the original buffer.
-DEFP: non-nil if the declaration part exists."
+DEFP: non-nil if the declaration place exists."
   (let ((fname (cdr (assoc fnum flist))))
     (delete-other-windows)
     (switch-to-buffer gams-sid-tree-buffer)
@@ -11413,10 +11403,10 @@ DEFP: non-nil if the declaration part exists."
     (goto-char cpo)
     (if defp
         (message
-         (concat (format "The declaration part of `%s': " name)
+         (concat (format "The decl. place of `%s': " name)
                  gams-sid-mess-1))
       (message
-       (concat (format "The first part of `%s': " name)
+       (concat (format "The first place of `%s': " name)
                gams-sid-mess-1)))
     (sit-for 0)
     ))
@@ -11669,7 +11659,7 @@ FST: file structure"
            (concat (format "`%s' :" name) gams-sid-mess-1))
           )
       (message
-       (concat (format "Already in the decl. (first) part of `%s' :" name) gams-sid-mess-1))
+       (concat (format "Already in the decl. (first) place of `%s' :" name) gams-sid-mess-1))
       (other-window 1)
       (goto-char cpo))
     ))
@@ -11705,7 +11695,7 @@ FST: file structure"
       (if (and (equal cfnum fnum-def)
                (<= cpo po-def))
 
-          (message "You are in the declaration part.")
+          (message "You are in the declaration place.")
 
         (forward-char len)
 
@@ -11754,7 +11744,7 @@ FST: file structure"
 
 (defun gams-sid-show-result-def (name res flist &optional nomess)
   "NOMESS -> no message
-DEF is t if declaration part exists."
+DEF is t if declaration place exists."
   (let ((cpo (point))
         (cbuf (current-buffer))
         (cfnum (car (rassoc (buffer-file-name) flist)))
@@ -11767,29 +11757,29 @@ DEF is t if declaration part exists."
     (if (and (equal cfnum fnum)
                (<= cpo po-def))
         (when (not nomess)
-          (message (concat "You are already in the declaration part: "
+          (message (concat "You are already in the declaration place: "
                            gams-sid-mess-1)))
 
       (gams-sid-show-result po-def len fnum flist cbuf cpo)
       (when (not nomess)
         (message (concat
-                  (format "The declaration part of `%s': " name)
+                  (format "The decl. place of `%s': " name)
                   gams-sid-mess-1))))
     ))
 
 (defun gams-sid-show-result-first (name po fnum flist cbuf cpo)
   "NOMESS -> no message
-DEF is t if declaration part exists."
+DEF is t if declaration place exists."
   (let ((len (length name)))
     (other-window 2)
     (gams-sid-show-result po len fnum flist cbuf cpo)
     (message (concat
-              (format "The first part of `%s': " name)
+              (format "The first place of `%s': " name)
               gams-sid-mess-1))
     ))
 
 (defun gams-sid-copy-explanatory-text (po-def len)
-  "Copy (extract) the explanatory text of the identifier from the declaration part."
+  "Copy (extract) the explanatory text of the identifier from the declaration place."
   (let ((case-fold-search t)
         fl_q fl_e beg end etxt)
 
@@ -11832,7 +11822,7 @@ DEF is t if declaration part exists."
         (setq etxt (substring etxt 0 (string-match "[ \t]+$" etxt)))))
     (if etxt
         (progn (kill-new etxt)
-               (message "Copy (extract) explanatory text from the declaration part."))
+               (message "Copy (extract) explanatory text from the declaration place."))
       (message "No explanatory text is found."))
     
   (other-window 1)))
@@ -11994,8 +11984,8 @@ CPO: Original point."
     (setq buffer-read-only t)))
 
 (defun gams-sid-return-current-position-in-tree (cfnum cpo)
-  "Return the current part index.
-part index is determined by `gams-sid-tree-structure'."
+  "Return the current place index.
+place index is determined by `gams-sid-tree-structure'."
   (let ((tree gams-sid-tree-structure)
         ele part)
     (catch 'found
@@ -14481,10 +14471,16 @@ Nil -> show explanatory text."
   (if gams-modlib-show-code-p
       (setq gams-modlib-show-code-p nil)
     (setq gams-modlib-show-code-p t))
-  (gams-modlib-show-content))
+  (gams-modlib-show-content-internal)
+  (message gams-modlib-mess))
 
 (defun gams-modlib-show-content ()
+  "Show the content of the model under the cursor."
   (interactive)
+  (gams-modlib-show-content-internal)
+  (message gams-modlib-mess))
+
+(defun gams-modlib-show-content-internal ()
   (let (seqnr type item dir fname exp)
     (setq seqnr (gams-modlib-get-seqnr))
     (when seqnr
@@ -14517,7 +14513,6 @@ Nil -> show explanatory text."
         )
       (setq buffer-read-only t)
       (other-window 1)
-      (message gams-modlib-mess)
       )))
 
 (defun gams-modlib-get-filename-list (fname)
@@ -14712,14 +14707,14 @@ U       Unmark all items
   (interactive)
   (forward-line 1)
   (when gams-modlib-follow-mode
-    (gams-modlib-show-content))
+    (gams-modlib-show-content-internal))
   (message gams-modlib-mess))
 
 (defun gams-modlib-show-prev ()
   (interactive)
   (forward-line -1)
   (when gams-modlib-follow-mode
-    (gams-modlib-show-content))
+    (gams-modlib-show-content-internal))
   (message gams-modlib-mess))
 
 (defvar gams-modlib-extract-dir nil)
@@ -17104,8 +17099,7 @@ is provided by COLUMN."
           (looking-at outline-regexp))
         (progn
           (gams-indent-function nil)
-          (when (fboundp 'org-cycle)
-            (org-cycle)))
+          (gams-orglike-cycle))
       (beginning-of-line)
       (gams-indent-function nil))))
 

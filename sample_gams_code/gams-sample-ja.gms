@@ -1,295 +1,281 @@
-$title GAMS mode for Emacs‚Ìg‚¢•û‚ğà–¾‚·‚é‚½‚ß‚ÌƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€
+$title GAMS mode for Emacsã®ä½¿ã„æ–¹ã‚’èª¬æ˜ã™ã‚‹ãŸã‚ã®ã‚µãƒ³ãƒ—ãƒ«ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 $ontext
-Time-stamp:     <2018-04-16 18:02:49 st>
 Filename:       "gams-sample-ja.gms"
 Author:         Shiro Takeda
 First-written:  <2001/08/13>
 $offtext
 
 *       ----------------------------------------------------------------------
-$stitle         LST ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ÆêŠ‚Ìw’è:
+$stitle         LST ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã¨å ´æ‰€ã®æŒ‡å®š:
 $ontext
-ˆÈ‰º‚ÌƒR[ƒh‚ÍALST ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ÆêŠ‚ğw’è‚·‚é‚½‚ß‚Ì‚à‚Ì‚Å‚·Bw’è‚ğ—LŒø‚É‚·
-‚é‚É‚ÍAæ“ª‚Ìu**v‚Ì‚¤‚¿‚Ìˆê‚Â‚ğœ‹‚µ‚Ä‚­‚¾‚³‚¢B
+ä»¥ä¸‹ã®ã‚³ãƒ¼ãƒ‰ã¯ã€LST ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã¨å ´æ‰€ã‚’æŒ‡å®šã™ã‚‹ãŸã‚ã®ã‚‚ã®ã§ã™ã€‚æŒ‡å®šã‚’æœ‰åŠ¹ã«ã™
+ã‚‹ã«ã¯ã€å…ˆé ­ã®ã€Œ**ã€ã®ã†ã¡ã®ä¸€ã¤ã‚’é™¤å»ã—ã¦ãã ã•ã„ã€‚
 $offtext
-** gams-lst-file: .\lst\lst-sample.lst
-*       ‚±‚Ìw’è‚Å‚Í LST ƒtƒ@ƒCƒ‹‚Í¨‚Ì‚æ‚¤‚É‚È‚è‚Ü‚· -> .\lst\sample.lst:
+** gams-lst-file: ./lst/lst-sample.lst
+*       ã“ã®æŒ‡å®šã§ã¯ LST ãƒ•ã‚¡ã‚¤ãƒ«ã¯â†’ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ -> ./lst/sample.lst:
 
-** gams-lst-file: c:\sample.lst
-*       ‚±‚Ìw’è‚Å‚Í LST ƒtƒ@ƒCƒ‹‚Í¨‚Ì‚æ‚¤‚É‚È‚è‚Ü‚· -> c:\sample.lst:
+** gams-lst-file: g:/sample.lst
+*       ã“ã®æŒ‡å®šã§ã¯ LST ãƒ•ã‚¡ã‚¤ãƒ«ã¯â†’ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ -> g:/sample.lst:
 
-** gams-lst-dir: .\lst\
-*       ‚±‚Ìw’è‚Å‚Í LST ƒtƒ@ƒCƒ‹‚Í¨‚Ì‚æ‚¤‚É‚È‚è‚Ü‚· -> .\lst\gams-sample.lst
+** gams-lst-dir: ./lst/
+*       ã“ã®æŒ‡å®šã§ã¯ LST ãƒ•ã‚¡ã‚¤ãƒ«ã¯â†’ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ -> ./lst/gams-sample.lst
 
-** gams-lst-dir: c:\
-*       ‚±‚Ìw’è‚Å‚Í LST ƒtƒ@ƒCƒ‹‚Í¨‚Ì‚æ‚¤‚É‚È‚è‚Ü‚· -> c:\gams-sample.lst
+* gams-lst-dir: g:/
+*       ã“ã®æŒ‡å®šã§ã¯ LST ãƒ•ã‚¡ã‚¤ãƒ«ã¯â†’ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ -> g:/gams-sample.lst
 
 $ontext
-‰ğàF
+è§£èª¬ï¼š
 
-  * gams.el version 6.2 —p‚Ìà–¾D
+  * gams.el version 6.7 ç”¨ã®èª¬æ˜ï¼
 
-  * Emacs (or Meadow) ‚Ì‘€ì‚ÌŠî–{“I‚È‚±‚Æ‚É‚Â‚¢‚Ä‚ÍCEmacs ‚Ìƒƒjƒ…[‚Ìƒwƒ‹ƒv¨
-    Emacs tutorial ‚ğ“Ç‚ñ‚Å‚­‚¾‚³‚¢D
+  * Emacs (or Meadow) ã®æ“ä½œã®åŸºæœ¬çš„ãªã“ã¨ã«ã¤ã„ã¦ã¯ï¼ŒEmacs ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ãƒ˜ãƒ«ãƒ—â†’
+    Emacs tutorial ã‚’èª­ã‚“ã§ãã ã•ã„ï¼
 
-  * uƒoƒbƒtƒ@vCuƒ~ƒjƒoƒbƒtƒ@vCuƒEƒBƒ“ƒhƒEv“™‚Ì Emacs ‚Ì—pŒê‚É‚Â‚¢‚Ä‚à
-    tutorial‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢D
+  * ã€Œãƒãƒƒãƒ•ã‚¡ã€ï¼Œã€Œã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢ã€ï¼Œã€Œã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã€ç­‰ã® Emacs ã®ç”¨èªã«ã¤ã„ã¦ã‚‚
+    tutorialã‚’å‚ç…§ã—ã¦ãã ã•ã„ï¼
 
-  * "C-cC-v"‚Ì‚æ‚¤‚È•\‹L‚Í’Êí‚Ì Emacs ‚Ìà–¾‚Æ“¯‚¶‚æ‚¤‚ÈˆÓ–¡‚ğ•\‚µ‚Ü‚·D—á‚¦‚ÎC
+  * "C-cC-v"ã®ã‚ˆã†ãªè¡¨è¨˜ã¯é€šå¸¸ã® Emacs ã®èª¬æ˜ã¨åŒã˜ã‚ˆã†ãªæ„å‘³ã‚’è¡¨ã—ã¾ã™ï¼ä¾‹ãˆã°ï¼Œ
 
-    `C-cC-v' -->  "Control key + c" ‚ğ‰Ÿ‚µ‚ÄC‚»‚ÌŒã "Control + v" ‚ğ‰Ÿ‚·
-                   ‚Æ‚¢‚¤‚±‚ÆD
-    `M-q'    -->  "Alt key + q" ‚ğ‰Ÿ‚·‚Æ‚¢‚¤‚±‚Æ‚Å‚·D
+    `C-cC-v' -->  "Control key + c" ã‚’æŠ¼ã—ã¦ï¼Œãã®å¾Œ "Control + v" ã‚’æŠ¼ã™
+                   ã¨ã„ã†ã“ã¨ï¼
+    `M-q'    -->  "Alt key + q" ã‚’æŠ¼ã™ã¨ã„ã†ã“ã¨ã§ã™ï¼
 
-  * M-x describe-variable ‚â M-x describe-function ‚Æ‚¢‚¤ƒRƒ}ƒ“ƒh‚É‚æ‚è•Ï”‚âŠÖ
-    ”‚Ìà–¾‚ğ“Ç‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚·D—á‚¦‚ÎC`gams-process-command-name' ‚Æ‚¢‚¤•Ï”
-    ‚Ìà–¾‚ğ“Ç‚İ‚½‚¢‚Æ‚«‚É‚Í
+  * M-x describe-variable ã‚„ M-x describe-function ã¨ã„ã†ã‚³ãƒãƒ³ãƒ‰ã«ã‚ˆã‚Šå¤‰æ•°ã‚„é–¢
+    æ•°ã®èª¬æ˜ã‚’èª­ã‚€ã“ã¨ãŒã§ãã¾ã™ï¼ä¾‹ãˆã°ï¼Œ`gams-process-command-name' ã¨ã„ã†å¤‰æ•°
+    ã®èª¬æ˜ã‚’èª­ã¿ãŸã„ã¨ãã«ã¯
 
     M-x describe-variable ENTER
     gams-process-command-name ENTER
 
-    ‚Æƒ^ƒCƒv‚·‚ê‚Î‚æ‚¢‚Å‚·D
+    ã¨ã‚¿ã‚¤ãƒ—ã™ã‚Œã°ã‚ˆã„ã§ã™ï¼
 
-  * ƒoƒO‚Ì•ñ‚É‚Í M-x gams-report-bug ƒRƒ}ƒ“ƒh‚ğ—˜—p‚µ‚Ä‚­‚¾‚³‚¢D
+  * ãƒã‚°ã®å ±å‘Šã«ã¯ M-x gams-report-bug ã‚³ãƒãƒ³ãƒ‰ã‚’åˆ©ç”¨ã—ã¦ãã ã•ã„ï¼
 
 $offtext
 
-*       ‚±‚ê‚Í Inline comment symbol ‚Ìİ’èD
+*       ã“ã‚Œã¯ Inline comment symbol ã®è¨­å®šï¼
 $inlinecom /* */
-*       ‚±‚ê‚Í End-of-line comment symbol ‚Ìİ’èD
+*       ã“ã‚Œã¯ End-of-line comment symbol ã®è¨­å®šï¼
 $eolcom #
 
-*       “Ç‚İ‚Şƒtƒ@ƒCƒ‹‚Ì–¼‘O
+*       èª­ã¿è¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰
 $setglobal sub_program ./include/include-sample.gms
 
 $ontext
-“KØ‚Éİ’è‚³‚ê‚Ä‚¢‚ê‚ÎC‚±‚Ìƒoƒbƒtƒ@[‚Ìƒ‚[ƒh‚Í GAMS mode‚É‚È‚Á‚Ä‚¢‚é‚Í‚¸‚Å‚·
-(ƒ‚[ƒhƒ‰ƒCƒ“‚É GAMS ‚Æ‚¢‚¤•¶š‚ª‚ ‚ê‚ÎCGAMS mode ‚É‚È‚Á‚Ä‚¢‚Ü‚·)D GAMS mode‚É
-‚È‚Á‚Ä‚¢‚È‚¢ê‡‚É‚Í "~/.emacs.d/init.el" ƒtƒ@ƒCƒ‹‚Ìİ’è (“Á‚Éload-path ‚Ìİ’è)
-‚ğ‚à‚¤ˆê“xƒ`ƒFƒbƒN‚µ‚Ä‚­‚¾‚³‚¢D
+é©åˆ‡ã«è¨­å®šã•ã‚Œã¦ã„ã‚Œã°ï¼Œã“ã®ãƒãƒƒãƒ•ã‚¡ãƒ¼ã®ãƒ¢ãƒ¼ãƒ‰ã¯ GAMS modeã«ãªã£ã¦ã„ã‚‹ã¯ãšã§ã™
+(ãƒ¢ãƒ¼ãƒ‰ãƒ©ã‚¤ãƒ³ã« GAMS ã¨ã„ã†æ–‡å­—ãŒã‚ã‚Œã°ï¼ŒGAMS mode ã«ãªã£ã¦ã„ã¾ã™)ï¼ GAMS modeã«
+ãªã£ã¦ã„ãªã„å ´åˆã«ã¯ "~/.emacs.d/init.el" ãƒ•ã‚¡ã‚¤ãƒ«ã®è¨­å®š (ç‰¹ã«load-path ã®è¨­å®š)
+ã‚’ã‚‚ã†ä¸€åº¦ãƒã‚§ãƒƒã‚¯ã—ã¦ãã ã•ã„ï¼
 
         ----------------------------------------------------------------------
 $offtext
-$stitle        Šî–{“I‚È—˜—p–@
+$stitle        åŸºæœ¬çš„ãªåˆ©ç”¨æ³•
 $ontext
         ----------------------------------------------------------------------
 
-‚Ü‚¸C‚±‚Ìƒtƒ@ƒCƒ‹‚É‘Î‚µ‚Ä GAMS ‚ğÀs‚µ‚Ä‚İ‚Ü‚·D`C-cC-t'‚Æƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢D
-ƒ~ƒjƒoƒbƒtƒ@[‚ÉŸ‚Ì‚æ‚¤‚ÈƒƒbƒZ[ƒW‚ª‚Å‚é‚Í‚¸‚Å‚·D
+ã¾ãšï¼Œã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã«å¯¾ã—ã¦ GAMS ã‚’å®Ÿè¡Œã—ã¦ã¿ã¾ã™ï¼`C-cC-t'ã¨ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼
+ã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢ï¼ˆãƒŸãƒ‹ãƒãƒƒãƒ•ã‚¡ãƒ¼ï¼‰ã«æ¬¡ã®ã‚ˆã†ãªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒã§ã‚‹ã¯ãšã§ã™ï¼
 
 
     Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
 
 
-‚±‚±‚Å `s' ‚ğ‰Ÿ‚·‚Æ‰º‘¤‚ÉƒEƒBƒ“ƒhƒE‚ªŠJ‚«CGAMS ‚ªÀs‚³‚ê‚Ü‚·D‚Ü‚½‚ÍC[F9]‚©
-`C-cC-s' ‚ğ‰Ÿ‚µ‚Ä‚à“¯‚¶‚æ‚¤‚É GAMS ‚ªƒXƒ^[ƒg‚µ‚Ü‚·D
+ã“ã“ã§ `s' ã‚’æŠ¼ã™ã¨ä¸‹å´ã«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒé–‹ãï¼ŒGAMS ãŒå®Ÿè¡Œã•ã‚Œã¾ã™ï¼ã¾ãŸã¯ï¼Œ[F9]ã‹
+`C-cC-s' ã‚’æŠ¼ã—ã¦ã‚‚åŒã˜ã‚ˆã†ã« GAMS ãŒã‚¹ã‚¿ãƒ¼ãƒˆã—ã¾ã™ï¼
 
-u’v GAMS ‚ªƒXƒ^[ƒg‚µ‚È‚¢C‚ ‚é‚¢‚Íãè‚­Às‚³‚ê‚È‚¢‚Æ‚«‚É‚ÍC“KØ‚Èİ’è‚ª‚³
-‚ê‚Ä‚¢‚È‚¢‚Í‚¸‚Å‚·DŸ‚Ì“_‚ğƒ`ƒFƒbƒN‚µ‚Ä‚­‚¾‚³‚¢D
+ã€Œæ³¨ã€ GAMS ãŒã‚¹ã‚¿ãƒ¼ãƒˆã—ãªã„ï¼Œã‚ã‚‹ã„ã¯ä¸Šæ‰‹ãå®Ÿè¡Œã•ã‚Œãªã„ã¨ãã«ã¯ï¼Œé©åˆ‡ãªè¨­å®šãŒã•
+ã‚Œã¦ã„ãªã„ã¯ãšã§ã™ï¼æ¬¡ã®ç‚¹ã‚’ãƒã‚§ãƒƒã‚¯ã—ã¦ãã ã•ã„ï¼
 
-  + .init.el “à‚Å shell (bash ‚â cmdproxy) ‚ğ“KØ‚Éİ’è‚µ‚Ä‚¢‚Ü‚·‚©H
+  + .init.el å†…ã§ shell (bash ã‚„ cmdproxy) ã‚’é©åˆ‡ã«è¨­å®šã—ã¦ã„ã¾ã™ã‹ï¼Ÿ
 
-  + •Ï” `gams-process-command-name' ‚ª“KØ‚Éİ’è‚³‚ê‚Ä‚¢‚Ü‚·‚©H GAMS ‚ÌƒVƒXƒe
-  ƒ€ƒtƒHƒ‹ƒ_‚ÉƒpƒX‚ğ’Ê‚µ‚Ä‚¢‚È‚¢‚Ì‚È‚çC•Ï” `gams-process-command-name' ‚É
-  gams.exe ‚Ö‚Ìƒtƒ‹ƒpƒX‚ğw’è‚µ‚È‚¢‚Æ‚¢‚¯‚È‚¢‚Å‚·D
+  + å¤‰æ•° `gams-process-command-name' ãŒé©åˆ‡ã«è¨­å®šã•ã‚Œã¦ã„ã¾ã™ã‹ï¼Ÿ GAMS ã®ã‚·ã‚¹ãƒ†
+    ãƒ ãƒ•ã‚©ãƒ«ãƒ€ã«ãƒ‘ã‚¹ã‚’é€šã—ã¦ã„ãªã„ã®ãªã‚‰ï¼Œå¤‰æ•° `gams-process-command-name' ã«
+    gams.exe ã¸ã®ãƒ•ãƒ«ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ãªã„ã¨ã„ã‘ãªã„ã§ã™ï¼
 
-GAMS‚ÌƒvƒƒZƒX‚ªI—¹‚µ‚½‚çC`C-cC-v' ‚© [F10] ‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢D‚±‚ê‚Å LSTƒtƒ@ƒC
-ƒ‹‚ÉˆÚ“®‚µ‚Ü‚·D
+GAMSã®ãƒ—ãƒ­ã‚»ã‚¹ãŒçµ‚äº†ã—ãŸã‚‰ï¼Œ`C-cC-v' ã‹ [F10] ã‚’æŠ¼ã—ã¦ãã ã•ã„ï¼ã“ã‚Œã§ LSTãƒ•ã‚¡ã‚¤
+ãƒ«ã«ç§»å‹•ã—ã¾ã™ï¼
 
-LSTƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚½‚çC"No error message is found" ‚Æ‚¢‚¤ƒƒbƒZ[ƒW‚ªƒ~ƒjƒoƒbƒtƒ@[
-‚Éo‚é‚Í‚¸‚Å‚·D‚±‚ê‚Í‚±‚Ì gms ƒtƒ@ƒCƒ‹‚ªƒGƒ‰[‚ª‚È‚­ãè‚­Às‚³‚ê‚½‚Æ‚¢‚¤‚±‚Æ
-‚ğˆÓ–¡‚µ‚Ü‚·D
+LSTãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã„ãŸã‚‰ï¼Œ"No error message is found" ã¨ã„ã†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢
+ã«å‡ºã‚‹ã¯ãšã§ã™ï¼ã“ã‚Œã¯ã“ã® gms ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚¨ãƒ©ãƒ¼ãŒãªãä¸Šæ‰‹ãå®Ÿè¡Œã•ã‚ŒãŸã¨ã„ã†ã“ã¨
+ã‚’æ„å‘³ã—ã¾ã™ï¼
 
-‚±‚±‚ÅC`i' (‚© `b') ‚ğ‰Ÿ‚·‚ÆCŒ³‚Ì GMS ƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@[‚É–ß‚è‚Ü‚·D
+ã“ã“ã§ï¼Œ`i' (ã‹ `b') ã‚’æŠ¼ã™ã¨ï¼Œå…ƒã® GMS ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡ãƒ¼ã«æˆ»ã‚Šã¾ã™ï¼
 
-Ÿ‚ÉCˆÈ‰º‚É‚ ‚é * ‚Ån‚Ü‚és‚Ì * ‚ğÁ‹‚µ‚ÄCGAMS ‚ğÀs‚µ‚Ä‚­‚¾‚³‚¢(`C-cC-t'
-‚ğ‰Ÿ‚µC`s' ‚ğ‰Ÿ‚·)D
+æ¬¡ã«ï¼Œä»¥ä¸‹ã«ã‚ã‚‹ * ã§å§‹ã¾ã‚‹è¡Œã® * ã‚’æ¶ˆå»ã—ã¦ï¼ŒGAMS ã‚’å®Ÿè¡Œã—ã¦ãã ã•ã„(`C-cC-t'
+ã‚’æŠ¼ã—ï¼Œ`s' ã‚’æŠ¼ã™)ï¼
 
 $offtext
-*               ‚±‚Ìs‚ÌƒRƒƒ“ƒg‚ğ‚Æ‚Á‚Ä‚­‚¾‚³‚¢DƒGƒ‰[‚ÌˆÊ’uD
+*               ã“ã®è¡Œã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’ã¨ã£ã¦ãã ã•ã„ï¼ã‚¨ãƒ©ãƒ¼ã®ä½ç½®ï¼
 $ontext
-Às‚µ‚½‚çCLSTƒtƒ@ƒCƒ‹‚ÉˆÚ“®‚µ‚Ä‚­‚¾‚³‚¢ (C-cC-v ‚© F10)D‚·‚é‚ÆCƒEƒBƒ“ƒhƒE‚ª
-“ñ‚Â‚É•ªŠ„‚³‚êCƒ~ƒjƒoƒbƒtƒ@[‚ÉŸ‚Ì‚æ‚¤‚ÈƒƒbƒZ[ƒW‚ª•\¦‚³‚ê‚Ü‚·D
+å®Ÿè¡Œã—ãŸã‚‰ï¼ŒLSTãƒ•ã‚¡ã‚¤ãƒ«ã«ç§»å‹•ã—ã¦ãã ã•ã„ (C-cC-v ã‹ F10)ï¼ã™ã‚‹ã¨ï¼Œã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢ã«æ¬¡ã®ã‚ˆã†ãªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚Œã¾ã™ï¼
 
     Key: [u]=Jump to the error place, [i]=Jump to the main input file.
 
-ã‚ÌƒEƒBƒ“ƒhƒE‚ÍƒGƒ‰[‚ÌsC‰º‚ÌƒEƒBƒ“ƒhƒE‚ÍƒGƒ‰[‚Ì“à—e‚ğ•\¦‚µ‚Ü‚·D
-
-ã‚ÌƒEƒBƒ“ƒhƒE‚ÍŸ‚Ì‚æ‚¤‚È•\¦‚É‚È‚Á‚Ä‚¢‚é‚Í‚¸‚Å‚·D
+ã•ã‚‰ã«ã€LST ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«æ¬¡ã®ã‚ˆã†ã«è¡¨ç¤ºã•ã‚Œã‚‹ã¯ãšã§ã™ï¼
 
 
-              Ÿ‚ÉCˆÈ‰º‚É‚ ‚é * ‚Ån‚Ü‚és‚Ì * ‚ğÁ‹‚µ‚ÄCGAMS ‚ğÀs‚µ‚Ä‚­‚¾‚³‚¢
-              (`C-cC-t' ‚ğ‰Ÿ‚µC `s' ‚ğ‰Ÿ‚·)D
+     108                 ã“ã®è¡Œã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’ã¨ã£ã¦ãã ã•ã„ï¼ã‚¨ãƒ©ãƒ¼ã®ä½ç½®ï¼
+    ****                 $409
+    **** 409  Unrecognizable item - skip to find a new statement
+    ****        looking for a ';' or a key word to get started again
+          å®Ÿè¡Œã—ãŸã‚‰ï¼ŒLSTãƒ•ã‚¡ã‚¤ãƒ«ã«ç§»å‹•ã—ã¦ãã ã•ã„ (C-cC-v ã‹ F10)ï¼ã™ã‚‹ã¨ï¼Œã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒ
+          äºŒã¤ã«åˆ†å‰²ã•ã‚Œï¼Œã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢ã«æ¬¡ã®ã‚ˆã†ãªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚Œã¾ã™ï¼
 
-         114               ‚±‚Ìs‚ÌƒRƒƒ“ƒg‚ğ‚Æ‚Á‚Ä‚­‚¾‚³‚¢DƒGƒ‰[‚ÌˆÊ’uD
-         ***               $409
-         *** LINE     86 INPUT       c:\WorkDir\gams\gams-sample-ja.gms
-              Às‚µ‚½‚çCLSTƒtƒ@ƒCƒ‹‚ÉˆÚ“®‚µ‚Ä‚­‚¾‚³‚¢ (C-cC-v ‚© F10)D‚·‚é‚ÆCƒEƒBƒ“ƒhƒE
-              ‚ª“ñ‚Â‚É•ªŠ„‚³‚êCƒ~ƒjƒoƒbƒtƒ@[‚ÉŸ‚Ì‚æ‚¤‚ÈƒƒbƒZ[ƒW‚ª•\¦‚³‚ê‚Ü‚·D
+GAMS ã§ã‚¨ãƒ©ãƒ¼ãŒç”Ÿã˜ã¦ã„ã‚‹ã¨ãã«ã¯ã€ã€Œæœ€åˆã®ã‚¨ãƒ©ãƒ¼ã€ã«æ³¨ç›®ã—ã¾ã™ï¼ã“ã®ä¾‹ã®å ´åˆã¯
+ã€Œ$409ã€ã®ã‚¨ãƒ©ãƒ¼ã«ãªã‚Šã¾ã™ã€‚ã“ã‚Œã¯ã€ŒUnrecognizable itemã€ã¨ã„ã†ã‚¨ãƒ©ãƒ¼ã§ã™ï¼ˆã“ã®
+è¡Œï¼ï¼ï¼ã¨ã„ã†æ–‡ãŒ GAMS ã«ã¯å‘½ä»¤ã¨ã—ã¦èªè­˜ã§ããªã„ã¨ã„ã†ã‚¨ãƒ©ãƒ¼ï¼‰ã€‚
 
-
-‚±‚ê‚ÍC‚²‚­•’Ê‚Ì\•¶ƒGƒ‰[ (syntax error) ‚Å‚·DƒGƒ‰[‚ÌˆÊ’u‚ÆƒGƒ‰[”Ô†(140)
-‚ğ¦‚µ‚Ä‚¢‚Ü‚·D
-
-“¯‚É‰º‘¤‚ÌƒEƒBƒ“ƒhƒE‚ÍƒGƒ‰[‚Ì“à—e (ƒGƒ‰[”Ô† 140 ‚ÌˆÓ–¡) ‚ğ•\¦‚µ‚Ü‚·D‚±‚Ì
-ƒP[ƒX‚ÍC"Unknown symbol" ‚Æ‚¢‚¤ƒGƒ‰[‚¾‚Æ‚¢‚¤‚±‚Æ‚ª‚í‚©‚è‚Ü‚·D
+ã‚¨ãƒ©ãƒ¼ç®‡æ‰€ã«ã‚¨ãƒ©ãƒ¼ç•ªå·ãŒè¡¨ç¤ºã•ã‚Œã€ã•ã‚‰ã«ãã®ä¸‹ã«ã‚¨ãƒ©ãƒ¼ã®æ„å‘³ãŒè¡¨ç¤ºã•ã‚Œã¾ã™ã€‚ã¾ãŸã€
+ã‚¨ãƒ©ãƒ¼ã®ç®‡æ‰€ã®è¡Œç•ªå·ã‚‚è¡¨ç¤ºã•ã‚Œã¾ã™ã€‚ã“ã®ã‚¨ãƒ©ãƒ¼ã§ã¯ã€Œ108ã€ã¨ã„ã†ã®ãŒè¡Œç•ªå·ã§ã™ã€‚
 
 
-        409  Unrecognizable item - skip to find a new statement
-                looking for a ';' or a key word to get started again
+LSTãƒ•ã‚¡ã‚¤ãƒ«å†…ã§ `y' ã‚’ã‚¿ã‚¤ãƒ—ã™ã‚‹ã¨ï¼Œæœ€åˆã®ã‚¨ãƒ©ãƒ¼ã®ä½ç½®ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ï¼
 
-        **** 1 ERROR(S)   0 WARNING(S)
-        GAMS 24.5.6  r55090 Released Nov 27, 2015 WEX-WEI x86 64bit/MS Windows                                   07/13/17 20:42:00 Page 28
-        GAMS mode for Emacs‚Ìg‚¢•û‚ğà–¾‚·‚é‚½‚ß‚ÌƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€
-        Include File Summary
+æ¬¡ã«ï¼ŒLSTãƒ•ã‚¡ã‚¤ãƒ«ã§ `u' ã‚’ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼GAMS ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚¨ãƒ©ãƒ¼ãŒç½®ãã¦ã„
+ã‚‹ä½ç½®ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ï¼
 
+ä»¥ä¸Šã®æ‰‹é †ï¼Œã¤ã¾ã‚Š
 
-LSTƒtƒ@ƒCƒ‹“à‚Å `y' ‚ğƒ^ƒCƒv‚·‚é‚ÆCÅ‰‚ÌƒGƒ‰[‚ÌˆÊ’u‚ÉƒWƒƒƒ“ƒv‚µ‚Ü‚·D
+ o GAMSã‚’å®Ÿè¡Œ (`f9' or `C-cC-s').
+ o LSTãƒ•ã‚¡ã‚¤ãƒ«ã«ç§»å‹• (`f10' or `C-cC-v').
+ o ã‚¨ãƒ©ãƒ¼ã®ä½ç½®ï¼Œå†…å®¹ã‚’ç¢ºèªï¼
+ o GMSãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¨ãƒ©ãƒ¼ç®‡æ‰€ã«ã‚¸ãƒ£ãƒ³ãƒ— (`u')
 
-Ÿ‚ÉCLSTƒtƒ@ƒCƒ‹‚Å `u' ‚ğƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢DGAMS ƒtƒ@ƒCƒ‹“à‚ÌƒGƒ‰[‚ª’u‚«‚Ä‚¢
-‚éˆÊ’u‚ÉƒWƒƒƒ“ƒv‚µ‚Ü‚·D
-
-ˆÈã‚Ìè‡C‚Â‚Ü‚è
-
- o GAMS‚ğÀs (`f9' or `C-cC-s').
- o LSTƒtƒ@ƒCƒ‹‚ÉˆÚ“® (`f10' or `C-cC-v').
- o ƒGƒ‰[‚ÌˆÊ’uC“à—e‚ğŠm”FD
- o GMSƒtƒ@ƒCƒ‹‚ÌƒGƒ‰[‰ÓŠ‚ÉƒWƒƒƒ“ƒv (`u')
-
-‚ğŒJ‚è•Ô‚·‚±‚Æ‚ÅCŠÈ’P‚É GMS ƒtƒ@ƒCƒ‹‚ğƒfƒoƒbƒO (debug) ‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D
+ã‚’ç¹°ã‚Šè¿”ã™ã“ã¨ã§ï¼Œç°¡å˜ã« GMS ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ‡ãƒãƒƒã‚° (debug) ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼
 
 
-(*) `u' ‚Æ `i' (or `b') ‚Ìˆá‚¢D
+(*) `u' ã¨ `i' (or `b') ã®é•ã„ï¼
 
-‚à‚µƒGƒ‰[‚ª‘¶İ‚µ‚Ä‚¢‚½‚çCŸ‚Ì‚æ‚¤‚ÈƒƒbƒZ[ƒW‚ªƒ~ƒjƒoƒbƒtƒ@[‚É•\¦‚³‚ê‚Ü‚·D
-
-    Key: `u' = Jump to the error place, `i' = Jump to the input file.
+ã‚‚ã—ã‚¨ãƒ©ãƒ¼ãŒå­˜åœ¨ã—ã¦ã„ãŸã‚‰ï¼Œæ¬¡ã®ã‚ˆã†ãªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢ã«è¡¨ç¤ºã•ã‚Œã¾ã™ï¼
 
 
-`u' ‚Å‚ÍƒGƒ‰[‚ÌˆÊ’u‚ÉƒWƒƒƒ“ƒv‚µ‚Ü‚·D `i' ‚Å‚ÍƒCƒ“ƒvƒbƒgƒtƒ@ƒCƒ‹ (ƒgƒbƒvƒŒƒxƒ‹
-‚ÌƒvƒƒOƒ‰ƒ€) ‚ÉƒWƒƒƒ“ƒv‚µ‚Ü‚·D
-
-ƒGƒ‰[‚ÍƒCƒ“ƒvƒbƒgƒtƒ@ƒCƒ‹‚Å‚Í‚È‚­CƒCƒ“ƒvƒbƒgƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚Ü‚ê‚½ƒTƒuƒ‹[ƒ`
-ƒ“ƒtƒ@ƒCƒ‹‚Å¶‚¶‚Ä‚¢‚éê‡‚ª‚ ‚è‚Ü‚·D`u' ‚ğ‰Ÿ‚·‚ÆƒCƒ“ƒvƒbƒgƒtƒ@ƒCƒ‹‚Å‚ ‚ë‚¤‚ªC
-ƒTƒuƒ‹[ƒ`ƒ“ƒtƒ@ƒCƒ‹‚Å‚ ‚ë‚¤‚ªC‚Æ‚É‚©‚­ƒGƒ‰[‚ÌêŠ‚ÉƒWƒƒƒ“ƒv‚µ‚Ü‚·‚ªC`i' ‚Å‚Í
-ƒCƒ“ƒvƒbƒgƒtƒ@ƒCƒ‹‚ÉƒWƒƒƒ“ƒv‚µ‚Ü‚·D
-
-ƒCƒ“ƒvƒbƒgƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Í LST ƒtƒ@ƒCƒ‹‚ÌÅ‰º•”‚É‚ ‚é FILE SUMMARY ƒtƒB[ƒ‹ƒh‚©
-‚çæ“¾‚³‚ê‚Ü‚·D
+    Key: [u]=Jump to the error place, [i]=Jump to the main input file.
 
 
-Syntax ƒGƒ‰[ˆÈŠO‚ÌƒGƒ‰[ (—á‚¦‚ÎAexecution) ‚Ìê‡‚É‚ÍCƒGƒ‰[s‚µ‚©•\¦‚³‚ê‚È
-‚¢‚©‚à‚µ‚ê‚Ü‚¹‚ñD—á‚¦‚ÎCˆÈ‰º‚É‚ ‚é "* b = 1/a;" ‚Æ‚¢‚¤s‚Ìæ“ª‚Ì * ‚ğœ‹‚µ‚ÄC
-GAMS ‚ğÀs‚µ‚ÄALST ƒtƒ@ƒCƒ‹‚ÉˆÚ“®‚µ‚Ä‚­‚¾‚³‚¢B
+`u' ã§ã¯ã‚¨ãƒ©ãƒ¼ã®ä½ç½®ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ï¼ `i' ã§ã¯ã‚¤ãƒ³ãƒ—ãƒƒãƒˆãƒ•ã‚¡ã‚¤ãƒ« (ãƒˆãƒƒãƒ—ãƒ¬ãƒ™ãƒ«
+ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ) ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ï¼
+
+ã‚¨ãƒ©ãƒ¼ã¯ã‚¤ãƒ³ãƒ—ãƒƒãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ãªãï¼Œã‚¤ãƒ³ãƒ—ãƒƒãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã¾ã‚ŒãŸã‚µãƒ–ãƒ«ãƒ¼ãƒ
+ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã§ç”Ÿã˜ã¦ã„ã‚‹å ´åˆãŒã‚ã‚Šã¾ã™ï¼`u' ã‚’æŠ¼ã™ã¨ã‚¤ãƒ³ãƒ—ãƒƒãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã§ã‚ã‚ã†ãŒï¼Œ
+ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã§ã‚ã‚ã†ãŒï¼Œã¨ã«ã‹ãã‚¨ãƒ©ãƒ¼ã®å ´æ‰€ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ãŒï¼Œ`i' ã§ã¯
+ã‚¤ãƒ³ãƒ—ãƒƒãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ï¼
+
+ã‚¤ãƒ³ãƒ—ãƒƒãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã¯ LST ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€ä¸‹éƒ¨ã«ã‚ã‚‹ FILE SUMMARY ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‹
+ã‚‰å–å¾—ã•ã‚Œã¾ã™ï¼
+
+
+Syntax ã‚¨ãƒ©ãƒ¼ä»¥å¤–ã®ã‚¨ãƒ©ãƒ¼ (ä¾‹ãˆã°ã€execution error) ã®å ´åˆã«ã¯ï¼Œã‚¨ãƒ©ãƒ¼è¡Œã—ã‹è¡¨ç¤º
+ã•ã‚Œãªã„ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ï¼ä¾‹ãˆã°ï¼Œä»¥ä¸‹ã«ã‚ã‚‹ "* b = 1/a;" ã¨ã„ã†è¡Œã®å…ˆé ­ã® * ã‚’é™¤
+å»ã—ã¦ï¼ŒGAMS ã‚’å®Ÿè¡Œã—ã¦ã€LST ãƒ•ã‚¡ã‚¤ãƒ«ã«ç§»å‹•ã—ã¦ãã ã•ã„ã€‚
 $offtext
 parameter a       Parameter a
           b       Parameter b;
 a = 0;
-* b = 1/a;
+* b = 1/a;      # * ã‚’æ¶ˆã—ã¦ã¿ã¦ãã ã•ã„ï¼
 parameter c, d, e;
 
 $ontext
 
-Ÿ‚Ìs‚Å `l' ‚ğƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢D
+æ¬¡ã®è¡Œã§ `l' ã‚’ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼
 
 
- *** Exec Error at line 197: division by zero (0)
+**** Exec Error at line 174: division by zero (0)
 
 
-‚·‚é‚ÆCƒGƒ‰[s (197) ‚ÉƒWƒƒƒ“ƒv‚µ‚Ü‚·D‚³‚ç‚ÉC‚»‚±‚Å `b' ‚ğƒ^ƒCƒv‚·‚ê‚ÎCGMS
-ƒtƒ@ƒCƒ‹“à‚ÌƒGƒ‰[‚ÌˆÊ’u‚ÉƒWƒƒƒ“ƒv‚µ‚Ü‚·D
+ã™ã‚‹ã¨ï¼Œã‚¨ãƒ©ãƒ¼è¡Œ (174) ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ï¼ã•ã‚‰ã«ï¼Œãã“ã§ `b' ã‚’ã‚¿ã‚¤ãƒ—ã™ã‚Œã°ï¼ŒGMS
+ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚¨ãƒ©ãƒ¼ã®ä½ç½®ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ï¼
 
 $offtext
 *        ----------------------------------------------------------------------
-$stitle         GAMS mode ‚Ì‚»‚Ì‘¼‚ÌƒRƒ}ƒ“ƒhD
+$stitle         GAMS mode ã®ãã®ä»–ã®ã‚³ãƒãƒ³ãƒ‰ï¼
 *        ----------------------------------------------------------------------
 
 * ------------------
-$stitle         ƒvƒƒZƒX‚É‚Â‚¢‚ÄD
+$stitle         ãƒ—ãƒ­ã‚»ã‚¹ã«ã¤ã„ã¦ï¼
 * ------------------
 $ontext
 
-[ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Ì•ÏX]
+[ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®å¤‰æ›´]
 
-ã‚Åà–¾‚µ‚½‚æ‚¤‚ÉC`C-cC-ts' ‚Æƒ^ƒCƒv‚·‚é‚±‚Æ‚ÅCGAMS process ‚ğ‹N“®‚Å‚«‚Ü‚·D
-‚³‚ç‚ÉCƒ†ƒjƒo[ƒTƒ‹ƒA[ƒMƒ…ƒƒ“ƒg (‚Â‚Ü‚èCC-u) ‚ğ•t‚¯‰Á‚¦‚½ê‡‚É‚ÍCƒvƒƒZƒX
-‚ğ‹N“®‚·‚é‘O‚ÉCƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ğC³‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D
+ä¸Šã§èª¬æ˜ã—ãŸã‚ˆã†ã«ï¼Œ`C-cC-ts' ã¨ã‚¿ã‚¤ãƒ—ã™ã‚‹ã“ã¨ã§ï¼ŒGAMS process ã‚’èµ·å‹•ã§ãã¾ã™ï¼
+ã•ã‚‰ã«ï¼Œãƒ¦ãƒ‹ãƒãƒ¼ã‚µãƒ«ã‚¢ãƒ¼ã‚®ãƒ¥ãƒ¡ãƒ³ãƒˆ (ã¤ã¾ã‚Šï¼ŒC-u) ã‚’ä»˜ã‘åŠ ãˆãŸå ´åˆã«ã¯ï¼Œãƒ—ãƒ­ã‚»ã‚¹
+ã‚’èµ·å‹•ã™ã‚‹å‰ã«ï¼Œã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚’ä¿®æ­£ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼
 
-`C-uC-cC-t' ‚Æƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢D
+`C-uC-cC-t' ã¨ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼
 
 
     Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
 
 
-‚±‚±‚Å `s' ‚ğ‰Ÿ‚·‚ÆCŸ‚Ì‚æ‚¤‚ÈƒƒbƒZ[ƒW‚ªƒ~ƒjƒoƒbƒtƒ@[‚É•\¦‚³‚ê‚Ü‚·D
+ã“ã“ã§ `s' ã‚’æŠ¼ã™ã¨ï¼Œæ¬¡ã®ã‚ˆã†ãªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢ã«è¡¨ç¤ºã•ã‚Œã¾ã™ï¼
 
 
     Edit command if you want:  gams gams-sample.gms ll=0 lo=3 pw=100
 
 
-‚±‚±‚Å©•ª‚Ì–]‚Ş’Ê‚è‚ÉƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ğC³‚Å‚«‚Ü‚·D—á‚¦‚ÎC
+ã“ã“ã§è‡ªåˆ†ã®æœ›ã‚€é€šã‚Šã«ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚’ä¿®æ­£ã§ãã¾ã™ï¼ä¾‹ãˆã°ï¼Œ
 
 
     Edit command if you want:  gams gams-sample.gms ll=0 lo=3 pw=120
 
 
-‚ÆC³‚µ‚½‚Æ‚µ‚Ü‚·D‚·‚é‚ÆC‚±‚ÌŒãˆÈ‰º‚Ì‚æ‚¤‚ÈƒƒbƒZ[ƒW‚ª‚Å‚Ü‚·D
+ã¨ä¿®æ­£ã—ãŸã¨ã—ã¾ã™ï¼ã™ã‚‹ã¨ï¼Œã“ã®å¾Œä»¥ä¸‹ã®ã‚ˆã†ãªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒã§ã¾ã™ï¼
 
 
 
     Use this command line also in the future?
 
-‚±‚±‚Å `y' ‚Æ“š‚¦‚é‚ÆCŸ‚Ì‚æ‚¤‚Ès‚ª‚±‚Ìƒtƒ@ƒCƒ‹‚Ì‘æˆês–Ú‚É’Ç‰Á‚³‚ê‚Ü‚·D
+ã“ã“ã§ `y' ã¨ç­”ãˆã‚‹ã¨ï¼Œæ¬¡ã®ã‚ˆã†ãªè¡ŒãŒã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®ç¬¬ä¸€è¡Œç›®ã«è¿½åŠ ã•ã‚Œã¾ã™ï¼
 
 
     *#!gams gams gams-sample.gms ll=0 lo=3 pw=120
 
 
-Ÿ‚ÉGAMS‚ğÀs‚·‚é‚Æ‚«‚É‚ÍC‚±‚Ìs‚ª‚»‚Ì‚Ü‚ÜƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Æ‚µ‚ÄƒVƒFƒ‹‚É“n‚³‚ê‚Ü
-‚· (—v‚·‚é‚ÉC‚±‚Ìs‚ªƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Æ‚µ‚ÄC‚»‚Ì‚Ü‚ÜÀs‚³‚ê‚é‚Æ‚¢‚¤‚±‚Æ)D‚à‚µC
-ƒfƒtƒH[ƒ‹ƒg‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚É–ß‚µ‚½‚¢‚Æ‚«‚É‚ÍC‚±‚Ìs‚ğÁ‹‚µ‚Ä‚­‚¾‚³‚¢D
+æ¬¡ã«GAMSã‚’å®Ÿè¡Œã™ã‚‹ã¨ãã«ã¯ï¼Œã“ã®è¡ŒãŒãã®ã¾ã¾ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã¨ã—ã¦ã‚·ã‚§ãƒ«ã«æ¸¡ã•ã‚Œã¾
+ã™ (è¦ã™ã‚‹ã«ï¼Œã“ã®è¡ŒãŒã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã¨ã—ã¦ï¼Œãã®ã¾ã¾å®Ÿè¡Œã•ã‚Œã‚‹ã¨ã„ã†ã“ã¨)ï¼ã‚‚ã—ï¼Œ
+ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã®ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã«æˆ»ã—ãŸã„ã¨ãã«ã¯ï¼Œã“ã®è¡Œã‚’æ¶ˆå»ã—ã¦ãã ã•ã„ï¼
 
 
-[*#! ‹L–@‚É‚æ‚éƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Ìw’è]
+[*#! è¨˜æ³•ã«ã‚ˆã‚‹ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®æŒ‡å®š]
 
-GMS ƒtƒ@ƒCƒ‹‚ÌÅ‰‚Ìs‚É *#! ‚Ån‚Ü‚é•\Œ»‚ª‚ ‚Á‚½ê‡CGAMS mode ‚Í‚»‚Ìs‚ğ‚»‚Ì
-‚Ü‚ÜƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Æ‚µ‚ÄÀs‚µ‚Ü‚·D
+GMS ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€åˆã®è¡Œã« *#! ã§å§‹ã¾ã‚‹è¡¨ç¾ãŒã‚ã£ãŸå ´åˆï¼ŒGAMS mode ã¯ãã®è¡Œã‚’ãã®
+ã¾ã¾ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã¨ã—ã¦å®Ÿè¡Œã—ã¾ã™ï¼
 
-—á‚¦‚ÎCˆê”ÔÅ‰‚Ìs‚ÉŸ‚Ì‚æ‚¤‚É‘‚¢‚Ä‚­‚¾‚³‚¢D
-
-
-        *#!c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+ä¾‹ãˆã°ï¼Œä¸€ç•ªæœ€åˆã®è¡Œã«æ¬¡ã®ã‚ˆã†ã«æ›¸ã„ã¦ãã ã•ã„ï¼
 
 
-‚·‚é‚ÆCC-cC-s ‚Å
+        *#!c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=./gams-sample-alt.lst
 
 
-c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.\gams-sample-alt.lst
+ã™ã‚‹ã¨ï¼ŒC-cC-s ã§
 
 
-‚ªC‚»‚Ì‚Ü‚ÜƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Æ‚µ‚ÄÀs‚³‚ê‚Ü‚·D‚±‚ê‚ÍƒVƒFƒ‹ƒXƒNƒŠƒvƒg‚É‚¨‚¯‚é
-#!/usr/bin/perl ‚â #!/bin/sh ‚Æ‚¢‚Á‚½‹L–@‚Æ“¯‚¶‚æ‚¤‚È‹@”\‚Å‚·D
-
-GAMS mode ‚ªÀs‚·‚éƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÍCƒfƒtƒH[ƒ‹ƒg‚Å‚Í•Ï”
-`gams-process-command-name' ‚Æ`gams-process-command-option' ‚É‚æ‚Á‚ÄŒˆ’è‚³‚ê‚Ü‚·D
-‚±‚ê‚ÍCƒfƒtƒH[ƒ‹ƒg‚Å‚Í‘S‚Ä‚Ìƒtƒ@ƒCƒ‹‚É“¯‚¶ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ª“K—p‚³‚ê‚é‚Æ‚¢‚¤‚±‚Æ
-‚ğˆÓ–¡‚µ‚Ü‚·D‚à‚µC‚ ‚é“Á’è‚Ìƒtƒ@ƒCƒ‹‚É‚Â‚¢‚Ä‚ÍCƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ğ•ÏX‚µ‚½‚¢ê‡
-‚É‚ÍC‚±‚Ì "*#!" ‹L–@‚ğg‚¤‚±‚Æ‚Å‘Îˆ‚Å‚«‚Ü‚·D
+c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.gams-sample-alt.lst
 
 
-[GAMS ‚ÌƒvƒƒZƒX‚ğ kill ‚·‚é (’â~‚³‚¹‚é) ]
+ãŒï¼Œãã®ã¾ã¾ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã¨ã—ã¦å®Ÿè¡Œã•ã‚Œã¾ã™ï¼ã“ã‚Œã¯ã‚·ã‚§ãƒ«ã‚¹ã‚¯ãƒªãƒ—ãƒˆã«ãŠã‘ã‚‹
+#!/usr/bin/perl ã‚„ #!/bin/sh ã¨ã„ã£ãŸè¨˜æ³•ã¨åŒã˜ã‚ˆã†ãªæ©Ÿèƒ½ã§ã™ï¼
 
-GAMS‚ÌƒvƒƒZƒX‚ª‘–‚Á‚Ä‚¢‚é‚Æ‚«‚ÉC`C-cC-tk' ‚Æƒ^ƒCƒv‚·‚é‚ÆƒvƒƒZƒX‚ğ’â~‚³‚¹‚é‚±
-‚Æ‚ª‚Å‚«‚Ü‚·D$ontext-$offtext ‚ÉˆÍ‚Ü‚ê‚½•”•ª‚ÌƒR[ƒh‚ğÀs‚µ‚ÄAˆÈ‰º‚Ìè‡‚ğ‚¨
-‚±‚È‚Á‚Ä‚­‚¾‚³‚¢B
+GAMS mode ãŒå®Ÿè¡Œã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã¯ï¼Œãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã§ã¯å¤‰æ•°
+`gams-process-command-name' ã¨`gams-process-command-option' ã«ã‚ˆã£ã¦æ±ºå®šã•ã‚Œã¾ã™ï¼
+ã“ã‚Œã¯ï¼Œãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã§ã¯å…¨ã¦ã®ãƒ•ã‚¡ã‚¤ãƒ«ã«åŒã˜ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ãŒé©ç”¨ã•ã‚Œã‚‹ã¨ã„ã†ã“ã¨
+ã‚’æ„å‘³ã—ã¾ã™ï¼ã‚‚ã—ï¼Œã‚ã‚‹ç‰¹å®šã®ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¤ã„ã¦ã¯ï¼Œã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚’å¤‰æ›´ã—ãŸã„å ´åˆ
+ã«ã¯ï¼Œã“ã® "*#!" è¨˜æ³•ã‚’ä½¿ã†ã“ã¨ã§å¯¾å‡¦ã§ãã¾ã™ï¼
+
+
+[GAMS ã®ãƒ—ãƒ­ã‚»ã‚¹ã‚’ kill ã™ã‚‹ (åœæ­¢ã•ã›ã‚‹) ]
+
+GAMSã®ãƒ—ãƒ­ã‚»ã‚¹ãŒèµ°ã£ã¦ã„ã‚‹ã¨ãã«ï¼Œ`C-cC-tk' ã¨ã‚¿ã‚¤ãƒ—ã™ã‚‹ã¨ãƒ—ãƒ­ã‚»ã‚¹ã‚’åœæ­¢ã•ã›ã‚‹ã“
+ã¨ãŒã§ãã¾ã™ï¼$ontext-$offtext ã«å›²ã¾ã‚ŒãŸéƒ¨åˆ†ã®ã‚³ãƒ¼ãƒ‰ã‚’å®Ÿè¡Œã—ã¦ã€ä»¥ä¸‹ã®æ‰‹é †ã‚’ãŠ
+ã“ãªã£ã¦ãã ã•ã„ã€‚
 
  (1) `C-cC-t'
  (2) `s'
  (3) `C-cC-t' while a GAMS process running.
  (4) `k'
 
-ontext-oftext ‚ÌƒyƒA‚ğœ‹‚·‚é‚É‚Í ontext ‚© offtext ‚Ìã‚Å `C-cM-c' ‚ğÀs‚µ‚Ä
-‚­‚¾‚³‚¢D
+ontext-oftext ã®ãƒšã‚¢ã‚’é™¤å»ã™ã‚‹ã«ã¯ ontext ã‹ offtext ã®ä¸Šã§ `C-cM-c' ã‚’å®Ÿè¡Œã—ã¦
+ãã ã•ã„ï¼
 $offtext
 
 $ontext
@@ -313,129 +299,129 @@ $offtext
 
 $ontext
 
-[ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÌƒIƒvƒVƒ‡ƒ“‚ğ•ÏX‚·‚éD]
+[ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¤‰æ›´ã™ã‚‹ï¼]
 
-ƒvƒƒZƒXƒƒjƒ…[ (C-cC-t) ‚Å `o' ‚ğ‰Ÿ‚·‚±‚Æ‚É‚æ‚èƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÌƒIƒvƒVƒ‡ƒ“‚ğ•Ï
-X‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D‚Ü‚½CV‚½‚ÈƒIƒvƒVƒ‡ƒ“‚Ì‘g‚İ‡‚í‚¹‚ğ“o˜^‚µ‚Ä‚¨‚­‚±‚Æ‚ª‚Å‚«
-‚Ü‚·D
+ãƒ—ãƒ­ã‚»ã‚¹ãƒ¡ãƒ‹ãƒ¥ãƒ¼ (C-cC-t) ã§ `o' ã‚’æŠ¼ã™ã“ã¨ã«ã‚ˆã‚Šã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¤‰
+æ›´ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼ã¾ãŸï¼Œæ–°ãŸãªã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®çµ„ã¿åˆã‚ã›ã‚’ç™»éŒ²ã—ã¦ãŠãã“ã¨ãŒã§ã
+ã¾ã™ï¼
 
-“o˜^‚µ‚½ƒIƒvƒVƒ‡ƒ“‚Í `gams-statement-file' (‚ÅŒˆ’è‚³‚ê‚éƒtƒ@ƒCƒ‹) ‚É•Û‘¶‚³‚ê‚Ü‚·D
+ç™»éŒ²ã—ãŸã‚ªãƒ—ã‚·ãƒ§ãƒ³ã¯ `gams-statement-file' (ã§æ±ºå®šã•ã‚Œã‚‹ãƒ•ã‚¡ã‚¤ãƒ«) ã«ä¿å­˜ã•ã‚Œã¾ã™ï¼
 
-ƒfƒtƒH[ƒ‹ƒg‚ÌƒIƒvƒVƒ‡ƒ“‚Ì‘g‚İ‡‚í‚¹‚Í•Ï” `gams-process-command-option' ‚Ì’l‚Å
-Œˆ’è‚³‚ê‚Ü‚·D
+ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®çµ„ã¿åˆã‚ã›ã¯å¤‰æ•° `gams-process-command-option' ã®å€¤ã§
+æ±ºå®šã•ã‚Œã¾ã™ï¼
 
 
-[GAMS‚ÌƒRƒ}ƒ“ƒh‚ğ•ÏX‚·‚éD]
+[GAMSã®ã‚³ãƒãƒ³ãƒ‰ã‚’å¤‰æ›´ã™ã‚‹ï¼]
 
-ƒvƒƒZƒXƒƒjƒ…[ (C-cC-t) ‚Å `c' ‚ğ‰Ÿ‚·‚±‚Æ‚É‚æ‚è GAMS ‚ÌƒRƒ}ƒ“ƒh‚ğ•ÏX‚·‚é‚±‚Æ
-‚ª‚Å‚«‚Ü‚·D‚Ü‚½CV‚½‚ÈƒRƒ}ƒ“ƒh‚ğ“o˜^‚µ‚Ä‚¨‚­‚±‚Æ‚ª‚Å‚«‚Ü‚·D
+ãƒ—ãƒ­ã‚»ã‚¹ãƒ¡ãƒ‹ãƒ¥ãƒ¼ (C-cC-t) ã§ `c' ã‚’æŠ¼ã™ã“ã¨ã«ã‚ˆã‚Š GAMS ã®ã‚³ãƒãƒ³ãƒ‰ã‚’å¤‰æ›´ã™ã‚‹ã“ã¨
+ãŒã§ãã¾ã™ï¼ã¾ãŸï¼Œæ–°ãŸãªã‚³ãƒãƒ³ãƒ‰ã‚’ç™»éŒ²ã—ã¦ãŠãã“ã¨ãŒã§ãã¾ã™ï¼
 
-“o˜^‚µ‚½ƒIƒvƒVƒ‡ƒ“‚Í `gams-statement-file' (‚ÅŒˆ’è‚³‚ê‚éƒtƒ@ƒCƒ‹) ‚É•Û‘¶‚³‚ê‚Ü‚·D
+ç™»éŒ²ã—ãŸã‚ªãƒ—ã‚·ãƒ§ãƒ³ã¯ `gams-statement-file' (ã§æ±ºå®šã•ã‚Œã‚‹ãƒ•ã‚¡ã‚¤ãƒ«) ã«ä¿å­˜ã•ã‚Œã¾ã™ï¼
 
-ƒfƒtƒH[ƒ‹ƒg‚ÌƒIƒvƒVƒ‡ƒ“‚Ì‘g‚İ‡‚í‚¹‚Í•Ï” `gams-process-command-option' ‚Ì’l‚Å
-Œˆ’è‚³‚ê‚Ü‚·D
+ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®çµ„ã¿åˆã‚ã›ã¯å¤‰æ•° `gams-process-command-option' ã®å€¤ã§
+æ±ºå®šã•ã‚Œã¾ã™ï¼
 
 $offtext
 * ------------------
-$stitle         LST ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ÆêŠ‚Ìw’è
+$stitle         LST ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã¨å ´æ‰€ã®æŒ‡å®š
 * ------------------
 $ontext
 
-GMS ƒtƒ@ƒCƒ‹‚É GAMS ‚ğÀs‚·‚é‚ÆCGAMS ƒtƒ@ƒCƒ‹‚Æ“¯‚¶–¼‘O (Šg’£q•”•ª‚Ì‚İˆÙ‚È‚é)
-‚Ì LST ƒtƒ@ƒCƒ‹‚ª“¯‚¶ƒtƒHƒ‹ƒ_‚Éì¬‚³‚ê‚Ü‚·D‚µ‚©‚µCLST ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ÆêŠ‚ğ
-©•ª‚Åw’è‚·‚é‚±‚Æ‚à‚Å‚«‚Ü‚·D
+GMS ãƒ•ã‚¡ã‚¤ãƒ«ã« GAMS ã‚’å®Ÿè¡Œã™ã‚‹ã¨ï¼ŒGAMS ãƒ•ã‚¡ã‚¤ãƒ«ã¨åŒã˜åå‰ (æ‹¡å¼µå­éƒ¨åˆ†ã®ã¿ç•°ãªã‚‹)
+ã® LST ãƒ•ã‚¡ã‚¤ãƒ«ãŒåŒã˜ãƒ•ã‚©ãƒ«ãƒ€ã«ä½œæˆã•ã‚Œã¾ã™ï¼ã—ã‹ã—ï¼ŒLST ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã¨å ´æ‰€ã‚’
+è‡ªåˆ†ã§æŒ‡å®šã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ï¼
 
-—á‚¦‚ÎCLST ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ lst-sample.lst ‚Æ‚µC‚³‚ç‚É‚»‚ê‚ğ doc ‚Æ‚¢‚¤ƒTƒuƒtƒH
-ƒ‹ƒ_‚Éo—Í‚µ‚½‚¢‚Æ‚µ‚Ü‚·D‚»‚Ìê‡CGMS ƒtƒ@ƒCƒ‹‚ÉŸ‚Ì‚æ‚¤‚Ès‚ğ‰Á‚¦‚Ä‚¨‚«‚Ü‚·D
+ä¾‹ãˆã°ï¼ŒLST ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã‚’ lst-sample.lst ã¨ã—ï¼Œã•ã‚‰ã«ãã‚Œã‚’ doc ã¨ã„ã†ã‚µãƒ–ãƒ•ã‚©
+ãƒ«ãƒ€ã«å‡ºåŠ›ã—ãŸã„ã¨ã—ã¾ã™ï¼ãã®å ´åˆï¼ŒGMS ãƒ•ã‚¡ã‚¤ãƒ«ã«æ¬¡ã®ã‚ˆã†ãªè¡Œã‚’åŠ ãˆã¦ãŠãã¾ã™ï¼
 
-        * gams-lst-file: .\doc\lst-sample-2.lst
+        * gams-lst-file: ./doc/lst-sample-2.lst
 
 
-(* ‚Í–{“–‚Ís“ª‚É‚È‚­‚Ä‚Í‚È‚è‚Ü‚¹‚ñ)
+(* ã¯æœ¬å½“ã¯è¡Œé ­ã«ãªãã¦ã¯ãªã‚Šã¾ã›ã‚“)
 
-‚±‚ÌƒR[ƒh‚ÍŸ‚Ì“ñ‚Â‚ÌˆÓ–¡‚ğ‚¿‚Ü‚·D
+ã“ã®ã‚³ãƒ¼ãƒ‰ã¯æ¬¡ã®äºŒã¤ã®æ„å‘³ã‚’æŒã¡ã¾ã™ï¼
 
-1) GAMS ‚ª 'o=.\doc\lst-sample.lst' ‚Æ‚¢‚¤ƒIƒvƒVƒ‡ƒ“•t‚«‚ÅÀs‚³‚ê‚éD
+1) GAMS ãŒ 'o=./doc/lst-sample.lst' ã¨ã„ã†ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä»˜ãã§å®Ÿè¡Œã•ã‚Œã‚‹ï¼
 
-2) ‚±‚Ì GMS ƒtƒ@ƒCƒ‹‚©‚ç C-cC-v (or F10) ƒL[‚Å .\doc\lst-sample.lst ‚ÉˆÚ“®
-   ‚Å‚«‚Ü‚·D
+2) ã“ã® GMS ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ C-cC-v (or F10) ã‚­ãƒ¼ã§ ./doc/lst-sample.lst ã«ç§»å‹•
+   ã§ãã¾ã™ï¼
 
-‚±‚Ì‹@”\‚ğ‚µ‚É—˜—p‚µ‚Ä‚İ‚½‚¢‚Æ‚«‚É‚ÍC‚±‚Ì GMS ƒtƒ@ƒCƒ‹‚Ì 3 s–Ú‚Ìs“ª‚Ì`**'
-‚ğ `*' ‚É•ÏX‚µ‚Ä‚­‚¾‚³‚¢D
+ã“ã®æ©Ÿèƒ½ã‚’è©¦ã—ã«åˆ©ç”¨ã—ã¦ã¿ãŸã„ã¨ãã«ã¯ï¼Œã“ã® GMS ãƒ•ã‚¡ã‚¤ãƒ«ã®å§‹ã‚ã®ã¨ã“ã‚ã«ã‚ã‚‹
+ã€Œ** gams-lst-file:...ã€ã¨ã„ã†è¡Œã®è¡Œé ­ã‚’ã€Œ*ã€ã«å¤‰æ›´ã—ã¦ã¿ã¦ãã ã•ã„ã€‚
 
-“¯—l‚ÉC`gams-lst-dir' ‚ğg‚¦‚ÎLSTƒtƒ@ƒCƒ‹‚ğo—Í‚·‚éuƒtƒHƒ‹ƒ_v‚ğw’è‚Å‚«‚Ü‚·D
+åŒæ§˜ã«ï¼Œ`gams-lst-dir' ã‚’ä½¿ãˆã°LSTãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‡ºåŠ›ã™ã‚‹ã€Œãƒ•ã‚©ãƒ«ãƒ€ã€ã‚’æŒ‡å®šã§ãã¾ã™ï¼
 
-—á‚¦‚Î
+ä¾‹ãˆã°
 
-        * gams-lst-dir: .\lst
+        * gams-lst-dir: ./lst
 
-‚Æ‚¢‚¤ƒR[ƒh‚ğ‰Á‚¦‚é‚Æ gams-sample.lst ‚Í ".\lst\" ‚Æ‚¢‚¤ƒtƒHƒ‹ƒ_‚Éo—Í‚³‚ê‚é‚±
-‚Æ‚É‚È‚è‚Ü‚·D
+ã¨ã„ã†ã‚³ãƒ¼ãƒ‰ã‚’åŠ ãˆã‚‹ã¨ gams-sample.lst ã¯ "./lst/" ã¨ã„ã†ãƒ•ã‚©ãƒ«ãƒ€ã«å‡ºåŠ›ã•ã‚Œã‚‹ã“
+ã¨ã«ãªã‚Šã¾ã™ï¼
 
 $offtext
 * ----------------------------
-$stitle         GAMS ‚Ì–½—ß‚Ì•âŠ®“ü—ÍD
+$stitle         GAMS ã®å‘½ä»¤ã®è£œå®Œå…¥åŠ›ï¼
 * ----------------------------
 $ontext
 
-GAMS ‚Ì–½—ß‚ğ•âŠ®“ü—Í‚Å‚«‚Ü‚·D`C-cC-k' ‚Æƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢D‚·‚é‚ÆCƒ~ƒjƒoƒbƒtƒ@[
-‚ÉŸ‚Ì‚æ‚¤‚ÈƒƒbƒZ[ƒW‚ª•\¦‚³‚ê‚Ü‚·D
+GAMS ã®å‘½ä»¤ã‚’è£œå®Œå…¥åŠ›ã§ãã¾ã™ï¼`C-cC-k' ã¨ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼ã™ã‚‹ã¨ï¼Œã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢
+ã«æ¬¡ã®ã‚ˆã†ãªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚Œã¾ã™ï¼
 
 
     Insert statement (default = set):
 
-‚±‚±‚ÅCspace ‚© tab ƒL[‚ğ‰Ÿ‚·‚ÆC•âŠ®“ü—Í‚ÌŒó•â‚ª•\¦‚³‚ê‚Ü‚·D‚±‚±‚ÅENTER ‚ğ
-‰Ÿ‚·‚ÆƒfƒtƒH[ƒ‹ƒg’l‚Å‚ ‚é set ‚ª‚»‚Ì‚Ü‚Ü“ü—Í‚³‚ê‚Ü‚·D‚ ‚é‚¢‚Í `v'‚ğ‰Ÿ‚µ‚Ä
-space ‚ğ‰Ÿ‚·‚Æ `VARIABLE' ‚ª©“®“I‚Éƒ~ƒjƒoƒbƒtƒ@[‚É“ü—Í (•âŠ®) ‚³‚ê‚Ü‚·D
+ã“ã“ã§ï¼Œspace ã‹ tab ã‚­ãƒ¼ã‚’æŠ¼ã™ã¨ï¼Œè£œå®Œå…¥åŠ›ã®å€™è£œãŒè¡¨ç¤ºã•ã‚Œã¾ã™ï¼ã“ã“ã§ENTER ã‚’
+æŠ¼ã™ã¨ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆå€¤ã§ã‚ã‚‹ set ãŒãã®ã¾ã¾å…¥åŠ›ã•ã‚Œã¾ã™ï¼ã‚ã‚‹ã„ã¯ `v'ã‚’æŠ¼ã—ã¦
+space ã‚’æŠ¼ã™ã¨ `VARIABLE' ãŒè‡ªå‹•çš„ã«ã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢ã«å…¥åŠ› (è£œå®Œ) ã•ã‚Œã¾ã™ï¼
 
-“¯—l‚ÉCdollar control option ‚à•âŠ®“ü—Í‚Å‚«‚Ü‚·D‚±‚Ìê‡‚ÍC `C-cC-d' ‚ğƒ^ƒCƒv
-‚µ‚Ä‚­‚¾‚³‚¢D
+åŒæ§˜ã«ï¼Œdollar control option ã‚‚è£œå®Œå…¥åŠ›ã§ãã¾ã™ï¼ã“ã®å ´åˆã¯ï¼Œ `C-cC-d' ã‚’ã‚¿ã‚¤ãƒ—
+ã—ã¦ãã ã•ã„ï¼
 
-‚³‚ç‚ÉCŠù‚É“ü—Í‚³‚ê‚Ä‚¢‚éƒRƒ}ƒ“ƒh‚Ìã‚Å `C-uC-cC-k' or `C-uC-cC-d' ‚ğÀs‚·‚é‚ÆC
-V‚µ‚¢ƒRƒ}ƒ“ƒh‚É’u‚«Š·‚¦‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D
+ã•ã‚‰ã«ï¼Œæ—¢ã«å…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®ä¸Šã§ `C-uC-cC-k' or `C-uC-cC-d' ã‚’å®Ÿè¡Œã™ã‚‹ã¨ï¼Œ
+æ–°ã—ã„ã‚³ãƒãƒ³ãƒ‰ã«ç½®ãæ›ãˆã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼
 $offtext
 
-parameter       replace;        # `parameter' ‚Ìã‚Å C-uC-cC-k
+parameter       replace;        # `parameter' ã®ä¸Šã§ C-uC-cC-k
 
 $ontext
 
-‚³‚ç‚ÉC‚æ‚è‘½‹@”\‚È `gams-insert-statement-extended' (C-cC-n) ‚Æ‚¢‚¤ƒRƒ}ƒ“ƒh‚à
-‚ ‚è‚Ü‚·D‚±‚ÌƒRƒ}ƒ“ƒh‚Å‚Í model, solve, file, option, if, while, loop, put ‚ğ“ü
-—Í‚·‚éÛ‚ÉCˆø”“™‚ğ•âŠ®“ü—Í‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D
+ã•ã‚‰ã«ï¼Œã‚ˆã‚Šå¤šæ©Ÿèƒ½ãª `gams-insert-statement-extended' (C-cC-n) ã¨ã„ã†ã‚³ãƒãƒ³ãƒ‰ã‚‚
+ã‚ã‚Šã¾ã™ï¼ã“ã®ã‚³ãƒãƒ³ãƒ‰ã§ã¯ model, solve, file, option, if, while, loop, put ã‚’å…¥
+åŠ›ã™ã‚‹éš›ã«ï¼Œå¼•æ•°ç­‰ã‚’è£œå®Œå…¥åŠ›ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼
 
 $offtext
 * -------------------------------------------
-$stitle         V‚µ‚¢ƒRƒ}ƒ“ƒh‚Ì“o˜^
+$stitle         æ–°ã—ã„ã‚³ãƒãƒ³ãƒ‰ã®ç™»éŒ²
 * -------------------------------------------
 $ontext
 
-ƒfƒtƒH[ƒ‹ƒg‚Å‚Í“o˜^‚³‚ê‚Ä‚¢‚È‚¢ƒRƒ}ƒ“ƒh‚ğ“ü—Í‚µ‚æ‚¤‚Æ‚µ‚½ê‡C‚»‚ê‚ğ‚»‚ÌŒã‚à—˜
-—p‚Å‚«‚é‚æ‚¤‚É“o˜^‚µ‚Ä‚¨‚­‚±‚Æ‚ª‚Å‚«‚Ü‚·D—á‚¦‚ÎC`C-cC-d' ‚Å `gdxin' ‚Æ“ü—Í‚µ‚Ä
-‚­‚¾‚³‚¢D
+ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã§ã¯ç™»éŒ²ã•ã‚Œã¦ã„ãªã„ã‚³ãƒãƒ³ãƒ‰ã‚’å…¥åŠ›ã—ã‚ˆã†ã¨ã—ãŸå ´åˆï¼Œãã‚Œã‚’ãã®å¾Œã‚‚åˆ©
+ç”¨ã§ãã‚‹ã‚ˆã†ã«ç™»éŒ²ã—ã¦ãŠãã“ã¨ãŒã§ãã¾ã™ï¼ä¾‹ãˆã°ï¼Œ`C-cC-d' ã§ `gdxin' ã¨å…¥åŠ›ã—ã¦
+ãã ã•ã„ï¼
 
 
     Insert dollar control (default = $abort): $gdxin
 
 
-‚±‚±‚Å enter ‚ğ‰Ÿ‚·‚ÆCŸ‚Ì‚æ‚¤‚É•·‚©‚ê‚Ü‚·D
+ã“ã“ã§ enter ã‚’æŠ¼ã™ã¨ï¼Œæ¬¡ã®ã‚ˆã†ã«èã‹ã‚Œã¾ã™ï¼
 
 
-    Store `gdxin' for future use?  Type `y' if yes: 
+    Store `gdxin' for future use?  Type `y' if yes:
 
 
-`y' ‚ğ‰Ÿ‚¹‚Î dollar control `$gdxin' ‚ğ“o˜^‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D“o˜^‚³‚ê‚ê‚ÎC•â
-Š®“ü—Í‚ÌŒó•â‚Ìˆê‚Â‚Æ‚µ‚Ä•\¦‚³‚ê‚é‚æ‚¤‚É‚È‚è‚Ü‚·D“o˜^‚³‚ê‚½–½—ß‚ª
-"~/gams-statement.txt" ƒtƒ@ƒCƒ‹‚É•Û‘¶‚³‚ê‚Ü‚·D‚à‚µCŠÔˆá‚¦‚Ä“o˜^‚µ‚Ä‚µ‚Ü‚Á‚½ê
-‡‚É‚ÍC"~/gams-statement.txt" ‚ğŠJ‚¢‚ÄÁ‚µ‚Ä‚­‚¾‚³‚¢D
+`y' ã‚’æŠ¼ã›ã° dollar control `$gdxin' ã‚’ç™»éŒ²ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼ç™»éŒ²ã•ã‚Œã‚Œã°ï¼Œè£œ
+å®Œå…¥åŠ›ã®å€™è£œã®ä¸€ã¤ã¨ã—ã¦è¡¨ç¤ºã•ã‚Œã‚‹ã‚ˆã†ã«ãªã‚Šã¾ã™ï¼ç™»éŒ²ã•ã‚ŒãŸå‘½ä»¤ãŒ
+"~/gams-statement.txt" ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã•ã‚Œã¾ã™ï¼ã‚‚ã—ï¼Œé–“é•ãˆã¦ç™»éŒ²ã—ã¦ã—ã¾ã£ãŸå ´
+åˆã«ã¯ï¼Œ"~/gams-statement.txt" ã‚’é–‹ã„ã¦æ¶ˆã—ã¦ãã ã•ã„ï¼
 
-dollar control ‚¾‚¯‚Å‚Í‚È‚­ statement (C-cC-k) ‚Ì“ü—Í‚É‚Â‚¢‚Ä‚àC“¯‚¶‚æ‚¤‚É“o˜^
-‚Å‚«‚Ü‚·DƒfƒtƒH[ƒ‹ƒg‚Ì gams.el ‚É‚Í‘S‚Ä‚Ì–½—ß‚Í“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñD‚æ‚­—˜—p‚·
-‚é–½—ß‚É‚Â‚¢‚Ä‚Í©•ª‚Å“o˜^‚·‚é‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢D
+dollar control ã ã‘ã§ã¯ãªã statement (C-cC-k) ã®å…¥åŠ›ã«ã¤ã„ã¦ã‚‚ï¼ŒåŒã˜ã‚ˆã†ã«ç™»éŒ²
+ã§ãã¾ã™ï¼ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã® gams.el ã«ã¯å…¨ã¦ã®å‘½ä»¤ã¯ç™»éŒ²ã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼ã‚ˆãåˆ©ç”¨ã™
+ã‚‹å‘½ä»¤ã«ã¤ã„ã¦ã¯è‡ªåˆ†ã§ç™»éŒ²ã™ã‚‹ã‚ˆã†ã«ã—ã¦ãã ã•ã„ï¼
 
 $offtext
 
 * ---------------------------------------------------------
-$stitle         GAMS mode ‚Å‚Ì auto-complete mode ‚Ì—˜—p
+$stitle         GAMS mode ã§ã® auto-complete mode ã®åˆ©ç”¨
 * ---------------------------------------------------------
 $ontext
 
@@ -462,27 +448,27 @@ variable `gams-ac-source-user-keywords-list` like
 $offtext
 
 * ---------------------------
-$stitle         ˆø—p‹L†‚ÆŠ‡ŒÊ
+$stitle         å¼•ç”¨è¨˜å·ã¨æ‹¬å¼§
 * ---------------------------
 
 $ontext
 
 `gams-close-paren-always', `gams-close-double-quotation-always',
-`gams-close-single-quotation-always' ‚Æ‚¢‚¤•Ï”‚É non-nil ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚É
-‚ÍC ', ", ( ‚ğƒ^ƒCƒv‚·‚é‚ÆC‚»‚ê‚É‘Î‰‚·‚é ', ", ) ‚ğ©“®“I‚É“ü—Í‚µ‚Ü‚·D`(' ‚É
-ƒ†ƒjƒo[ƒTƒ‹ƒA[ƒMƒ…ƒƒ“ƒg‚ğ•t‚¯‚é‚Æ (‚Â‚Ü‚èCC-u( ‚Æƒ^ƒCƒv‚·‚é‚Æ),•ÂŠ‡ŒÊ‚Í©“®
-‚Å‚Í“ü—Í‚³‚ê‚Ü‚¹‚ñD
+`gams-close-single-quotation-always' ã¨ã„ã†å¤‰æ•°ã« non-nil ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã«
+ã¯ï¼Œ ', ", ( ã‚’ã‚¿ã‚¤ãƒ—ã™ã‚‹ã¨ï¼Œãã‚Œã«å¯¾å¿œã™ã‚‹ ', ", ) ã‚’è‡ªå‹•çš„ã«å…¥åŠ›ã—ã¾ã™ï¼`(' ã«
+ãƒ¦ãƒ‹ãƒãƒ¼ã‚µãƒ«ã‚¢ãƒ¼ã‚®ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ä»˜ã‘ã‚‹ã¨ (ã¤ã¾ã‚Šï¼ŒC-u( ã¨ã‚¿ã‚¤ãƒ—ã™ã‚‹ã¨),é–‰æ‹¬å¼§ã¯è‡ªå‹•
+ã§ã¯å…¥åŠ›ã•ã‚Œã¾ã›ã‚“ï¼
 
 $offtext
 * ---------------------------------------
-$stitle         ƒRƒƒ“ƒg—p‚Ìƒeƒ“ƒvƒŒ[ƒg‚Ì“ü—Í
+$stitle         ã‚³ãƒ¡ãƒ³ãƒˆç”¨ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®å…¥åŠ›
 * ---------------------------------------
 $ontext
 
-‘¼‚Ìl (‚ ‚é‚¢‚ÍC‚ ‚È‚½©g) ‚ª“Ç‚İˆÕ‚¢ƒR[ƒh‚ğ‘‚­‚É‚ÍCƒR[ƒh“à‚É“KØ‚ÈƒRƒƒ“
-ƒg‚ğ‘‚¢‚Ä‚¨‚­•K—v‚ª‚ ‚è‚Ü‚·D `C-cC-o' ‚ÅƒRƒƒ“ƒg‚Ìƒeƒ“ƒvƒŒ[ƒg‚ğ“ü—Í‚·‚é‚±‚Æ‚ª
-‚Å‚«‚Ü‚·D“ü—Í‚³‚ê‚éƒRƒƒ“ƒg‚Ìƒeƒ“ƒvƒŒ[ƒg‚Í `gams-user-comment' ‚Æ‚¢‚¤•Ï”‚ÅŒˆ
-’è‚³‚ê‚Ü‚·D
+ä»–ã®äºº (ã‚ã‚‹ã„ã¯ï¼Œã‚ãªãŸè‡ªèº«) ãŒèª­ã¿æ˜“ã„ã‚³ãƒ¼ãƒ‰ã‚’æ›¸ãã«ã¯ï¼Œã‚³ãƒ¼ãƒ‰å†…ã«é©åˆ‡ãªã‚³ãƒ¡ãƒ³
+ãƒˆã‚’æ›¸ã„ã¦ãŠãå¿…è¦ãŒã‚ã‚Šã¾ã™ï¼ `C-cC-o' ã§ã‚³ãƒ¡ãƒ³ãƒˆã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’å…¥åŠ›ã™ã‚‹ã“ã¨ãŒ
+ã§ãã¾ã™ï¼å…¥åŠ›ã•ã‚Œã‚‹ã‚³ãƒ¡ãƒ³ãƒˆã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã¯ `gams-user-comment' ã¨ã„ã†å¤‰æ•°ã§æ±º
+å®šã•ã‚Œã¾ã™ï¼
 
 $offtext
 
@@ -491,25 +477,25 @@ $stitle         GAMS-TEMPLATE mode.
 * ---------------
 $ontext
 
-GAMS-TEMPLATE mode (ƒfƒtƒH[ƒ‹ƒg‚Å‚Í `C-cC-e') ‚É‚æ‚Á‚Ä—lX‚Èƒeƒ“ƒvƒŒ[ƒg‚ğ“ü—Í
-‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D
+GAMS-TEMPLATE mode (ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã§ã¯ `C-cC-e') ã«ã‚ˆã£ã¦æ§˜ã€…ãªãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’å…¥åŠ›
+ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼
 
-GAMS mode ‚É‚Í `gams-template.txt' ‚Æ‚¢‚¤ƒTƒ“ƒvƒ‹‚Ìƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹ (ƒeƒ“ƒv
-ƒŒ[ƒg‚ª“o˜^‚³‚ê‚½ƒtƒ@ƒCƒ‹) ‚ª•t‘®‚µ‚Ä‚¢‚Ü‚·D‚±‚ê‚ğ "~/.emacs.d/" ƒfƒBƒŒƒNƒgƒŠ
-‚É•Û‘¶‚µ‚Ä‚¨‚¢‚Ä‚­‚¾‚³‚¢ (‚ ‚é‚¢‚Í `gams-template-file' ‚Æ‚¢‚¤•Ï”‚Åw’è)D
-GAMS-TEMPLATE mode ‚ğg‚¤‚É‚Í GAMS mode ‚Ìƒoƒbƒtƒ@[‚Å`C-cC-e' ‚Æƒ^ƒCƒv‚µ‚Ä‚­‚¾
-‚³‚¢D GAMS-TEMPLATE mode “à‚ÌƒRƒ}ƒ“ƒh‚É‚Â‚¢‚Ä‚Í
-*Template List* ƒoƒbƒtƒ@[‚Å `h' ‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢D
+GAMS mode ã«ã¯ `gams-template.txt' ã¨ã„ã†ã‚µãƒ³ãƒ—ãƒ«ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ« (ãƒ†ãƒ³ãƒ—
+ãƒ¬ãƒ¼ãƒˆãŒç™»éŒ²ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«) ãŒä»˜å±ã—ã¦ã„ã¾ã™ï¼ã“ã‚Œã‚’ "~/.emacs.d/" ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+ã«ä¿å­˜ã—ã¦ãŠã„ã¦ãã ã•ã„ (ã‚ã‚‹ã„ã¯ `gams-template-file' ã¨ã„ã†å¤‰æ•°ã§æŒ‡å®š)ï¼
+GAMS-TEMPLATE mode ã‚’ä½¿ã†ã«ã¯ GAMS mode ã®ãƒãƒƒãƒ•ã‚¡ãƒ¼ã§`C-cC-e' ã¨ã‚¿ã‚¤ãƒ—ã—ã¦ãã 
+ã•ã„ï¼ GAMS-TEMPLATE mode å†…ã®ã‚³ãƒãƒ³ãƒ‰ã«ã¤ã„ã¦ã¯
+*Template List* ãƒãƒƒãƒ•ã‚¡ãƒ¼ã§ `h' ã‚’æŠ¼ã—ã¦ãã ã•ã„ï¼
 
 $offtext
 
 * ----------------
-$stitle         ƒpƒ‰ƒOƒ‰ƒt‚Ì®Œ`
+$stitle         ãƒ‘ãƒ©ã‚°ãƒ©ãƒ•ã®æ•´å½¢
 * ----------------
 $ontext
 
-‘¼‚ÌƒƒWƒƒ[ƒ‚[ƒh‚Æ“¯—l‚ÉCGAMS mode ‚Å‚àƒpƒ‰ƒOƒ‰ƒt‚Ì®Œ`‚ª‚Å‚«‚Ü‚·DŸ‚Ìƒpƒ‰ƒO
-ƒ‰ƒt‚ÉƒJ[ƒ\ƒ‹‚ğ’u‚¢‚ÄC`M-q' ‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢D
+ä»–ã®ãƒ¡ã‚¸ãƒ£ãƒ¼ãƒ¢ãƒ¼ãƒ‰ã¨åŒæ§˜ã«ï¼ŒGAMS mode ã§ã‚‚ãƒ‘ãƒ©ã‚°ãƒ©ãƒ•ã®æ•´å½¢ãŒã§ãã¾ã™ï¼æ¬¡ã®ãƒ‘ãƒ©ã‚°
+ãƒ©ãƒ•ã«ã‚«ãƒ¼ã‚½ãƒ«ã‚’ç½®ã„ã¦ï¼Œ`M-q' ã‚’æŠ¼ã—ã¦ãã ã•ã„ï¼
 
 
 *       Put the cursor around here!  This is a sample paragraph.  This is a sample paragraph.  This is a sample paragraph.  This is a sample paragraph.  This is a sample paragraph.  This is a sample paragraph.  This is a sample paragraph....
@@ -519,7 +505,7 @@ $ontext
 
 
 
-ã‚Ìƒpƒ‰ƒOƒ‰ƒt‚Í‚»‚ê‚¼‚êŸ‚Ì‚æ‚¤‚É®Œ`‚³‚ê‚Ü‚·D
+ä¸Šã®ãƒ‘ãƒ©ã‚°ãƒ©ãƒ•ã¯ãã‚Œãã‚Œæ¬¡ã®ã‚ˆã†ã«æ•´å½¢ã•ã‚Œã¾ã™ï¼
 
 
 *       Put the cursor around here!  This is a sample paragraph.  This is a
@@ -535,15 +521,15 @@ $ontext
 
 $offtext
 * ---------------------
-$stitle         ƒRƒƒ“ƒgƒAƒEƒg
+$stitle         ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ
 * ---------------------
 $ontext
 
-GAMS ‚Å‚Ís“ª‚É * ‚ğ•t‚¯‚é‚±‚Æ‚ÅƒRƒƒ“ƒgƒAƒEƒg‚·‚é (ƒRƒƒ“ƒgs‚É‚·‚é) ‚±‚Æ‚ª‚Å‚«
-‚Ü‚·D GAMS mode ‚Å‚ÍƒŠ[ƒWƒ‡ƒ“‚ğ‘I‘ğ‚µ‚ÄCC-cC-; ‚ğƒ^ƒCƒv‚·‚é‚±‚Æ‚Å‚»‚ÌƒŠ[ƒWƒ‡
-ƒ“‘S‘Ì‚ğƒRƒƒ“ƒgƒAƒEƒg‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·DƒRƒƒ“ƒgƒAƒEƒg‚³‚ê‚½ƒŠ[ƒWƒ‡ƒ“‚ğŒ³‚É–ß
-‚· (* ‚ğ‚Æ‚é) ‚É‚ÍCƒ†ƒjƒo[ƒTƒ‹ƒA[ƒMƒ…ƒƒ“ƒg‚ğ•t‚¯‚Ä C-cC-; ‚ğÀs‚·‚ê‚Î‚æ‚¢
-(‚Â‚Ü‚èCC-uC-cC-; ‚Æƒ^ƒCƒv‚·‚é)D
+GAMS ã§ã¯è¡Œé ­ã« * ã‚’ä»˜ã‘ã‚‹ã“ã¨ã§ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã™ã‚‹ (ã‚³ãƒ¡ãƒ³ãƒˆè¡Œã«ã™ã‚‹) ã“ã¨ãŒã§ã
+ã¾ã™ï¼ GAMS mode ã§ã¯ãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’é¸æŠã—ã¦ï¼ŒC-cC-; ã‚’ã‚¿ã‚¤ãƒ—ã™ã‚‹ã“ã¨ã§ãã®ãƒªãƒ¼ã‚¸ãƒ§
+ãƒ³å…¨ä½“ã‚’ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã•ã‚ŒãŸãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å…ƒã«æˆ»
+ã™ (* ã‚’ã¨ã‚‹) ã«ã¯ï¼Œãƒ¦ãƒ‹ãƒãƒ¼ã‚µãƒ«ã‚¢ãƒ¼ã‚®ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ä»˜ã‘ã¦ C-cC-; ã‚’å®Ÿè¡Œã™ã‚Œã°ã‚ˆã„
+(ã¤ã¾ã‚Šï¼ŒC-uC-cC-; ã¨ã‚¿ã‚¤ãƒ—ã™ã‚‹)ï¼
 
 $offtext
 
@@ -551,26 +537,26 @@ $offtext
 $include %sub_program%
 
 * ---------------------
-$stitle         Font-lock (F•t‚¯).
+$stitle         Font-lock (è‰²ä»˜ã‘).
 * ---------------------
 $ontext
 
-GAMS mode ‚Å‚ÍƒR[ƒh‚ÌF•t‚¯‚É‘Î‰‚µ‚Ä‚¢‚Ü‚· (F•t‚¯‹@”\‚Í Emacs —pŒê‚Åfont-lock
-‹@”\‚ÆŒ¾‚¢‚Ü‚·)D
+GAMS mode ã§ã¯ã‚³ãƒ¼ãƒ‰ã®è‰²ä»˜ã‘ã«å¯¾å¿œã—ã¦ã„ã¾ã™ (è‰²ä»˜ã‘æ©Ÿèƒ½ã¯ Emacs ç”¨èªã§font-lock
+æ©Ÿèƒ½ã¨è¨€ã„ã¾ã™)ï¼
 
-font-lock ‚ğƒIƒ“‚É‚·‚é‚ÆCGAMS ‚Ì syntax ‚É]‚¢ƒR[ƒh‚ª©“®‚ÅF•t‚¯‚³‚ê‚Ü‚·D
-font-lock ‚ğƒIƒ“‚É‚·‚é‚É‚Í "~/.emacs.d/init.el" ƒtƒ@ƒCƒ‹‚ÉˆÈ‰º‚ÌƒR[ƒh‚ğ•t‚¯
-‰Á‚¦‚Ä‚¨‚¯‚Î‚æ‚¢‚Å‚·D
+font-lock ã‚’ã‚ªãƒ³ã«ã™ã‚‹ã¨ï¼ŒGAMS ã® syntax ã«å¾“ã„ã‚³ãƒ¼ãƒ‰ãŒè‡ªå‹•ã§è‰²ä»˜ã‘ã•ã‚Œã¾ã™ï¼
+font-lock ã‚’ã‚ªãƒ³ã«ã™ã‚‹ã«ã¯ "~/.emacs.d/init.el" ãƒ•ã‚¡ã‚¤ãƒ«ã«ä»¥ä¸‹ã®ã‚³ãƒ¼ãƒ‰ã‚’ä»˜ã‘
+åŠ ãˆã¦ãŠã‘ã°ã‚ˆã„ã§ã™ï¼
 
 (global-font-lock-mode t)
 
 
-`gams-choose-font-lock-level' (binded to C-cC-f) ‚ğÀs‚·‚é‚±‚Æ‚ÅF•t‚¯‚ÌƒŒƒxƒ‹
-‚ğ•ÏX‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D
+`gams-choose-font-lock-level' (binded to C-cC-f) ã‚’å®Ÿè¡Œã™ã‚‹ã“ã¨ã§è‰²ä»˜ã‘ã®ãƒ¬ãƒ™ãƒ«
+ã‚’å¤‰æ›´ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼
 
- 0 => F•t‚¯‚È‚µD
- 1 => Å¬ŒÀ‚ÌF•t‚¯D
- 2 => Å‘åŒÀ‚ÌF•t‚¯D
+ 0 => è‰²ä»˜ã‘ãªã—ï¼
+ 1 => æœ€å°é™ã®è‰²ä»˜ã‘ï¼
+ 2 => æœ€å¤§é™ã®è‰²ä»˜ã‘ï¼
 
 $offtext
 *       Type `C-cC-f' and change the coloring level!
@@ -596,64 +582,64 @@ eq_p(k) .. p(k) =e= u(k);
 
 $ontext
 
-s”‚Ì‘½‚¢ƒtƒ@ƒCƒ‹‚ğŠJ‚­‚Æ‚«‚É‚ÍCF•t‚¯ˆ—‚Ì‚½‚ß‚É”ñí‚ÉŠÔ‚ª‚©‚©‚é‚©‚à‚µ‚ê‚Ü
-‚¹‚ñD‚»‚Ìê‡‚É‚ÍF•t‚¯ƒŒƒxƒ‹‚ğ 1 ‚É‚·‚é (‚ ‚é‚¢‚Í 0 ‚É‚µ‚Ä‚¨‚­) ‚Ù‚¤‚ª‚æ‚¢‚©‚à
-‚µ‚ê‚Ü‚¹‚ñD
+è¡Œæ•°ã®å¤šã„ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã¨ãã«ã¯ï¼Œè‰²ä»˜ã‘å‡¦ç†ã®ãŸã‚ã«éå¸¸ã«æ™‚é–“ãŒã‹ã‹ã‚‹ã‹ã‚‚ã—ã‚Œã¾
+ã›ã‚“ï¼ãã®å ´åˆã«ã¯è‰²ä»˜ã‘ãƒ¬ãƒ™ãƒ«ã‚’ 1 ã«ã™ã‚‹ (ã‚ã‚‹ã„ã¯ 0 ã«ã—ã¦ãŠã) ã»ã†ãŒã‚ˆã„ã‹ã‚‚
+ã—ã‚Œã¾ã›ã‚“ï¼
 
-ƒfƒtƒH[ƒ‹ƒg‚ÌF•t‚¯ƒŒƒxƒ‹‚Í `gams-font-lock-level', `gams-lst-font-lock-level',
-`gams-ol-font-lock-level' ‚Æ‚¢‚¤•Ï”‚Ì’l‚É‚æ‚Á‚ÄŒˆ‚Ü‚è‚Ü‚·D‚Ç‚ê‚àƒfƒtƒH[ƒ‹ƒg‚Å
-‚Í 2 ‚Éİ’è‚³‚ê‚Ä‚¢‚Ü‚·D
+ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã®è‰²ä»˜ã‘ãƒ¬ãƒ™ãƒ«ã¯ `gams-font-lock-level', `gams-lst-font-lock-level',
+`gams-ol-font-lock-level' ã¨ã„ã†å¤‰æ•°ã®å€¤ã«ã‚ˆã£ã¦æ±ºã¾ã‚Šã¾ã™ï¼ã©ã‚Œã‚‚ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã§
+ã¯ 2 ã«è¨­å®šã•ã‚Œã¦ã„ã¾ã™ï¼
 
-‚Ü‚½C`font-lock-fontify-block' ‚Æ‚¢‚¤–½—ß (M-gM-g) ‚É‚æ‚Á‚ÄƒJ[ƒ\ƒ‹‚Ìü‚è‚Ìƒuƒƒb
-ƒN‚ÌF•t‚¯‚ğ‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D©“®‚ÅF•t‚¯‚³‚ê‚È‚¢ê‡‚É‚ÍC‚±‚Ì–½—ß‚ğÀs‚µ‚Ä
-‚İ‚Ä‚­‚¾‚³‚¢D
+ã¾ãŸï¼Œ`font-lock-fontify-block' ã¨ã„ã†å‘½ä»¤ (M-gM-g) ã«ã‚ˆã£ã¦ã‚«ãƒ¼ã‚½ãƒ«ã®å‘¨ã‚Šã®ãƒ–ãƒ­ãƒƒ
+ã‚¯ã®è‰²ä»˜ã‘ã‚’ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼è‡ªå‹•ã§è‰²ä»˜ã‘ã•ã‚Œãªã„å ´åˆã«ã¯ï¼Œã“ã®å‘½ä»¤ã‚’å®Ÿè¡Œã—ã¦
+ã¿ã¦ãã ã•ã„ï¼
 
-F•t‚¯‚Ì‹@”\‚É–â‘è‚ª‚ ‚éê‡‚É‚ÍìÒ‚É˜A—‚µ‚Ä‚­‚¾‚³‚¢D
+è‰²ä»˜ã‘ã®æ©Ÿèƒ½ã«å•é¡ŒãŒã‚ã‚‹å ´åˆã«ã¯ä½œè€…ã«é€£çµ¡ã—ã¦ãã ã•ã„ï¼
 
 $offtext
 * ---------------------------------------------
-$stitle         identifier ‚ÌéŒ¾•”•ª‚Ì•\¦
+$stitle         identifier ã®å®£è¨€å ´æ‰€ã®è¡¨ç¤º
 * ---------------------------------------------
 $ontext
 
-GAMS ‚ÌƒvƒƒOƒ‰ƒ€‚ğ‘‚¢‚½‚è“Ç‚ñ‚¾‚è‚·‚é‚Æ‚«‚É‚ÍC identifier (parameter,
-variable, equation ‚Æ‚µ‚ÄéŒ¾‚³‚ê‚½‚à‚Ì) ‚ÌéŒ¾‚ğ‚¨‚±‚È‚Á‚Ä‚¢‚é•”•ª‚ğŠm”F‚·‚é‚±
-‚Æ‚ª‚æ‚­‚ ‚é‚Æv‚¢‚Ü‚·D‚»‚Ì‚æ‚¤‚Èê‡C—á‚¦‚Î `isearch-backward' ƒRƒ}ƒ“ƒh“™‚ÌŒŸ
-õ—pƒRƒ}ƒ“ƒh‚ğ—˜—p‚µ‘Îˆ‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D‚µ‚©‚µC‚»‚Ì identifier ‚ªƒvƒƒOƒ‰ƒ€
-‚Ì—lX‚È‰ÓŠ‚ÉŒ»‚ê‚é‚Æ‚«C‚ ‚é‚¢‚Í‘¼‚Ìƒtƒ@ƒCƒ‹‚ÅéŒ¾‚µ‚Ä‚¢‚é‚Æ‚«‚É‚ÍCŒŸõƒRƒ}ƒ“
-ƒh‚Å‚ÍŠÈ’P‚ÉéŒ¾•”•ª‚ğŒ©‚Â‚¯‚ç‚ê‚È‚¢‚Å‚µ‚å‚¤D
+GAMS ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æ›¸ã„ãŸã‚Šèª­ã‚“ã ã‚Šã™ã‚‹ã¨ãã«ã¯ï¼Œ identifier (parameter,
+variable, equation ã¨ã—ã¦å®£è¨€ã•ã‚ŒãŸã‚‚ã®) ã®å®£è¨€ã‚’ãŠã“ãªã£ã¦ã„ã‚‹éƒ¨åˆ†ã‚’ç¢ºèªã™ã‚‹ã“
+ã¨ãŒã‚ˆãã‚ã‚‹ã¨æ€ã„ã¾ã™ï¼ãã®ã‚ˆã†ãªå ´åˆï¼Œä¾‹ãˆã° `isearch-backward' ã‚³ãƒãƒ³ãƒ‰ç­‰ã®æ¤œ
+ç´¢ç”¨ã‚³ãƒãƒ³ãƒ‰ã‚’åˆ©ç”¨ã—å¯¾å‡¦ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼ã—ã‹ã—ï¼Œãã® identifier ãŒãƒ—ãƒ­ã‚°ãƒ©ãƒ 
+ã®æ§˜ã€…ãªç®‡æ‰€ã«ç¾ã‚Œã‚‹ã¨ãï¼Œã‚ã‚‹ã„ã¯ä»–ã®ãƒ•ã‚¡ã‚¤ãƒ«ã§å®£è¨€ã—ã¦ã„ã‚‹ã¨ãã«ã¯ï¼Œæ¤œç´¢ã‚³ãƒãƒ³
+ãƒ‰ã§ã¯ç°¡å˜ã«å®£è¨€éƒ¨åˆ†ã‚’è¦‹ã¤ã‘ã‚‰ã‚Œãªã„ã§ã—ã‚‡ã†ï¼
 
-`gams-show-identifier' (F7 or `C-cC-.') ƒRƒ}ƒ“ƒh‚ğg‚¦‚ÎCidentifier ‚ÌéŒ¾•”•ª
-‚ğŠÈ’P‚ÉŒ©‚Â‚¯‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·DˆÈ‰º‚Ì—á‚ğ‚µ‚Ä‚İ‚Ä‚­‚¾‚³‚¢D
+`gams-show-identifier' (F7 or `C-cC-.') ã‚³ãƒãƒ³ãƒ‰ã‚’ä½¿ãˆã°ï¼Œidentifier ã®å®£è¨€éƒ¨åˆ†
+ã‚’ç°¡å˜ã«è¦‹ã¤ã‘ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼ä»¥ä¸‹ã®ä¾‹ã‚’è©¦ã—ã¦ã¿ã¦ãã ã•ã„ï¼
 
 $offtext
 
-a = 1;                  # a ‚Ìã‚Å F7 ‚ğ‰Ÿ‚·D
-display a;              # a ‚Ìã‚Å F7 ‚ğ‰Ÿ‚·D
-u(k) = 1;               # u ‚Æ k ‚Ìã‚Å F7 ‚ğ‰Ÿ‚·D
+a = 1;                  # a ã®ä¸Šã§ F7 ã‚’æŠ¼ã™ï¼
+display a;              # a ã®ä¸Šã§ F7 ã‚’æŠ¼ã™ï¼
+u(k) = 1;               # u ã¨ k ã®ä¸Šã§ F7 ã‚’æŠ¼ã™ï¼
 p.fx(k) = 10;
-display p.l;            # p ‚Ìã‚Å F7 ‚ğ‰Ÿ‚·D
+display p.l;            # p ã®ä¸Šã§ F7 ã‚’æŠ¼ã™ï¼
 
 $ontext
-—á‚¦‚ÎA`a' ‚Ìã‚Å F7 ‚ğƒ^ƒCƒv‚·‚é‚ÆAã‚É `a' ‚ÌéŒ¾•”•ªA¶‚É‚Íƒtƒ@ƒCƒ‹‚Ì\‘¢
-‚ª•\¦‚³‚ê‚Ü‚·D
+ä¾‹ãˆã°ã€`a' ã®ä¸Šã§ F7 ã‚’ã‚¿ã‚¤ãƒ—ã™ã‚‹ã¨ã€ä¸Šã« `a' ã®å®£è¨€éƒ¨åˆ†ã€å·¦ã«ã¯ãƒ•ã‚¡ã‚¤ãƒ«ã®æ§‹é€ 
+ãŒè¡¨ç¤ºã•ã‚Œã¾ã™ï¼
 
-ƒ~ƒjƒoƒbƒtƒ@[‚ÉŸ‚Ì‚æ‚¤‚È•\¦‚ªŒ»‚ê‚Ü‚·B
+ã‚¨ã‚³ãƒ¼ã‚¨ãƒªã‚¢ã«æ¬¡ã®ã‚ˆã†ãªè¡¨ç¤ºãŒç¾ã‚Œã¾ã™ã€‚
 
-The declaration part of `a': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
+The decl. place of `a': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
 
-‚±‚±‚Å n (or p) ‚ğƒ^ƒCƒv‚·‚é‚ÆŸ‚É (ˆêŒÂ‘O‚É) a ‚ªŒ»‚ê‚éˆÊ’u‚ÉƒWƒƒƒ“ƒv‚µ‚Ü‚·Bd
-‚ğƒ^ƒCƒv‚·‚é‚ÆéŒ¾•”•ª‚ÉˆÚ“®‚µ‚Ü‚·B‚Ü‚½Ac ‚ğƒ^ƒCƒv‚·‚é‚ÆŒ³X‚ÌˆÊ’u‚ÉˆÚ“®‚µ‚Ü‚·B
+ã“ã“ã§ n (or p) ã‚’ã‚¿ã‚¤ãƒ—ã™ã‚‹ã¨æ¬¡ã« (ä¸€å€‹å‰ã«) a ãŒç¾ã‚Œã‚‹ä½ç½®ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™ã€‚d
+ã‚’ã‚¿ã‚¤ãƒ—ã™ã‚‹ã¨å®£è¨€éƒ¨åˆ†ã«ç§»å‹•ã—ã¾ã™ã€‚ã¾ãŸã€c ã‚’ã‚¿ã‚¤ãƒ—ã™ã‚‹ã¨å…ƒã€…ã®ä½ç½®ã«ç§»å‹•ã—ã¾ã™ã€‚
 
-ƒXƒy[ƒX‚ğ‰Ÿ‚·‚ÆAŒ³X‚ÌƒEƒBƒ“ƒhƒE‚Ìó‘Ô‚ª‰ñ•œ‚³‚ê‚Ü‚·B
+ã‚¹ãƒšãƒ¼ã‚¹ã‚’æŠ¼ã™ã¨ã€å…ƒã€…ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®çŠ¶æ…‹ãŒå›å¾©ã•ã‚Œã¾ã™ã€‚
 
-Ú‚µ‚­‚ÍA? ƒL[‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢B
+è©³ã—ãã¯ã€? ã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ãã ã•ã„ã€‚
 
 
-‚³‚ç‚ÉAƒTƒuƒ‹[ƒ`ƒ“ƒtƒ@ƒCƒ‹“à‚ÌéŒ¾•”•ª‚à•\¦‚³‚ê‚Ü‚·B
+ã•ã‚‰ã«ã€ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®å®£è¨€éƒ¨åˆ†ã‚‚è¡¨ç¤ºã•ã‚Œã¾ã™ã€‚
 
-‚µ‚ÄAˆÈ‰º‚Ì "ene", "out", "util", "com", and "sec" ‚Ìã‚Å F7 ‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢B
-"include-sample.gms" ƒtƒ@ƒCƒ‹“à‚ÌéŒ¾•”•ª‚ª•\¦‚³‚ê‚Ü‚·B
+è©¦ã—ã¦ã€ä»¥ä¸‹ã® "ene", "out", "util", "com", and "sec" ã®ä¸Šã§ F7 ã‚’æŠ¼ã—ã¦ãã ã•ã„ã€‚
+"include-sample.gms" ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®å®£è¨€éƒ¨åˆ†ãŒè¡¨ç¤ºã•ã‚Œã¾ã™ã€‚
 
 $offtext
 display ene;            # Type F7 on the identifier ene
@@ -667,28 +653,46 @@ display ene, op, sec, com;
 
 $ontext
 
-ƒ†ƒjƒo[ƒTƒ‹ƒA[ƒMƒ…ƒƒ“ƒg‚ğ•t‚¯‚½ê‡ (i.e. C-uC-cC-.)A‚Ç‚Ì identifier ‚ğ•\¦
-‚·‚é‚©•·‚©‚ê‚Ü‚·B
+ãƒ¦ãƒ‹ãƒãƒ¼ã‚µãƒ«ã‚¢ãƒ¼ã‚®ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ä»˜ã‘ãŸå ´åˆ (i.e. C-uC-cC-.)ã€ã©ã® identifier ã‚’è¡¨ç¤º
+ã™ã‚‹ã‹èã‹ã‚Œã¾ã™ã€‚
 
 $offtext
 * ---------------------------------------------
-$stitle         identifier ‚ÌƒŠƒXƒg‚Ì•\¦
+$stitle         identifier ã®ãƒªã‚¹ãƒˆã®è¡¨ç¤º
 * ---------------------------------------------
 $ontext
 
-`gams-show-identifier-list' (binded to `C-cC-a' by default) ‚ğg‚¦‚ÎAŒ»İ‚Ìƒtƒ@
-ƒCƒ‹“à‚Å’è‹`‚³‚ê‚Ä‚¢‚é identifier ‚ÌƒŠƒXƒg‚ğ•\¦‚µ‚Ü‚·Bg‚¢•û‚ÍA C-cC-a ‚Ì‚ ‚Æ
-? ‚ğƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢B
+`gams-show-identifier-list' (binded to `C-cC-a' by default) ã‚’ä½¿ãˆã°ã€ç¾åœ¨ã®ãƒ•ã‚¡
+ã‚¤ãƒ«å†…ã§å®šç¾©ã•ã‚Œã¦ã„ã‚‹ identifierï¼ˆsets, parameters, variables and so onï¼‰ã®ãƒªã‚¹
+ãƒˆã‚’è¡¨ç¤ºã—ã¾ã™ã€‚ä½¿ã„æ–¹ã¯ã€ C-cC-a ã®ã‚ã¨? ã‚’ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ã€‚
+
+ã“ã® `gams-show-identifier-list' (C-cC-a) ã§ã¯ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã§å®šç¾©ã•ã‚Œã¦ã„
+ã‚‹ identifier ã‚‚è¡¨ç¤ºã•ã‚Œã¾ã™ï¼ãŸã ã—ã€ä»¥ä¸‹ã®ã‚ˆã†ãªè¡¨ç¾ã‚’ä½¿ã£ã¦ã„ã‚‹å ´åˆã«ã¯ã€GAMS
+mode ã¯ %sub_program% ã®å®Ÿéš›ã®å€¤ãŒã‚ã‹ã‚‰ãªã„ã®ã§ã€ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ãƒ•ã‚¡ã‚¤ãƒ«å†…ã‚’èª­ã‚€ã“
+ã¨ãŒã§ãã¾ã›ã‚“ã€‚
+
+    $include %sub_program%
+
+ã“ã®ã‚ˆã†ãªå ´åˆã«ã¯ã€$include ãƒ•ã‚¡ã‚¤ãƒ«å‘½ä»¤ã®å‰ã«ä»¥ä¸‹ã®ã‚ˆã†ãªå‘½ä»¤ã‚’æ›¸ãã“ã¨ã§
+ã€Œ./include/include-sample.gmsã€ã¨ã„ã†ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã‚€ã“ã¨ãŒå¯èƒ½ã«ãªã‚Š
+ã¾ã™ã€‚
+
+    * gams-include-file: ./include/include-sample.gms
+    $include %sub_program%
+
+%sub_program% ã®ä¸­èº«ã¯ $setï¼ˆã‚ã‚‹ã„ã¯ã€$setglobalï¼‰å‘½ä»¤ã«ã‚ˆã£ã¦å¤‰ã‚ã‚Šã¾ã™ãŒã€ã¨
+ã‚Šã‚ãˆãšãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã§èª­ã¿è¾¼ã‚“ã§æ¬²ã—ã„ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã€ã“ã® gams-include-file ã§æŒ‡å®š
+ã—ãŠãã¨è‰¯ã„ã§ã™ã€‚
 
 $offtext
 * -----------------------------------
-$stitle         ontext-offtext ƒyƒA‚ÉŠÖ‚·‚éƒRƒ}ƒ“ƒh
+$stitle         ontext-offtext ãƒšã‚¢ã«é–¢ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰
 * -----------------------------------
 $ontext
 
-`gams-insert-on-off-text' (binded to `C-cC-c' by default) ‚Í ontext-offtext‚ğ‘}
-“ü‚µ‚Ü‚·BC-u ‚ğ•t‚¯‚é‚Æ (i.e. `C-uC-cC-c') ƒŠ[ƒWƒ‡ƒ“‚ğ ontext-offtext‚ÅˆÍ‚İ‚Ü
-‚·B
+`gams-insert-on-off-text' (binded to `C-cC-c' by default) ã¯ ontext-offtextã‚’æŒ¿
+å…¥ã—ã¾ã™ã€‚C-u ã‚’ä»˜ã‘ã‚‹ã¨ (i.e. `C-uC-cC-c') ãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ ontext-offtextã§å›²ã¿ã¾
+ã™ã€‚
 
 Using `gams-jump-on-off-text' (`C-cC-g') on an ontext (offtext), you can jump to
 the corresponding offtext (ontext).
@@ -704,16 +708,16 @@ display "Try to type C-cC-c, C-uC-cC-c, C-cC-g, C-cM-c, and C-cM-g",
         "on a ontext or offtext!";
 
 * ---------------------------------------------------------
-$stitle         ƒuƒƒbƒN‚Ì®Œ`
+$stitle         ãƒ–ãƒ­ãƒƒã‚¯ã®æ•´å½¢
 * ---------------------------------------------------------
 $ontext
-`gams-align-block' (C-cC-y) ‚É‚æ‚Á‚Ä table ‚â‚»‚Ì‘¼‚ÌƒuƒƒbƒN‚Ì®Œ`‚ğ‚·‚é‚±‚Æ‚ª
-‚Å‚«‚Ü‚·B
+`gams-align-block' (C-cC-y) ã«ã‚ˆã£ã¦ table ã‚„ãã®ä»–ã®ãƒ–ãƒ­ãƒƒã‚¯ã®æ•´å½¢ã‚’ã™ã‚‹ã“ã¨ãŒ
+ã§ãã¾ã™ã€‚
 
-[—á1]
+[ä¾‹1]
 
-ˆÈ‰º‚Ì table ƒuƒƒbƒN‚Å Header line ‚©‚çI‚è‚Ü‚Å‚ÌƒŠ[ƒWƒ‡ƒ“‚ğ‘I‘ğ‚µAC-cC-y ->
-t -> 3 -> y ‚Æƒ^ƒCƒv‚µ‚Ä‚İ‚Ä‚­‚¾‚³‚¢B‚·‚é‚Æ”’l‚ÌŒ…‚ğ‚»‚ë‚¦‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+ä»¥ä¸‹ã® table ãƒ–ãƒ­ãƒƒã‚¯ã§ Header line ã‹ã‚‰çµ‚ã‚Šã¾ã§ã®ãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’é¸æŠã—ã€C-cC-y ->
+t -> 3 -> y ã¨ã‚¿ã‚¤ãƒ—ã—ã¦ã¿ã¦ãã ã•ã„ã€‚ã™ã‚‹ã¨æ•°å€¤ã®æ¡ã‚’ãã‚ãˆã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
 
 *       Before
 table table1    test table
@@ -734,10 +738,10 @@ textile            4      6    106        2       -8
 food               9    415      0       95       15
 energy             0      8      6     -327        7
 
-[—á 2]
+[ä¾‹ 2]
 
-‚Ü‚½AˆÈ‰º‚ÌƒR[ƒh‚Ì `Start' ‚©‚ç `End' ‚Ì•”•ª‚ğ‘I‘ğ‚µAC-cC-y -> o ‚Æƒ^ƒCƒv‚µ‚Ä
-‚­‚¾‚³‚¢Bu=v‚ª‘µ‚¤‚æ‚¤‚É®Œ`‚³‚ê‚Ü‚·B
+ã¾ãŸã€ä»¥ä¸‹ã®ã‚³ãƒ¼ãƒ‰ã® `Start' ã‹ã‚‰ `End' ã®éƒ¨åˆ†ã‚’é¸æŠã—ã€C-cC-y -> o ã¨ã‚¿ã‚¤ãƒ—ã—ã¦
+ãã ã•ã„ã€‚ã€Œ=ã€ãŒæƒã†ã‚ˆã†ã«æ•´å½¢ã•ã‚Œã¾ã™ã€‚
 
 parameter
     abc(*);
@@ -764,21 +768,21 @@ display abc;
 $offtext
 
 * ----------------------
-$stitle         ©“®ƒCƒ“ƒfƒ“ƒg
+$stitle         è‡ªå‹•ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆ
 * ----------------------
 $ontext
 
-GAMS ‚ÌƒVƒ“ƒ^ƒbƒNƒX‚É‰‚¶‚ÄƒR[ƒh‚ğ©“®‚ÅƒCƒ“ƒfƒ“ƒg‚Å‚«‚Ü‚·D
+GAMS ã®ã‚·ãƒ³ã‚¿ãƒƒã‚¯ã‚¹ã«å¿œã˜ã¦ã‚³ãƒ¼ãƒ‰ã‚’è‡ªå‹•ã§ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã§ãã¾ã™ï¼
 
-M-C-\        =       ‚±‚ê‚ÍƒŠ[ƒWƒ‡ƒ“‚ğƒCƒ“ƒfƒ“ƒgD
-TAB          =       ‚±‚ê‚ÍƒJƒŒƒ“ƒgƒ‰ƒCƒ“‚ğƒCƒ“ƒfƒ“ƒgD
+M-C-\        =       ã“ã‚Œã¯ãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆï¼
+TAB          =       ã“ã‚Œã¯ã‚«ãƒ¬ãƒ³ãƒˆãƒ©ã‚¤ãƒ³ã‚’ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆï¼
 
-ˆÈ‰º‚Ì•”•ª‚ğƒŠ[ƒWƒ‡ƒ“w’è‚µ‚Ä `M-C-\' ‚ğƒ^ƒCƒv‚µ‚Ä‚İ‚Ä‚­‚¾‚³‚¢D
+ä»¥ä¸‹ã®éƒ¨åˆ†ã‚’ãƒªãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®šã—ã¦ `M-C-\' ã‚’ã‚¿ã‚¤ãƒ—ã—ã¦ã¿ã¦ãã ã•ã„ï¼
 
 $offtext
 
 *       ----------------------------------------------------------------------
-*       ‚±‚±‚©‚çD
+*       ã“ã“ã‹ã‚‰ï¼
 *       ----------------------------------------------------------------------
 
 set     i       Index   / i1*i2 /
@@ -811,40 +815,64 @@ loop((i,j),
     display parc;
 );
 *       ----------------------------------------------------------------------
-*       ‚±‚±‚Ü‚ÅD
+*       ã“ã“ã¾ã§ï¼
 *       ----------------------------------------------------------------------
 
 $ontext
-=== Note === ©“®ƒCƒ“ƒfƒ“ƒg‚ğãè‚­‹@”\‚³‚¹‚é‚É‚ÍCŠeƒuƒƒbƒN(e.g. parameter,
-table, set, display blocks etc.) ‚ªƒZƒ~ƒRƒƒ“ (;) ‚ÅI—¹‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·D
-ƒuƒƒbƒN‚ÌI—¹‚ğ•\‚·ƒZƒ~ƒRƒƒ“‚ÍÈ—ª‚Å‚«‚éê‡‚ª‘½‚¢‚Å‚·‚ªC‚Å‚«‚é‚¾‚¯È—ª‚µ‚È‚¢
-‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢D
+=== Note === è‡ªå‹•ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã‚’ä¸Šæ‰‹ãæ©Ÿèƒ½ã•ã›ã‚‹ã«ã¯ï¼Œå„ãƒ–ãƒ­ãƒƒã‚¯(e.g. parameter,
+table, set, display blocks etc.) ãŒã‚»ãƒŸã‚³ãƒ­ãƒ³ (;) ã§çµ‚äº†ã—ã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ï¼
+ãƒ–ãƒ­ãƒƒã‚¯ã®çµ‚äº†ã‚’è¡¨ã™ã‚»ãƒŸã‚³ãƒ­ãƒ³ã¯çœç•¥ã§ãã‚‹å ´åˆãŒå¤šã„ã§ã™ãŒï¼Œã§ãã‚‹ã ã‘çœç•¥ã—ãªã„
+ã‚ˆã†ã«ã—ã¦ãã ã•ã„ï¼
 
 $offtext
 
 * -------------
-$stitle         ƒ}ƒjƒ…ƒAƒ‹‚ÌŒÄo‚µD
+$stitle         ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã®å‘¼å‡ºã—ï¼
 * -------------
 $ontext
 
-GAMSIDE ‚Å‚Í HELP -> DOC ‚©‚ç GAMS ‚Ìƒ}ƒjƒ…ƒAƒ‹ (PDFƒtƒ@ƒCƒ‹) ‚ğŒ©‚é‚±‚Æ‚ª‚Å‚«‚Ü
-‚·DGAMS mode ‚Å‚à `C-cC-m' ‚É‚æ‚Á‚Ä“¯‚¶‚±‚Æ‚ª‚Å‚«‚Ü‚·D‚±‚ÌƒRƒ}ƒ“ƒh‚ğ—˜—p‚·‚é‚É
-‚Í•Ï” `gams-docs-directory', `gams-docs-view-program' ‚ª“KØ‚Éİ’è‚³‚ê‚Ä‚¢‚é•K
-—v‚ª‚ ‚è‚Ü‚·D
+GAMS Studio (ã‚ã‚‹ã„ã¯ã€GAMSIDE) ã§ã¯ HELP ã‹ã‚‰ GAMS ã®ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã‚’è¦‹ã‚‹ã“ã¨ãŒã§ã
+ã¾ã™ï¼GAMS mode ã§ã‚‚ `gams-view-document (C-cC-m) ã«ã‚ˆã£ã¦åŒã˜ã“ã¨ãŒã§ãã¾ã™ï¼
+
+GAMS modeã®ãƒãƒƒãƒ•ã‚¡ãƒ¼ã§ `C-cC-m' ã‚’æŠ¼ã—ã¦ã¿ã¦ãã ã•ã„ã€‚æ¬¡ã®ã‚ˆã†ãªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒã‚¨
+ã‚³ãƒ¼ã‚¨ãƒªã‚¢ã«è¡¨ç¤ºã•ã‚Œã¾ã™ã€‚
+
+    Press ENTER key if you use online manual. Press other keys for offline manual.
+
+ã“ã“ã§ã€Œã‚¨ãƒ³ã‚¿ãƒ¼ã‚­ãƒ¼ã€ã‚’æŠ¼ã™ã¨ã€ãƒ‡ãƒ•ã‚©ãƒ¼ãƒ«ãƒˆã®ãƒ–ãƒ©ã‚¦ã‚¶ãŒ GAMS ã®ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ãƒãƒ‹ãƒ¥
+ã‚¢ãƒ«ï¼ˆGAMS Documentation Centerï¼‰ã‚’è¡¨ç¤ºã—ã¾ã™ã€‚ä»–ã®ã‚­ãƒ¼ã‚’æŠ¼ã™ã¨ã€ãƒ­ãƒ¼ã‚«ãƒ«ã®ãƒãƒ‹ãƒ¥
+ã‚¢ãƒ«ã‚’è¡¨ç¤ºã—ã¾ã™ã€‚
+
+ã•ã‚‰ã«ã€ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã§å‘½ä»¤ã‚’æ¤œç´¢ã§ãã¾ã™ã€‚ä¾‹ãˆã°ã€ä»¥ä¸‹ã®ã‚³ãƒ¼ãƒ‰ã® `uniform' ã¨ã„ã†
+å‘½ä»¤ã®ä¸Šã§ `C-uC-cC-m' ã¨æŠ¼ã—ã¦ãã ã•ã„ã€‚ã™ã‚‹ã¨ã€GAMS ã®ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã§
+`uniform' ã¨ã„ã†å‘½ä»¤ã‚’æ¤œç´¢ã—ãŸçµæœãŒè¡¨ç¤ºã•ã‚Œã¾ã™ï¼ˆå‘½ä»¤ã‚’ç›´æ¥æ¤œç´¢ã™ã‚‹æ©Ÿèƒ½ã¯ã‚ªãƒ³ãƒ©
+ã‚¤ãƒ³ã®ãƒãƒ‹ãƒ¥ã‚¢ãƒ«ã§ã®ã¿ä½¿ãˆã¾ãšï¼‰ã€‚
+
+$offtext
+loop((i,j),
+    parb(i,j) = uniform(0,1); # `uniform' å‘½ä»¤ã®ä¸Šã§ C-uC-cC-m ã‚’æŠ¼ã—ã¦ãã ã•ã„ã€‚
+);
+$ontext
+
+ã“ã®ã‚³ãƒãƒ³ãƒ‰ã‚’åˆ©ç”¨ã™ã‚‹ã«ã¯å¤‰æ•° `gams-docs-directory', `gams-docs-view-program'
+ãŒé©åˆ‡ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ï¼
 
 $offtext
 * ----------------------
-$stitle         GAMS ƒ‚ƒfƒ‹ƒ‰ƒCƒuƒ‰ƒŠD
+$stitle         GAMS ãƒ¢ãƒ‡ãƒ«ãƒ©ã‚¤ãƒ–ãƒ©ãƒªï¼
 * ----------------------
 $ontext
 
-`gams-modlib' (C-cC-z) ‚Ì‚æ‚Á‚Ä GAMS ƒ‚ƒfƒ‹ƒ‰ƒCƒuƒ‰ƒŠ‚ğŒ©‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D‚±‚Ì
-ƒRƒ}ƒ“ƒh‚ğ—˜—p‚·‚é‚É‚Í `gams-system-directory' ‚É“KØ‚È’l‚ªİ’è‚³‚ê‚Ä‚¢‚é•K—v‚ª
-‚ ‚è‚Ü‚·D
+`gams-model-library' (C-cC-z) ã®ã‚ˆã£ã¦ GAMS ãƒ¢ãƒ‡ãƒ«ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’è¦‹ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼
+ã“ã®ã‚³ãƒãƒ³ãƒ‰ã‚’åˆ©ç”¨ã™ã‚‹ã«ã¯ `gams-system-directory' ã«é©åˆ‡ãªå€¤ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å¿…
+è¦ãŒã‚ã‚Šã¾ã™ï¼
+
+ã“ã®æ©Ÿèƒ½ã¯å¤ã„ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã® GAMS ä¸Šã§ã¯ä½¿ãˆã¾ã›ã‚“ï¼ˆãƒ¢ãƒ‡ãƒ«ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒ•ã‚©ãƒ«ãƒ€æ§‹é€ 
+ãªã©ãŒå¤‰ã‚ã£ã¦ã—ã¾ã£ãŸãŸã‚ï¼‰ã€‚
 
 $offtext
 * --------------------------------
-$stitle         ƒCƒ“ƒ‰ƒCƒ“Es––ƒRƒƒ“ƒg
+$stitle         ã‚¤ãƒ³ãƒ©ã‚¤ãƒ³ãƒ»è¡Œæœ«ã‚³ãƒ¡ãƒ³ãƒˆ
 * --------------------------------
 $ontext
 
@@ -862,7 +890,7 @@ variables `gams-inlinecom-symbol-start-default',
 If you attach the universal argument when executing `gams-comment-dwim' and
 `gams-comment-dwim-inline', you are asked which symbol to be inserted.
 
-MPSGE ƒuƒƒbƒN‚Å‚Í "!" ‚ªí‚É end-of-line comment symbol ‚Æ‚µ‚Ä—˜—p‚³‚ê‚Ü‚·D
+MPSGE ãƒ–ãƒ­ãƒƒã‚¯ã§ã¯ "!" ãŒå¸¸ã« end-of-line comment symbol ã¨ã—ã¦åˆ©ç”¨ã•ã‚Œã¾ã™ï¼
 
 Try to type M-;, C-cM-;, or C-uC-;, C-uC-cM-; (note that eol and inline comment
 symbols are already defined in this file)
@@ -879,18 +907,18 @@ parameter
     inl2        "Inline comment 2.  Type C-cM-;"
 ;
 * --------------------------------
-$stitle         ƒRƒƒ“ƒg‚ÌƒŠ[ƒWƒ‡ƒ“‚ğ‰B‚·
+$stitle         ã‚³ãƒ¡ãƒ³ãƒˆã®ãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’éš ã™
 * --------------------------------
 $ontext
 
-C-cC-h ‚ÅƒRƒƒ“ƒg‚ÌƒŠ[ƒWƒ‡ƒ“‚ğ‰B‚·‚±‚Æ‚ª‚Å‚«‚Ü‚·D
+C-cC-h ã§ã‚³ãƒ¡ãƒ³ãƒˆã®ãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’éš ã™ã“ã¨ãŒã§ãã¾ã™ï¼
 
-‰B‚ê‚½ƒŠ[ƒWƒ‡ƒ“‚ğÄ‚Ñ•\¦‚³‚¹‚é‚É‚Í‚à‚¤ˆê“x C-cC-h ‚ğ‰Ÿ‚µ‚Ü‚·D
+éš ã‚ŒãŸãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å†ã³è¡¨ç¤ºã•ã›ã‚‹ã«ã¯ã‚‚ã†ä¸€åº¦ C-cC-h ã‚’æŠ¼ã—ã¾ã™ï¼
 
 $offtext
 *        ----------------------------------------------------------------------
 
-$stitle         GAMS LST mode ‚É‚¨‚¯‚é‚»‚Ì‘¼‚ÌƒRƒ}ƒ“ƒhD
+$stitle         GAMS LST mode ã«ãŠã‘ã‚‹ãã®ä»–ã®ã‚³ãƒãƒ³ãƒ‰ï¼
 *        ----------------------------------------------------------------------
 $ontext
 
@@ -944,7 +972,7 @@ Try each command by yourself.
 $offtext
 *        ----------------------------------------------------------------------
 
-$stitle        GAMS-OUTLINEƒ‚[ƒhD
+$stitle        GAMS-OUTLINEãƒ¢ãƒ¼ãƒ‰ï¼
 *        ----------------------------------------------------------------------
 $ontext
 
@@ -960,10 +988,10 @@ C-cC-i.
 
 $offtext
 display "";
-display "@ ‚±‚ê‚Í gams-sample.gms ";
+display "@ ã“ã‚Œã¯ gams-sample.gms ";
 display "";
 display "";
-display "@ GAMS-OUTLINE mode ‚Í«‚Ì‚æ‚¤‚È•\¦‚ğ‚Å‚«‚éD";
+display "@ GAMS-OUTLINE mode ã¯â†“ã®ã‚ˆã†ãªè¡¨ç¤ºã‚’ã§ãã‚‹ï¼";
 display "";
 
 set     iter    Iteration index                / iter1*iter20 /;
@@ -984,11 +1012,11 @@ loop(iter,
     z(iter+1,"b") = y(iter+1);
 );
 
-display "LSTƒtƒ@ƒCƒ‹“à‚Ì PARAMTERS ‚ÍˆÈ‰º‚Ì‚æ‚¤‚È•\¦‚É:", x, y, z;
+display "LSTãƒ•ã‚¡ã‚¤ãƒ«å†…ã® PARAMTERS ã¯ä»¥ä¸‹ã®ã‚ˆã†ãªè¡¨ç¤ºã«:", x, y, z;
 display "";
 display "";
-display "GAMS-OUTLINE ƒ‚[ƒh‚É‚Â‚¢‚ÄÚ‚µ‚­‚Í outline-sample.gms ‚Æ‚¢‚¤ƒTƒ“ƒvƒ‹‚Ìƒtƒ@ƒCƒ‹";
-display "or GAMS-OUTLINE mode ‚Ìƒwƒ‹ƒv (‚±‚Ìƒoƒbƒtƒ@[‚Å `?' ‚ğ‰Ÿ‚·).";
+display "GAMS-OUTLINE ãƒ¢ãƒ¼ãƒ‰ã«ã¤ã„ã¦è©³ã—ãã¯ outline-sample.gms ã¨ã„ã†ã‚µãƒ³ãƒ—ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«";
+display "or GAMS-OUTLINE mode ã®ãƒ˜ãƒ«ãƒ— (ã“ã®ãƒãƒƒãƒ•ã‚¡ãƒ¼ã§ `?' ã‚’æŠ¼ã™).";
 
 display a;
 
@@ -997,5 +1025,6 @@ display a;
 * Local Variables:
 * fill-column: 80
 * mode: gams
+* coding: utf-8-dos
 * End:
 

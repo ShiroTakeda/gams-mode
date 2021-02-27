@@ -1,98 +1,98 @@
-$title  GAMS-OUTLINE mode ‚Ìà–¾‚Ì‚½‚ß‚ÌƒvƒƒOƒ‰ƒ€D
-display "@ GAMS-OUTLINE mode ‚Ìà–¾‚Ì‚½‚ß‚ÌƒvƒƒOƒ‰ƒ€D";
+$title  GAMS-OUTLINE mode ã®èª¬æ˜ã®ãŸã‚ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ï¼
+display "@ GAMS-OUTLINE mode ã®èª¬æ˜ã®ãŸã‚ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ï¼";
 $ontext
-Time-stamp:     <2017-07-15 12:52:51 st>
+Time-stamp:     <2021-02-26 17:02:20 st>
 Filename:       outline-sample.gms
 Author:         Shiro Takeda
 First-written:  <2001/10/26>
 
 [Note]:
 
-  ‚±‚ÌƒvƒƒOƒ‰ƒ€‚Í GAMS-OUTLINE mode ‚Ìà–¾‚Ì‚½‚ß‚ÌƒvƒƒOƒ‰ƒ€‚Å‚·D
+  ã“ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã¯ GAMS-OUTLINE mode ã®èª¬æ˜ã®ãŸã‚ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã§ã™ï¼
 
-  ‚±‚ÌƒvƒƒOƒ‰ƒ€‚ğ GAMS ‚ÅÀs‚µC LST ƒtƒ@ƒCƒ‹ã‚Å `o' ‚ğƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢D
-  GAMS-OUTLINE mode ‚ª‹N“®‚µ‚Ü‚·D
+  ã“ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’ GAMS ã§å®Ÿè¡Œã—ï¼Œ LST ãƒ•ã‚¡ã‚¤ãƒ«ä¸Šã§ `o' ã‚’ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼
+  GAMS-OUTLINE mode ãŒèµ·å‹•ã—ã¾ã™ï¼
 
-  y’zLST ƒtƒ@ƒCƒ‹‚Å“ú–{Œê‚ª•¶š‰»‚¯‚·‚éê‡‚É‚Í pw ƒIƒvƒVƒ‡ƒ“‚É\•ª‘å‚«‚¢’l‚ğ
-  ‚Æ‚Á‚Ä GAMS ‚ğÀs‚µ‚Ä‚İ‚Ä‚­‚¾‚³‚¢D—á: gams outline-sample-ja.gms pw=150
+  ã€æ³¨ã€‘LST ãƒ•ã‚¡ã‚¤ãƒ«ã§æ—¥æœ¬èªãŒæ–‡å­—åŒ–ã‘ã™ã‚‹å ´åˆã«ã¯ pw ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«ååˆ†å¤§ãã„å€¤ã‚’
+  ã¨ã£ã¦ GAMS ã‚’å®Ÿè¡Œã—ã¦ã¿ã¦ãã ã•ã„ï¼ä¾‹: gams outline-sample-ja.gms pw=150
 
 $offtext
 
 display "";
-display "@ ‚±‚Ìƒtƒ@ƒCƒ‹‚Í GAM-OUTLINE mode ‚Ìà–¾‚Ì‚½‚ß‚ÌƒvƒƒOƒ‰ƒ€‚Å‚·D";
+display "@ ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ GAM-OUTLINE mode ã®èª¬æ˜ã®ãŸã‚ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã§ã™ï¼";
 display "";
-display "HELP ‚ğŒ©‚é‚É‚Í `?' ‚ğƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢D";
+display "HELP ã‚’è¦‹ã‚‹ã«ã¯ `?' ã‚’ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼";
 display "";
 display "";
-display "@ ‹L†‚Ìà–¾‚ÆŠî–{“I‚È—p–@";
+display "@ è¨˜å·ã®èª¬æ˜ã¨åŸºæœ¬çš„ãªç”¨æ³•";
 display "";
 
 *       ----------------------------------------------------------------------
-*       •\¦‚³‚ê‚é€–Ú (item) ‚Ìƒ^ƒCƒvD
-display "•\¦‚³‚ê‚é€–Ú (item) ‚Ìƒ^ƒCƒvD";
+*       è¡¨ç¤ºã•ã‚Œã‚‹é …ç›® (item) ã®ã‚¿ã‚¤ãƒ—ï¼
+display "è¡¨ç¤ºã•ã‚Œã‚‹é …ç›® (item) ã®ã‚¿ã‚¤ãƒ—ï¼";
 display "";
-display "OTH (other) ‚Í•¶š—ñD";
-display "`SET' ‚Í `set'";
-display "PAR ‚Í `parameter'";
-display "VAR ‚Í `VAR'";
-display "EQU ‚Í `EQU'";
-display "VRI ‚Í `VARIABLE'";
-display "LOO ‚Í LOOPS";
-display "SUM ‚Í SOLVE SUMMARY ‚Æ REPORT SUMMARY";
-display "[ ‚Æ ] ‚ÅˆÍ‚Ü‚ê‚Ä‚¢‚é‚Ì‚Í special comment line";
+display "OTH (other) ã¯æ–‡å­—åˆ—ï¼";
+display "`SET' ã¯ `set'";
+display "PAR ã¯ `parameter'";
+display "VAR ã¯ `VAR'";
+display "EQU ã¯ `EQU'";
+display "VRI ã¯ `VARIABLE'";
+display "LOO ã¯ LOOPS";
+display "SUM ã¯ SOLVE SUMMARY ã¨ REPORT SUMMARY";
+display "[ ã¨ ] ã§å›²ã¾ã‚Œã¦ã„ã‚‹ã®ã¯ special comment line";
 display "";
-display "ƒL[Š„“–";
+display "ã‚­ãƒ¼å‰²å½“";
 display "";
-display "SPACE  = Œ»İ‚Ìs‚Ì€–Ú‚Ì“à—e‚ğ•\¦";
-display "N      = Ÿ‚Ì€–Ú‚ğ•\¦";
-display "P      = ˆês‘O‚Ì€–Ú‚ğ•\¦";
-display "t      = •\¦‚³‚ê‚é€–Ú‚Ì‘I‘ğ";
-display "T      = •\¦‚³‚ê‚é€–Ú‚Ì‘g‚İ‡‚í‚¹‚ğ‘I‘ğ";
+display "SPACE  = ç¾åœ¨ã®è¡Œã®é …ç›®ã®å†…å®¹ã‚’è¡¨ç¤º";
+display "N      = æ¬¡ã®é …ç›®ã‚’è¡¨ç¤º";
+display "P      = ä¸€è¡Œå‰ã®é …ç›®ã‚’è¡¨ç¤º";
+display "t      = è¡¨ç¤ºã•ã‚Œã‚‹é …ç›®ã®é¸æŠ";
+display "T      = è¡¨ç¤ºã•ã‚Œã‚‹é …ç›®ã®çµ„ã¿åˆã‚ã›ã‚’é¸æŠ";
 display "";
-display "m      = €–Ú‚Éƒ}[ƒN‚·‚é";
-display "u      = ƒ}[ƒN‚ğœ‹";
-display "y      = ƒ}[ƒN‚³‚ê‚½€–Ú‚ÉƒWƒƒƒ“ƒv‚·‚é";
+display "m      = é …ç›®ã«ãƒãƒ¼ã‚¯ã™ã‚‹";
+display "u      = ãƒãƒ¼ã‚¯ã‚’é™¤å»";
+display "y      = ãƒãƒ¼ã‚¯ã•ã‚ŒãŸé …ç›®ã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹";
 display "";
-display "i      = LST ƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@[‚É–ß‚é";
-display ";      = GMS ƒtƒ@ƒCƒ‹‚Ìƒoƒbƒtƒ@[‚É–ß‚é";
-display "?      = ƒwƒ‹ƒv‚Ì•\¦";
-display "q      = GAMS-OUTLINE mode ‚ğI—¹";
+display "i      = LST ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡ãƒ¼ã«æˆ»ã‚‹";
+display ";      = GMS ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡ãƒ¼ã«æˆ»ã‚‹";
+display "?      = ãƒ˜ãƒ«ãƒ—ã®è¡¨ç¤º";
+display "q      = GAMS-OUTLINE mode ã‚’çµ‚äº†";
 display "";
-display "c      = ƒtƒHƒ[ƒ‚[ƒh‚ÌØ‚è‘Ö‚¦";
-display "x      = •\¦ƒXƒ^ƒCƒ‹‚ÌØ‚è‘Ö‚¦";
-display "l      = ƒEƒBƒ“ƒhƒE‚ğˆês•ªŠg‘å";
-display "o      = ƒEƒBƒ“ƒhƒE‚ğˆês•ªk¬";
-display "C-l    = ƒŠƒZƒ“ƒ^[";
+display "c      = ãƒ•ã‚©ãƒ­ãƒ¼ãƒ¢ãƒ¼ãƒ‰ã®åˆ‡ã‚Šæ›¿ãˆ";
+display "x      = è¡¨ç¤ºã‚¹ã‚¿ã‚¤ãƒ«ã®åˆ‡ã‚Šæ›¿ãˆ";
+display "l      = ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä¸€è¡Œåˆ†æ‹¡å¤§";
+display "o      = ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä¸€è¡Œåˆ†ç¸®å°";
+display "C-l    = ãƒªã‚»ãƒ³ã‚¿ãƒ¼";
 display "";
-display "RET    = ƒXƒNƒ[ƒ‹EƒAƒbƒv";
-display "DEL    = ƒXƒNƒ[ƒ‹Eƒ_ƒEƒ“";
-display "n      = ˆês‰º‚ÉˆÚ“®";
-display "p      = ˆêsã‚ÉˆÚ“®";
-display ",      = ƒoƒbƒtƒ@[‚Ìæ“ª‚ÉˆÚ“®";
-display ".      = ƒoƒbƒtƒ@[‚ÌI‚è‚ÉˆÚ“®";
+display "RET    = ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒ»ã‚¢ãƒƒãƒ—";
+display "DEL    = ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒ»ãƒ€ã‚¦ãƒ³";
+display "n      = ä¸€è¡Œä¸‹ã«ç§»å‹•";
+display "p      = ä¸€è¡Œä¸Šã«ç§»å‹•";
+display ",      = ãƒãƒƒãƒ•ã‚¡ãƒ¼ã®å…ˆé ­ã«ç§»å‹•";
+display ".      = ãƒãƒƒãƒ•ã‚¡ãƒ¼ã®çµ‚ã‚Šã«ç§»å‹•";
 display "";
-display "w      = ƒtƒŒ[ƒ€‚ÌƒTƒCƒY‚Ì•ÏX";
-display "e      = ƒtƒŒ[ƒ€‚ÌˆÚ“®";
+display "w      = ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚µã‚¤ã‚ºã®å¤‰æ›´";
+display "e      = ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç§»å‹•";
 display "";
-display "C-cC-f = font-lock ‚ÌƒŒƒxƒ‹‚Ì‘I‘ğ";
+display "C-cC-f = font-lock ã®ãƒ¬ãƒ™ãƒ«ã®é¸æŠ";
 display "";
-display "ŠeƒRƒ}ƒ“ƒh‚ğ©•ª‚Å‚µ‚Ä‚İ‚Ä‚­‚¾‚³‚¢D";
-display "‘¼‚ÌƒL[Š„“–‚É‚Â‚¢‚Ä‚Íƒwƒ‹ƒv‚ğŒ©‚Ä‚­‚¾‚³‚¢";
+display "å„ã‚³ãƒãƒ³ãƒ‰ã‚’è‡ªåˆ†ã§è©¦ã—ã¦ã¿ã¦ãã ã•ã„ï¼";
+display "ä»–ã®ã‚­ãƒ¼å‰²å½“ã«ã¤ã„ã¦ã¯ãƒ˜ãƒ«ãƒ—ã‚’è¦‹ã¦ãã ã•ã„";
 
 *       ----------------------------------------------------------------------
-*       GAMS-OUTLINE mode ‚Å special comment line ‚ğ•\¦‚µ‚½‚¢ê‡‚É‚ÍCGMS ƒtƒ@
-*       ƒCƒ‹‚ÅˆÈ‰º‚Ì‚æ‚¤‚ÈŒ`‚Å display –½—ß‚Æ "@" ‚ğ‘g‚İ‡‚í‚¹‚Ü‚·D
+*       GAMS-OUTLINE mode ã§ special comment line ã‚’è¡¨ç¤ºã—ãŸã„å ´åˆã«ã¯ï¼ŒGMS ãƒ•ã‚¡
+*       ã‚¤ãƒ«ã§ä»¥ä¸‹ã®ã‚ˆã†ãªå½¢ã§ display å‘½ä»¤ã¨ "@" ã‚’çµ„ã¿åˆã‚ã›ã¾ã™ï¼
 display "";
-display "@ COM‚Ån‚Ü‚és‚Í special comment line ‚Å‚·D";
+display "@ COMã§å§‹ã¾ã‚‹è¡Œã¯ special comment line ã§ã™ï¼";
 display ""
-display "special comment line ‚ğ•\¦‚³‚¹‚é‚É‚Í @ ‚ğ display ‚Æ‚Æ‚à‚É—˜—p‚µ‚Ü‚·D";
-display "‘‚«•û‚É‚Â‚¢‚Ä‚Í GMS ƒtƒ@ƒCƒ‹‚ğŒ©‚Ä‚­‚¾‚³‚¢D";
+display "special comment line ã‚’è¡¨ç¤ºã•ã›ã‚‹ã«ã¯ @ ã‚’ display ã¨ã¨ã‚‚ã«åˆ©ç”¨ã—ã¾ã™ï¼";
+display "æ›¸ãæ–¹ã«ã¤ã„ã¦ã¯ GMS ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦‹ã¦ãã ã•ã„ï¼";
 
 *       ----------------------------------------------------------------------
-*       —á 1.
+*       ä¾‹ 1.
 *       ----------------------------------------------------------------------
 display "";
-display "@ —á 1: ’Pƒ‚È—á";
+display "@ ä¾‹ 1: å˜ç´”ãªä¾‹";
 display "";
 
 set
@@ -113,23 +113,23 @@ loop(iter,
     c(iter+1,"b") = b(iter+1);
 );
 
-display "'PARAMTERS' ‚ÍŸ‚Ì‚æ‚¤‚É•\¦‚³‚ê‚Ü‚·", a, b, c;
+display "'PARAMTERS' ã¯æ¬¡ã®ã‚ˆã†ã«è¡¨ç¤ºã•ã‚Œã¾ã™", a, b, c;
 display "";
 
 *       ----------------------------------------------------------------------
-*       —á 2.
+*       ä¾‹ 2.
 *       ----------------------------------------------------------------------
 display "";
-display "@ —á 2: ‚ ‚éˆê‚Â‚Ì€–Ú‚ğƒ}[ƒN‚µC“ñ‚Â‚Ì€–Ú‚ğ“¯‚É•\¦‚³‚¹‚é";
+display "@ ä¾‹ 2: ã‚ã‚‹ä¸€ã¤ã®é …ç›®ã‚’ãƒãƒ¼ã‚¯ã—ï¼ŒäºŒã¤ã®é …ç›®ã‚’åŒæ™‚ã«è¡¨ç¤ºã•ã›ã‚‹";
 display "";
-display "‚Ü‚¸‚ ‚és‚Å `m' ‚ğƒ^ƒCƒv‚µ‚Ü‚·D—á‚¦‚ÎCã‚Ì PAR a ‚Æ‚¢‚¤s‚Å `m' ‚ğ";
-display "ƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢D‚»‚µ‚Ä‘¼‚ÌsC—á‚¦‚Î‰º‚Ì here ‚Æ‚¢‚¤€–Ú‚Ìs‚ÉˆÚ“®‚µ‚Ü‚·D";
-display "‚»‚±‚ÅƒXƒy[ƒX‚ğƒ^ƒCƒv‚µ‚Ü‚·D";
-display "‚·‚é‚ÆC “ñ‚Â‚ÌƒEƒBƒ“ƒhƒE‚É“ñ‚Â‚Ì€–Ú‚Ì“à—e‚ª“¯‚É•\¦‚³‚ê‚Ü‚·D";
-display "ƒ}[ƒN‚ğ‚Æ‚è‚½‚¯‚ê‚Î `u' ‚ğƒ^ƒCƒv‚µ‚Ü‚·D";
+display "ã¾ãšã‚ã‚‹è¡Œã§ `m' ã‚’ã‚¿ã‚¤ãƒ—ã—ã¾ã™ï¼ä¾‹ãˆã°ï¼Œä¸Šã® PAR a ã¨ã„ã†è¡Œã§ `m' ã‚’";
+display "ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼ãã—ã¦ä»–ã®è¡Œï¼Œä¾‹ãˆã°ä¸‹ã® here ã¨ã„ã†é …ç›®ã®è¡Œã«ç§»å‹•ã—ã¾ã™ï¼";
+display "ãã“ã§ã‚¹ãƒšãƒ¼ã‚¹ã‚’ã‚¿ã‚¤ãƒ—ã—ã¾ã™ï¼";
+display "ã™ã‚‹ã¨ï¼Œ äºŒã¤ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«äºŒã¤ã®é …ç›®ã®å†…å®¹ãŒåŒæ™‚ã«è¡¨ç¤ºã•ã‚Œã¾ã™ï¼";
+display "ãƒãƒ¼ã‚¯ã‚’ã¨ã‚ŠãŸã‘ã‚Œã° `u' ã‚’ã‚¿ã‚¤ãƒ—ã—ã¾ã™ï¼";
 
 parameter
-    here    'ã‚Ì "PAR  a" ‚Æ‚¢‚¤s‚ğƒ}[ƒN‚µC‚»‚ê‚©‚ç‚±‚Ìs‚ÉˆÚ“®‚µ‚Ä‚­‚¾‚³‚¢D';
+    here    'ä¸Šã® "PAR  a" ã¨ã„ã†è¡Œã‚’ãƒãƒ¼ã‚¯ã—ï¼Œãã‚Œã‹ã‚‰ã“ã®è¡Œã«ç§»å‹•ã—ã¦ãã ã•ã„ï¼';
 
 here = 0;
 display "";
@@ -137,22 +137,24 @@ display here;
 display "";
 
 *       ----------------------------------------------------------------------
-*       —á 3.
+*       ä¾‹ 3.
 *       ----------------------------------------------------------------------
 display "";
-display "@ —á 3: core and periphery ƒ‚ƒfƒ‹D•\¦‚³‚ê‚é€–Ú‚Ì•ÏX‚ğ‚µ‚Ä‚İ‚éD";
+display "@ ä¾‹ 3: core and periphery ãƒ¢ãƒ‡ãƒ«ï¼è¡¨ç¤ºã•ã‚Œã‚‹é …ç›®ã®å¤‰æ›´ã‚’ã—ã¦ã¿ã‚‹ï¼";
 display "";
-display "‚±‚Ì—á‚Å‚Í‚¢‚ë‚¢‚ë‚È€–Ú‚ª•\¦‚³‚ê‚Ä‚¢‚Ü‚·D"
+display "ã“ã®ä¾‹ã§ã¯ã„ã‚ã„ã‚ãªé …ç›®ãŒè¡¨ç¤ºã•ã‚Œã¦ã„ã¾ã™ï¼"
 display "- VAR, EQU, PAR, SET, SUM, OTH, LOO, VRI, COM."
 display "";
-display "•\¦‚·‚é€–Ú‚ğ‘I‘ğ‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D"
-display "‚±‚Ìƒoƒbƒtƒ@[‚Å `t' ‚ğƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢D‚·‚é‚Æ SELECT-ITEM mode ‚ª‹N“®‚µ‚Ü‚·D"
+display "è¡¨ç¤ºã™ã‚‹é …ç›®ã‚’é¸æŠã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼"
+display "ã“ã®ãƒãƒƒãƒ•ã‚¡ãƒ¼ã§ `t' ã‚’ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼ã™ã‚‹ã¨ SELECT-ITEM mode ãŒèµ·å‹•ã—ã¾ã™ï¼"
 display "";
-display "‚³‚ç‚ÉC•\¦‚·‚é€–Ú‚Ì‘g‚İ‡‚í‚¹‚ğ“o˜^‚µ‚Ä‚¨‚­‚±‚Æ‚ª‚Å‚«‚Ü‚·D";
-display "‚»‚ê‚É‚Í SELECT-ITEM mode ‚Å `a' ‚ğƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢D";
+display "ã•ã‚‰ã«ï¼Œè¡¨ç¤ºã™ã‚‹é …ç›®ã®çµ„ã¿åˆã‚ã›ã‚’ç™»éŒ²ã—ã¦ãŠãã“ã¨ãŒã§ãã¾ã™ï¼";
+display "ãã‚Œã«ã¯ SELECT-ITEM mode ã§ `a' ã‚’ã‚¿ã‚¤ãƒ—ã—ã¦ãã ã•ã„ï¼";
 display "";
-display "‘g‚İ‡‚í‚¹‚ğ“o˜^‚µ‚½‚ç `T' (gams-ol-item) ‚ğƒ^ƒCƒv‚·‚é‚±‚Æ‚Å‘I‘ğ‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·D";
+display "çµ„ã¿åˆã‚ã›ã‚’ç™»éŒ²ã—ãŸã‚‰ `T' (gams-ol-item) ã‚’ã‚¿ã‚¤ãƒ—ã™ã‚‹ã“ã¨ã§é¸æŠã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ï¼";
 display "";
+
+display "@@ é›†åˆã¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿";
 
 * The model presented in this example is the core-periphery model of Chap 5 in
 * Fujita, Krugman, and Venables (1999) "Spatial Economy", MIT press.
@@ -174,6 +176,8 @@ parameters
     vt      Value of transport cost,
     lam     The share of workers in region one;
 
+display "@@ å¤‰æ•°ã¨å¼";
+
 *       Declare endogenous variables.
 variables
     wone    Nominal wage of region one,
@@ -189,6 +193,8 @@ equations
     rweqone         Real wage equation for omega one,
     rweqtwo         Real wage equation for omega two,
     eqratio         eq for RATIO;
+
+display "@@ å¼ã®å®šç¾©";
 
 *       Equation definitions:
 weqone ..
@@ -219,9 +225,13 @@ rweqtwo ..
 
 eqratio .. ratio =e= omeone / ometwo;
 
+display "@@ ãƒ¢ãƒ‡ãƒ«";
+
 *       Declare model.
 model   fkv     Core and periphery model
         / weqone, weqtwo, rweqone, rweqtwo, eqratio /;
+
+display "@@ ãƒ¢ãƒ‡ãƒ«ã‚’è§£ã";
 
 *       ----------------------------------------------------------------------
 *       Insert numerical values in parameters.
@@ -247,7 +257,7 @@ parameters
 
 *       ----------------------------------------------------------------------
 *       Loop.
-display "@ Loop ‚Ìn‚Ü‚è";
+display "@@@ Loop ã®å§‹ã¾ã‚Š";
 
 loop(tc,
     count2 = (ord(tc) - 1)/(card(tc) - 1);
@@ -296,17 +306,19 @@ loop(tc,
     );
 );
 
-display "ƒ‹[ƒv‚ÌŒ‹‰Ê", log;
+display "@@@ ãƒ«ãƒ¼ãƒ—ã®çµæœ", log;
 * $libinclude plot log
 
 *       ----------------------------------------------------------------------
-*       —á 4.
+*       ä¾‹ 4.
 *       ----------------------------------------------------------------------
 display "";
 display "";
-display "@ —á 4: ƒxƒNƒgƒ‹•Ï”";
+display "@ ä¾‹ 4: ãƒ™ã‚¯ãƒˆãƒ«å¤‰æ•°";
 display "";
 display "";
+
+display "@@ ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿";
 
 *       Model M2-1s: Closed 2x2 Tax-Ridden Economy --  Vector Syntax
 table bmflow(*,*)  Benchmark flows (in value terms)
@@ -343,6 +355,8 @@ txf("l",i)      =  -bmflow("tax",i) / fdbar("l",i);
 pbar(f,i)       = 1 + txf(f,i);
 txo(i)          = 0;
 
+display "@@ ãƒ¢ãƒ‡ãƒ«";
+
 $ontext
 
 $model:m2_1
@@ -374,14 +388,16 @@ $demand:cons
 $offtext
 $sysinclude mpsgeset m2_1
 
+display "@@ ãƒ™ãƒ³ãƒãƒãƒ¼ã‚¯ãƒ»ãƒ¬ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³";
+
 m2_1.iterlim = 0;
 $include M2_1.GEN
 solve m2_1 using mcp;
 m2_1.iterlim = 2000;
 
 *       ----------------------------------------------------------------------
-*       •Š‘¶—Ê‚Ì‘‰Á
-display "@ •Š‘¶—Ê‚Ì‘‰Á";
+*       è³¦å­˜é‡ã®å¢—åŠ 
+display "@@ è³¦å­˜é‡ã®å¢—åŠ ";
 
 set     sce     / sce1*sce10 /;
 parameter
@@ -398,10 +414,11 @@ $include M2_1.GEN
 );
 display utility;
 
-display "@ ‚¨‚µ‚Ü‚¢D";
+display "@ ãƒ—ãƒ­ã‚°ãƒ©ãƒ çµ‚äº†ï¼";
 
 * --------------------
 * Local Variables:
 * fill-column: 80
 * mode: gams
+* coding: utf-8-dos
 * End:

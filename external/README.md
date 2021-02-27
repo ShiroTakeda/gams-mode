@@ -1,14 +1,16 @@
 <!--
 Author:  Shiro Takeda
 Maintainer:  Shiro Takeda
-Time-stamp:  <2016-03-16 10:43:14 st>
+Time-stamp:  <2021-02-26 17:48:26 st>
 -->
 
 # Explanation
 
-If you use an external command for GAMS-OUTLINE, you need place gamsolc.exe or
-gamsperl.pl (perl script) at the proper place.  See the help description of the
-variable `gams-ol-external-program`.
+Programs in this folder are obsolete.
+
+If you use an external command for GAMS-OUTLINE, you need place
+gamsolc.exe or gamsperl.pl (perl script) at the proper place.  See the
+help description of the variable `gams-ol-external-program`.
 
 * If you use gamsolc.exe:
 

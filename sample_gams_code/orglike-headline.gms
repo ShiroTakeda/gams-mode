@@ -1,15 +1,81 @@
-$title A sample file for learning how to use GAMS mode for Emacs.
+$title  A sample file for showing Org-mode feature in GAMS mode
+*@ A sample file for showing Org-mode feature in GAMS mode
 $ontext
-Filename:       "gams-sample.gms"
-Author:         Shiro Takeda
-First-written:  <2001/08/13>
+First-written:  <2012/07/25>
+$offtext
 
-_TODO_:
+*@@ [Org mode like headline representation]
+
+$ontext
+In GAMS mode, you can use outline representation like Org-mode (or outline
+mode). This is a sample file for explaining this feature.
+
+By default, lines starting with `*@` are regarded as headlines.
+
+      *@    The top level headline
+      *@@   Second level
+            text text
+      *@@@  Third level
+            text text
+      *@    Another top level headline
+
+You can change outline representation by the following two commands:
+
++ `gams-orglike-cycle` (binded to TAB key)
++ `gams-orglike-global-cycle` (binded to Shift+TAB key).
+
+`gams-orglike-cycle` command works only on headlines and toggles hide/show the
+body of programs. `gams-orglike-global-cycle` toggles hide/show entire program.
+Try TAB and Shift+TAB.
+
+This feature uses codes in outline-mode (although we use term `orglike', this
+feature do not use codes in `org-mode').
+$offtext
+
+*@@ [How to change symbols for headlines]
+
+$ontext
+In the default setting, "*@" is used as symbols to represent headlines. This is
+determined by the lisp variable `gams-outline-regexp`. This variable specifies
+the regular expressions of the symbol used to represent headlines and its
+default value is
+
+      "\\*@+[ \t]"
+
+If you change the value of this variable, you can change symbols for
+headlines. For example, add the following expression to your init.el file
+
+      (setq gams-outline-regexp "[ \t]*display \"@+[ \t]")
+
+and open "orglike-headline-alt.gms".
+
+$offtext
+
+*@@ [Other commands for outline handling]
+
+$ontext
+
++ "C-cC-:n" -> Move to the next headlines (`outline-next-visible-heading`).
++ "C-cC-:p" -> Move to the previous headlines (`outline-previous-visible-heading`).
++ "C-cC-:f" -> Fold the current tree (`outline-hide-leaves`).
++ "C-cC-:k" -> Show branches (`outline-show-branches`).
+
+(setq gams-outline-regexp "\\*@+[ \t]")
+(setq gams-outline-regexp-font-lock "^\\([*]\\@*\\)\\(\\@[ \t]\\)\\(.*\\)")
 
 $offtext
 
 *       ----------------------------------------------------------------------
-$stitle         Specification of lst file or lst file directory (sample code):
+*@ Keybindings
+*       ----------------------------------------------------------------------
+
+*       TAB: gams-orglike-cycle
+*       Shift + TAB: gams-orglike-global-cycle
+
+*       Try to type TAB and SHIFT+TAB!!!
+
+*       ----------------------------------------------------------------------
+*@ Specification of lst file or lst file directory (sample code):
 *       ----------------------------------------------------------------------
 $ontext
 To activiate lst file specification, remove one of two asterisks at the
@@ -64,7 +130,7 @@ load-path setting).
 
 $offtext
 *        ----------------------------------------------------------------------
-$stitle         Basic usage.
+*@ Basic usage.
 *        ----------------------------------------------------------------------
 $ontext
 
@@ -191,16 +257,16 @@ the GMS file.
 
 $offtext
 *        ----------------------------------------------------------------------
-$stitle         Other commands in GAMS mode.
+*@ Other commands in GAMS mode.
 *        ----------------------------------------------------------------------
 
 * ---------------------------------------------------------
-$stitle         Process handling.
+*@ Process handling.
 * ---------------------------------------------------------
+
+*@@ [Running GAMS and editing a command line.]
+
 $ontext
-
-[Running GAMS and editing a command line.]
-
 As described above, you can start GAMS process by typing `C-cC-ts' (or F9).
 Moreover, if you attach the universal argument (i.e. C-u), you are able to edit
 the command line before starting process.
@@ -234,10 +300,11 @@ of this file.
 When you evoke GAMS on this file next time, this line is passed to the shell as
 the command line.  If you want to restore the default command line, just delete
 this line.
+$offtext
 
+*@@ [Specify a command line by *#! notation]
 
-[Specify a command line by *#! notation]
-
+$ontext
 When there is a line beginning with *#! on the first line in a GMS file, GAMS
 mode uses its content as a command line.  For example, suppose that you write
 the following statement in the first line
@@ -253,10 +320,11 @@ is executed as a command line.  This is a function like #!/usr/bin/perl or
 `gams-process-command-name' and `gams-process-command-option' and it is common
 to all GMS files. But when you want to use a different command line for a
 specific file, use this *#! notation.
+$offtex
 
+*@@ [Kill (stop) the GAMS process.]
 
-[Kill (stop) the GAMS process.]
-
+$ontext
 If you type `k' when a GAMS process is running, you can kill (stop) the process.
 Uncomment the following programs and try them.
 
@@ -285,10 +353,10 @@ loop(o,
 display yy;
 
 $offtext
+
+*@@ [Change command line options.]
+
 $ontext
-
-[Change command line options.]
-
 If you type `o' in the process menu, you can change and register a new command
 line option combiantion.  Registered option combiantion is stored in the
 variable `gams-user-option-alist' and saved in the file decided by the variable
@@ -296,19 +364,34 @@ variable `gams-user-option-alist' and saved in the file decided by the variable
 
 The default option combiantion is determinied by the value of
 `gams-process-command-option'.
+$offtext
 
+*@@ [Change gams command.]
 
-[Change gams command.]
-
+$ontext
 If you type `c' in the process menu, you can change (and register) alternative
 GAMS commands. You can set the default GAMS pcommand by the value of
 `gams-process-command-name'. But you may often want to use gams.exe of different
 versions. In such cases, register other gams.exe by this menu.
 
 $offtext
+
+*@@@ test
+
+* The third level.
+
+*@@@ test2
+
+* The third level.
+
+*@@@@ 4th level
+
+*@@@@@ 5th level
+
 * ---------------------------------------------------------
-$stitle         Specify the place and name of the LST file.
+*@ Specify the place and name of the LST file.
 * ---------------------------------------------------------
+
 $ontext
 
 When you run GAMS on a gms file, GAMS creates the LST file with the same name in
@@ -348,7 +431,7 @@ as "./lst/gams-sample.lst".
 
 $offtext
 * ---------------------------------------------------------
-$stitle         GAMS statement completions.
+*@ GAMS statement completions.
 * ---------------------------------------------------------
 
 $ontext
@@ -422,7 +505,7 @@ $offtext
 * solve cost_min using lp minimizing TCOST;
 
 * ---------------------------------------------------------
-$stitle         Automatic registration of a new statement.
+*@ Automatic registration of a new statement.
 * ---------------------------------------------------------
 $ontext
 
@@ -452,7 +535,7 @@ by yourself.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         auto-complete mode for GAM mode.
+*@ auto-complete mode for GAM mode.
 * ---------------------------------------------------------
 $ontext
 
@@ -479,7 +562,7 @@ variable `gams-ac-source-user-keywords-list` like
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Quotation and parenthesis.
+*@ Quotation and parenthesis.
 * ---------------------------------------------------------
 $ontext
 
@@ -492,7 +575,7 @@ are assigned non-nill.  If you attach the universal argument to `(', then only
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Insert user defined comment template.
+*@ Insert user defined comment template.
 * ---------------------------------------------------------
 
 $ontext
@@ -513,7 +596,7 @@ Please see the help of `gams-user-comment'.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         GAMS-TEMPLATE.
+*@ GAMS-TEMPLATE.
 * ---------------------------------------------------------
 $ontext
 
@@ -529,7 +612,7 @@ in GAMS-TEMPLATE mode, type `h' in the *Template List* buffer.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Fill paragraph.
+*@ Fill paragraph.
 * ---------------------------------------------------------
 $ontext
 
@@ -558,7 +641,7 @@ in the next commented out paragraph and type `M-q'.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Commenting out
+*@ Commenting out
 * ---------------------------------------------------------
 $ontext
 
@@ -573,7 +656,7 @@ $offtext
 $include %sub_program%
 
 * ---------------------------------------------------------
-$stitle         Font-lock (coloring).
+*@ Font-lock (coloring).
 * ---------------------------------------------------------
 $ontext
 
@@ -627,7 +710,7 @@ them.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Display the declaration place of an identifier.
+*@ Display the declaration place of an identifier.
 * ---------------------------------------------------------
 $ontext
 
@@ -694,7 +777,7 @@ that you want to search.  Try "C-uC-cC-.".
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Display the list of identifiers.
+*@ Display the list of identifiers.
 * ---------------------------------------------------------
 $ontext
 
@@ -725,7 +808,7 @@ can specifiy the default subroutine file name by `gams-include-file'.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Commands on a ontext-offtext pair.
+*@ Commands on a ontext-offtext pair.
 * ---------------------------------------------------------
 $ontext
 
@@ -747,7 +830,7 @@ display "Try to type C-cC-c, C-uC-cC-c, C-cC-g, C-cM-c, and C-cM-g",
         "on a ontext or offtext!";
 
 * ---------------------------------------------------------
-$stitle         Align block.
+*@ Align block.
 * ---------------------------------------------------------
 
 $ontext
@@ -808,7 +891,7 @@ display abc;
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Automatic indentation.
+*@ Automatic indentation.
 * ---------------------------------------------------------
 $ontext
 
@@ -901,7 +984,7 @@ although it may not be necessarily required in GAMS syntax.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         View manual.
+*@ View manual.
 * ---------------------------------------------------------
 $ontext
 
@@ -934,7 +1017,7 @@ variables.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         GAMS model library.
+*@ GAMS model library.
 * ---------------------------------------------------------
 $ontext
 
@@ -952,7 +1035,7 @@ set the proper value to the variable `gams-gamslib-command'.
 $offtext
 
 * ---------------------------------------------------------
-$stitle         Inline and end-of-line comments
+*@ Inline and end-of-line comments
 * ---------------------------------------------------------
 $ontext
 
@@ -991,48 +1074,16 @@ parameter
 ;
 
 * ---------------------------------------------------------
-$stitle         Hide (or show) comment regions.
+*@ Hide (or show) comment regions.
 * ---------------------------------------------------------
 $ontext
 
 You can hide and show comment regions by C-cC-h.
 
 $offtext
-
-* ---------------------------------------------------------
-$stitle         Org mode like headling representation
-* ---------------------------------------------------------
-$ontext
-
-In GAMS mode, you can use outline representation like Org-mode (or outline
-mode).
-
-By default, lines starting with `*@` are regarded as headlines.
-
-      *@    The top level headline
-      *@@   Second level
-            text text
-      *@@@  Third level
-            text text
-      *@    Another top level headline
-
-You can change outline representation by the following two commands:
-
-+ `gams-orglike-cycle` (binded to TAB key)
-+ `gams-orglike-global-cycle` (binded to Shift+TAB key).
-
-`gams-orglike-cycle` command works only on headlines and toggles hide/show the
-body of programs. `gams-orglike-global-cycle` toggles hide/show entire program.
-Try TAB and Shift+TAB.
-
-For details, see `orglike-headline.gms' and `orglike-headline-alt.gms' files.
-
-
-$offtext
-
 *        ----------------------------------------------------------------------
 
-$stitle         Other commands in GAMS LST mode.
+*@ Other commands in GAMS LST mode.
 *        ----------------------------------------------------------------------
 $ontext
 
@@ -1086,7 +1137,7 @@ Try each command by yourself.
 $offtext
 *        ----------------------------------------------------------------------
 
-$stitle         GAMS-OUTLINE mode.
+*@ GAMS-OUTLINE mode.
 *        ----------------------------------------------------------------------
 $ontext
 
