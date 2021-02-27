@@ -422,8 +422,8 @@ You can change the value of these variables by adding in your
     (setq gams-process-command-name "c:/GAMS20.0/gams.exe")
     (setq gams-statement-upcase nil)
 
-Or you can use `customize` built in Emacs.  Try M-x
-customize-apropos-groups [ENTER] gams [ENTER.]
+Or you can use `customize` built in Emacs.  Try M-x customize-groups
+[ENTER] gams [ENTER.]
 
 Please read the sample file "gams-setting-sample.el", too.
 
