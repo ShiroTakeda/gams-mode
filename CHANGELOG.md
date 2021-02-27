@@ -11,6 +11,10 @@ Change logs of GAMS mode.
 Version 6.7
 ----------------------------------
 
+* Updated explanation in `README.md` file.
+
+* Updated example settings in `gams-setting-sample.el` file.
+
 * Added a function for opening GAMS online manual for commandline options
   from "Change options" in "Process menu".
 
