@@ -11,6 +11,9 @@ Change logs of GAMS mode.
 Version 6.7
 ----------------------------------
 
+* Added a function for opening GAMS online manual for commandline options
+  from "Change options" in "Process menu".
+
 * Updated the function for using outline representation like Org mode. See
   `orglike-headline.gms` file in sample_gams_code folder for details.
 

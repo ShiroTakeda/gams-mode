@@ -4446,7 +4446,9 @@ Display the content of `gams-option-alist' in a buffer."
       (insert "\n")
       (setq temp-alist (cdr temp-alist)))
     (insert "\n")
-    (insert gams-opt-key-mess)
+    (if com
+        (insert gams-opt-key-mess-command)
+      (insert gams-opt-key-mess-option))
     (insert "\n")
     (goto-char (point-min))
     (setq buffer-read-only t)))
@@ -4473,19 +4475,35 @@ The default GAMS command line option is determined by the variable
   (define-key map "e" 'gams-opt-edit)
   (define-key map "q" 'gams-opt-quit)
   (define-key map "a" 'gams-opt-add-new-option)
+  (define-key map "m" 'gams-opt-see-manual)
   (define-key map "d" 'gams-opt-delete))
 
-(defvar gams-opt-key-mess
+(defvar gams-opt-key-mess-command
   (concat
-     "[*] => the current choice, "
-     "Key: "
-     "[n]ext, "
-     "[p]rev, "
-     "ENT = select, "
-     "[e]dit, "
-     "[a]dd, "
-     "[d]elete, "
-     "[q]uit."))
+   "[*] => the current choice, "
+   "\n"
+   "Key: "
+   "[n]ext, "
+   "[p]rev, "
+   "ENT = select, "
+   "[e]dit, "
+   "[a]dd, "
+   "[d]elete, "
+   "[q]uit."))
+
+(defvar gams-opt-key-mess-option
+  (concat
+   "[*] => the current choice, "
+   "\n"
+   "Key: "
+   "[n]ext, "
+   "[p]rev, "
+   "ENT = select, "
+   "[e]dit, "
+   "[a]dd, "
+   "[d]elete, "
+   "[q]uit, "
+   "[m]anual for option."))
 
 (defun gams-opt-show-key ()
   "Show keybinding."
@@ -4502,6 +4520,15 @@ The default GAMS command line option is determined by the variable
   (interactive)
   (forward-line -1)
   (gams-opt-show-key))
+
+(defvar gams-manual-option-url
+  "https://www.gams.com/latest/docs/UG_GamsCall.html#UG_GamsCall_ListOfCommandLineParameters")
+
+(defun gams-opt-see-manual ()
+  "See online manual for GAMS commandline options."
+  (interactive)
+  (let ((url gams-manual-option-url))
+    (funcall gams-browse-url-function url)))
 
 (defun gams-opt-quit ()
   "Quit."
@@ -4529,7 +4556,7 @@ If COM is non-nil, it adds command to `gams-user-command-alist'."
 If COM is non-nil, command is added."
   (interactive)
   (let (opt mess)
-    (setq opt (read-string (if com "Insert a new command name: " "Insert a new option set: ")))
+    (setq opt (read-string (if com "Insert a new command: " "Insert a new option set: ")))
     (gams-opt-add-new-option-to-alist opt com)
     (gams-opt-view com)
     (setq mess (if com "Added the new command " "Added the new option "))
