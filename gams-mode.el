@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.7
+;; Version: 6.7.1
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.7"
+(defconst gams-mode-version "6.7.1"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2368,7 +2368,7 @@ the current mode name."
         (progn (font-lock-mode -1)
                (font-lock-mode 1)
                (when (not font-lock-fontified)
-                 (font-lock-fontify-buffer)))
+                 (font-lock-ensure)))
       (font-lock-mode -1))))
 
 (defun gams-choose-font-lock-level ()
@@ -2789,7 +2789,7 @@ The following commands are available in the GAMS mode:
   (setq buffer-invisibility-spec '((gams . t) (outline . t)))
   (if (and (not (equal gams-font-lock-keywords nil))
            font-lock-mode)
-      (font-lock-fontify-buffer)
+      (font-lock-ensure)
     (if (equal gams-font-lock-keywords nil)
         (font-lock-mode -1)))
   ) ;;; gams-mode ends.
@@ -4014,7 +4014,6 @@ variable `gams-docs-directory'.  By default,
   (interactive "P")
   (unwind-protect
       (let* ((completion-ignore-case t)
-             (buf (get-buffer-create "*View GAMS manual*"))
              (def-dir default-directory)
              (docs-dir (file-name-as-directory gams-docs-directory))
              key
@@ -4030,8 +4029,13 @@ variable `gams-docs-directory'.  By default,
           (setq key (read-char))
           (if (equal key 13)
               (funcall 'browse-url gams-docs-url)
-            (funcall 'browse-url
-                     (browse-url-file-url (concat docs-dir "index.html")))))
+            (if fl-docs-dir
+                (funcall 'browse-url
+                         (browse-url-file-url (concat docs-dir "index.html")))
+              (message
+               (format
+                "\"%s\" does not exist. Check `gams-docs-directory' setting."
+                (concat docs-dir "index.html"))))))
         (setq default-directory def-dir))))
 
 ;;; New command.
@@ -4478,32 +4482,20 @@ The default GAMS command line option is determined by the variable
   (define-key map "m" 'gams-opt-see-manual)
   (define-key map "d" 'gams-opt-delete))
 
-(defvar gams-opt-key-mess-command
+(defvar gams-opt-key-mess
   (concat
    "[*] => the current choice, "
-   "\n"
-   "Key: "
-   "[n]ext, "
-   "[p]rev, "
-   "ENT = select, "
-   "[e]dit, "
-   "[a]dd, "
-   "[d]elete, "
-   "[q]uit."))
+   "Key: [n]ext, [p]rev, ENT = select, [e]dit, [a]dd, [d]elete, [q]uit."))
+
+(defvar gams-opt-key-mess-command
+  (concat
+   "[*] => the current choice, \n"
+   "Key: [n]ext, [p]rev, ENT = select, [e]dit, [a]dd, [d]elete, [q]uit."))
 
 (defvar gams-opt-key-mess-option
   (concat
-   "[*] => the current choice, "
-   "\n"
-   "Key: "
-   "[n]ext, "
-   "[p]rev, "
-   "ENT = select, "
-   "[e]dit, "
-   "[a]dd, "
-   "[d]elete, "
-   "[q]uit, "
-   "[m]anual for option."))
+   "[*] => the current choice, \n"
+   "Key: [n]ext, [p]rev, ENT = select, [e]dit, [a]dd, [d]elete, [q]uit, [m]anual for option."))
 
 (defun gams-opt-show-key ()
   "Show keybinding."
@@ -5074,7 +5066,7 @@ If STRING contains only spaces, return null string."
       (upcase str)
     (downcase str)))
 
-(defun gams-insert-post-option (&optional name)
+(defun gams-insert-post-option ()
   (let ((opt-def
          (or gams-insert-option-previous
              gams-insert-option-default))
@@ -5162,7 +5154,7 @@ If STRING contains only spaces, return null string."
       (setq alist (cdr alist)))
     al))
 
-(defun gams-insert-post-solve (&optional name)
+(defun gams-insert-post-solve ()
   (let ((def-solv (or gams-insert-solver-type-previous
                      gams-insert-solver-type-default))
         mod-name sol-type maxmin maximand guess)
@@ -5287,7 +5279,7 @@ If STRING contains only spaces, return null string."
             (throw 'flag t))
            (t (insert (concat ele ", ")))))))))
   
-(defun gams-insert-post-model (&optional name)
+(defun gams-insert-post-model ()
   (let (m-name m-exp key)
     (insert " ")
     (catch 'flag
@@ -5346,7 +5338,7 @@ If STRING contains only spaces, return null string."
       (end-of-line)
       (insert ";"))))
 
-(defun gams-insert-post-put (&optional name)
+(defun gams-insert-post-put ()
   (let* ((f-comp
           (gams-list-to-alist
            (gams-store-file-label (point-min) (point))))
@@ -5533,7 +5525,7 @@ overlay onto the gams-invisible-areas-list list"
   (interactive)
   (setq line-move-ignore-invisible t)
   (save-excursion
-    (condition-case err
+    (condition-case nil
         (progn
           (goto-char (point-min))
           (let* ((com-start (concat "^[" comment-start "]"))
@@ -5839,7 +5831,7 @@ The followings are page scroll commands.  Just changed to upper case letters.
   (run-hooks 'gams-lst-mode-hook)
   (if (and (not (equal gams-lst-font-lock-keywords nil))
            font-lock-mode)
-        (font-lock-fontify-buffer)
+        (font-lock-ensure)
     (if (equal gams-lst-font-lock-keywords nil)
         (font-lock-mode -1)))
   (set-buffer-modified-p nil)
@@ -7337,7 +7329,7 @@ The following commands are available in this mode.
     ;; Turn on font-lock.
     (if (and (not (equal gams-font-lock-keywords nil))
              font-lock-mode)
-        (font-lock-fontify-buffer)
+        (font-lock-ensure)
       (if (equal gams-font-lock-keywords nil)
           (font-lock-mode -1))))
   (buffer-name)
@@ -8396,7 +8388,7 @@ This command cannot identify aliased set identifer."
                (find-file-noselect gams-sil-gms-file))))
       (set-buffer gams-sil-gms-buffer)
       (message "Rescanning...")
-      (condition-case err
+      (condition-case nil
           (progn
             (setq gams-id-structure (gams-sil-get-identifier))
             )
@@ -9343,7 +9335,7 @@ Return the new file number."
                     (gams-sil-return-file-num mfile) 0 0 mfile
                     (set-marker (make-marker) 0)
                     ) idstr)
-        (condition-case err
+        (condition-case nil
             (setq idstr (gams-sil-get-identifier-alist idstr (current-buffer)))
           (error
            (setq gams-sil-expand-file-more nil)
@@ -12312,7 +12304,7 @@ The followings are page scroll commands.  Just changed to upper cases.
   ;; Turn on font-lock.
   (if (and (not (equal gams-ol-font-lock-keywords nil))
            font-lock-mode)
-      (font-lock-fontify-buffer)
+      (font-lock-ensure)
     (if (equal gams-ol-font-lock-keywords nil)
         (font-lock-mode -1)))
   ) ;;; ends.
@@ -12437,6 +12429,7 @@ nil means the vertical style and non-nil means the horizontal
 style.
 
 For details, see the help of `gams-ol-toggle-display-style'."
+  :type 'alist
   :group 'gams)
   
 (defcustom gams-ol-width 40
@@ -14917,15 +14910,11 @@ DIR: the destination directory."
       (setq gams-modlib-sort-current-key key)
       (save-restriction
         (narrow-to-region (point) (point-max))
-
-        (let ((sort-fold-case t))
-          (sort-subr rev
-                     'forward-line
-                     'end-of-line
-                     'gams-modlib-startkeyfun
-                     'gams-modlib-endkeyfun
-                     ))
-        
+        (sort-subr rev
+                   'forward-line
+                   'end-of-line
+                   'gams-modlib-startkeyfun
+                   'gams-modlib-endkeyfun)
         (setq gams-modlib-last-sort key)
         (goto-char (point-min))
         (widen)

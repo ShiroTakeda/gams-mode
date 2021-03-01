@@ -8,6 +8,12 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.7.1
+----------------------------------
+
+* Changed `gams-mode.el` to suppress errors from byte-compiling.
+
+
 Version 6.7
 ----------------------------------
 
