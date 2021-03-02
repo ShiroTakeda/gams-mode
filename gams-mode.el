@@ -3641,50 +3641,58 @@ Otherwise split window conventionally."
 (defun gams-process-sentinel (proc state)
   "Display the end of process buffer.
 PROC is the process name and STATE is the process state."
-  (cond
-   ((memq (process-status proc) '(signal exit))
-    (save-excursion
-      (let ((sw (selected-window)) w err temp)
-        (set-buffer (process-buffer proc))
-        (goto-char (point-max))
-        (insert
-         (format "\nGAMS process finished at %s\n" (current-time-string)))
-        (setq temp (gams-process-caluculate-time
-                    gams-ps-compile-start-time))
-        (insert
-         (format "Total running time is %s:%s:%s.\n"
-                 (car temp)
-                 (nth 1 temp)
-                 (nth 2 temp)))
-        (setq gams-ps-compile-start-time 0)
-        ;; log file.
-        (when gams-process-log-to-file
-          (let* ((gms-file (buffer-file-name gams-ps-gms-buffer))
-                 (log-file
-                  (concat (expand-file-name (file-name-sans-extension gms-file)) "." gams-log-file-extension)))
-            (write-region (point-min) (point-max) log-file)))
-        (modify-frame-parameters
-         gams-ps-frame (list (cons 'name gams-ps-orig-frame-title)))
-        (setq err (gams-process-error-exist-p))
-        (cond
-         ((and gams-frame-feature-p
-               (setq w (get-buffer-window (current-buffer) t)))
-          (select-frame (window-frame w))
-          (select-window w)
+  (let ((state-mess state))
+    (when (string-match "\\([^\n]+\\)\n" state-mess)
+      (setq state-mess
+            (substring state-mess
+                       0 (string-match "\n" state-mess))))
+    (cond
+     ;; If process-status is exit or signal.
+     ((memq (process-status proc) '(signal exit))
+      (save-excursion
+        (let ((sw (selected-window)) w err temp)
+          (set-buffer (process-buffer proc))
           (goto-char (point-max))
-          (recenter -1))
-         ((setq w (get-buffer-window (current-buffer)))
-          (select-window w)
-          (goto-char (point-max))
-          (recenter -1)))
-        (select-window sw)
-        (if err
+          (insert
+           (format "\nGAMS process %s at %s\n"
+                   state-mess
+                   (current-time-string)))
+          (setq temp (gams-process-caluculate-time
+                      gams-ps-compile-start-time))
+          (insert
+           (format "Total running time is %s:%s:%s.\n"
+                   (car temp)
+                   (nth 1 temp)
+                   (nth 2 temp)))
+          (setq gams-ps-compile-start-time 0)
+          ;; log file.
+          (when gams-process-log-to-file
+            (let* ((gms-file (buffer-file-name gams-ps-gms-buffer))
+                   (log-file
+                    (concat (expand-file-name (file-name-sans-extension gms-file)) "." gams-log-file-extension)))
+              (write-region (point-min) (point-max) log-file)))
+          (modify-frame-parameters
+           gams-ps-frame (list (cons 'name gams-ps-orig-frame-title)))
+          (setq err (gams-process-error-exist-p))
+          (cond
+           ((and gams-frame-feature-p
+                 (setq w (get-buffer-window (current-buffer) t)))
+            (select-frame (window-frame w))
+            (select-window w)
+            (goto-char (point-max))
+            (recenter -1))
+           ((setq w (get-buffer-window (current-buffer)))
+            (select-window w)
+            (goto-char (point-max))
+            (recenter -1)))
+          (select-window sw)
+          (if err
+              (message (concat
+                        (format "GAMS ended with `%s' errors!  " err)
+                        "C-cC-v or [F10]= LST file."))
             (message (concat
-                      (format "GAMS ended with `%s' errors!  " err)
-                      "C-cC-v or [F10]= LST file."))
-          (message (concat
-                    "GAMS process has finished.  "
-                    "C-cC-v or [F10]= LST file, [F11]= OUTLINE."))))))))
+                      "GAMS process has finished.  "
+                      "C-cC-v or [F10]= LST file, [F11]= OUTLINE.")))))))))
 
 (defun gams-process-error-exist-p ()
   "Judge whether GAMS process ends with errors."
@@ -5159,7 +5167,7 @@ If STRING contains only spaces, return null string."
                      gams-insert-solver-type-default))
         mod-name sol-type maxmin maximand guess)
     (insert " ")
-    (let (alist-modname alist)
+    (let (alist-modname)
       (setq gams-id-structure (gams-sil-get-identifier))
       (setq alist-modname (gams-insert-post-solve-modname gams-id-structure))
       
