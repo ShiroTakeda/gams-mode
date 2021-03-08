@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.7.1
+;; Version: 6.7.2
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.7.1"
+(defconst gams-mode-version "6.7.2"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -980,8 +980,6 @@ grouping constructs."
   "Face for $title in GAMS mode.")
 (defvar gams-highline-face 'gams-highline-face
   "*Symbol face used to highlight the current line.")
-(defvar gams-highline-sub-face 'gams-highline-sub-face
-  "*Symbol face used to highlight the current line.")
 (defvar gams-sil-mpsge-face 'gams-sil-mpsge-face)
 (defvar gams-sil-dollar-face 'gams-sil-dollar-face)
 (defvar gams-sil-file-face 'gams-sil-file-face)
@@ -1064,231 +1062,6 @@ It is used for font-lock of level 1.")
   "Regular expression for GAMS statements.
 It is used for font-lock of level 2.")
 
-;;; GAMS mode.
-
-(defface gams-comment-face
-  '((((class color) (background light))
-     (:foreground "#009000"))
-    (((class color) (background dark))
-     (:foreground "green")))
-  "Face for commented out texts."
-  :group 'gams-faces)
-
-(defface gams-mpsge-face
-  '((((class color) (background light))
-     (:foreground "#2080e0"))
-    (((class color) (background dark))
-     (:foreground "hot pink")))
-  "Face for MPSGE statements."
-  :group 'gams-faces)
-
-(defface gams-statement-face
-  '((((class color) (background light))
-     (:foreground "#0000e0"))
-    (((class color) (background dark))
-     (:foreground "cyan")))
-  "Face for GAMS statements."
-  :group 'gams-faces)
-
-(defface gams-dollar-face
-  '((((class color) (background light))
-     (:foreground "dark orange"))
-    (((class color) (background dark))
-     (:foreground "yellow")))
-  "Face for dollar control options."
-  :group 'gams-faces)
-
-(defface gams-string-face
-  '((((class color) (background light))
-     (:foreground "#a000a0"))
-    (((class color) (background dark))
-     (:foreground "orange")))
-  "Face for quoted string in GAMS mode."
-  :group 'gams-faces)
-
-(defface gams-operator-face
-  '((((class color) (background light))
-     (:foreground "#e00000"))
-    (((class color) (background dark))
-     (:foreground "#ccaaff")))
-  "Face for operators in GAMS mode."
-  :group 'gams-faces)
-
-(defface gams-slash-face
-  '((((class color) (background light))
-     (:foreground "#f00090"))
-    (((class color) (background dark))
-     (:foreground "light pink")))
-  "Face for set and parameter elements lying between slashes."
-  :group 'gams-faces)
-
-(defface gams-explanation-face
-  '((((class color) (background light))
-     (:foreground "#c09000"))
-    (((class color) (background dark))
-     (:foreground "khaki")))
-  "Face for explanatory texts in GAMS mode."
-  :group 'gams-faces)
-
-(defface gams-oth-cont-face
-  '((((class color) (background light))
-     (:foreground "gray50"))
-    (((class color) (background dark))
-     (:foreground "khaki")))
-  "Face for the content of OTH item in GAMS-OUTLINE mode."
-  :group 'gams-faces)
-
-(defface gams-title-face
-  '((((class color) (background light))
-     ( :foreground "#0000a0" :background "#e8e8a5"))
-    (((class color) (background dark))
-     ( :foreground "#ffd0ff")))
-  "Face for the content of OTH item in GAMS-OUTLINE mode."
-  :group 'gams-faces)
-
-(defface gams-highline-face
-  '((((class color) (background light))
-     (:foreground "#202020" :background "PaleGreen1"))
-    (((class color) (background dark))
-     (:bold t :underline t :foreground "yellow")))
-  "Face for highline."
-  :group 'gams-faces)
-
-;;; GAMS-LST mode.
-(defface gams-lst-par-face
-  '((((class color) (background light))
-     (:bold t :foreground "DodgerBlue"))
-    (((class color) (background dark))
-     (:bold t :foreground "yellow")))
-  "Faces for PARAMETER entry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-set-face
-  '((((class color) (background light))
-     (:bold t :foreground "#d06000"))
-    (((class color) (background dark))
-     (:bold t :foreground "sandy brown")))
-  "Face for SET entry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-var-face
-  '((((class color) (background light))
-     (:bold t :foreground "hot pink"))
-    (((class color) (background dark))
-     (:bold t :foreground "cyan")))
-  "Face for VAR endtry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-equ-face
-  '((((class color) (background light))
-     (:bold t :foreground "lime green"))
-    (((class color) (background dark))
-     (:bold t :foreground "pink")))
-  "Face for EQU entry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-vri-face
-  '((((class color) (background light))
-     (:bold t :foreground "purple"))
-    (((class color) (background dark))
-     (:bold t :foreground "pale green")))
-  "Face for VARIABLE entry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-oth-face
-  '((((class color) (background light))
-     (:bold t :foreground "gray60"))
-    (((class color) (background dark))
-     (:bold t :foreground "bisque")))
-  "Face for ?"
-  :group 'gams-faces)
-
-(defface gams-lst-warning-face
-  '((((class color) (background light))
-     (:bold t :foreground "red"))
-    (((class color) (background dark))
-     (:bold t :foreground "red")))
-  "Face for warnings in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-warning-face
-  '((((class color) (background light))
-     (:bold t :foreground "red"))
-    (((class color) (background dark))
-     (:bold t :foreground "red")))
-  "Face for warnings in GAMS mode."
-  :group 'gams-faces)
-
-(defface gams-lst-program-face
-  '((((class color) (background light)) (:foreground "goldenrod"))
-    (((class color) (background dark)) (:foreground "khaki")))
-  "Face for copied program listing in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-ol-loo-face
-  '((((class color) (background light))
-     (:bold t :foreground "maroon"))
-    (((class color) (background dark))
-     (:bold t :foreground "#7777ff")))
-  "Face for LOO entry in GAMS-OUTLINE mode."
-  :group 'gams-faces)
-
-(defface gams-highline-sub-face
-  '((((class color) (background light))
-     (:foreground "#202020" :background "misty rose"))
-    (((class color) (background dark))
-     (:bold t :underline t :foreground "pink")))
-  "Face for highline."
-  :group 'gams-faces)
-
-(defface gams-sil-mpsge-face
-    '((((class color) (background light))
-       (:foreground "#2080e0"))
-      (((class color) (background dark))
-       (:foreground "hot pink")))
-  "Face for MPSGE statements."
-  :group 'gams-faces)
-
-(defface gams-sil-dollar-face
-    '((((class color) (background light))
-       (:foreground "dark orange"))
-      (((class color) (background dark))
-       (:foreground "#ffa0ff")))
-  "Face for dollar control in SIL mode."
-  :group 'gams-faces)
-
-(defface gams-sil-file-face
-    '((((class color) (background light))
-       (:foreground "#800060" :background "#f0dada"))
-      (((class color) (background dark))
-       (:foreground "#ff7070")))
-  "Face for file name in SIL mode."
-  :group 'gams-faces)
-
-(defface gams-sil-file-face-2
-    '((((class color) (background light))
-       (:foreground "#800060" :background "#dadada"))
-      (((class color) (background dark))
-       (:foreground "#c0c0c0")))
-  "Face for file name in SIL mode."
-  :group 'gams-faces)
-
-(defface gams-func-face
-    '((((class color) (background light))
-       (:foreground "pink"))
-      (((class color) (background dark))
-       (:foreground "#ff30ff")))
-  "Face for ==."
-  :group 'gams-faces)
-
-(defface gams-def-face
-    '((((class color) (background light))
-       (:foreground "blue" :bold t))
-      (((class color) (background dark))
-       (:bold t :foreground "white")))
-  "Face for equation definition part in GAMS-??."
-  :group 'gams-faces)
-
 (defun gams-compatible-face (inherits specs)
   "Taken from `org-compatible-face'.
 If INHERITS is an existing face and if the Emacs version supports it,
@@ -1323,6 +1096,198 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
          (t (or (assoc (car e) r) (push e r)))))
       (nreverse r)))
    (t specs)))
+
+;;; Faces for GAMS mode.
+
+(defface gams-comment-face
+  (gams-compatible-face
+   'font-lock-comment-face
+   '((((class color) (background light)) (:foreground "#009000"))
+     (((class color) (background dark))  (:foreground "green"))))
+  "Face for commented out texts."
+  :group 'gams-faces)
+
+(defface gams-mpsge-face
+  (gams-compatible-face
+   'font-lock-keyword-face
+   '((((class color) (background light)) (:foreground "#2080e0"))
+     (((class color) (background dark)) (:foreground "hot pink"))))
+  "Face for MPSGE statements."
+  :group 'gams-faces)
+
+(defface gams-statement-face
+  (gams-compatible-face
+   'font-lock-function-name-face
+   '((((class color) (background light)) (:foreground "#0000e0"))
+     (((class color) (background dark)) (:foreground "cyan"))))
+  "Face for GAMS statements."
+  :group 'gams-faces)
+
+(defface gams-dollar-face
+  (gams-compatible-face
+   'font-lock-preprocessor-face
+   '((((class color) (background light)) (:foreground "dark orange"))
+     (((class color) (background dark)) (:foreground "yellow"))))
+  "Face for dollar control options."
+  :group 'gams-faces)
+
+(defface gams-string-face
+  (gams-compatible-face
+   'font-lock-string-face
+   '((((class color) (background light)) (:foreground "#a000a0"))
+     (((class color) (background dark)) (:foreground "orange"))))
+  "Face for quoted string in GAMS mode."
+  :group 'gams-faces)
+
+(defface gams-operator-face
+  (gams-compatible-face
+   'font-lock-variable-name-face
+   '((((class color) (background light)) (:foreground "#e00000"))
+     (((class color) (background dark)) (:foreground "#ccaaff"))))
+  "Face for operators in GAMS mode."
+  :group 'gams-faces)
+
+(defface gams-slash-face
+  (gams-compatible-face
+   'font-lock-type-face
+   '((((class color) (background light)) (:foreground "#f00090"))
+     (((class color) (background dark)) (:foreground "light pink"))))
+  "Face for set and parameter elements lying between slashes."
+  :group 'gams-faces)
+
+(defface gams-explanation-face
+  (gams-compatible-face
+   'font-lock-constant-face
+   '((((class color) (background light)) (:foreground "#c09000"))
+     (((class color) (background dark)) (:foreground "khaki"))))
+  "Face for explanatory texts in GAMS mode."
+  :group 'gams-faces)
+
+(defface gams-title-face
+  (gams-compatible-face
+   'outline-1
+   '((((class color) (background light)) ( :foreground "#0000a0" :background "#e8e8a5"))
+     (((class color) (background dark)) ( :foreground "#ffd0ff"))))
+  "Face for $title."
+  :group 'gams-faces)
+
+(defface gams-warning-face
+  (gams-compatible-face
+   'font-lock-warning-face
+   '((((class color) (background light)) (:bold t :foreground "red"))
+     (((class color) (background dark)) (:bold t :foreground "red"))))
+  "Face for warnings in GAMS mode."
+  :group 'gams-faces)
+
+;;; Faces for GAMS-LST mode.
+
+(defface gams-lst-par-face
+  '((((class color) (background light)) (:bold t :foreground "DodgerBlue"))
+    (((class color) (background dark)) (:bold t :foreground "yellow")))
+  "Faces for PARAMETER entry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-set-face
+  '((((class color) (background light)) (:bold t :foreground "#d06000"))
+    (((class color) (background dark)) (:bold t :foreground "sandy brown")))
+  "Face for SET entry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-var-face
+  '((((class color) (background light)) (:bold t :foreground "hot pink"))
+    (((class color) (background dark)) (:bold t :foreground "cyan")))
+  "Face for VAR endtry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-equ-face
+  '((((class color) (background light)) (:bold t :foreground "lime green"))
+    (((class color) (background dark)) (:bold t :foreground "pink")))
+  "Face for EQU entry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-vri-face
+  '((((class color) (background light)) (:bold t :foreground "purple"))
+    (((class color) (background dark)) (:bold t :foreground "pale green")))
+  "Face for VARIABLE entry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-oth-face
+  '((((class color) (background light)) (:bold t :foreground "gray60"))
+    (((class color) (background dark)) (:bold t :foreground "bisque")))
+  "Face used in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-warning-face
+  (gams-compatible-face
+   'font-lock-warning-face
+   '((((class color) (background light)) (:bold t :foreground "red"))
+     (((class color) (background dark)) (:bold t :foreground "red"))))
+  "Face for warnings in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-program-face
+  '((((class color) (background light)) (:foreground "goldenrod"))
+    (((class color) (background dark)) (:foreground "khaki")))
+  "Face for copied program listing in GAMS-LST mode."
+  :group 'gams-faces)
+
+;;; Faces for other modes.
+
+(defface gams-highline-face
+  (gams-compatible-face
+   'highlight
+   '((((class color) (background light)) (:foreground "#202020" :background "PaleGreen1"))
+     (((class color) (background dark)) (:bold t :underline t :foreground "yellow"))))
+  "Face for highline in GAMS-SIL mode."
+  :group 'gams-faces)
+
+(defface gams-oth-cont-face
+  '((((class color) (background light)) (:foreground "gray50"))
+    (((class color) (background dark)) (:foreground "khaki")))
+  "Face for the content of OTH item in GAMS-OUTLINE mode."
+  :group 'gams-faces)
+
+(defface gams-ol-loo-face
+  '((((class color) (background light)) (:bold t :foreground "maroon"))
+    (((class color) (background dark)) (:bold t :foreground "#7777ff")))
+  "Face for LOO entry in GAMS-OUTLINE mode."
+  :group 'gams-faces)
+
+(defface gams-sil-mpsge-face
+  '((((class color) (background light)) (:foreground "#2080e0"))
+    (((class color) (background dark)) (:foreground "hot pink")))
+  "Face for MPSGE statements."
+  :group 'gams-faces)
+
+(defface gams-sil-dollar-face
+  '((((class color) (background light)) (:foreground "dark orange"))
+    (((class color) (background dark)) (:foreground "#ffa0ff")))
+  "Face for dollar control in GAMS-SIL mode."
+  :group 'gams-faces)
+
+(defface gams-sil-file-face
+  '((((class color) (background light)) (:foreground "#800060" :background "#f0dada"))
+    (((class color) (background dark)) (:foreground "#ff7070")))
+  "Face for file name in GAMS-SIL mode."
+  :group 'gams-faces)
+
+(defface gams-sil-file-face-2
+  '((((class color) (background light)) (:foreground "#800060" :background "#dadada"))
+    (((class color) (background dark)) (:foreground "#c0c0c0")))
+  "Face for file name in GAMS-SIL mode."
+  :group 'gams-faces)
+
+(defface gams-func-face
+  '((((class color) (background light)) (:foreground "pink"))
+    (((class color) (background dark)) (:foreground "#ff30ff")))
+  "Face for == unsed in function definition."
+  :group 'gams-faces)
+
+(defface gams-def-face
+  '((((class color) (background light)) (:foreground "blue" :bold t))
+    (((class color) (background dark)) (:bold t :foreground "white")))
+  "Face for equation definition part in GAMS-SIL mode."
+  :group 'gams-faces)
 
 (defvar gams-level-faces
   ;; Taken from `org-level-faces'.
@@ -3973,7 +3938,7 @@ non-interactive call from menu."
 Possible values include: `browse-url', `browse-url-generic',
 `browse-url-emacs', `eww-browse-url'."
   :type 'function
-  :group 'gams-mode)
+  :group 'gams)
 
 (defvar gams-view-doc-input-history nil
   "History of searched commands of gams-view-doc.")
@@ -17846,6 +17811,6 @@ problems."
 ;;; gams-mode.el ends here
 
 ;; Local Variables:
-;; coding: utf-8
+;; coding: utf-8-dos
 ;; End:
 

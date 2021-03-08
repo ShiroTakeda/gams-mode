@@ -8,6 +8,12 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.7.2
+----------------------------------
+
+* Changed the default setting for faces (coloring).
+
+
 Version 6.7.1
 ----------------------------------
 
