@@ -1,7 +1,6 @@
 $title  A sample file for showing Org-mode feature in GAMS mode
 display "@ A sample file for showing Org-mode feature in GAMS mode";
 $ontext
-Time-stamp:     <2021-02-25 20:55:42 st>
 First-written:  <2012/07/25>
 
 -----------------------------------------------------------------------------
