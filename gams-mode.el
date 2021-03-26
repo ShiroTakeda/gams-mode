@@ -597,7 +597,7 @@ register dollar control options in this variable.")
 
 (defvar gams-statement-mpsge
   '("MODEL:" "COMMODITIES:" "CONSUMERS:" "CONSUMER:" "SECTORS:" "SECTOR:" "PROD:"
-    "DEMAND:" "REPORT:" "CONSTRAINT:" "AUXILIARY:")
+    "DEMAND:" "REPORT:" "CONSTRAINT:" "AUXILIARY:" "AUXILIARIES:")
   "The default list of MPSGE statements.
 Used for candidate of MPSGE dollar control inserting.  Use upper case to
 register mpsge statements in this variable.")
@@ -987,6 +987,9 @@ grouping constructs."
 (defvar gams-func-face 'gams-func-face)
 (defvar gams-def-face 'gams-def-face)
 (defvar gams-warning-face 'gams-warning-face "Face for warning in GAMS mode.")
+(defvar gams-highlighted-keywords-face
+  'gams-highlighted-keywords-face
+  "Face for highlighted keywords in comment region.")
 
 (defvar gams-dollar-regexp
   (gams-regexp-opt
@@ -1177,6 +1180,12 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
    '((((class color) (background light)) (:bold t :foreground "red"))
      (((class color) (background dark)) (:bold t :foreground "red"))))
   "Face for warnings in GAMS mode."
+  :group 'gams-faces)
+
+(defface gams-highlighted-keywords-face
+  '((((class color) (background light)) (:bold t :foreground "red"))
+    (((class color) (background dark)) (:bold t :foreground "yellow")))
+  "Face for highlighted keywords in comment region."
   :group 'gams-faces)
 
 ;;; Faces for GAMS-LST mode.
@@ -2054,17 +2063,6 @@ LIMIT specifies the search limit."
         (store-match-data (list beg end))
         t))))
 
-(defvar gams-highlighted-keywords-face
-  'gams-highlighted-keywords-face
-  "Face for highlighted keywords in comment region.")
-(defface gams-highlighted-keywords-face
-  '((((class color) (background light))
-     (:bold t :foreground "red"))
-    (((class color) (background dark))
-     (:bold t :foreground "yellow")))
-  "Face for highlighted keywords in comment region."
-  :group 'gams-faces)
-
 (defcustom gams-highlighted-keywords-in-comment
   '("_TODO_" "_BUG_" "_FIXME_")
   "The default list of highlighted keywords in comment region.
@@ -2118,12 +2116,12 @@ LIMIT specifies the search limit."
         ;; Commented out texts by *
         (gams-store-point-comment (0 gams-comment-face t t))
         ;; MPSGE dollar control options.
-        ("\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
+        ("\\$\\(AUXILIARY\\|AUXILIARIES\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
          (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
         ;; MPSGE dollar control options.
-        ("\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
+        ("\\$\\(AUXILIARY\\|AUXILIARIES\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
          (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
@@ -2168,7 +2166,7 @@ LIMIT specifies the search limit."
         ;;
         (gams-store-point-outline (0 (gams-get-level-face) t t))
         ;; MPSGE dollar control options.
-        ("^\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DATECH\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):" (0 gams-mpsge-face t t))
+        ("^\\$\\(AUXILIARY\\|AUXILIARIES\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DATECH\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):" (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
         (gams-store-point-highlighted-keywords
@@ -9635,7 +9633,7 @@ LIGHT is t if in light mode.
       (while t
         (if (re-search-forward
              (concat "^$\\(sector[s]*\\|commodities\\|commodity"
-                     "consumer\\|consumers\\|auxiliary\\|report\\|prod\\|demand\\|constraint\\):")
+                     "consumer\\|consumers\\|auxiliary\\|auxiliaries\\|report\\|prod\\|demand\\|constraint\\):")
              end t)
             (progn (setq block-begin (match-end 0))
                    (setq m-string (gams-buffer-substring
