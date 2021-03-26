@@ -20,7 +20,7 @@ $offtext
 ** gams-lst-dir: ./lst/
 *       この指定では LST ファイルは→のようになります -> ./lst/gams-sample.lst
 
-* gams-lst-dir: g:/
+** gams-lst-dir: g:/
 *       この指定では LST ファイルは→のようになります -> g:/gams-sample.lst
 
 $ontext
