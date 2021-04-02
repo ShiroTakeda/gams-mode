@@ -4874,7 +4874,7 @@ options."
       (setq new (if type (gams-insert-dollar-control-get-name old)
                   (gams-insert-statement-get-name old)))
       (when new
-        (kill-region po-beg po-end)
+        (delete-region po-beg po-end)
         (insert new)
         (if type
             (setq gams-dollar-control-name new)
