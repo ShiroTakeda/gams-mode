@@ -279,7 +279,7 @@ is executed as a command line.  This is a function like #!/usr/bin/perl or
 `gams-process-command-name' and `gams-process-command-option' and it is common
 to all GMS files. But when you want to use a different command line for a
 specific file, use this *#! notation.
-$offtex
+$offtext
 
 display "@@ [Kill (stop) the GAMS process.]";
 
