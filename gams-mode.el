@@ -5037,7 +5037,7 @@ If STRING contains only spaces, return null string."
       (upcase str)
     (downcase str)))
 
-(defun gams-insert-post-option ()
+(defun gams-insert-post-option (&optional name)
   (let ((opt-def
          (or gams-insert-option-previous
              gams-insert-option-default))
@@ -5125,7 +5125,7 @@ If STRING contains only spaces, return null string."
       (setq alist (cdr alist)))
     al))
 
-(defun gams-insert-post-solve ()
+(defun gams-insert-post-solve (&optional name)
   (let ((def-solv (or gams-insert-solver-type-previous
                      gams-insert-solver-type-default))
         mod-name sol-type maxmin maximand guess)
@@ -5250,7 +5250,7 @@ If STRING contains only spaces, return null string."
             (throw 'flag t))
            (t (insert (concat ele ", ")))))))))
   
-(defun gams-insert-post-model ()
+(defun gams-insert-post-model (&optional name)
   (let (m-name m-exp key)
     (insert " ")
     (catch 'flag
@@ -5309,7 +5309,7 @@ If STRING contains only spaces, return null string."
       (end-of-line)
       (insert ";"))))
 
-(defun gams-insert-post-put ()
+(defun gams-insert-post-put (&optional name)
   (let* ((f-comp
           (gams-list-to-alist
            (gams-store-file-label (point-min) (point))))
