@@ -581,7 +581,7 @@ You can change the width of the LXI buffer with
         "SINGLETON SET" "SINGLETON SETS"
         "ALIAS"
         "OPTION"
-        "EXECUTE_UNLOAD"
+        "EXECUTE_LOAD" "EXECUTE_UNLOAD"
         "SOLVE" "MODEL" "DISPLAY" "LOOP" "IF" "SUM" "PROD")
       "*The default list of GAMS statements.
 Used for candidate of statement inserting.  Use upper case to
@@ -1017,7 +1017,7 @@ grouping constructs."
   (gams-regexp-opt
    (list
     "abort" "acronym" "acronyms" "alias" "assign" "binary" "diag"
-    "display" "equation" "equations" "execute" "execute_unload" "integer" "loop"
+    "display" "equation" "equations" "execute" "execute_load" "execute_unload" "integer" "loop"
     "model" "models"
     "negative" "nonnegative" "option" "options" "parameter" "parameters" "positive"
     "sameas" "scalar" "scalars" "set" "sets" "sos1" "sos2" "system"
@@ -1032,7 +1032,7 @@ grouping constructs."
 (defvar gams-statement-list-base
   (list "abort" "acronym" "acronyms" "alias" "all" "and" "assign" "binary"
         "card" "diag" "display" "eps" "eq" "equation" "equations" "execute"
-        "execute_unload" "ge" "gt"
+        "execute_load" "execute_unload" "ge" "gt"
         "inf" "integer" "le" "loop" "lt" "maximising" "maximizing"
         "minimising" "minimizing" "model"
         "models" "na" "ne" "negative" "nonnegative" "not" "option" "options" "or" "ord"
