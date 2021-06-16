@@ -8,6 +8,13 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.8
+----------------------------------
+
+* To support `vertico-mode` (a new minibuffer completion feature),
+  `read-from-minibuffer` has been replaced with `completing-read`.
+
+
 Version 6.7.2
 ----------------------------------
 

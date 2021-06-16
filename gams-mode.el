@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.7.2
+;; Version: 6.8
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.7.2"
+(defconst gams-mode-version "6.8"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2966,10 +2966,9 @@ in t, exit minibuffer immediately."
 (defun gams-read-statement (prompt)
   "Read a GAMS statements with completion.
 PROMPT is the message for prompt."
-  (let ((minibuffer-completion-table gams-statement-alist))
-    (read-from-minibuffer
-     prompt nil gams-statement-completion-map nil
-     'gams-read-statement-history)))
+  (completing-read
+   prompt gams-statement-alist nil nil nil
+   'gams-read-statement-history))
 
 (defun gams-register (name &optional flag)
   "Register a new statement or dollar-control.
@@ -3134,11 +3133,9 @@ and `gams-user-statement-list'."
 (defun gams-read-dollar-control (prompt)
   "Read a GAMS dollar control operation with completion.
 PROMPT is the message for prompt."
-  (let ((minibuffer-completion-table
-         (append gams-dollar-control-alist)))
-    (read-from-minibuffer
-     prompt nil gams-dollar-completion-map nil
-     'gams-read-dollar-history)))
+  (completing-read
+   prompt gams-dollar-control-alist nil nil nil
+   'gams-read-dollar-history))
 
 (defun gams-insert-dollar-control-get-name (&optional replace)
   "Get the name of dollar-control inserted.
@@ -5009,13 +5006,9 @@ If STRING contains only spaces, return null string."
 
 (defun gams-read-statement-ext (prompt completion &optional history initial key)
   "Read a GAMS statements with completion."
-  (let ((minibuffer-completion-table completion))
-    (gams-remove-spaces-from-string
-     (read-from-minibuffer
-      prompt initial
-      (or key gams-mb-map-ext-1)
-      nil
-      history))))
+  (gams-remove-spaces-from-string
+   (completing-read
+    prompt completion nil nil initial history)))
 
 (defun gams-insert-statement-get-name-ext ()
   "Get the name of satement inserted."
@@ -14897,9 +14890,8 @@ DIR: the destination directory."
 
 (defun gams-get-search-words (prompt)
   "Read an identifer with completion."
-  (read-from-minibuffer
-   prompt nil nil nil
-   'gams-modlib-search-words-history))
+  (completing-read
+   prompt nil nil nil nil 'gams-modlib-search-words-history))
 
 (defun gams-modlib-query-search-words ()
   (interactive)
