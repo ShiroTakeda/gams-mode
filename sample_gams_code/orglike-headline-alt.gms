@@ -1,7 +1,6 @@
 $title  A sample file for showing Org-mode feature in GAMS mode
 display "@ A sample file for showing Org-mode feature in GAMS mode";
 $ontext
-Time-stamp:     <2021-02-25 20:55:42 st>
 First-written:  <2012/07/25>
 
 -----------------------------------------------------------------------------
@@ -280,7 +279,7 @@ is executed as a command line.  This is a function like #!/usr/bin/perl or
 `gams-process-command-name' and `gams-process-command-option' and it is common
 to all GMS files. But when you want to use a different command line for a
 specific file, use this *#! notation.
-$offtex
+$offtext
 
 display "@@ [Kill (stop) the GAMS process.]";
 

@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.7
+;; Version: 6.8
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.7"
+(defconst gams-mode-version "6.8"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -581,7 +581,7 @@ You can change the width of the LXI buffer with
         "SINGLETON SET" "SINGLETON SETS"
         "ALIAS"
         "OPTION"
-        "EXECUTE_UNLOAD"
+        "EXECUTE_LOAD" "EXECUTE_UNLOAD"
         "SOLVE" "MODEL" "DISPLAY" "LOOP" "IF" "SUM" "PROD")
       "*The default list of GAMS statements.
 Used for candidate of statement inserting.  Use upper case to
@@ -597,7 +597,7 @@ register dollar control options in this variable.")
 
 (defvar gams-statement-mpsge
   '("MODEL:" "COMMODITIES:" "CONSUMERS:" "CONSUMER:" "SECTORS:" "SECTOR:" "PROD:"
-    "DEMAND:" "REPORT:" "CONSTRAINT:" "AUXILIARY:")
+    "DEMAND:" "REPORT:" "CONSTRAINT:" "AUXILIARY:" "AUXILIARIES:")
   "The default list of MPSGE statements.
 Used for candidate of MPSGE dollar control inserting.  Use upper case to
 register mpsge statements in this variable.")
@@ -980,8 +980,6 @@ grouping constructs."
   "Face for $title in GAMS mode.")
 (defvar gams-highline-face 'gams-highline-face
   "*Symbol face used to highlight the current line.")
-(defvar gams-highline-sub-face 'gams-highline-sub-face
-  "*Symbol face used to highlight the current line.")
 (defvar gams-sil-mpsge-face 'gams-sil-mpsge-face)
 (defvar gams-sil-dollar-face 'gams-sil-dollar-face)
 (defvar gams-sil-file-face 'gams-sil-file-face)
@@ -989,6 +987,9 @@ grouping constructs."
 (defvar gams-func-face 'gams-func-face)
 (defvar gams-def-face 'gams-def-face)
 (defvar gams-warning-face 'gams-warning-face "Face for warning in GAMS mode.")
+(defvar gams-highlighted-keywords-face
+  'gams-highlighted-keywords-face
+  "Face for highlighted keywords in comment region.")
 
 (defvar gams-dollar-regexp
   (gams-regexp-opt
@@ -1016,7 +1017,7 @@ grouping constructs."
   (gams-regexp-opt
    (list
     "abort" "acronym" "acronyms" "alias" "assign" "binary" "diag"
-    "display" "equation" "equations" "execute" "execute_unload" "integer" "loop"
+    "display" "equation" "equations" "execute" "execute_load" "execute_unload" "integer" "loop"
     "model" "models"
     "negative" "nonnegative" "option" "options" "parameter" "parameters" "positive"
     "sameas" "scalar" "scalars" "set" "sets" "sos1" "sos2" "system"
@@ -1031,7 +1032,7 @@ grouping constructs."
 (defvar gams-statement-list-base
   (list "abort" "acronym" "acronyms" "alias" "all" "and" "assign" "binary"
         "card" "diag" "display" "eps" "eq" "equation" "equations" "execute"
-        "execute_unload" "ge" "gt"
+        "execute_load" "execute_unload" "ge" "gt"
         "inf" "integer" "le" "loop" "lt" "maximising" "maximizing"
         "minimising" "minimizing" "model"
         "models" "na" "ne" "negative" "nonnegative" "not" "option" "options" "or" "ord"
@@ -1063,231 +1064,6 @@ It is used for font-lock of level 1.")
           gams-statement-regexp-base "[^-a-zA-Z0-9_:*]+")
   "Regular expression for GAMS statements.
 It is used for font-lock of level 2.")
-
-;;; GAMS mode.
-
-(defface gams-comment-face
-  '((((class color) (background light))
-     (:foreground "#009000"))
-    (((class color) (background dark))
-     (:foreground "green")))
-  "Face for commented out texts."
-  :group 'gams-faces)
-
-(defface gams-mpsge-face
-  '((((class color) (background light))
-     (:foreground "#2080e0"))
-    (((class color) (background dark))
-     (:foreground "hot pink")))
-  "Face for MPSGE statements."
-  :group 'gams-faces)
-
-(defface gams-statement-face
-  '((((class color) (background light))
-     (:foreground "#0000e0"))
-    (((class color) (background dark))
-     (:foreground "cyan")))
-  "Face for GAMS statements."
-  :group 'gams-faces)
-
-(defface gams-dollar-face
-  '((((class color) (background light))
-     (:foreground "dark orange"))
-    (((class color) (background dark))
-     (:foreground "yellow")))
-  "Face for dollar control options."
-  :group 'gams-faces)
-
-(defface gams-string-face
-  '((((class color) (background light))
-     (:foreground "#a000a0"))
-    (((class color) (background dark))
-     (:foreground "orange")))
-  "Face for quoted string in GAMS mode."
-  :group 'gams-faces)
-
-(defface gams-operator-face
-  '((((class color) (background light))
-     (:foreground "#e00000"))
-    (((class color) (background dark))
-     (:foreground "#ccaaff")))
-  "Face for operators in GAMS mode."
-  :group 'gams-faces)
-
-(defface gams-slash-face
-  '((((class color) (background light))
-     (:foreground "#f00090"))
-    (((class color) (background dark))
-     (:foreground "light pink")))
-  "Face for set and parameter elements lying between slashes."
-  :group 'gams-faces)
-
-(defface gams-explanation-face
-  '((((class color) (background light))
-     (:foreground "#c09000"))
-    (((class color) (background dark))
-     (:foreground "khaki")))
-  "Face for explanatory texts in GAMS mode."
-  :group 'gams-faces)
-
-(defface gams-oth-cont-face
-  '((((class color) (background light))
-     (:foreground "gray50"))
-    (((class color) (background dark))
-     (:foreground "khaki")))
-  "Face for the content of OTH item in GAMS-OUTLINE mode."
-  :group 'gams-faces)
-
-(defface gams-title-face
-  '((((class color) (background light))
-     ( :foreground "#0000a0" :background "#e8e8a5"))
-    (((class color) (background dark))
-     ( :foreground "#ffd0ff")))
-  "Face for the content of OTH item in GAMS-OUTLINE mode."
-  :group 'gams-faces)
-
-(defface gams-highline-face
-  '((((class color) (background light))
-     (:foreground "#202020" :background "PaleGreen1"))
-    (((class color) (background dark))
-     (:bold t :underline t :foreground "yellow")))
-  "Face for highline."
-  :group 'gams-faces)
-
-;;; GAMS-LST mode.
-(defface gams-lst-par-face
-  '((((class color) (background light))
-     (:bold t :foreground "DodgerBlue"))
-    (((class color) (background dark))
-     (:bold t :foreground "yellow")))
-  "Faces for PARAMETER entry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-set-face
-  '((((class color) (background light))
-     (:bold t :foreground "#d06000"))
-    (((class color) (background dark))
-     (:bold t :foreground "sandy brown")))
-  "Face for SET entry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-var-face
-  '((((class color) (background light))
-     (:bold t :foreground "hot pink"))
-    (((class color) (background dark))
-     (:bold t :foreground "cyan")))
-  "Face for VAR endtry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-equ-face
-  '((((class color) (background light))
-     (:bold t :foreground "lime green"))
-    (((class color) (background dark))
-     (:bold t :foreground "pink")))
-  "Face for EQU entry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-vri-face
-  '((((class color) (background light))
-     (:bold t :foreground "purple"))
-    (((class color) (background dark))
-     (:bold t :foreground "pale green")))
-  "Face for VARIABLE entry in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-lst-oth-face
-  '((((class color) (background light))
-     (:bold t :foreground "gray60"))
-    (((class color) (background dark))
-     (:bold t :foreground "bisque")))
-  "Face for ?"
-  :group 'gams-faces)
-
-(defface gams-lst-warning-face
-  '((((class color) (background light))
-     (:bold t :foreground "red"))
-    (((class color) (background dark))
-     (:bold t :foreground "red")))
-  "Face for warnings in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-warning-face
-  '((((class color) (background light))
-     (:bold t :foreground "red"))
-    (((class color) (background dark))
-     (:bold t :foreground "red")))
-  "Face for warnings in GAMS mode."
-  :group 'gams-faces)
-
-(defface gams-lst-program-face
-  '((((class color) (background light)) (:foreground "goldenrod"))
-    (((class color) (background dark)) (:foreground "khaki")))
-  "Face for copied program listing in GAMS-LST mode."
-  :group 'gams-faces)
-
-(defface gams-ol-loo-face
-  '((((class color) (background light))
-     (:bold t :foreground "maroon"))
-    (((class color) (background dark))
-     (:bold t :foreground "#7777ff")))
-  "Face for LOO entry in GAMS-OUTLINE mode."
-  :group 'gams-faces)
-
-(defface gams-highline-sub-face
-  '((((class color) (background light))
-     (:foreground "#202020" :background "misty rose"))
-    (((class color) (background dark))
-     (:bold t :underline t :foreground "pink")))
-  "Face for highline."
-  :group 'gams-faces)
-
-(defface gams-sil-mpsge-face
-    '((((class color) (background light))
-       (:foreground "#2080e0"))
-      (((class color) (background dark))
-       (:foreground "hot pink")))
-  "Face for MPSGE statements."
-  :group 'gams-faces)
-
-(defface gams-sil-dollar-face
-    '((((class color) (background light))
-       (:foreground "dark orange"))
-      (((class color) (background dark))
-       (:foreground "#ffa0ff")))
-  "Face for dollar control in SIL mode."
-  :group 'gams-faces)
-
-(defface gams-sil-file-face
-    '((((class color) (background light))
-       (:foreground "#800060" :background "#f0dada"))
-      (((class color) (background dark))
-       (:foreground "#ff7070")))
-  "Face for file name in SIL mode."
-  :group 'gams-faces)
-
-(defface gams-sil-file-face-2
-    '((((class color) (background light))
-       (:foreground "#800060" :background "#dadada"))
-      (((class color) (background dark))
-       (:foreground "#c0c0c0")))
-  "Face for file name in SIL mode."
-  :group 'gams-faces)
-
-(defface gams-func-face
-    '((((class color) (background light))
-       (:foreground "pink"))
-      (((class color) (background dark))
-       (:foreground "#ff30ff")))
-  "Face for ==."
-  :group 'gams-faces)
-
-(defface gams-def-face
-    '((((class color) (background light))
-       (:foreground "blue" :bold t))
-      (((class color) (background dark))
-       (:bold t :foreground "white")))
-  "Face for equation definition part in GAMS-??."
-  :group 'gams-faces)
 
 (defun gams-compatible-face (inherits specs)
   "Taken from `org-compatible-face'.
@@ -1323,6 +1099,204 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
          (t (or (assoc (car e) r) (push e r)))))
       (nreverse r)))
    (t specs)))
+
+;;; Faces for GAMS mode.
+
+(defface gams-comment-face
+  (gams-compatible-face
+   'font-lock-comment-face
+   '((((class color) (background light)) (:foreground "#009000"))
+     (((class color) (background dark))  (:foreground "green"))))
+  "Face for commented out texts."
+  :group 'gams-faces)
+
+(defface gams-mpsge-face
+  (gams-compatible-face
+   'font-lock-keyword-face
+   '((((class color) (background light)) (:foreground "#2080e0"))
+     (((class color) (background dark)) (:foreground "hot pink"))))
+  "Face for MPSGE statements."
+  :group 'gams-faces)
+
+(defface gams-statement-face
+  (gams-compatible-face
+   'font-lock-function-name-face
+   '((((class color) (background light)) (:foreground "#0000e0"))
+     (((class color) (background dark)) (:foreground "cyan"))))
+  "Face for GAMS statements."
+  :group 'gams-faces)
+
+(defface gams-dollar-face
+  (gams-compatible-face
+   'font-lock-preprocessor-face
+   '((((class color) (background light)) (:foreground "dark orange"))
+     (((class color) (background dark)) (:foreground "yellow"))))
+  "Face for dollar control options."
+  :group 'gams-faces)
+
+(defface gams-string-face
+  (gams-compatible-face
+   'font-lock-string-face
+   '((((class color) (background light)) (:foreground "#a000a0"))
+     (((class color) (background dark)) (:foreground "orange"))))
+  "Face for quoted string in GAMS mode."
+  :group 'gams-faces)
+
+(defface gams-operator-face
+  (gams-compatible-face
+   'font-lock-variable-name-face
+   '((((class color) (background light)) (:foreground "#e00000"))
+     (((class color) (background dark)) (:foreground "#ccaaff"))))
+  "Face for operators in GAMS mode."
+  :group 'gams-faces)
+
+(defface gams-slash-face
+  (gams-compatible-face
+   'font-lock-type-face
+   '((((class color) (background light)) (:foreground "#f00090"))
+     (((class color) (background dark)) (:foreground "light pink"))))
+  "Face for set and parameter elements lying between slashes."
+  :group 'gams-faces)
+
+(defface gams-explanation-face
+  (gams-compatible-face
+   'font-lock-constant-face
+   '((((class color) (background light)) (:foreground "#c09000"))
+     (((class color) (background dark)) (:foreground "khaki"))))
+  "Face for explanatory texts in GAMS mode."
+  :group 'gams-faces)
+
+(defface gams-title-face
+  (gams-compatible-face
+   'outline-1
+   '((((class color) (background light)) ( :foreground "#0000a0" :background "#e8e8a5"))
+     (((class color) (background dark)) ( :foreground "#ffd0ff"))))
+  "Face for $title."
+  :group 'gams-faces)
+
+(defface gams-warning-face
+  (gams-compatible-face
+   'font-lock-warning-face
+   '((((class color) (background light)) (:bold t :foreground "red"))
+     (((class color) (background dark)) (:bold t :foreground "red"))))
+  "Face for warnings in GAMS mode."
+  :group 'gams-faces)
+
+(defface gams-highlighted-keywords-face
+  '((((class color) (background light)) (:bold t :foreground "red"))
+    (((class color) (background dark)) (:bold t :foreground "yellow")))
+  "Face for highlighted keywords in comment region."
+  :group 'gams-faces)
+
+;;; Faces for GAMS-LST mode.
+
+(defface gams-lst-par-face
+  '((((class color) (background light)) (:bold t :foreground "DodgerBlue"))
+    (((class color) (background dark)) (:bold t :foreground "yellow")))
+  "Faces for PARAMETER entry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-set-face
+  '((((class color) (background light)) (:bold t :foreground "#d06000"))
+    (((class color) (background dark)) (:bold t :foreground "sandy brown")))
+  "Face for SET entry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-var-face
+  '((((class color) (background light)) (:bold t :foreground "hot pink"))
+    (((class color) (background dark)) (:bold t :foreground "cyan")))
+  "Face for VAR endtry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-equ-face
+  '((((class color) (background light)) (:bold t :foreground "lime green"))
+    (((class color) (background dark)) (:bold t :foreground "pink")))
+  "Face for EQU entry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-vri-face
+  '((((class color) (background light)) (:bold t :foreground "purple"))
+    (((class color) (background dark)) (:bold t :foreground "pale green")))
+  "Face for VARIABLE entry in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-oth-face
+  '((((class color) (background light)) (:bold t :foreground "gray60"))
+    (((class color) (background dark)) (:bold t :foreground "bisque")))
+  "Face used in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-warning-face
+  (gams-compatible-face
+   'font-lock-warning-face
+   '((((class color) (background light)) (:bold t :foreground "red"))
+     (((class color) (background dark)) (:bold t :foreground "red"))))
+  "Face for warnings in GAMS-LST mode."
+  :group 'gams-faces)
+
+(defface gams-lst-program-face
+  '((((class color) (background light)) (:foreground "goldenrod"))
+    (((class color) (background dark)) (:foreground "khaki")))
+  "Face for copied program listing in GAMS-LST mode."
+  :group 'gams-faces)
+
+;;; Faces for other modes.
+
+(defface gams-highline-face
+  (gams-compatible-face
+   'highlight
+   '((((class color) (background light)) (:foreground "#202020" :background "PaleGreen1"))
+     (((class color) (background dark)) (:bold t :underline t :foreground "yellow"))))
+  "Face for highline in GAMS-SIL mode."
+  :group 'gams-faces)
+
+(defface gams-oth-cont-face
+  '((((class color) (background light)) (:foreground "gray50"))
+    (((class color) (background dark)) (:foreground "khaki")))
+  "Face for the content of OTH item in GAMS-OUTLINE mode."
+  :group 'gams-faces)
+
+(defface gams-ol-loo-face
+  '((((class color) (background light)) (:bold t :foreground "maroon"))
+    (((class color) (background dark)) (:bold t :foreground "#7777ff")))
+  "Face for LOO entry in GAMS-OUTLINE mode."
+  :group 'gams-faces)
+
+(defface gams-sil-mpsge-face
+  '((((class color) (background light)) (:foreground "#2080e0"))
+    (((class color) (background dark)) (:foreground "hot pink")))
+  "Face for MPSGE statements."
+  :group 'gams-faces)
+
+(defface gams-sil-dollar-face
+  '((((class color) (background light)) (:foreground "dark orange"))
+    (((class color) (background dark)) (:foreground "#ffa0ff")))
+  "Face for dollar control in GAMS-SIL mode."
+  :group 'gams-faces)
+
+(defface gams-sil-file-face
+  '((((class color) (background light)) (:foreground "#800060" :background "#f0dada"))
+    (((class color) (background dark)) (:foreground "#ff7070")))
+  "Face for file name in GAMS-SIL mode."
+  :group 'gams-faces)
+
+(defface gams-sil-file-face-2
+  '((((class color) (background light)) (:foreground "#800060" :background "#dadada"))
+    (((class color) (background dark)) (:foreground "#c0c0c0")))
+  "Face for file name in GAMS-SIL mode."
+  :group 'gams-faces)
+
+(defface gams-func-face
+  '((((class color) (background light)) (:foreground "pink"))
+    (((class color) (background dark)) (:foreground "#ff30ff")))
+  "Face for == unsed in function definition."
+  :group 'gams-faces)
+
+(defface gams-def-face
+  '((((class color) (background light)) (:foreground "blue" :bold t))
+    (((class color) (background dark)) (:bold t :foreground "white")))
+  "Face for equation definition part in GAMS-SIL mode."
+  :group 'gams-faces)
 
 (defvar gams-level-faces
   ;; Taken from `org-level-faces'.
@@ -2089,17 +2063,6 @@ LIMIT specifies the search limit."
         (store-match-data (list beg end))
         t))))
 
-(defvar gams-highlighted-keywords-face
-  'gams-highlighted-keywords-face
-  "Face for highlighted keywords in comment region.")
-(defface gams-highlighted-keywords-face
-  '((((class color) (background light))
-     (:bold t :foreground "red"))
-    (((class color) (background dark))
-     (:bold t :foreground "yellow")))
-  "Face for highlighted keywords in comment region."
-  :group 'gams-faces)
-
 (defcustom gams-highlighted-keywords-in-comment
   '("_TODO_" "_BUG_" "_FIXME_")
   "The default list of highlighted keywords in comment region.
@@ -2153,12 +2116,12 @@ LIMIT specifies the search limit."
         ;; Commented out texts by *
         (gams-store-point-comment (0 gams-comment-face t t))
         ;; MPSGE dollar control options.
-        ("\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
+        ("\\$\\(AUXILIARY\\|AUXILIARIES\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
          (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
         ;; MPSGE dollar control options.
-        ("\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
+        ("\\$\\(AUXILIARY\\|AUXILIARIES\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
          (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
@@ -2203,7 +2166,7 @@ LIMIT specifies the search limit."
         ;;
         (gams-store-point-outline (0 (gams-get-level-face) t t))
         ;; MPSGE dollar control options.
-        ("^\\$\\(AUXILIARY\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DATECH\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):" (0 gams-mpsge-face t t))
+        ("^\\$\\(AUXILIARY\\|AUXILIARIES\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DATECH\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):" (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
         (gams-store-point-highlighted-keywords
@@ -2368,7 +2331,7 @@ the current mode name."
         (progn (font-lock-mode -1)
                (font-lock-mode 1)
                (when (not font-lock-fontified)
-                 (font-lock-fontify-buffer)))
+                 (font-lock-ensure)))
       (font-lock-mode -1))))
 
 (defun gams-choose-font-lock-level ()
@@ -2789,7 +2752,7 @@ The following commands are available in the GAMS mode:
   (setq buffer-invisibility-spec '((gams . t) (outline . t)))
   (if (and (not (equal gams-font-lock-keywords nil))
            font-lock-mode)
-      (font-lock-fontify-buffer)
+      (font-lock-ensure)
     (if (equal gams-font-lock-keywords nil)
         (font-lock-mode -1)))
   ) ;;; gams-mode ends.
@@ -3003,10 +2966,9 @@ in t, exit minibuffer immediately."
 (defun gams-read-statement (prompt)
   "Read a GAMS statements with completion.
 PROMPT is the message for prompt."
-  (let ((minibuffer-completion-table gams-statement-alist))
-    (read-from-minibuffer
-     prompt nil gams-statement-completion-map nil
-     'gams-read-statement-history)))
+  (completing-read
+   prompt gams-statement-alist nil nil nil
+   'gams-read-statement-history))
 
 (defun gams-register (name &optional flag)
   "Register a new statement or dollar-control.
@@ -3171,11 +3133,9 @@ and `gams-user-statement-list'."
 (defun gams-read-dollar-control (prompt)
   "Read a GAMS dollar control operation with completion.
 PROMPT is the message for prompt."
-  (let ((minibuffer-completion-table
-         (append gams-dollar-control-alist)))
-    (read-from-minibuffer
-     prompt nil gams-dollar-completion-map nil
-     'gams-read-dollar-history)))
+  (completing-read
+   prompt gams-dollar-control-alist nil nil nil
+   'gams-read-dollar-history))
 
 (defun gams-insert-dollar-control-get-name (&optional replace)
   "Get the name of dollar-control inserted.
@@ -3641,50 +3601,58 @@ Otherwise split window conventionally."
 (defun gams-process-sentinel (proc state)
   "Display the end of process buffer.
 PROC is the process name and STATE is the process state."
-  (cond
-   ((memq (process-status proc) '(signal exit))
-    (save-excursion
-      (let ((sw (selected-window)) w err temp)
-        (set-buffer (process-buffer proc))
-        (goto-char (point-max))
-        (insert
-         (format "\nGAMS process finished at %s\n" (current-time-string)))
-        (setq temp (gams-process-caluculate-time
-                    gams-ps-compile-start-time))
-        (insert
-         (format "Total running time is %s:%s:%s.\n"
-                 (car temp)
-                 (nth 1 temp)
-                 (nth 2 temp)))
-        (setq gams-ps-compile-start-time 0)
-        ;; log file.
-        (when gams-process-log-to-file
-          (let* ((gms-file (buffer-file-name gams-ps-gms-buffer))
-                 (log-file
-                  (concat (expand-file-name (file-name-sans-extension gms-file)) "." gams-log-file-extension)))
-            (write-region (point-min) (point-max) log-file)))
-        (modify-frame-parameters
-         gams-ps-frame (list (cons 'name gams-ps-orig-frame-title)))
-        (setq err (gams-process-error-exist-p))
-        (cond
-         ((and gams-frame-feature-p
-               (setq w (get-buffer-window (current-buffer) t)))
-          (select-frame (window-frame w))
-          (select-window w)
+  (let ((state-mess state))
+    (when (string-match "\\([^\n]+\\)\n" state-mess)
+      (setq state-mess
+            (substring state-mess
+                       0 (string-match "\n" state-mess))))
+    (cond
+     ;; If process-status is exit or signal.
+     ((memq (process-status proc) '(signal exit))
+      (save-excursion
+        (let ((sw (selected-window)) w err temp)
+          (set-buffer (process-buffer proc))
           (goto-char (point-max))
-          (recenter -1))
-         ((setq w (get-buffer-window (current-buffer)))
-          (select-window w)
-          (goto-char (point-max))
-          (recenter -1)))
-        (select-window sw)
-        (if err
+          (insert
+           (format "\nGAMS process %s at %s\n"
+                   state-mess
+                   (current-time-string)))
+          (setq temp (gams-process-caluculate-time
+                      gams-ps-compile-start-time))
+          (insert
+           (format "Total running time is %s:%s:%s.\n"
+                   (car temp)
+                   (nth 1 temp)
+                   (nth 2 temp)))
+          (setq gams-ps-compile-start-time 0)
+          ;; log file.
+          (when gams-process-log-to-file
+            (let* ((gms-file (buffer-file-name gams-ps-gms-buffer))
+                   (log-file
+                    (concat (expand-file-name (file-name-sans-extension gms-file)) "." gams-log-file-extension)))
+              (write-region (point-min) (point-max) log-file)))
+          (modify-frame-parameters
+           gams-ps-frame (list (cons 'name gams-ps-orig-frame-title)))
+          (setq err (gams-process-error-exist-p))
+          (cond
+           ((and gams-frame-feature-p
+                 (setq w (get-buffer-window (current-buffer) t)))
+            (select-frame (window-frame w))
+            (select-window w)
+            (goto-char (point-max))
+            (recenter -1))
+           ((setq w (get-buffer-window (current-buffer)))
+            (select-window w)
+            (goto-char (point-max))
+            (recenter -1)))
+          (select-window sw)
+          (if err
+              (message (concat
+                        (format "GAMS ended with `%s' errors!  " err)
+                        "C-cC-v or [F10]= LST file."))
             (message (concat
-                      (format "GAMS ended with `%s' errors!  " err)
-                      "C-cC-v or [F10]= LST file."))
-          (message (concat
-                    "GAMS process has finished.  "
-                    "C-cC-v or [F10]= LST file, [F11]= OUTLINE."))))))))
+                      "GAMS process has finished.  "
+                      "C-cC-v or [F10]= LST file, [F11]= OUTLINE.")))))))))
 
 (defun gams-process-error-exist-p ()
   "Judge whether GAMS process ends with errors."
@@ -3965,7 +3933,7 @@ non-interactive call from menu."
 Possible values include: `browse-url', `browse-url-generic',
 `browse-url-emacs', `eww-browse-url'."
   :type 'function
-  :group 'gams-mode)
+  :group 'gams)
 
 (defvar gams-view-doc-input-history nil
   "History of searched commands of gams-view-doc.")
@@ -4014,7 +3982,6 @@ variable `gams-docs-directory'.  By default,
   (interactive "P")
   (unwind-protect
       (let* ((completion-ignore-case t)
-             (buf (get-buffer-create "*View GAMS manual*"))
              (def-dir default-directory)
              (docs-dir (file-name-as-directory gams-docs-directory))
              key
@@ -4030,8 +3997,13 @@ variable `gams-docs-directory'.  By default,
           (setq key (read-char))
           (if (equal key 13)
               (funcall 'browse-url gams-docs-url)
-            (funcall 'browse-url
-                     (browse-url-file-url (concat docs-dir "index.html")))))
+            (if fl-docs-dir
+                (funcall 'browse-url
+                         (browse-url-file-url (concat docs-dir "index.html")))
+              (message
+               (format
+                "\"%s\" does not exist. Check `gams-docs-directory' setting."
+                (concat docs-dir "index.html"))))))
         (setq default-directory def-dir))))
 
 ;;; New command.
@@ -4478,32 +4450,20 @@ The default GAMS command line option is determined by the variable
   (define-key map "m" 'gams-opt-see-manual)
   (define-key map "d" 'gams-opt-delete))
 
-(defvar gams-opt-key-mess-command
+(defvar gams-opt-key-mess
   (concat
    "[*] => the current choice, "
-   "\n"
-   "Key: "
-   "[n]ext, "
-   "[p]rev, "
-   "ENT = select, "
-   "[e]dit, "
-   "[a]dd, "
-   "[d]elete, "
-   "[q]uit."))
+   "Key: [n]ext, [p]rev, ENT = select, [e]dit, [a]dd, [d]elete, [q]uit."))
+
+(defvar gams-opt-key-mess-command
+  (concat
+   "[*] => the current choice, \n"
+   "Key: [n]ext, [p]rev, ENT = select, [e]dit, [a]dd, [d]elete, [q]uit."))
 
 (defvar gams-opt-key-mess-option
   (concat
-   "[*] => the current choice, "
-   "\n"
-   "Key: "
-   "[n]ext, "
-   "[p]rev, "
-   "ENT = select, "
-   "[e]dit, "
-   "[a]dd, "
-   "[d]elete, "
-   "[q]uit, "
-   "[m]anual for option."))
+   "[*] => the current choice, \n"
+   "Key: [n]ext, [p]rev, ENT = select, [e]dit, [a]dd, [d]elete, [q]uit, [m]anual for option."))
 
 (defun gams-opt-show-key ()
   "Show keybinding."
@@ -4911,7 +4871,7 @@ options."
       (setq new (if type (gams-insert-dollar-control-get-name old)
                   (gams-insert-statement-get-name old)))
       (when new
-        (kill-region po-beg po-end)
+        (delete-region po-beg po-end)
         (insert new)
         (if type
             (setq gams-dollar-control-name new)
@@ -5046,13 +5006,9 @@ If STRING contains only spaces, return null string."
 
 (defun gams-read-statement-ext (prompt completion &optional history initial key)
   "Read a GAMS statements with completion."
-  (let ((minibuffer-completion-table completion))
-    (gams-remove-spaces-from-string
-     (read-from-minibuffer
-      prompt initial
-      (or key gams-mb-map-ext-1)
-      nil
-      history))))
+  (gams-remove-spaces-from-string
+   (completing-read
+    prompt completion nil nil initial history)))
 
 (defun gams-insert-statement-get-name-ext ()
   "Get the name of satement inserted."
@@ -5167,7 +5123,7 @@ If STRING contains only spaces, return null string."
                      gams-insert-solver-type-default))
         mod-name sol-type maxmin maximand guess)
     (insert " ")
-    (let (alist-modname alist)
+    (let (alist-modname)
       (setq gams-id-structure (gams-sil-get-identifier))
       (setq alist-modname (gams-insert-post-solve-modname gams-id-structure))
       
@@ -5533,7 +5489,7 @@ overlay onto the gams-invisible-areas-list list"
   (interactive)
   (setq line-move-ignore-invisible t)
   (save-excursion
-    (condition-case err
+    (condition-case nil
         (progn
           (goto-char (point-min))
           (let* ((com-start (concat "^[" comment-start "]"))
@@ -5839,7 +5795,7 @@ The followings are page scroll commands.  Just changed to upper case letters.
   (run-hooks 'gams-lst-mode-hook)
   (if (and (not (equal gams-lst-font-lock-keywords nil))
            font-lock-mode)
-        (font-lock-fontify-buffer)
+        (font-lock-ensure)
     (if (equal gams-lst-font-lock-keywords nil)
         (font-lock-mode -1)))
   (set-buffer-modified-p nil)
@@ -7337,7 +7293,7 @@ The following commands are available in this mode.
     ;; Turn on font-lock.
     (if (and (not (equal gams-font-lock-keywords nil))
              font-lock-mode)
-        (font-lock-fontify-buffer)
+        (font-lock-ensure)
       (if (equal gams-font-lock-keywords nil)
           (font-lock-mode -1))))
   (buffer-name)
@@ -8396,7 +8352,7 @@ This command cannot identify aliased set identifer."
                (find-file-noselect gams-sil-gms-file))))
       (set-buffer gams-sil-gms-buffer)
       (message "Rescanning...")
-      (condition-case err
+      (condition-case nil
           (progn
             (setq gams-id-structure (gams-sil-get-identifier))
             )
@@ -9343,7 +9299,7 @@ Return the new file number."
                     (gams-sil-return-file-num mfile) 0 0 mfile
                     (set-marker (make-marker) 0)
                     ) idstr)
-        (condition-case err
+        (condition-case nil
             (setq idstr (gams-sil-get-identifier-alist idstr (current-buffer)))
           (error
            (setq gams-sil-expand-file-more nil)
@@ -9670,7 +9626,7 @@ LIGHT is t if in light mode.
       (while t
         (if (re-search-forward
              (concat "^$\\(sector[s]*\\|commodities\\|commodity"
-                     "consumer\\|consumers\\|auxiliary\\|report\\|prod\\|demand\\|constraint\\):")
+                     "consumer\\|consumers\\|auxiliary\\|auxiliaries\\|report\\|prod\\|demand\\|constraint\\):")
              end t)
             (progn (setq block-begin (match-end 0))
                    (setq m-string (gams-buffer-substring
@@ -12312,7 +12268,7 @@ The followings are page scroll commands.  Just changed to upper cases.
   ;; Turn on font-lock.
   (if (and (not (equal gams-ol-font-lock-keywords nil))
            font-lock-mode)
-      (font-lock-fontify-buffer)
+      (font-lock-ensure)
     (if (equal gams-ol-font-lock-keywords nil)
         (font-lock-mode -1)))
   ) ;;; ends.
@@ -12437,6 +12393,7 @@ nil means the vertical style and non-nil means the horizontal
 style.
 
 For details, see the help of `gams-ol-toggle-display-style'."
+  :type 'alist
   :group 'gams)
   
 (defcustom gams-ol-width 40
@@ -14917,15 +14874,11 @@ DIR: the destination directory."
       (setq gams-modlib-sort-current-key key)
       (save-restriction
         (narrow-to-region (point) (point-max))
-
-        (let ((sort-fold-case t))
-          (sort-subr rev
-                     'forward-line
-                     'end-of-line
-                     'gams-modlib-startkeyfun
-                     'gams-modlib-endkeyfun
-                     ))
-        
+        (sort-subr rev
+                   'forward-line
+                   'end-of-line
+                   'gams-modlib-startkeyfun
+                   'gams-modlib-endkeyfun)
         (setq gams-modlib-last-sort key)
         (goto-char (point-min))
         (widen)
@@ -14937,9 +14890,8 @@ DIR: the destination directory."
 
 (defun gams-get-search-words (prompt)
   "Read an identifer with completion."
-  (read-from-minibuffer
-   prompt nil nil nil
-   'gams-modlib-search-words-history))
+  (completing-read
+   prompt nil nil nil nil 'gams-modlib-search-words-history))
 
 (defun gams-modlib-query-search-words ()
   (interactive)
@@ -17849,6 +17801,6 @@ problems."
 ;;; gams-mode.el ends here
 
 ;; Local Variables:
-;; coding: utf-8
+;; coding: utf-8-dos
 ;; End:
 
