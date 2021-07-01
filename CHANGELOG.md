@@ -11,18 +11,10 @@ Change logs of GAMS mode.
 Version 6.8
 ----------------------------------
 
-* To support `vertico-mode` (a new minibuffer completion feature),
-  `read-from-minibuffer` has been replaced with `completing-read`.
-
-
-Version 6.7.2
-----------------------------------
+* To support `vertico-mode` (a new minibuffer completion feature in
+  Emacs), `read-from-minibuffer` has been replaced with `completing-read`.
 
 * Changed the default setting for faces (coloring).
-
-
-Version 6.7.1
-----------------------------------
 
 * Changed `gams-mode.el` to suppress errors from byte-compiling.
 
