@@ -937,17 +937,29 @@ grouping constructs."
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;; Define faces.
-(defvar gams-mpsge-face 'gams-mpsge-face
-  "Face for MPSGE statements.")
-(defvar gams-misc-face  'gams-misc-face
-  "Face for misc.")
+;; Define faces.
 (defvar gams-comment-face 'gams-comment-face
   "Face for comment.")
-(defvar gams-dollar-face 'gams-dollar-face
-  "Face for dollar control options.")
+(defvar gams-mpsge-face 'gams-mpsge-face
+  "Face for MPSGE statements.")
 (defvar gams-statement-face 'gams-statement-face
   "Face for GAMS statments.")
+(defvar gams-dollar-face 'gams-dollar-face
+  "Face for dollar control options.")
+(defvar gams-string-face 'gams-string-face
+  "Face for string.")
+(defvar gams-operator-face 'gams-operator-face
+  "Face for operator.")
+(defvar gams-slash-face 'gams-slash-face
+  "Face for set and parameter elements lying between slashes.")
+(defvar gams-explanation-face 'gams-explanation-face
+  "Face for explanatory texts in GAMS mode.")
+(defvar gams-title-face 'gams-title-face
+  "Face for $title in GAMS mode.")
+(defvar gams-warning-face 'gams-warning-face
+  "Face for warning in GAMS mode.")
+(defvar gams-highlighted-keywords-face 'gams-highlighted-keywords-face
+  "Face for highlighted keywords in comment region.")
 (defvar gams-lst-par-face 'gams-lst-par-face
   "Face for PARAMETER in GAMS-LST mode.")
 (defvar gams-lst-set-face 'gams-lst-set-face
@@ -964,32 +976,28 @@ grouping constructs."
   "Face for warning in GAMS-LST mode.")
 (defvar gams-lst-program-face 'gams-lst-program-face
   "Face for program listing in GAMS-LST mode.")
-(defvar gams-ol-loo-face 'gams-ol-loo-face
-  "Face for program listing in GAMS-LST mode.")
-(defvar gams-string-face 'gams-string-face
-  "Face for string.")
-(defvar gams-operator-face 'gams-operator-face
-  "Face for operator.")
-(defvar gams-slash-face 'gams-slash-face
-  "Face for set and parameter elements lying between slashes.")
-(defvar gams-explanation-face 'gams-explanation-face
-  "Face for explanatory texts in GAMS mode.")
-(defvar gams-oth-cont-face 'gams-oth-cont-face
-  "Face for the content of OTH item in GAMS-OUTLINE mode.")
-(defvar gams-title-face 'gams-title-face
-  "Face for $title in GAMS mode.")
 (defvar gams-highline-face 'gams-highline-face
   "*Symbol face used to highlight the current line.")
+(defvar gams-oth-cont-face 'gams-oth-cont-face
+  "Face for the content of OTH item in GAMS-OUTLINE mode.")
+(defvar gams-ol-loo-face 'gams-ol-loo-face
+  "Face for program listing in GAMS-LST mode.")
 (defvar gams-sil-mpsge-face 'gams-sil-mpsge-face)
 (defvar gams-sil-dollar-face 'gams-sil-dollar-face)
 (defvar gams-sil-file-face 'gams-sil-file-face)
 (defvar gams-sil-file-face-2 'gams-sil-file-face-2)
 (defvar gams-func-face 'gams-func-face)
 (defvar gams-def-face 'gams-def-face)
-(defvar gams-warning-face 'gams-warning-face "Face for warning in GAMS mode.")
-(defvar gams-highlighted-keywords-face
-  'gams-highlighted-keywords-face
-  "Face for highlighted keywords in comment region.")
+
+(defvar gams-lxi-col-face 'gams-lxi-col-face)
+(defvar gams-lxi-equ-face 'gams-lxi-equ-face)
+(defvar gams-sid-highline-face 'gams-sid-highline-face
+  "Face for GAMS-SID tree buffer.")
+
+(defvar gams-level-faces
+  ;; Taken from `org-level-faces'.
+  '(gams-level-face-1 gams-level-face-2 gams-level-face-3 gams-level-face-4
+    gams-level-face-5 gams-level-face-6 gams-level-face-7 gams-level-face-8))
 
 (defvar gams-dollar-regexp
   (gams-regexp-opt
@@ -1298,11 +1306,23 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
   "Face for equation definition part in GAMS-SIL mode."
   :group 'gams-faces)
 
-(defvar gams-level-faces
-  ;; Taken from `org-level-faces'.
-  '(gams-level-face-1 gams-level-face-2 gams-level-face-3 gams-level-face-4
-    gams-level-face-5 gams-level-face-6 gams-level-face-7 gams-level-face-8
-    ))
+(defface gams-sid-highline-face
+  '((((class color) (background light)) (:foreground "#202020" :background "PaleGreen1"))
+    (((class color) (background dark)) (:foreground "white" :background "#008000")))
+  "Face for GAMS-SID TREE buffer."
+  :group 'gams-faces)
+
+(defface gams-lxi-col-face
+  '((((class color) (background light)) (:bold t :foreground "lime green"))
+    (((class color) (background dark)) (:bold t :foreground "green")))
+  "Face for COLUMN in GAMS-LXI mode."
+  :group 'gams-faces)
+
+(defface gams-lxi-equ-face
+  '((((class color) (background light)) (:bold t :foreground "orange"))
+    (((class color) (background dark)) (:bold t :foreground "orange")))
+  "Face for EQUATION in GAMS-LXI mode."
+  :group 'gams-faces)
 
 (defface gams-level-face-1 ;; originally copied from font-lock-function-name-face
   (gams-compatible-face 'outline-1
@@ -2072,10 +2092,6 @@ But the words registered in this list are colored by
   :type '(repeat (string :tag "keyword"))
   :group 'gams)
 
-;; Generate regular expression.
-(defvar gams-highlighted-keywords-in-comment-regexp
-  (gams-regexp-opt gams-highlighted-keywords-in-comment))
-
 (defun gams-store-point-highlighted-keywords (limit)
   "Store points for font-lock for highlighted keywords.
 LIMIT specifies the search limit."
@@ -2671,6 +2687,7 @@ If COM is non-nil, create alist from command name."
   "Set the value of `gams-master-file'."
   (setq gams-master-file (gams-get-master-file)))
 
+
 ;;;###autoload
 (defun gams-mode ()
   "Major mode for editing GAMS program file.
@@ -2715,6 +2732,7 @@ The following commands are available in the GAMS mode:
      gams-file-list
      gams-master-file
      gams-st-solve-model-default
+     gams-highlighted-keywords-in-comment-regexp
      ))
   ;; Variables.
   (setq fill-column gams-fill-column
@@ -2733,6 +2751,9 @@ The following commands are available in the GAMS mode:
    'make-local-variable
    '(outline-regexp))
   (setq outline-regexp gams-outline-regexp)
+
+  (setq gams-highlighted-keywords-in-comment-regexp
+        (gams-regexp-opt gams-highlighted-keywords-in-comment))
 
   ;; Setting for font-lock.
   (make-local-variable 'font-lock-defaults)
@@ -10715,18 +10736,6 @@ if prev is non-nil, move up after toggle."
 ;;;     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-(defvar gams-sid-highline-face 'gams-sid-highline-face
-  "Face for GAMS-SID tree buffer.")
-
-(defface gams-sid-highline-face
-  '((((class color) (background light))
-     (:foreground "#202020" :background "PaleGreen1"))
-    (((class color) (background dark))
-     (:foreground "white" :background "#008000")))
-  "Face for GAMS-SID TREE buffer."
-  :group 'gams-faces)
-
 (defconst gams-sid-mess-1
       (concat
        "[?]help,[d]ecl,[n]ext,[p]rev,"
@@ -15147,24 +15156,6 @@ If PAGE is non-nil, page scroll."
     ("^[[][+-][]]\\(Column\\)" (0 gams-lxi-col-face))
     ("^[[][+-][]]\\(Equation\\)" (0 gams-lxi-equ-face))
     ("^[[][+-][]]\\(Display\\)" (0 gams-lst-par-face))))
-(defvar gams-lxi-col-face 'gams-lxi-col-face)
-
-(defface gams-lxi-col-face
-  '((((class color) (background light))
-     (:bold t :foreground "lime green"))
-    (((class color) (background dark))
-     (:bold t :foreground "green")))
-  "Face for COLUMN in GAMS-LXI mode."
-  :group 'gams-faces)
-
-(defvar gams-lxi-equ-face 'gams-lxi-equ-face)
-(defface gams-lxi-equ-face
-  '((((class color) (background light))
-     (:bold t :foreground "orange"))
-    (((class color) (background dark))
-     (:bold t :foreground "orange")))
-  "Face for EQUATION in GAMS-LXI mode."
-  :group 'gams-faces)
 
 (defvar gams-lxi-lxi-file nil)
 (defvar gams-lxi-lst-file nil)
