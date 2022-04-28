@@ -7078,6 +7078,7 @@ If PAGE is non-nil, page scroll."
   "Start the GAMS-TEMPLATE mode."
   (interactive)
   (let ((file (expand-file-name gams-template-file))
+        (cur-buff (current-buffer))
         flag)
     (if (not (file-exists-p file))
         (progn
@@ -7094,8 +7095,7 @@ If PAGE is non-nil, page scroll."
       (when (not gams-template-file-already-loaded)
         (gams-temp-load-template-file file)))
     (when (not flag)
-      (let* ((temp-buffer (get-buffer-create gams-temp-buffer))
-             (cur-buf (current-buffer)))
+      (let* ((temp-buffer (get-buffer-create gams-temp-buffer)))
         ;; Store window configuration.
         (setq gams-temp-window (current-window-configuration))
         (switch-to-buffer temp-buffer)
