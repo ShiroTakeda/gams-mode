@@ -2689,7 +2689,7 @@ If COM is non-nil, create alist from command name."
 
 
 ;;;###autoload
-(defun gams-mode ()
+(define-derived-mode gams-mode prog-mode "GAMS"
   "Major mode for editing GAMS program file.
 
 The following commands are available in the GAMS mode:
