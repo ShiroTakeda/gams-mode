@@ -7435,7 +7435,7 @@ The following commands are available in this mode.
   (interactive)
   ;; kill template buffers.
   (kill-buffer gams-temp-cont-buffer)
-  (gams-edit-template))
+  (gams-template-edit-mode))
 
 (defun gams-temp-reedit ()
   "Re-edit already registered templates."
@@ -7449,8 +7449,9 @@ The following commands are available in this mode.
     (when (get-buffer gams-temp-edit-buffer)
       (kill-buffer gams-temp-edit-buffer))
     (rename-buffer gams-temp-edit-buffer)
-    ;; Switch to gams-edit-template mode.
-    (gams-edit-template temp-name)
+    ;; Switch to gams-template-edit-mode mode.
+    (gams-template-edit-mode)
+    (setq gams-add-template-file temp-name)
     ))
 
 (defun gams-temp-rename ()
@@ -7640,7 +7641,7 @@ On attempt to pass beginning or end of buffer, stop and signal error."
 
 (setq-default gams-add-template-file nil)
 
-(defun gams-edit-template (&optional file)
+(define-derived-mode gams-template-edit-mode prog-mode "TEMPLATE-EDIT"
   "Edit a template.
 
 FILE is a file name.  It is used for gams-temp-reedit.
@@ -7664,7 +7665,7 @@ Key-bindings are almost the same as GAMS mode.
 
   (pop-to-buffer gams-temp-edit-buffer)
   (kill-all-local-variables)
-  (setq major-mode 'gams-template-edit)
+  (setq major-mode 'gams-template-edit-mode)
   (setq mode-name "TEMPLATE-EDIT")
   (use-local-map gams-template-edit-map)
   (setq fill-prefix "\t\t")
@@ -7690,19 +7691,18 @@ Key-bindings are almost the same as GAMS mode.
   (setq font-lock-defaults '(gams-font-lock-keywords t t))
   ;; set file name used for
   (make-local-variable 'gams-add-template-file)
-  (setq gams-add-template-file file)
   (setq buffer-read-only nil)
   ;; TEST.
   (set-buffer-modified-p nil)
   (current-buffer)
   (gams-temp-add-key)
   (easy-menu-add gams-template-edit-menu)
-  ) ;; gams-edit-template ends here.
+  ) ;; gams-template-edit-mode ends here.
 
 (defun gams-temp-edit-help ()
   "Show help."
   (interactive)
-  (describe-function 'gams-edit-template))
+  (describe-function 'gams-template-edit-mode))
 
 (defun gams-temp-edit-save-and-exit ()
   "Register a template and exit from GAMS-TEMPLATE-EDIT mode."
