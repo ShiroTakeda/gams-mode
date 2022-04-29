@@ -8,6 +8,15 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.9
+----------------------------------
+
+* Fixed a bug in `GAMS-TEMPLATE` mode.
+
+* Made gams-mode derived from prog-mode.
+
+
+
 Version 6.8
 ----------------------------------
 
