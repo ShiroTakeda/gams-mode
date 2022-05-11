@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2018 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.9
+;; Version: 6.10
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.8"
+(defconst gams-mode-version "6.10"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -4316,10 +4316,10 @@ If you attach the prefix argument ARG, just insert `('."
   (interactive "P")
   (if gams-close-paren-always
       (if arg
-          (insert "(")
+          (self-insert-command 1)
         (insert "()")
         (backward-char 1))
-    (insert "(")))
+    (self-insert-command 1)))
 
 (defsubst gams-close-quotation-p (&optional double)
   "If the single (or double) quotation should be closed, return t.
@@ -4348,9 +4348,9 @@ just insert one double quotation."
       (insert "\"")
     (if gams-close-double-quotation-always
         (if (gams-close-quotation-p t)
-            (insert "\"")
+            (self-insert-command 1)
           (insert "\"\"") (backward-char 1))
-      (insert "\""))))
+      (self-insert-command 1))))
 
 (defun gams-insert-single-quotation (&optional arg)
   "Insert single quotation.
@@ -4362,9 +4362,9 @@ just insert one single quotation."
       (insert "'")
     (if gams-close-single-quotation-always
         (if (gams-close-quotation-p)
-            (insert "'")
+            (self-insert-command 1)
           (insert "''") (backward-char 1))
-      (insert "'"))))
+      (self-insert-command 1))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Codes for changing command line options.
