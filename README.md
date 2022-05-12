@@ -199,17 +199,17 @@ See [screenshots page](https://www.flickr.com/search/?sort=date-taken-desc&safe_
 
 First, I explain the files distributed in the package.
 
-| Filename                 | Explanation                                                                                                                 |
-|:-------------------------|:----------------------------------------------------------------------------------------------------------------------------|
-| `README.md`              | This file.  First read this file.                                                                                           |
-| `gams-mode.el`           | This is the main lisp program.                                                                                              |
-| `sample_gams_code`       | This folder includes sample gms files. If you want to learn how to use GAMS mode, read gams-sample.gms file in this folder. |
-| `gams-setting-sample.el` | Sample file of settings in init.el file.                                                                                    |
-| `gams-template.txt`      | Sample file of templates.                                                                                                   |
-| `CHANGELOG.md`           | Change log file that records history of changes.  If you want to know changes and newly added functions, please read it.    |
-| `BUGS_PROBLEMS.md`       | Known bugs and problems.                                                                                                    |
-| `doc`                    | Document folder which includes the reference card.                                                                          |
-| `lxi`                    | This folder includes files used to explain GAMS-LXI mode.                                                                   |
+| Filename                                           | Explanation                                                                                                                 |
+|:---------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------|
+| `README.md`                                        | This file.  First read this file.                                                                                           |
+| [`gams-mode.el`](gams-mode.el)                     | This is the main lisp program.                                                                                              |
+| [`sample_gams_code`](sample_gams_code)             | This folder includes sample gms files. If you want to learn how to use GAMS mode, read gams-sample.gms file in this folder. |
+| [`gams-setting-sample.el`](gams-setting-sample.el) | Sample file of settings in init.el file.                                                                                    |
+| `gams-template.txt`                                | Sample file of templates.                                                                                                   |
+| [`CHANGELOG.md`](CHANGELOG.md)                     | Change log file that records history of changes.  If you want to know changes and newly added functions, please read it.    |
+| [`BUGS_PROBLEMS.md`](BUGS_PROBLEMS.md)             | Known bugs and problems.                                                                                                    |
+| [`doc`](doc)                                       | Document folder which includes the reference card.                                                                          |
+| `lxi`                                              | This folder includes files used to explain GAMS-LXI mode.                                                                   |
  
 If you are well acquainted with Emacs, installation is very easy.  Here, I
 explain basic Emacs terminologies used below.  But if you are a novice
