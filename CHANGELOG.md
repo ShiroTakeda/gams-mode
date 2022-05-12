@@ -8,6 +8,20 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.10
+----------------------------------
+
+* Modified gams-mode.el so that it is compatible with smartparen-mode.
+
+  If you want to use smartparen-mode within GAMS mode, add the following
+  code in your init.el file
+  
+        (setq gams-close-paren-always nil)
+        (setq gams-close-double-quotation-always nil)
+        (setq gams-close-single-quotation-always nil)
+        (add-hook 'gams-mode-hook #'smartparens-mode)
+        
+
 Version 6.9
 ----------------------------------
 

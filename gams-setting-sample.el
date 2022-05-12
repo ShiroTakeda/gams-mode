@@ -2,7 +2,7 @@
 ;;
 ;;  First-written:	<2001/08/13>
 ;;
-;;  This file is created for gams-mode.el version 6.7.
+;;  This file is created for gams-mode.el version 6.10.
 ;;
 ;;  Copy and paste the content of this file into
 ;;  "~/.emacs.d/init.el" file.
@@ -14,9 +14,8 @@
 ;;	 Necessary settings.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; If you install GAMS mode from MELPA, the following settings are not
-;; necessary. But if you install GAMS mode manually, you need to do the
-;; following configuration.
+;; If you install GAMS mode from MELPA, load path and require settings are not
+;; necessary.
 
 ;;;; Load path setting.
 ;;
@@ -36,7 +35,7 @@
 ;; If you do not include GAMS system directory in your PATH environmental
 ;; variable, specify the place of gams program like
 ;;
-;; (setq gams-process-command-name "c:/GAMS/win64/24.6/gams.exe")
+;; (setq gams-process-command-name "c:/GAMS/37/gams.exe")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -78,7 +77,7 @@
 ;;
 ;; The directory where gams.exe exists.  This is
 ;; necessary for `gams-model-library' and `gams-view-doccument' command.
-;; (setq gams-system-directory "c:/GAMS/34")
+;; (setq gams-system-directory "c:/GAMS/37")
 
 ;;;; Use upper case or lower case for GAMS statements and dollar control options?
 ;;
@@ -152,6 +151,15 @@
 ;; (setq gams-close-paren-always t)			; Insert ) automatically (default)
 ;; (setq gams-close-double-quotation-always nil)	; No
 ;; (setq gams-close-single-quotation-always t)		; Yes
+
+;; If you want to use smartparen-mode within GAMS mode, add the following code
+;; in your init.el file
+  
+;; (setq gams-close-paren-always nil)
+;; (setq gams-close-double-quotation-always nil)
+;; (setq gams-close-single-quotation-always nil)
+;; (add-hook 'gams-mode-hook #'smartparens-mode)
+
 
 ;;;; The default height of GAMS process buffer
 ;; (setq gams-default-pop-window-height 15) ; Default value is 10
