@@ -199,17 +199,17 @@ See [screenshots page](https://www.flickr.com/search/?sort=date-taken-desc&safe_
 
 First, I explain the files distributed in the package.
 
-| Filename                    | Explanation                                                                              |
-| :-------------------------- | :----------------------------------------------------------------------                  |
-| `README.md`                 | This file.  First read this.                                                             |
-| `CHANGELOG.md`              | Change log file.  If you want to know changes and newly added functions, please read it. |
-| `BUGS_PROBLEMS.md`          | Known bugs and problems                                                                  |
-| `gams-mode.el`              | The main lisp program.                                                                   |
-| `gams-setting-sample.el`    | A sample file for setting.                                                               |
-| `gams-template.txt`         | A sample file of templates.                                                              |
-| `sample_gams_code`          | The foder of sample gams files.                                                          |
-| `doc`                       | Document folder                                                                          |
-| `lxi`                       | Folder of files used to explain GAMS-LXI mode                                            |
+| Filename                 | Explanation                                                                                                                 |
+|:-------------------------|:----------------------------------------------------------------------------------------------------------------------------|
+| `README.md`              | This file.  First read this file.                                                                                           |
+| `gams-mode.el`           | This is the main lisp program.                                                                                              |
+| `sample_gams_code`       | This folder includes sample gms files. If you want to learn how to use GAMS mode, read gams-sample.gms file in this folder. |
+| `gams-setting-sample.el` | Sample file of settings in init.el file.                                                                                    |
+| `gams-template.txt`      | Sample file of templates.                                                                                                   |
+| `CHANGELOG.md`           | Change log file that records history of changes.  If you want to know changes and newly added functions, please read it.    |
+| `BUGS_PROBLEMS.md`       | Known bugs and problems.                                                                                                    |
+| `doc`                    | Document folder which includes the reference card.                                                                          |
+| `lxi`                    | This folder includes files used to explain GAMS-LXI mode.                                                                   |
  
 If you are well acquainted with Emacs, installation is very easy.  Here, I
 explain basic Emacs terminologies used below.  But if you are a novice
@@ -271,11 +271,11 @@ path to gams.exe to the variable 'gams-process-command-name'. For example,
 your gams.exe is placed at "c:/GAMS/win64/GAMS24.1/", then add the
 following line to init.el:
 
-    (setq gams-process-command-name "c:/GAMS/win64/GAMS24.1/gams.exe")
+    (setq gams-process-command-name "c:/GAMS/37/gams.exe")
 
 In addition, you had better set 'gams-system-directory' like
    
-    (setq gams-system-directory "c:/GAMS/win64/GAMS24.1/")
+    (setq gams-system-directory "c:/GAMS/37/")
     
 If you want to color an Emacs buffer, add the followings, too.
 
@@ -419,7 +419,7 @@ values of the following variables.  Default value is given in []
 You can change the value of these variables by adding in your
 "~/.emacs.d/init.el", for example,
 
-    (setq gams-process-command-name "c:/GAMS20.0/gams.exe")
+    (setq gams-process-command-name "c:/GAMS/37/gams.exe")
     (setq gams-statement-upcase nil)
 
 Or you can use `customize` built in Emacs.  Try M-x customize-groups
