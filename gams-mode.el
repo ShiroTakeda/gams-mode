@@ -103,7 +103,7 @@
 ;;;     Variables for GAMS mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams-system-directory "c:/GAMS/win64/24.7/"
+(defcustom gams-system-directory "c:/GAMS/37/"
   "*The GAMS system directory (the directory where GAMS is installed).
 This must be assigned the proper value if you want to use
 `gams-view-document' and `gams-model-library'."
@@ -120,11 +120,14 @@ variable, you must set the full path to GAMS in this variable like
   :type 'file
   :group 'gams)
 
-(defcustom gams-process-command-option "ll=0 lo=3 pw=90 ps=9999"
+(defcustom gams-process-command-option "logOption=3 pageWidth=100"
   "*The command line options passed to GAMS.
 
-If you are NTEmacs user, lo=3 option is necessary to show the GAMS
-process."
+If you are Windows Emacs user, LogOption=3 (or lo=3) option is
+necessary to show the GAMS process log.
+
+For the details of GAMS command line options, see the following page:
+https://www.gams.com/39/docs/UG_GamsCall.html#UG_GamsCall_ListOfCommandLineParameters"
   :type 'string
   :group 'gams)
 
@@ -3603,7 +3606,7 @@ Otherwise split window conventionally."
   :type 'boolean
   :group 'gams)
 
-(defcustom gams-log-file-extension "glg"
+(defcustom gams-log-file-extension "log"
   "The extension of GAMS log file."
   :type 'string
   :group 'gams)
