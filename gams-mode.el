@@ -51,7 +51,8 @@
 (eval-and-compile
   (require 'easymenu)
   (require 'align)
-  (require 'org))
+  (require 'org)
+  (require 'polymode))
 
 (defsubst gams-oddp (x)
   "Return t if X is odd."
@@ -17774,6 +17775,34 @@ problems."
   (let ((version-string
          (format "GAMS mode version %s" gams-mode-version)))
     (message "%s" version-string)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;     Polymode
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-hostmode poly-gams-hostmode
+  :mode 'gams-mode)
+
+(define-innermode poly-gams-yaml-innermode
+  :mode 'yaml-mode
+  :head-matcher ".?o?n?embeddedcode.* connect:$"
+  :tail-matcher ".*embeddedcode.*$"
+  :head-mode 'host
+  :tail-mode 'host)
+
+(define-innermode poly-gams-python-innermode
+  :mode 'python-mode
+  :head-matcher ".?o?n?embeddedcode.* python:$"
+  :tail-matcher ".*embeddedcode.*$"
+  :head-mode 'host
+  :tail-mode 'host)
+
+(define-polymode poly-gams-mode
+  :hostmode 'poly-gams-hostmode
+  :innermodes '(poly-gams-yaml-innermode
+		poly-gams-python-innermode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
