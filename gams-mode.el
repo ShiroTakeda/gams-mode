@@ -2680,11 +2680,13 @@ If COM is non-nil, create alist from command name."
 (defvar gams-ol-buffer-point nil)
 (defvar gams-lxi-buffer nil)
 (defvar gams-master-file nil)
+(defvar gams-mode-line-displayed-p nil)
 
 (setq-default gams-temp-window nil)
 (setq-default gams-ol-buffer-point nil)
 (setq-default gams-lxi-buffer nil)
 (setq-default gams-master-file nil)
+(setq-default gams-mode-line-displayed-p nil)
 
 (defun gams-set-master-filename ()
   "Set the value of `gams-master-file'."
@@ -2736,6 +2738,7 @@ The following commands are available in the GAMS mode:
      gams-master-file
      gams-st-solve-model-default
      gams-highlighted-keywords-in-comment-regexp
+     gams-mode-line-displayed-p
      ))
   ;; Variables.
   (setq fill-column gams-fill-column
@@ -17606,10 +17609,12 @@ I forgot what this function is..."
 
 (defun gams-add-mode-line ()
   "Add GAMS mode icon to mode line."
-  (setq mode-line-buffer-identification
-        (append (gams-mode-line-buffer-identification)
-                mode-line-buffer-identification)))
-
+  (when (not gams-mode-line-displayed-p)
+    (setq mode-line-buffer-identification
+          (append (gams-mode-line-buffer-identification)
+                  mode-line-buffer-identification))
+    (setq gams-mode-line-displayed-p t)))
+  
 (defconst gams-emacs-variables-list
       (list
        'emacs-version
