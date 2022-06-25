@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2022 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.10
+;; Version: 6.11
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.10"
+(defconst gams-mode-version "6.11"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -3381,64 +3381,58 @@ if `gams-use-mpsge' is non-nil)."
   "Get the modified time of LST file."
   (format-time-string "%x %H:%M:%S" (nth 5 (file-attributes lst t))))
 
-(defun gams-view-lst ()
-  "Switch to the LST file buffer and show the error message."
-  (interactive)
-  (let ((file-lst (gams-get-lst-filename)))
-    (if file-lst
-        ;; If the LST file exists.
-        (progn
-          (if (find-buffer-visiting file-lst)
-              ;; If file-lst is already opened.
+(defun gams-jump-to-lst-sub (&optional pop err)
+  "This command switch the buffer to the LST file buffer (and shows the error message).
+If POP is non-nil, this command split the windows and displays the LST file buffer in the other windows.
+IF ERR is non-nil, it shows the place of errors."
+  (interactive "P")
+  (let ((cur-buff (current-buffer))
+        (file-lst (gams-get-lst-filename)))
+    ;; The LST file does exist or not.
+    (if (not file-lst)
+        ;; No. the LST file does not exits.
+        (message "There is no LST file corresponding to this GMS file!")
+      ;; Yes.  The LST file exists.
+      ;; It the LST file already opened?
+      (if (find-buffer-visiting file-lst)
+          ;; Yes: already opened
+          ;; The LST file is modified?
+          (if (verify-visited-file-modtime
+               (find-buffer-visiting file-lst))
+              ;; If not modified.
               (progn
-                (set-buffer (find-buffer-visiting file-lst))
-                (if (verify-visited-file-modtime (current-buffer))
-                    ;; If lst file is not changed
-                    (progn
-                      (switch-to-buffer (current-buffer))
-                      ;; View error.
-                      (gams-lst-view-error))
-                  ;; If lst file is chenged, kill-buffer.
-                  (set-buffer-modified-p nil)
-                  (kill-buffer (find-buffer-visiting file-lst))
-                  (find-file file-lst)
-                  (goto-char (point-min))
-                  (gams-lst-mode)
-                  (gams-lst-view-error)))
-            ;; if file-lst isn't opened.
+                (if pop
+                    (pop-to-buffer (find-buffer-visiting file-lst))
+                  (switch-to-buffer (find-buffer-visiting file-lst)))
+                (when err (gams-lst-view-error)))
+            ;; If modified.
+            (set-buffer-modified-p nil)
+            (kill-buffer (find-buffer-visiting file-lst))
             (find-file file-lst)
-            (goto-char (point-min))
             (gams-lst-mode)
-            (gams-lst-view-error)))
-      ;; If the LST file not exits.
-      (message "The LST file does not exist!") nil)))
+            (when pop
+              (switch-to-buffer cur-buff)
+              (pop-to-buffer (find-buffer-visiting file-lst)))
+            (when err (gams-lst-view-error)))
+        ;; Not: not yet opened
+        (find-file file-lst)
+        (gams-lst-mode)
+        (when pop
+          (switch-to-buffer cur-buff)
+          (pop-to-buffer (find-buffer-visiting file-lst)))
+        (when err (gams-lst-view-error))))))
 
-(defun gams-jump-to-lst ()
-  "Switch to the LST file buffer."
-  (interactive)
-  (let ((file-lst (gams-get-lst-filename)))
-    (if file-lst
-        ;; If lst file exists
-        (progn
-          ;; lst file is already opened?
-          (if (find-buffer-visiting file-lst)
-              ;; If file-lst is already opened.
-              ;; lst file is modified?
-              (if (verify-visited-file-modtime
-                   (find-buffer-visiting file-lst))
-                  ;; If not modified.
-                  (pop-to-buffer (find-buffer-visiting file-lst))
-                ;; If modified.
-                (set-buffer-modified-p nil)
-                (kill-buffer (find-buffer-visiting file-lst))
-                (find-file file-lst)
-                (gams-lst-mode))
-            ;; If file-lst isn't opened, open it.
-            (find-file file-lst)
-            (gams-lst-mode))
-          )
-      ;; LST file does not exits.
-      (message "The LST file does not exist!"))))
+(defun gams-view-lst (&optional pop)
+  "Switch to the LST file buffer and show the error message.
+If you attach the universal-argument, this command splits the window and displays the LST file buffer in other windows. "
+  (interactive "P")
+  (gams-jump-to-lst-sub pop t))
+
+(defun gams-jump-to-lst (&optional pop)
+  "Switch to the LST file buffer.
+If you attach the universal-argument, this command splits the window and displays the LST file buffer in other windows. "
+  (interactive "P")
+  (gams-jump-to-lst-sub pop nil))
 
 ;;; Comment insertion.
 (defun gams-insert-comment ()

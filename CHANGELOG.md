@@ -8,6 +8,14 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.11
+----------------------------------
+
+* Modified `gams-view-lst` and `gams-jump-to-lst`. If you attch the
+  universal-argument (C-u) to these commands, you can show the LST file
+  buffer next to the GAMS buffer.
+
+
 
 Version 6.10
 ----------------------------------
