@@ -11101,6 +11101,7 @@ TYPE: The type of the identifier"
          cfnum                          ; File number of the current file
          res
          exist-p                        ; non-nil if the declaration place exists.
+         decl-type                      ; Type of declaration (par, var, set, eq, mod etc.)
          
          po-def key win-conf)
 
@@ -11122,7 +11123,8 @@ TYPE: The type of the identifier"
     (setq res (gams-sid-return-def-position name idst))
 
     (if res
-        (setq exist-p t)
+        (progn (setq exist-p t)
+               (setq decl-type (nth 1 res)))
       (setq res (gams-sid-return-first-position name type flist fst)))
     
     (if (not res)
@@ -11145,7 +11147,7 @@ TYPE: The type of the identifier"
        flist                                    ; file list.
        cbuf                                     ; The original buffer
        beg                                      ; The original point
-       exist-p))                                  ; non-nil if the declaration place exists.
+       decl-type))                    		; non-nil if the declaration place exists.
 
     (when res
       (unwind-protect
@@ -11220,14 +11222,15 @@ TYPE: The type of the identifier"
                 ;; res is the list of (file_number type marker position)
                 (setq res (gams-sid-return-def-position name idst))
                 (if res
-                    (setq exist-p t)
+                    (progn (setq exist-p t)
+                           (setq decl-type (nth 1 res)))
                   (setq res (gams-sid-return-first-position name type flist fst)))
                 (when res
                   (if exist-p
                       (setq po-def (or (marker-position (nth 2 res)) (nth 3 res)))
                     (setq po-def (nth 3 res)))
                   (gams-sid-create-tree-buffer cfnum beg flist fst)
-                  (gams-sid-show-result-alt name po-def len (nth 0 res) flist cbuf beg exist-p)))
+                  (gams-sid-show-result-alt name po-def len (nth 0 res) flist cbuf beg decl-type)))
                ;; Do nothing.
                (t
                 (kill-buffer gams-sid-tree-buffer)
@@ -11340,14 +11343,27 @@ CPO: the original point of the original buffer."
     (sit-for 0)
     ))
 
-(defun gams-sid-show-result-alt (name po len fnum flist cbuf cpo defp)
+(defun gams-convert-decltype (decltype)
+  "Convert type of identifier."
+  (let (type)
+    (setq type
+          (cond
+           ((equal decltype 'par) "parameter")
+           ((equal decltype 'var) "variable")
+           ((equal decltype 'set) "set")
+           ((equal decltype 'equ) "equation")
+           ((equal decltype 'mod) "model")
+           ((equal decltype 'mps) "MPSGE var.")))
+    type))
+
+(defun gams-sid-show-result-alt (name po len fnum flist cbuf cpo decltype)
   "PO is the point of the matched identifier..
 LEN is the length of the identifier.
 FNUM is the file number where the matched identifier exists.
 FLIST is the gams-file-list.
 CBUF: the original buffer.
 CPO: the original point of the original buffer.
-DEFP: non-nil if the declaration place exists."
+DECLTYPE: Type of declaration if the declaration place exists."
   (let ((fname (cdr (assoc fnum flist))))
     (delete-other-windows)
     (switch-to-buffer gams-sid-tree-buffer)
@@ -11366,9 +11382,11 @@ DEFP: non-nil if the declaration place exists."
     (other-window 1)
     (switch-to-buffer cbuf)
     (goto-char cpo)
-    (if defp
+    (if decltype
         (message
-         (concat (format "The decl. place of `%s': " name)
+         (concat (format "`%s' is declared as %s: "
+                         name
+                         (gams-convert-decltype decltype))
                  gams-sid-mess-1))
       (message
        (concat (format "The first place of `%s': " name)
@@ -11624,7 +11642,7 @@ FST: file structure"
            (concat (format "`%s' :" name) gams-sid-mess-1))
           )
       (message
-       (concat (format "Already in the decl. (first) place of `%s' :" name) gams-sid-mess-1))
+       (concat (format "Already in the declaration (or first place) of `%s' :" name) gams-sid-mess-1))
       (other-window 1)
       (goto-char cpo))
     ))
@@ -11715,6 +11733,7 @@ DEF is t if declaration place exists."
         (cfnum (car (rassoc (buffer-file-name) flist)))
         (len (length name))
         (fnum (nth 0 res))
+        (decltype (nth 1 res))
         (po-def (or (marker-position (nth 2 res)) (nth 3 res))))
 
     (other-window 2)
@@ -11727,9 +11746,10 @@ DEF is t if declaration place exists."
 
       (gams-sid-show-result po-def len fnum flist cbuf cpo)
       (when (not nomess)
-        (message (concat
-                  (format "The decl. place of `%s': " name)
-                  gams-sid-mess-1))))
+        (when decltype
+          (message (concat
+                    (format "`%s' is declared as %s: " name (gams-convert-decltype decltype))
+                    gams-sid-mess-1)))))
     ))
 
 (defun gams-sid-show-result-first (name po fnum flist cbuf cpo)
