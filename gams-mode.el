@@ -2669,6 +2669,9 @@ If COM is non-nil, create alist from command name."
     (setq gams-dollar-control-alist
           (gams-statement-to-alist gams-dollar-control-up gams-dollar-control-upcase)))
 
+  ;; Replace `fill-paragraph' with `gams-fill-paragraph'.
+  (define-key gams-mode-map "\M-q" 'gams-fill-paragraph)
+
   ;; Update statements and dollar control options.
   (gams-statement-update)
   ;; Update options.
@@ -3433,6 +3436,30 @@ If you attach the universal-argument, this command splits the window and display
 If you attach the universal-argument, this command splits the window and displays the LST file buffer in other windows. "
   (interactive "P")
   (gams-jump-to-lst-sub pop nil))
+
+;;; Fill paragraph.
+(defun gams-fill-paragraph ()
+  "`fill-paragraph' function for GAMS mode."
+  (interactive)
+  (let ((org-po (point))
+        beg end mk)
+    (setq mk (point-marker))
+    (save-restriction
+      (beginning-of-line)
+      (when (not (looking-at "^$[ ]*\\(on\\|off\\)text"))
+        (goto-char org-po)
+        (when (gams-in-on-off-text-p)
+          (re-search-backward "^$[ ]*ontext" nil t)
+          (forward-line 1)
+          (setq beg (point))
+          (re-search-forward "^$[ ]*offtext" nil t)
+          (beginning-of-line)
+          (setq end (point))
+          (narrow-to-region beg end))
+        (goto-char org-po)
+        (fill-paragraph)))
+    (goto-char (marker-position mk))
+    (set-marker mk nil)))
 
 ;;; Comment insertion.
 (defun gams-insert-comment ()
