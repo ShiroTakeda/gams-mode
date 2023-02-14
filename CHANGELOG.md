@@ -18,6 +18,8 @@ Version 6.11
 * Added the new function `gams-fill-paragraph` and bind it to "M-q" in
   GAMS mode.
 
+* Slightly modified `gams-show-identifier`.
+  
 
 Version 6.10
 ----------------------------------
