@@ -1,6 +1,7 @@
 ;;  This is a setting sample file for gams-mode.el
 ;;
 ;;  First-written:	<2001/08/13>
+;;  Author: Shiro Takeda
 ;;
 ;;  This file is created for gams-mode.el version 6.10.
 ;;
@@ -15,7 +16,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; If you install GAMS mode from MELPA, load path and require settings are not
-;; necessary.
+;; necessary. If you install GAMS mode manually, you need to do load path and
+;; require settings.
 
 ;;;; Load path setting.
 ;;
@@ -23,17 +25,17 @@
 ;; Then you should add the following.
 ;;
 (add-to-list 'load-path "c:/home/gams")
-;; Please change the directory name according to your environment.
 
-;; Then, use (require 'gams-mode) to load GAMS mode. But it is better to put
-;; this command at the end of the configuration file.
+;; Then, add (require 'gams-mode) to load GAMS mode. However, it is preferable
+;; to write require at the very end of the file because some settings must be
+;; made before the file is loaded.
 ;;
 ;; (require 'gams-mode)
 
 ;;;; The place of GAMS program.
 ;;
 ;; If you do not include GAMS system directory in your PATH environmental
-;; variable, specify the place of gams program like
+;; variable, specify explicitly the place of gams program like
 ;;
 ;; (setq gams-process-command-name "c:/GAMS/37/gams.exe")
 
@@ -46,19 +48,20 @@
 ;; important behavior of GAMS mode.
 
 ;; By default, GAMS mode will automatically start only when you open a file with
-;; an extension `gms'. If you want to add files with another extensions (for
-;; example, `dat'), you need to set the following.
-;; NB: This setting must be placed before (require 'gams) command below.
+;; an extension `gms'. If you want to add files with other extensions (for
+;; example, `dat'), you need to set the following. NB: This setting must be
+;; placed before (require 'gams).
 ;;
 ;; (setq gams-file-extension '("gms" "dat"))
 
 ;;;; Log file.
 ;;
 ;; If non-nil, GAMS log (the content of process buffer) is written down to log
-;; file even without lo=2 option.
+;; file even without lo=2 option (or lo=4 option).
 ;; (setq gams-process-log-to-file t)
+;;
 ;; The extension of GAMS log file
-;; (setq gams-log-file-extension "glg")
+;; (setq gams-log-file-extension "log")
 
 ;;;; Template file name for GAMS-TEMPLATE.
 ;;
@@ -68,23 +71,28 @@
 ;;
 ;; (setq gams-template-file "~/.emacs.d/gams-template.txt")
 
-;;;; Command line options passed to gams.  The default value is
-;; (setq gams-process-command-option "ll=0 lo=3 pw=100 ps=9999")
+;;;; Command line options passed to gams.
 ;;
-;; Notice: If you are an Emacs user on MS windows, you should include lo=3 option!!!
+;; The default value is
+;; (setq gams-process-command-option "logOption=3 pageWidth=100")
+;;
+;; Notice: If you are an Emacs user on MS windows, you should include
+;; logOption=3 (lo=3) option!!!
 
 ;;;; GAMS system directory.
 ;;
 ;; The directory where gams.exe exists.  This is
 ;; necessary for `gams-model-library' and `gams-view-doccument' command.
+;;
 ;; (setq gams-system-directory "c:/GAMS/37")
 
 ;;;; Use upper case or lower case for GAMS statements and dollar control options?
 ;;
-;; (setq gams-statement-upcase t) ; Use upper case for GAMS statements
-;; (setq gams-dollar-control-upcase t) ; Use upper case for dollar operations.
+;; (setq gams-statement-upcase t)	 ; Use upper case for GAMS statements
+;; (setq gams-dollar-control-upcase t)   ; Use upper case for dollar operations.
 
 ;;;; Initial values of statement and dollar control.
+;;
 (setq gams-statement-name "parameter")
 (setq gams-dollar-control-name "exit")
 
@@ -123,10 +131,10 @@
 ;;
 ;; ("ITEM_NAME" . flag)
 ;;
-;; Non-nil (t) of the flag means the item is viewable by default.  The order of
-;; items in this alist has the meaning.  Items are listed in the SELECT-ITEM
-;; buffer according to this order.  So, if you want to show COM on the top in
-;; the SELECT-ITEM mode, you must write COM at the fisrt in this alist.
+;; Non-nil (t) of the flag means the item is viewable by default. The order of
+;; items in this alist has meaning.  Items are listed in the SELECT-ITEM buffer
+;; according to this order.  So, if you want to show COM on the top in the
+;; SELECT-ITEM mode, you must write COM at the first in this alist.
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -142,10 +150,10 @@
 *	%
 ")
 
-;;; Close parenthesis and quotation?
+;;; Close parenthesis and quotation automatically?
 ;;
-;; For example, if you want ) to be inserted automatically when you insert (,
-;; then set t to `gams-close-paren-always'.
+;; For example, if you want ")" to be inserted automatically when you insert
+;; "(", then set t to `gams-close-paren-always'.
 ;;
 ;; (setq gams-close-paren-always nil)			; Not insert ) automatically.
 ;; (setq gams-close-paren-always t)			; Insert ) automatically (default)
@@ -154,7 +162,7 @@
 
 ;; If you want to use smartparen-mode within GAMS mode, add the following code
 ;; in your init.el file
-  
+;;  
 ;; (setq gams-close-paren-always nil)
 ;; (setq gams-close-double-quotation-always nil)
 ;; (setq gams-close-single-quotation-always nil)
@@ -162,15 +170,18 @@
 
 
 ;;;; The default height of GAMS process buffer
+;;
 ;; (setq gams-default-pop-window-height 15) ; Default value is 10
 
 ;;;; Column number in GAMS mode.
+;;
 ;; (setq gams-fill-column 80)
 
 ;;;; Setting for viewing GAMS pdf documents.
 ;;
 ;; The GAMS document directory.
 ;; (setq gams-docs-directory (concat gams-system-directory "/docs"))
+;;
 ;; By default, it is set to `gams-system-directory' + docs."
 
 ;;;; Setting for GAMS-TEMPLATE mode.
@@ -184,7 +195,7 @@
 ;; (setq gams-indent-on nil) ; No automatic indent.
 ;; (setq gams-indent-on t) ; Use automatic indent (default)
 
-;;;; Column number for automatic indentation.  All default values are 4.
+;;;; Column number for automatic indentation. All default values are 4.
 ;;
 ;; Column number for normal lines.
 ;; (setq gams-indent-number 4)
@@ -202,14 +213,14 @@
 ;;;; Indent equation blocks or not?
 ;;
 ;; For equation definition block
-;; (setq gams-indent-equation-on t) ; Automatic indent (default)
+;; (setq gams-indent-equation-on t)   ; Automatic indent (default)
 ;; (setq gams-indent-equation-on nil) ; No automatic indent
 
 ;;;; Use tabs for indent.
 ;;
 ;; Use only spaces for indent or allow tabs?
 ;; (setq indent-tabs-mode nil) ; Not use tabs for indent 
-;; (setq indent-tabs-mode t) ; Use tabs (default) fot indent
+;; (setq indent-tabs-mode t)   ; Use tabs (default) fot indent
 ;;
 ;; To convert all tabs in region to multiple spaces, use M-x untabify.
 
@@ -227,24 +238,23 @@
 ;; nil => $ key is binded to inserting $ itself
 ;;
 ;; (setq gams-insert-dollar-control-on nil) ; No (default)
-;; (setq gams-insert-dollar-control-on t) ; Yes
+;; (setq gams-insert-dollar-control-on t)   ; Yes
 
 ;;;; Default inline and end-of-line comment symbols.
 ;;
 ;; (setq gams-inlinecom-symbol-start-default "/*") ; default
-;; (setq gams-inlinecom-symbol-end-default "*/") ; default
-;; (setq gams-eolcom-symbol-default "#") ; default
+;; (setq gams-inlinecom-symbol-end-default "*/")   ; default
+;; (setq gams-eolcom-symbol-default "#")           ; default
 
 ;;;; Popup the GAMS process buffer?
 ;;
 ;; When you run GAMS, the process buffer popups by default.
 ;;
-;; (setq gams-always-popup-process-buffer t) ; Popup (default)
+;; (setq gams-always-popup-process-buffer t)   ; Popup (default)
 ;; (setq gams-always-popup-process-buffer nil) ; Not popup.
 
-;;;; Search identifier definition in included files?
+;;;; Setting for GAMS-LXI mode.
 ;;
-;; Setting for GAMS-LXI mode.
 ;; (setq gams-lxi-command-name "~/.emacs.d/lisp/gams-mode/gamslxi.exe")
 ;; (setq gams-lxi-import-command-name "~/.emacs.d/lisp/gams-mode/gamslxi-import.exe")
 
@@ -272,7 +282,7 @@
 ;; 	     (define-key gams-ol-mode-map [down] 'gams-ol-view-next)
 ;; 	     (define-key gams-ol-mode-map [up] 'gams-ol-view-prev)
 ;; 	     ))
-
+;;
 ;; (add-hook
 ;;  'gams-sil-mode-hook
 ;;  '(lambda () (linum-mode -1)))

@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2022 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.10
+;; Version: 6.11
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.10"
+(defconst gams-mode-version "6.11"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -103,7 +103,7 @@
 ;;;     Variables for GAMS mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams-system-directory "c:/GAMS/win64/24.7/"
+(defcustom gams-system-directory "c:/GAMS/37/"
   "*The GAMS system directory (the directory where GAMS is installed).
 This must be assigned the proper value if you want to use
 `gams-view-document' and `gams-model-library'."
@@ -120,11 +120,14 @@ variable, you must set the full path to GAMS in this variable like
   :type 'file
   :group 'gams)
 
-(defcustom gams-process-command-option "ll=0 lo=3 pw=90 ps=9999"
+(defcustom gams-process-command-option "logOption=3 pageWidth=100"
   "*The command line options passed to GAMS.
 
-If you are NTEmacs user, lo=3 option is necessary to show the GAMS
-process."
+If you are Windows Emacs user, LogOption=3 (or lo=3) option is
+necessary to show the GAMS process log.
+
+For the details of GAMS command line options, see the following page:
+https://www.gams.com/39/docs/UG_GamsCall.html#UG_GamsCall_ListOfCommandLineParameters"
   :type 'string
   :group 'gams)
 
@@ -2677,11 +2680,13 @@ If COM is non-nil, create alist from command name."
 (defvar gams-ol-buffer-point nil)
 (defvar gams-lxi-buffer nil)
 (defvar gams-master-file nil)
+(defvar gams-mode-line-displayed-p nil)
 
 (setq-default gams-temp-window nil)
 (setq-default gams-ol-buffer-point nil)
 (setq-default gams-lxi-buffer nil)
 (setq-default gams-master-file nil)
+(setq-default gams-mode-line-displayed-p nil)
 
 (defun gams-set-master-filename ()
   "Set the value of `gams-master-file'."
@@ -2733,6 +2738,7 @@ The following commands are available in the GAMS mode:
      gams-master-file
      gams-st-solve-model-default
      gams-highlighted-keywords-in-comment-regexp
+     gams-mode-line-displayed-p
      ))
   ;; Variables.
   (setq fill-column gams-fill-column
@@ -3375,64 +3381,58 @@ if `gams-use-mpsge' is non-nil)."
   "Get the modified time of LST file."
   (format-time-string "%x %H:%M:%S" (nth 5 (file-attributes lst t))))
 
-(defun gams-view-lst ()
-  "Switch to the LST file buffer and show the error message."
-  (interactive)
-  (let ((file-lst (gams-get-lst-filename)))
-    (if file-lst
-        ;; If the LST file exists.
-        (progn
-          (if (find-buffer-visiting file-lst)
-              ;; If file-lst is already opened.
+(defun gams-jump-to-lst-sub (&optional pop err)
+  "This command switch the buffer to the LST file buffer (and shows the error message).
+If POP is non-nil, this command split the windows and displays the LST file buffer in the other windows.
+IF ERR is non-nil, it shows the place of errors."
+  (interactive "P")
+  (let ((cur-buff (current-buffer))
+        (file-lst (gams-get-lst-filename)))
+    ;; The LST file does exist or not.
+    (if (not file-lst)
+        ;; No. the LST file does not exits.
+        (message "There is no LST file corresponding to this GMS file!")
+      ;; Yes.  The LST file exists.
+      ;; It the LST file already opened?
+      (if (find-buffer-visiting file-lst)
+          ;; Yes: already opened
+          ;; The LST file is modified?
+          (if (verify-visited-file-modtime
+               (find-buffer-visiting file-lst))
+              ;; If not modified.
               (progn
-                (set-buffer (find-buffer-visiting file-lst))
-                (if (verify-visited-file-modtime (current-buffer))
-                    ;; If lst file is not changed
-                    (progn
-                      (switch-to-buffer (current-buffer))
-                      ;; View error.
-                      (gams-lst-view-error))
-                  ;; If lst file is chenged, kill-buffer.
-                  (set-buffer-modified-p nil)
-                  (kill-buffer (find-buffer-visiting file-lst))
-                  (find-file file-lst)
-                  (goto-char (point-min))
-                  (gams-lst-mode)
-                  (gams-lst-view-error)))
-            ;; if file-lst isn't opened.
+                (if pop
+                    (pop-to-buffer (find-buffer-visiting file-lst))
+                  (switch-to-buffer (find-buffer-visiting file-lst)))
+                (when err (gams-lst-view-error)))
+            ;; If modified.
+            (set-buffer-modified-p nil)
+            (kill-buffer (find-buffer-visiting file-lst))
             (find-file file-lst)
-            (goto-char (point-min))
             (gams-lst-mode)
-            (gams-lst-view-error)))
-      ;; If the LST file not exits.
-      (message "The LST file does not exist!") nil)))
+            (when pop
+              (switch-to-buffer cur-buff)
+              (pop-to-buffer (find-buffer-visiting file-lst)))
+            (when err (gams-lst-view-error)))
+        ;; Not: not yet opened
+        (find-file file-lst)
+        (gams-lst-mode)
+        (when pop
+          (switch-to-buffer cur-buff)
+          (pop-to-buffer (find-buffer-visiting file-lst)))
+        (when err (gams-lst-view-error))))))
 
-(defun gams-jump-to-lst ()
-  "Switch to the LST file buffer."
-  (interactive)
-  (let ((file-lst (gams-get-lst-filename)))
-    (if file-lst
-        ;; If lst file exists
-        (progn
-          ;; lst file is already opened?
-          (if (find-buffer-visiting file-lst)
-              ;; If file-lst is already opened.
-              ;; lst file is modified?
-              (if (verify-visited-file-modtime
-                   (find-buffer-visiting file-lst))
-                  ;; If not modified.
-                  (pop-to-buffer (find-buffer-visiting file-lst))
-                ;; If modified.
-                (set-buffer-modified-p nil)
-                (kill-buffer (find-buffer-visiting file-lst))
-                (find-file file-lst)
-                (gams-lst-mode))
-            ;; If file-lst isn't opened, open it.
-            (find-file file-lst)
-            (gams-lst-mode))
-          )
-      ;; LST file does not exits.
-      (message "The LST file does not exist!"))))
+(defun gams-view-lst (&optional pop)
+  "Switch to the LST file buffer and show the error message.
+If you attach the universal-argument, this command splits the window and displays the LST file buffer in other windows. "
+  (interactive "P")
+  (gams-jump-to-lst-sub pop t))
+
+(defun gams-jump-to-lst (&optional pop)
+  "Switch to the LST file buffer.
+If you attach the universal-argument, this command splits the window and displays the LST file buffer in other windows. "
+  (interactive "P")
+  (gams-jump-to-lst-sub pop nil))
 
 ;;; Comment insertion.
 (defun gams-insert-comment ()
@@ -3603,7 +3603,7 @@ Otherwise split window conventionally."
   :type 'boolean
   :group 'gams)
 
-(defcustom gams-log-file-extension "glg"
+(defcustom gams-log-file-extension "log"
   "The extension of GAMS log file."
   :type 'string
   :group 'gams)
@@ -11101,6 +11101,7 @@ TYPE: The type of the identifier"
          cfnum                          ; File number of the current file
          res
          exist-p                        ; non-nil if the declaration place exists.
+         decl-type                      ; Type of declaration (par, var, set, eq, mod etc.)
          
          po-def key win-conf)
 
@@ -11122,7 +11123,8 @@ TYPE: The type of the identifier"
     (setq res (gams-sid-return-def-position name idst))
 
     (if res
-        (setq exist-p t)
+        (progn (setq exist-p t)
+               (setq decl-type (nth 1 res)))
       (setq res (gams-sid-return-first-position name type flist fst)))
     
     (if (not res)
@@ -11145,7 +11147,7 @@ TYPE: The type of the identifier"
        flist                                    ; file list.
        cbuf                                     ; The original buffer
        beg                                      ; The original point
-       exist-p))                                  ; non-nil if the declaration place exists.
+       decl-type))                    		; non-nil if the declaration place exists.
 
     (when res
       (unwind-protect
@@ -11220,14 +11222,15 @@ TYPE: The type of the identifier"
                 ;; res is the list of (file_number type marker position)
                 (setq res (gams-sid-return-def-position name idst))
                 (if res
-                    (setq exist-p t)
+                    (progn (setq exist-p t)
+                           (setq decl-type (nth 1 res)))
                   (setq res (gams-sid-return-first-position name type flist fst)))
                 (when res
                   (if exist-p
                       (setq po-def (or (marker-position (nth 2 res)) (nth 3 res)))
                     (setq po-def (nth 3 res)))
                   (gams-sid-create-tree-buffer cfnum beg flist fst)
-                  (gams-sid-show-result-alt name po-def len (nth 0 res) flist cbuf beg exist-p)))
+                  (gams-sid-show-result-alt name po-def len (nth 0 res) flist cbuf beg decl-type)))
                ;; Do nothing.
                (t
                 (kill-buffer gams-sid-tree-buffer)
@@ -11340,14 +11343,27 @@ CPO: the original point of the original buffer."
     (sit-for 0)
     ))
 
-(defun gams-sid-show-result-alt (name po len fnum flist cbuf cpo defp)
+(defun gams-convert-decltype (decltype)
+  "Convert type of identifier."
+  (let (type)
+    (setq type
+          (cond
+           ((equal decltype 'par) "parameter")
+           ((equal decltype 'var) "variable")
+           ((equal decltype 'set) "set")
+           ((equal decltype 'equ) "equation")
+           ((equal decltype 'mod) "model")
+           ((equal decltype 'mps) "MPSGE var.")))
+    type))
+
+(defun gams-sid-show-result-alt (name po len fnum flist cbuf cpo decltype)
   "PO is the point of the matched identifier..
 LEN is the length of the identifier.
 FNUM is the file number where the matched identifier exists.
 FLIST is the gams-file-list.
 CBUF: the original buffer.
 CPO: the original point of the original buffer.
-DEFP: non-nil if the declaration place exists."
+DECLTYPE: Type of declaration if the declaration place exists."
   (let ((fname (cdr (assoc fnum flist))))
     (delete-other-windows)
     (switch-to-buffer gams-sid-tree-buffer)
@@ -11366,9 +11382,11 @@ DEFP: non-nil if the declaration place exists."
     (other-window 1)
     (switch-to-buffer cbuf)
     (goto-char cpo)
-    (if defp
+    (if decltype
         (message
-         (concat (format "The decl. place of `%s': " name)
+         (concat (format "`%s' is declared as %s: "
+                         name
+                         (gams-convert-decltype decltype))
                  gams-sid-mess-1))
       (message
        (concat (format "The first place of `%s': " name)
@@ -11624,7 +11642,7 @@ FST: file structure"
            (concat (format "`%s' :" name) gams-sid-mess-1))
           )
       (message
-       (concat (format "Already in the decl. (first) place of `%s' :" name) gams-sid-mess-1))
+       (concat (format "Already in the declaration (or first place) of `%s' :" name) gams-sid-mess-1))
       (other-window 1)
       (goto-char cpo))
     ))
@@ -11715,6 +11733,7 @@ DEF is t if declaration place exists."
         (cfnum (car (rassoc (buffer-file-name) flist)))
         (len (length name))
         (fnum (nth 0 res))
+        (decltype (nth 1 res))
         (po-def (or (marker-position (nth 2 res)) (nth 3 res))))
 
     (other-window 2)
@@ -11727,9 +11746,10 @@ DEF is t if declaration place exists."
 
       (gams-sid-show-result po-def len fnum flist cbuf cpo)
       (when (not nomess)
-        (message (concat
-                  (format "The decl. place of `%s': " name)
-                  gams-sid-mess-1))))
+        (when decltype
+          (message (concat
+                    (format "`%s' is declared as %s: " name (gams-convert-decltype decltype))
+                    gams-sid-mess-1)))))
     ))
 
 (defun gams-sid-show-result-first (name po fnum flist cbuf cpo)
@@ -17603,10 +17623,12 @@ I forgot what this function is..."
 
 (defun gams-add-mode-line ()
   "Add GAMS mode icon to mode line."
-  (setq mode-line-buffer-identification
-        (append (gams-mode-line-buffer-identification)
-                mode-line-buffer-identification)))
-
+  (when (not gams-mode-line-displayed-p)
+    (setq mode-line-buffer-identification
+          (append (gams-mode-line-buffer-identification)
+                  mode-line-buffer-identification))
+    (setq gams-mode-line-displayed-p t)))
+  
 (defconst gams-emacs-variables-list
       (list
        'emacs-version

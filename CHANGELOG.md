@@ -8,6 +8,15 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.11
+----------------------------------
+
+* Modified `gams-view-lst` and `gams-jump-to-lst`. If you attch the
+  universal-argument (C-u) to these commands, you can show the LST file
+  buffer next to the GAMS buffer.
+
+
+
 Version 6.10
 ----------------------------------
 
@@ -21,6 +30,15 @@ Version 6.10
         (setq gams-close-single-quotation-always nil)
         (add-hook 'gams-mode-hook #'smartparens-mode)
         
+* Changed the default value of `gams-process-command-option` to
+  "logOption=3 pageWidth=100".
+
+* Changed the default value of `gams-system-directory` to "c:/GAMS/37/".
+
+* Changed the default value of `gams-log-file-extension` to "log".
+
+* Updated `gams-setting-sample.el` file.
+
 
 Version 6.9
 ----------------------------------
