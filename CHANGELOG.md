@@ -15,7 +15,7 @@ Version 6.11
   universal-argument (C-u) to these commands, you can show the LST file
   buffer next to the GAMS buffer.
   
-* Added the new function `gams-fill-paragraph` and bind it to "M-q" in
+* Modified the function `gams-fill-paragraph` which is binded to "M-q" in
   GAMS mode.
 
 * Slightly modified `gams-show-identifier`.

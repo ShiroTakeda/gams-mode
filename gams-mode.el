@@ -3437,6 +3437,19 @@ If you attach the universal-argument, this command splits the window and display
   (interactive "P")
   (gams-jump-to-lst-sub pop nil))
 
+;;; Comment insertion.
+(defun gams-insert-comment ()
+  "Insert a comment template defined by `gams-user-comment'."
+  (interactive)
+  (let (point-b)
+    (save-excursion
+      (insert gams-user-comment)
+      (setq point-b (point)))
+    (when (re-search-forward "%" point-b t)
+      (replace-match ""))))
+
+;;;;; fill-paragraph.
+
 ;;; Fill paragraph.
 (defun gams-fill-paragraph ()
   "`fill-paragraph' function for GAMS mode."
@@ -3460,116 +3473,6 @@ If you attach the universal-argument, this command splits the window and display
         (fill-paragraph)))
     (goto-char (marker-position mk))
     (set-marker mk nil)))
-
-;;; Comment insertion.
-(defun gams-insert-comment ()
-  "Insert a comment template defined by `gams-user-comment'."
-  (interactive)
-  (let (point-b)
-    (save-excursion
-      (insert gams-user-comment)
-      (setq point-b (point)))
-    (when (re-search-forward "%" point-b t)
-      (replace-match ""))))
-
-;;;;; fill-paragraph.
-
-;;; Fill paragraph function.  This is from "lisp-mode.el"
-;;; (`lisp-fill-paragraph').  I changed ";" in the original function to
-;;; "\\(*\\)".  This function is likely not to work well in many cases.
-(defun gams-fill-paragraph (&optional justify)
-  "Like \\[fill-paragraph], but handle GAMS comment.
-If any of the current line is a comment, fill the comment or the
-paragraph of it that point is in, preserving the comment's indent
-and initial *.  JUSTIFY."
-  (interactive "P")
-  (let (
-        ;; Non-nil if the current line contains a comment.
-        has-comment
-        ;; Non-nil if the current line contains code and a comment.
-        has-code-and-comment
-        ;; If has-comment, the appropriate fill-prefix for the comment.
-        comment-fill-prefix
-        )
-    ;; Figure out what kind of comment we are looking at.
-    (setq paragraph-start gams-paragraph-start)
-    (message paragraph-start)
-    (save-excursion
-      (beginning-of-line)
-      (cond
-       ;; A line with nothing but a comment on it?
-       ((looking-at (concat "^\\([" gams-comment-prefix "]\\)[" gams-comment-prefix " \t]*"))
-        (setq has-comment t
-              comment-fill-prefix (gams-buffer-substring (match-beginning 0)
-                                                         (match-end 0))))
-       ;; A line with some code, followed by a comment?  Remember that the
-       ;; semi which starts the comment shouldn't be part of a string or
-       ;; character.
-       ))
-
-    (if (not has-comment)
-        ;; `paragraph-start' is set here (not in the buffer-local
-        ;; variable so that `forward-paragraph' et al work as
-        ;; expected) so that filling (doc) strings works sensibly.
-        ;; Adding the opening paren to avoid the following sexp being
-        ;; filled means that sexps generally aren't filled as normal
-        ;; text, which is probably sensible.  The `;' and `:' stop the
-        ;; filled para at following comment lines and keywords
-        ;; (typically in `defcustom').
-        (let ((paragraph-start (concat paragraph-start ""))
-              (temp-po (gams-in-on-off-text-p)))
-          (if temp-po
-              (save-restriction
-                (narrow-to-region (car temp-po) (car (cdr temp-po)))
-                (fill-paragraph justify))
-          (fill-paragraph justify)))
-      ;; Narrow to include only the comment, and then fill the region.
-      (save-excursion
-        (save-restriction
-          (beginning-of-line)
-          (narrow-to-region
-           ;; Find the first line we should include in the region to fill.
-           (save-excursion
-             (while (and (zerop (forward-line -1))
-                         (looking-at (concat "^\\([" gams-comment-prefix "]\\)"))))
-             ;; We may have gone too far.  Go forward again.
-             (or (looking-at (concat "^\\([" gams-comment-prefix "]\\)"))
-                 (forward-line 1))
-             (point))
-           ;; Find the beginning of the first line past the region to fill.
-           (save-excursion
-             (while (progn (forward-line 1)
-                           (looking-at (concat "^\\([" gams-comment-prefix "]\\)"))))
-             (point)))
-          ;; Lines with only * on them can be paragraph boundaries.
-          (let* ((paragraph-start
-                  (concat paragraph-start "\\|^\\([" gams-comment-prefix "]\\)$"))
-                 (paragraph-separate
-                  (concat paragraph-start "\\|^\\([" gams-comment-prefix "]\\)$"))
-                 (paragraph-ignore-fill-prefix nil)
-                 (fill-prefix comment-fill-prefix)
-                 (after-line (if has-code-and-comment
-                                 (save-excursion
-                                   (forward-line 1) (point))))
-                 (end (progn
-                        (forward-paragraph)
-                        (or (bolp) (newline 1))
-                        (point)))
-                 ;; If this comment starts on a line with code,
-                 ;; include that like in the filling.
-                 (beg (progn (backward-paragraph)
-                             (if (eq (point) after-line)
-                                 (forward-line -1))
-                             (point))))
-            (fill-region-as-paragraph beg end
-                                      justify nil
-                                      (save-excursion
-                                        (goto-char beg)
-                                        (if (looking-at fill-prefix)
-                                            nil
-                                          (re-search-forward comment-start-skip)
-                                          (point))))))))
-    t))
 
 ;;; Process handling.
 
@@ -5496,8 +5399,6 @@ Completion of internal file name."
  ;;insert dummy string to fontify(Emacs20)
 
 ;;-------------------- Final hook jobs --------------------
-(substitute-key-definition
- 'fill-paragraph 'gams-fill-paragraph gams-mode-map)
 
 ;;; The codes below are taken from hideshow.el.
 
