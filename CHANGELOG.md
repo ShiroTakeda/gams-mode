@@ -8,6 +8,14 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.12
+----------------------------------
+
+* Sligtly modified the behavior of `gams-fill-paragraph`.
+
+* Added a command for opening online help for the gams model library.
+
+
 Version 6.11
 ----------------------------------
 

@@ -264,6 +264,11 @@ percentage of it.  If nil, use default `pop-to-buffer'."
   :type 'url
   :group 'gams)
 
+(defcustom gams-model-library-url "https://www.gams.com/latest/docs/modlibs.html"
+  "*URL for the online GAMS model library."
+  :type 'url
+  :group 'gams)
+
 (defcustom gams-insert-dollar-control-on nil
   "*Non-nil means that $ key is binded to inserting dollar control options.
 If nil, $ key is binded to inserting dollar itself."
@@ -14268,6 +14273,7 @@ See also the variable `gams-gamslib-command'."
       (when (assoc 'fin dir-list) (setq mess (concat mess ", [f]inancial")))
       (when (assoc 'noa dir-list) (setq mess (concat mess ", [n]onlinear opt")))
       (when (assoc 'pso dir-list) (setq mess (concat mess ", [p]so")))
+      (setq mess (concat mess ", [o]nline help"))
 
       (message mess)
       (setq key (char-to-string (read-char)))
@@ -14289,40 +14295,42 @@ See also the variable `gams-gamslib-command'."
        ((equal key "p")
         (setq type 'pso) (setq lbuf "*psoptlib*"))
        )
-      (when (string-match "m\\|t\\|d\\|e\\|a\\|f\\|n\\|p" key)
-        ;;
-        (setq lib-cont
-              (symbol-value (cdr (assoc type gams-modlib-lib-variable-list))))
-        (cond
-         ((and lib-cont (get-buffer lbuf))
-          (switch-to-buffer lbuf))
-         ((and lib-cont (not (get-buffer lbuf)))
-          (switch-to-buffer (get-buffer-create lbuf))
-          (gams-modlib-display type)
-          (gams-modlib-mode)
-          (goto-char (point-min))
-          (forward-line 1))
-         (t
-          (setq dir (cdr (assoc type gams-modlib-directory-list)))
-          (if (not dir)
+      (if (equal key "o")
+          (funcall 'browse-url gams-model-library-url)
+        (when (string-match "m\\|t\\|d\\|e\\|a\\|f\\|n\\|p" key)
+          ;;
+          (setq lib-cont
+                (symbol-value (cdr (assoc type gams-modlib-lib-variable-list))))
+          (cond
+           ((and lib-cont (get-buffer lbuf))
+            (switch-to-buffer lbuf))
+           ((and lib-cont (not (get-buffer lbuf)))
+            (switch-to-buffer (get-buffer-create lbuf))
+            (gams-modlib-display type)
+            (gams-modlib-mode)
+            (goto-char (point-min))
+            (forward-line 1))
+           (t
+            (setq dir (cdr (assoc type gams-modlib-directory-list)))
+            (if (not dir)
+                ;;
+                (message (format "%s does not exist." dir))
               ;;
-              (message (format "%s does not exist." dir))
-            ;;
-            (setq sfile (concat dir "/" (cdr (assoc type gams-modlib-summary-file))))
-            (set-buffer (get-buffer-create tbuf))
-            (erase-buffer)
-            (when (file-exists-p (expand-file-name sfile))
-              (insert-file-contents sfile)
-              (gams-modlib-create-alist type))
-            (kill-buffer tbuf)
-            (switch-to-buffer (get-buffer-create lbuf)))
-          (gams-modlib-display type)
-          (gams-modlib-mode)
-          (goto-char (point-min))
-          (forward-line 1)))
-        ;;
-        (message gams-modlib-mess)
-        ))))
+              (setq sfile (concat dir "/" (cdr (assoc type gams-modlib-summary-file))))
+              (set-buffer (get-buffer-create tbuf))
+              (erase-buffer)
+              (when (file-exists-p (expand-file-name sfile))
+                (insert-file-contents sfile)
+                (gams-modlib-create-alist type))
+              (kill-buffer tbuf)
+              (switch-to-buffer (get-buffer-create lbuf)))
+            (gams-modlib-display type)
+            (gams-modlib-mode)
+            (goto-char (point-min))
+            (forward-line 1)))
+          ;;
+          (message gams-modlib-mess)
+          )))))
 
 (defun gams-modlib-display (type &optional list)
   (setq buffer-read-only nil)
