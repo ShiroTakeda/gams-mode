@@ -26,10 +26,10 @@ $offtext
 $ontext
 解説：
 
-  * gams.el version 6.7 用の説明．
+  * gams-mode.el version 6.12 用の説明．
 
-  * Emacs (or Meadow) の操作の基本的なことについては，Emacs のメニューのヘルプ→
-    Emacs tutorial を読んでください．
+  * Emacs の操作の基本的なことについては，Emacs のメニューのヘルプ→ Emacs
+    tutorial を読んでください．
 
   * 「バッファ」，「エコーエリア」，「ウィンドウ」等の Emacs の用語についても
     tutorialを参照してください．
@@ -86,7 +86,7 @@ $ontext
 「注」 GAMS がスタートしない，あるいは上手く実行されないときには，適切な設定がさ
 れていないはずです．次の点をチェックしてください．
 
-  + .init.el 内で shell (bash や cmdproxy) を適切に設定していますか？
+  + shell (cmdproxy や bash) を適切に設定していますか？
 
   + 変数 `gams-process-command-name' が適切に設定されていますか？ GAMS のシステ
     ムフォルダにパスを通していないのなら，変数 `gams-process-command-name' に
@@ -107,7 +107,8 @@ LSTファイルを開いたら，"No error message is found" というメッセ�
 $offtext
 *               この行のコメントをとってください．エラーの位置．
 $ontext
-実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，エコーエリアに次のようなメッセージが表示されます．
+実行したら，LSTファイルに移動してください (C-cC-v か F10)．すると，エコーエリア
+に次のようなメッセージが表示されます．
 
     Key: [u]=Jump to the error place, [i]=Jump to the main input file.
 
@@ -136,8 +137,8 @@ LSTファイル内で `y' をタイプすると，最初のエラーの位置に
 
 以上の手順，つまり
 
- o GAMSを実行 (`f9' or `C-cC-s').
- o LSTファイルに移動 (`f10' or `C-cC-v').
+ o GAMSを実行 (`F9' or `C-cC-s').
+ o LSTファイルに移動 (`F10' or `C-cC-v').
  o エラーの位置，内容を確認．
  o GMSファイルのエラー箇所にジャンプ (`u')
 
@@ -210,13 +211,13 @@ $ontext
 ここで `s' を押すと，次のようなメッセージがエコーエリアに表示されます．
 
 
-    Edit command if you want:  gams gams-sample.gms ll=0 lo=3 pw=100
+    Edit command if you want:  gams gams-sample-ja.gms logOption=3 pageWidth=100
 
 
 ここで自分の望む通りにコマンドラインを修正できます．例えば，
 
 
-    Edit command if you want:  gams gams-sample.gms ll=0 lo=3 pw=120
+    Edit command if you want:  gams gams-sample-ja.gms logOption=3 pageWidth=160
 
 
 と修正したとします．すると，この後以下のようなメッセージがでます．
@@ -228,7 +229,7 @@ $ontext
 ここで `y' と答えると，次のような行がこのファイルの第一行目に追加されます．
 
 
-    *#!gams gams gams-sample.gms ll=0 lo=3 pw=120
+    *#!gams gams-sample-ja.gms logOption=3 pageWidth=160
 
 
 次にGAMSを実行するときには，この行がそのままコマンドラインとしてシェルに渡されま
@@ -244,13 +245,13 @@ GMS ファイルの最初の行に *#! で始まる表現があった場合，GA
 例えば，一番最初の行に次のように書いてください．
 
 
-        *#!c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=./gams-sample-alt.lst
+        *#!c:/GAMS/42/gams.exe gams-sample.gms logOption=0 pageWidth=100 o=./gams-sample-alt.lst
 
 
 すると，C-cC-s で
 
 
-c:/GAMS/win64/24.6/gams.exe gams-sample.gms ll=0 lo=3 pw=100 o=.gams-sample-alt.lst
+c:/GAMS/42/gams.exe gams-sample.gms logOption=0 pageWidth=100 o=./gams-sample-alt.lst
 
 
 が，そのままコマンドラインとして実行されます．これはシェルスクリプトにおける
@@ -415,8 +416,8 @@ $ontext
 合には，"~/gams-statement.txt" を開いて消してください．
 
 dollar control だけではなく statement (C-cC-k) の入力についても，同じように登録
-できます．デフォールトの gams.el には全ての命令は登録されていません．よく利用す
-る命令については自分で登録するようにしてください．
+できます．デフォールトの gams-mode.el には全ての命令は登録されていません．よく利
+用する命令については自分で登録するようにしてください．
 
 $offtext
 
@@ -434,7 +435,7 @@ installed from MELPA.
 To use auto-complete in GAMS mode, add the following code to init.el.
 
         ;; Load gams-auto-complete.
-        (require 'gams-auto-complete)
+        (require 'gams-ac)
         ;; Initial setup for auto-complete in GAMS mode.
         (gams-ac-after-init-setup)
 
@@ -626,7 +627,7 @@ $ontext
 
 エコーエリアに次のような表示が現れます。
 
-The decl. place of `a': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
+'u' is declared as parameter: [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
 
 ここで n (or p) をタイプすると次に (一個前に) a が現れる位置にジャンプします。d
 をタイプすると宣言部分に移動します。また、c をタイプすると元々の位置に移動します。

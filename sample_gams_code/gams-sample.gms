@@ -32,7 +32,7 @@ $ontext
 
 Commentary:
 
-  * For gams-mode.el version 6.7.
+  * For gams-mode.el version 6.12.
 
   * Notations like "C-cC-v" follow the Emacs convention. For example,
 
@@ -652,7 +652,7 @@ If you type F7 on, for example, the identifier "u", u's declaration place will
 appear in the upper window and the position of the cursor will be displayed in
 the left window.  You will see the following message in the echo are:
 
-    The decl. place of `u': [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
+    'u' is declared as parameter: [?]help,[d]ecl,[n]ext,[p]rev,[e]copy,[r]escan,[ ]restore,[ENT]jump,[TAB]jump+keep
 
 If you type n(p), you can move to the next (previous) place where "u" appears.
 Type d, you can move to the declaration place.  Type c, you can move to the
