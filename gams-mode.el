@@ -14296,7 +14296,8 @@ See also the variable `gams-gamslib-command'."
         (setq type 'pso) (setq lbuf "*psoptlib*"))
        )
       (if (equal key "o")
-          (funcall 'browse-url gams-model-library-url)
+          (progn (funcall 'browse-url gams-model-library-url)
+                 (message "Open online GAMS model libraries."))
         (when (string-match "m\\|t\\|d\\|e\\|a\\|f\\|n\\|p" key)
           ;;
           (setq lib-cont
