@@ -15,6 +15,10 @@ Version 6.12
 
 * Added a command for opening online help for the gams model library.
 
+* Bind `C-c C-;` to `gams-comment-or-uncomment-region`, which is an alias
+  of `comment-or-uncomment-region` You can comment or uncomment a region
+  with `C-c C-;`.
+
 
 Version 6.11
 ----------------------------------

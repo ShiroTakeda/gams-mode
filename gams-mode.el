@@ -2521,7 +2521,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map [f11] 'gams-from-gms-to-outline)
       (define-key map [f8] 'gams-goto-matched-paren)
       (define-key map "\C-c\C-w" 'gams-open-included-file)
-      (define-key map [(control c) (control \;)] 'gams-comment-region)
+      (define-key map [(control c) (control \;)] 'gams-comment-or-uncomment-region)
       (define-key map "\C-c\C-n" 'gams-insert-statement-extended)
       (define-key map [?\C-c ?\C-.] 'gams-show-identifier)
       (define-key map [?\C-c ?\C-,] 'gams-show-identifier-rescan)
@@ -2587,7 +2587,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
     ("Comment"
      ["Insert end-of-line comment" gams-comment-dwim t]
      ["Insert inline comment" gams-comment-dwim-inline t]
-     ["Comment out region" gams-comment-region t]
+     ["Comment/uncomment region" gams-comment-or-uncomment-region t]
      ["Toggle hide/show comment blocks" gams-toggle-hide-show-comment-lines t]
      )
     "--"
@@ -2899,10 +2899,9 @@ results."
   "Trasform an ALIST to a LIST."
   (mapcar #'(lambda (x) (car x)) alist))
 
-;; `gams-comment-region' is aliased as `comment-region'.
-(if (fboundp 'comment-region)
-    (fset 'gams-comment-region 'comment-region)
-  (fset 'gams-buffer-substring 'buffer-substring))
+;; `gams-comment-or-uncomment-region' is aliased as `comment-or-uncomment-region'.
+(if (fboundp 'comment-or-uncomment-region)
+    (fset 'gams-comment-or-uncomment-region 'comment-or-uncomment-region))
 
 (defvar gams-statement-alist-temp nil)
 (defvar gams-dollar-alist-temp nil)
