@@ -2,7 +2,7 @@
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
-;; Copyright (C) 2001-2022 Shiro Takeda
+;; Copyright (C) 2001-2023 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
 ;; Version: 6.12
 ;; Package-Requires: ((emacs "24.3"))
