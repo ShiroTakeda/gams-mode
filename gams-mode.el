@@ -16161,7 +16161,7 @@ Exclude commented lines and dollar control lines."
           (forward-line 1))
         (skip-chars-forward " \t\n")
         (when (looking-at
-               (concat gams-statement-regexp-base-sub "[^-a-zA-Z0-9_:;]+"))
+               (concat gams-statement-regexp-base-sub "[^-a-zA-Z0-9_:;.]+"))
           ;; If the next line starts with a reserved word,
           ;; no indent is necessary.
           (setq flag cur-po))))
