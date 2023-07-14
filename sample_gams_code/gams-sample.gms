@@ -563,9 +563,9 @@ $stitle         Commenting out
 $ontext
 
 You can comment out the region with *.  Select a region and type C-cC-;, then
-you can comment out that region.  If you want to uncomment the commented-out
-region, attach the universal argument (i.e. C-uC-cC-;).  Try these commands by
-yourself.
+you can comment out that region.  If you can use C-cC-; to uncomment the
+commented-out region. C-cC-; is binded to `gams-comment-or-uncoment-region`
+command which is aliased for `commented-or-uncomment-region`.
 
 $offtext
 
