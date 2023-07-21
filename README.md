@@ -34,31 +34,27 @@ changes added to GAMS mode, see [CHANGELOG.md](CHANGELOG.md) file.
 
 ## Introduction of GAMS mode for Emacs.
 
-GAMS mode for Emacs offers the integrated and flexible environment for
-using GAMS in Emacs.
+GAMS mode for Emacs offers an integrated and flexible environment for using GAMS in Emacs.
 
-This section presents brief overview of what GAMS mode for Emacs is.
-Please read the section "Installation"' below for information about how to
-install GAMS mode.  If you are upgrading from the previous version of GAMS
-mode, the latest changes can be found in `CHANGELOG.md` file.
+This section presents a brief overview of what GAMS mode for Emacs is. Please read the section "Installation"' below for information about how to install GAMS mode. If you are upgrading from the previous version of GAMS mode, you can find the latest changes in [CHANGELOG.md](CHANGELOG.md) file.
 
-You can obtain the latest version of this program at the web site
-[GAMS mode for Emacs (https://github.com/ShiroTakeda/gams-mode/)](https://github.com/ShiroTakeda/gams-mode/).
+You can obtain the latest version of this program at the website [GAMS mode for Emacs (https://github.com/ShiroTakeda/gams-mode/)](https://github.com/ShiroTakeda/gams-mode/).
 
-When you use GAMS, you must do the following jobs:
+1. When you use GAMS, you must do the following jobs:
+2. Edit GAMS program file,
+3. Call GAMS to execute the program,
+4. Read the output file,
+5. Debug the program,
+6. Examine the numerical values in the output file,
 
-1. Edit GAMS program file,
-2. Call GAMS to execute the program,
-3. Read the output file,
-4. Debug the program,
-5. Examine the numerical values in the output file,
+and so on... 
 
-and so on...  GAMS mode for Emacs offers various kinds of features which
-raise your efficiency in all of these jobs.
+GAMS mode for Emacs offers various kinds of features which raise your
+efficiency in all these jobs.
 
 GAMS mode for Emacs offers the following five major modes (I skip the
-explanation of the Emacs terminology "major mode".  If you cannot
-understand the terminology, I recommend that you read the introductory
+explanation of the Emacs terminology "major mode." If you cannot
+understand the terminology, I recommend you to read the introductory
 document of Emacs first).
 
 | Mode                  | Explanation                                   |
@@ -87,7 +83,7 @@ This is the major mode for editing GAMS program file.
 
 I will explain each function in detail.
 
-By resistering GAMS statements and dollar control options beforehand, (1)
+By registering GAMS statements and dollar control options beforehand, (1)
 enables you to insert them into the program file easily.  You can insert
 the long statements and dollar control options (that you are likely to
 mistype) without typing them by yourself.
@@ -104,30 +100,29 @@ frequently use to the candidate for command inserting function of (1).
 file.
 
 Like GAMS Studio (or GAMSIDE), (4) provides the colorization of GAMS
-program files accoring to GAMS syntax.
+program files according to GAMS syntax.
 
 When editing GAMS program files, you may often use similar patterns
 frequently.  In that case, you may copy and paste the program repeatedly.
-But it is surely more convenient if you can register frequently used
+But it is undoubtedly more convenient if you can register frequently used
 patterns and select them.  Or, although the pattern is not frequently
 used, it may be hard to remember it.  Also in that case, it seems
 convenient if you can use registered patterns.  (5) offers you the feature
 for registering various patterns easily.  In addition to registering, you
-can modify, delete, rename, re-order existing templates easily.
+can modify, delete, rename and re-order existing templates easily.
 
-I think that many people agree with the opinion that the proper indent is
-important for writing programs that other people (or yourself) can read
-easily.  But it is quite tedious to insert spaces and TABs manually by
-yourself.  In GAMS mode, each line is automatically indented according to
-GAMS syntax (6).
+Many people agree with the opinion that the proper indent is important for
+writing programs that other people (or yourself) can read easily.  But it
+is quite tedious to insert spaces and TABs manually by yourself.  In GAMS
+mode, each line is automatically indented according to GAMS syntax (6).
 
-When we write a GAMS program, we define many (sometimes hundreads of)
+When we write a GAMS program, we define many (sometimes hundreds of)
 variables, equations, sets and parameters and it is difficult to remember
 which identifier represents what.  Feature (7) enables you to show the
 list of all identifiers defined in a program and you can see the structure
 of a program.
 
-In addition, you can call a PDF manual viewer from Emacs (8) to read GAMS
+In addition, you can call a manual viewer from Emacs (8) to read GAMS
 manuals and you can view GAMS model library in Emacs (9).
 
 
@@ -163,22 +158,21 @@ file with simple key operation.
 
 Function (4) colors the content of LST files.
 
-As pointed out above, LST file is often very large and it is often very
-diffcult to find the numerical values that you want to see.  And it is
-also diffcult to compare the numerical values in two different parts of
+As pointed out above, the LST file is often very large and it is often
+very difficult to find the numerical values you want to see. And it is
+also difficult to compare the numerical values in two different parts of
 the LST file.  Although you may be able to resolve these problems by
 defining parameters that display only relevant values, it is more
 convenient if you can examine the content of the LST file in a simple way.
 
 (5) provides the way for that.  With this feature, you can easily view the
-important elements (PARAMETER, VAR, EQU etc.) in LST files.
+important elements (PARAMETER, VAR, EQU, etc.) in LST files.
 
 You can see where the particular PARAMETER or VAR are and can see the
 content of them.  You can also compare the numerical values in a part of
 the file with that in another part.  You are able to know what this
-function is like by looking at the screenshots placed at [screenshots
+function is like by looking at the screenshots placed at [the screenshots
 page](https://www.flickr.com/search/?sort=date-taken-desc&safe_search=1&tags=gamsmode&user_id=144666886%40N07&view_all=1).
-
 
 These are the simple explanation of this program.  Of course, there are a
 lot of other functions!
@@ -211,21 +205,20 @@ First, I explain the files distributed in the package.
 | [`doc`](doc)                                       | Document folder which includes the reference card.                                                                          |
 | `lxi`                                              | This folder includes files used to explain GAMS-LXI mode.                                                                   |
  
-If you are well acquainted with Emacs, installation is very easy.  Here, I
-explain basic Emacs terminologies used below.  But if you are a novice
-user of Emacs, I recommend you to read the web site such as
-<http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html>.
-
+If you are well acquainted with Emacs, installation is straightforward.
+Here, I explain the basic Emacs terminologies used below.  But if you are
+a novice user of Emacs, I recommend you to read the website
+http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html.
 
 `"~/"`
 
 This is Unix terminology rather than Emacs'. This represents a user's HOME
-directory. A user's HOME directory means the directory (folder) where his
+directory. A user's HOME directory is the directory (folder) where his
 configuration files are placed. If you are MS Windows, the default HOME
 directory is set to "c:\Users\username\AppData\Roaming". If you want to
 know to which directory your home directory is set, evaluate (getenv
 "HOME") in the *scratch* buffer on Emacs.  You can set your HOME directory
-by the environemtal variable HOME.
+by the environmental variable HOME.
 
 
 `"~/.emacs.d/init.el"` or `"init.el"`
@@ -240,7 +233,7 @@ has created it for you).
 
 In Emacs terminology, non-nil means anything other than nil, and values
 such as 0, "a", or t all mean non-nil.  But we usually use symbol t as
-non-nil.  So, when I say "set non-nil to x", set t to x (i.e. (setq x t)).
+non-nil.  So, when I say "set non-nil to x", set t to x (i.e. `(setq x t)`).
 
 ------------------------------------------------------------
 
