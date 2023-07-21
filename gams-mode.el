@@ -1071,13 +1071,13 @@ grouping constructs."
 It is used for font-lock.")
 
 (defvar gams-statement-regexp-1
-  (concat "^[ \t]*" gams-statement-regexp-base "[^-a-zA-Z0-9_:*]+")
+  (concat "^[ \t]*" gams-statement-regexp-base "[^-a-zA-Z0-9_:.*]+")
   "Regular expression for GAMS statements.
 It is used for font-lock of level 1.")
       
 (defvar gams-statement-regexp-2
   (concat "\\(^\\|[\n]\\|[^-$a-zA-Z0-9_]+\\)"
-          gams-statement-regexp-base "[^-a-zA-Z0-9_:*]+")
+          gams-statement-regexp-base "[^-a-zA-Z0-9_:.*]+")
   "Regular expression for GAMS statements.
 It is used for font-lock of level 2.")
 
@@ -1402,7 +1402,7 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
    "\\(parameter\\|singleton[ ]+set\\|set\\|scalar\\|table"
    "\\|\\(free\\|positive\\|negative\\|nonnegative"
    "\\|binary\\|integer\\)*[ ]*variable\\|equation\\|model\\|file"
-   "\\)[s]?"
+   "\\)[s]?[^.]"
    ))
 
 ;; gams-lst

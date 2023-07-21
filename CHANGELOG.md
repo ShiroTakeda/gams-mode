@@ -18,6 +18,8 @@ Version 6.12
 * Bind `C-c C-;` to `gams-comment-or-uncomment-region`, which is an alias
   of `comment-or-uncomment-region` You can comment or uncomment a region
   with `C-c C-;`.
+  
+* Fixed the bug in systax highligting and automatic indentation.
 
 
 Version 6.11
