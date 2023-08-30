@@ -2724,6 +2724,9 @@ The following commands are available in the GAMS mode:
      comment-start
      comment-start-skip
      comment-column
+     company-backends
+     completion-at-point-functions
+     completion-ignore-case
      font-lock-mark-block-function
      gams-comment-prefix
      gams-eolcom-symbol
@@ -2755,7 +2758,10 @@ The following commands are available in the GAMS mode:
         comment-indent-function 'comment-indent-default
         comment-column gams-comment-column
         comment-end ""
-        comment-start-skip (concat "^[" gams-comment-prefix "]+[ \t]*"))
+        comment-start-skip (concat "^[" gams-comment-prefix "]+[ \t]*")
+	company-backends '((company-files company-capf company-dabbrev-code :separate))
+	completion-at-point-functions '(gams-completion-at-point)
+	completion-ignore-case t)
   ;; Various setting.
   (gams-init-setting)
   (gams-set-lst-filename)
@@ -16049,6 +16055,28 @@ if narrow is non-nil, narrow the window."
                  (>= (window-width (next-window)) 8))
         (setq gams-lxi-width (+ gams-lxi-width 1))))
     (gams-lxi-show-item)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;     code for completion at point
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun gams-import-words-from-file (file)
+  "Import words from a text file and remove the double quotes."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (let ((content (buffer-string)))
+      (split-string (replace-regexp-in-string "\"" "" content) "\n" t))))
+
+(defvar gams-commands (gams-import-words-from-file "gams_commands.txt")
+  "List of GAMS commands for completion.")
+
+(defun gams-completion-at-point ()
+  "Provide completion for GAMS commands."
+  (let ((bounds (bounds-of-thing-at-point 'symbol)))
+    (when bounds
+      (list (car bounds) (cdr bounds) gams-commands))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
