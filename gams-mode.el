@@ -16069,7 +16069,9 @@ if narrow is non-nil, narrow the window."
     (let ((content (buffer-string)))
       (split-string (replace-regexp-in-string "\"" "" content) "\n" t))))
 
-(defvar gams-commands (gams-import-words-from-file "gams_commands.txt")
+(defvar gams-commands
+  (gams-import-words-from-file
+   (expand-file-name "gams_commands.txt" (file-name-directory load-file-name)))
   "List of GAMS commands for completion.")
 
 (defun gams-completion-at-point ()
