@@ -2759,7 +2759,7 @@ The following commands are available in the GAMS mode:
         comment-column gams-comment-column
         comment-end ""
         comment-start-skip (concat "^[" gams-comment-prefix "]+[ \t]*")
-	company-backends '((company-files company-capf company-dabbrev-code :separate))
+	company-backends '((company-files company-capf company-dabbrev-code company-yasnippet :separate))
 	completion-at-point-functions '(gams-completion-at-point)
 	completion-ignore-case t)
   ;; Various setting.
