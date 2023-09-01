@@ -1,0 +1,8 @@
+"embeddedCode"
+"embeddedCodeS"
+"embeddedCodeV"
+"continueEmbeddedCode"
+"continueEmbeddedCodeS"
+"continueEmbeddedCodeV"
+"pauseEmbeddedCode"
+"endEmbeddedCode"
