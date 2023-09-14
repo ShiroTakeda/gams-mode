@@ -138,6 +138,20 @@ in the file specified by this variable."
   :type 'file
   :group 'gams)
 
+(defcustom gams-completion-case 'CamelCase
+  "Controls the auto-completion casing.
+
+A symbol which can be
+
+- Camelcase
+- lowercase
+- UPPERCASE
+
+The default casing follows GAMS Studio and is \\='CamelCase.
+"
+  :type '(choice (const CamelCase) (const lowercase) (const UPPERCASE))
+  :group 'gams)
+
 (defcustom gams-statement-upcase nil
   "*Non-nil means that statement is inserted in upper case.
 If you want to use lower case, set nil to this variable."
@@ -2724,6 +2738,9 @@ The following commands are available in the GAMS mode:
      comment-start
      comment-start-skip
      comment-column
+     company-backends
+     completion-at-point-functions
+     completion-ignore-case
      font-lock-mark-block-function
      gams-comment-prefix
      gams-eolcom-symbol
@@ -2755,7 +2772,10 @@ The following commands are available in the GAMS mode:
         comment-indent-function 'comment-indent-default
         comment-column gams-comment-column
         comment-end ""
-        comment-start-skip (concat "^[" gams-comment-prefix "]+[ \t]*"))
+        comment-start-skip (concat "^[" gams-comment-prefix "]+[ \t]*")
+	company-backends '((company-files company-yasnippet company-dabbrev-code company-capf :separate))
+	completion-at-point-functions '(gams-completion-at-point)
+	completion-ignore-case t)
   ;; Various setting.
   (gams-init-setting)
   (gams-set-lst-filename)
@@ -16052,6 +16072,41 @@ if narrow is non-nil, narrow the window."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
+;;;     code for completion at point
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun gams-import-words-from-file (file)
+  "Import words from a text file and remove the double quotes."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (let ((content (buffer-string)))
+      (split-string (replace-regexp-in-string "\"" "" content) "\n" t))))
+
+(defvar gams-commands
+  (gams-import-words-from-file
+   (expand-file-name "gams_commands.txt" (file-name-directory load-file-name)))
+  "List of GAMS commands for completion.")
+
+(defvar gams-commands-down
+  (mapcar 'downcase gams-commands)
+  "List of downcase GAMS commands for completion.")
+
+(defvar gams-commands-up
+  (mapcar 'upcase gams-commands)
+  "List of uppercase GAMS commands for completion.")
+
+(defun gams-completion-at-point ()
+  "Provide completion for GAMS commands."
+  (let ((bounds (bounds-of-thing-at-point 'symbol)))
+    (when bounds
+      (list (car bounds) (cdr bounds)
+	    (cond ((eq gams-completion-case 'lowercase) gams-commands-down)
+		  ((eq gams-completion-case 'UPPERCASE) gams-commands-up)
+		  (t gams-commands))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
 ;;;     code for indent.
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -17696,6 +17751,7 @@ I forgot what this function is..."
    'gams-close-paren-always
    'gams-close-single-quotation-always
    'gams-comment-column
+   'gams-completion-case
    'gams-cycle-level-faces
    'gams-default-pop-window-height
    'gams-display-small-logo
