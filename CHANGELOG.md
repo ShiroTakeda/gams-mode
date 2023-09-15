@@ -8,6 +8,14 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.13
+----------------------------------
+
+* Added support for company-mode. For this, I added `gams-commands.txt`
+  file which includes the list of GAMS commands.
+
+
+
 Version 6.12
 ----------------------------------
 

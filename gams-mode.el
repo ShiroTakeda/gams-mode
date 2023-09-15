@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2023 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.12
+;; Version: 6.13
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.12"
+(defconst gams-mode-version "6.13"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -16078,14 +16078,21 @@ if narrow is non-nil, narrow the window."
 
 (defun gams-import-words-from-file (file)
   "Import words from a text file and remove the double quotes."
-  (with-temp-buffer
-    (insert-file-contents file)
-    (let ((content (buffer-string)))
-      (split-string (replace-regexp-in-string "\"" "" content) "\n" t))))
+  (if (file-exists-p file)
+      (with-temp-buffer
+	(insert-file-contents file)
+	(let ((content (buffer-string)))
+	  (split-string (replace-regexp-in-string "\"" "" content) "\n" t)))
+    (progn (message "gams_commands.txt file cannot be found.")
+	   (sit-for 1)
+	   nil)))
 
 (defvar gams-commands
-  (gams-import-words-from-file
-   (expand-file-name "gams_commands.txt" (file-name-directory load-file-name)))
+  (or (gams-import-words-from-file
+       (expand-file-name
+	"gams_commands.txt"
+	(file-name-directory (or load-file-name default-directory))))   
+      nil)
   "List of GAMS commands for completion.")
 
 (defvar gams-commands-down
@@ -17752,6 +17759,7 @@ I forgot what this function is..."
    'gams-close-single-quotation-always
    'gams-comment-column
    'gams-completion-case
+   'gams-commands
    'gams-cycle-level-faces
    'gams-default-pop-window-height
    'gams-display-small-logo
