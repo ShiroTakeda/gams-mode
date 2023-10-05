@@ -16083,14 +16083,14 @@ if narrow is non-nil, narrow the window."
 	(insert-file-contents file)
 	(let ((content (buffer-string)))
 	  (split-string (replace-regexp-in-string "\"" "" content) "\n" t)))
-    (progn (message "gams_commands.txt file cannot be found.")
+    (progn (message "gams-commands.txt file cannot be found.")
 	   (sit-for 1)
 	   nil)))
 
 (defvar gams-commands
   (or (gams-import-words-from-file
        (expand-file-name
-	"gams_commands.txt"
+	"gams-commands.txt"
 	(file-name-directory (or load-file-name default-directory))))   
       nil)
   "List of GAMS commands for completion.")
