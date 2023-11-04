@@ -955,6 +955,56 @@ grouping constructs."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
+;;;     code for completion at point
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun gams-import-words-from-file (file)
+  "Import words from a text file and remove the double quotes."
+  (if (file-exists-p file)
+      (with-temp-buffer
+	(insert-file-contents file)
+	(let ((content (buffer-string)))
+	  (split-string (replace-regexp-in-string "\"" "" content) "\n" t)))
+    (progn (message (concat file " file cannot be found."))
+	   (sit-for 1)
+	   nil)))
+
+(defvar gams-commands
+  (or (gams-import-words-from-file
+       (expand-file-name
+	"gams-commands.txt"
+	(file-name-directory (or load-file-name default-directory))))   
+      nil)
+  "List of GAMS commands for completion.")
+
+(defvar gams-commands-dollar
+    (or (gams-import-words-from-file
+       (expand-file-name
+	"gams-commands-dollar.txt"
+	(file-name-directory (or load-file-name default-directory))))   
+      nil)
+  "List of GAMS dollar commands.")
+
+(defvar gams-commands-down
+  (mapcar 'downcase gams-commands)
+  "List of downcase GAMS commands for completion.")
+
+(defvar gams-commands-up
+  (mapcar 'upcase gams-commands)
+  "List of uppercase GAMS commands for completion.")
+
+(defun gams-completion-at-point ()
+  "Provide completion for GAMS commands."
+  (let ((bounds (bounds-of-thing-at-point 'symbol)))
+    (when bounds
+      (list (car bounds) (cdr bounds)
+	    (cond ((eq gams-completion-case 'lowercase) gams-commands-down)
+		  ((eq gams-completion-case 'UPPERCASE) gams-commands-up)
+		  (t gams-commands))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
 ;;;     Code for font-lock.
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1023,24 +1073,12 @@ grouping constructs."
 
 (defvar gams-dollar-regexp
   (gams-regexp-opt
-   (list
-    "abort" "batinclude" "call" "clear" "clearerrors" "comment" "dollar" "double" "echo" "echon"
-    "eject" "eolcom" "error" "escape" "eval" "exit" "expose" "gdxin" "gdxout" "goto" "hidden" "hide"
-    "if" "ifi" "include" "inlinecom" "kill" "label" "libinclude" "lines" "load" "loaddc" "log" "macro" "maxcol"
-    "mincol" "ondelim" "offdelim" "ondigit" "offdigit" "ondollar" "offdollar" "onecho" "offecho"
-    "onempty" "onexpand" "offempty" "onend" "offend" "oneolcom" "offeolcom" "oneps" "ondotl" "offdotl" "offeps" "onglobal"
-    "offglobal" "oninclude" "offinclude" "oninline" "offinline" "onlisting" "offlisting" "onmargin"
-    "offmargin" "onmulti" "offmulti" "onnestcom" "offnestcom" "onput" "onputs" "onputv" "offput"
-    "onsymlist" "offsymlist" "onsymxref" "offsymxref" "ontext" "offtext" "onuellist" "offuellist"
-    "onuelxref" "offuelxref" "onundf" "offundf" "onupper" "offupper" "onwarning" "offwarning"
-    "phantom" "prefixpath" "protect" "purge" "remark" "set" "setargs" "setcomps" "setddlist"
-    "setglobal" "setenv" "setlocal" "setnames" "shift" "show" "single" "stars" "stop" "stitle"
-    "sysinclude" "terminate" "title" "unload" "use205" "use225" "use999"
-    ) t))
+   gams-commands-dollar t)
+  "Regular expression for dollar control")
 
 (defvar gams-mpsge-regexp
   (gams-regexp-opt
-    gams-statement-mpsge t)
+   gams-statement-mpsge t)
   "Regular expression for mpsge dollar control.")
 
 (defvar gams-statement-regexp-base-sub
@@ -16069,48 +16107,6 @@ if narrow is non-nil, narrow the window."
                  (>= (window-width (next-window)) 8))
         (setq gams-lxi-width (+ gams-lxi-width 1))))
     (gams-lxi-show-item)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;     code for completion at point
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun gams-import-words-from-file (file)
-  "Import words from a text file and remove the double quotes."
-  (if (file-exists-p file)
-      (with-temp-buffer
-	(insert-file-contents file)
-	(let ((content (buffer-string)))
-	  (split-string (replace-regexp-in-string "\"" "" content) "\n" t)))
-    (progn (message "gams-commands.txt file cannot be found.")
-	   (sit-for 1)
-	   nil)))
-
-(defvar gams-commands
-  (or (gams-import-words-from-file
-       (expand-file-name
-	"gams-commands.txt"
-	(file-name-directory (or load-file-name default-directory))))   
-      nil)
-  "List of GAMS commands for completion.")
-
-(defvar gams-commands-down
-  (mapcar 'downcase gams-commands)
-  "List of downcase GAMS commands for completion.")
-
-(defvar gams-commands-up
-  (mapcar 'upcase gams-commands)
-  "List of uppercase GAMS commands for completion.")
-
-(defun gams-completion-at-point ()
-  "Provide completion for GAMS commands."
-  (let ((bounds (bounds-of-thing-at-point 'symbol)))
-    (when bounds
-      (list (car bounds) (cdr bounds)
-	    (cond ((eq gams-completion-case 'lowercase) gams-commands-down)
-		  ((eq gams-completion-case 'UPPERCASE) gams-commands-up)
-		  (t gams-commands))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
