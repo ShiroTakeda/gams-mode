@@ -11,8 +11,10 @@ Change logs of GAMS mode.
 Version 6.13
 ----------------------------------
 
-* Added support for company-mode. For this, I added `gams-commands.txt`
-  file which includes the list of GAMS commands.
+* Added support for auto-completion through emacs standard
+  completion-at-point-function, plus a selection of appropriate backends
+  for company-mode. For this, I added `gams-commands.txt` file which
+  includes the list of GAMS commands.
 
 
 
