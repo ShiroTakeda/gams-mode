@@ -44,6 +44,8 @@ do
   get_gams_commands ${tempfile} > ${tempfile/temp_/commands_}
 done
 
+cp commands_dollar.txt ../gams-commands-dollar.txt
+
 # Add dollar sign for dollar control options
 sed -i 's/"\([^"]*\)"/"$\1"/g' commands_dollar.txt 
 
