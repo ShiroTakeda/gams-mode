@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2023 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.13
+;; Version: 6.14
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.13"
+(defconst gams-mode-version "6.14"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -618,11 +618,10 @@ Used for candidate of dollar control inserting.  Use upper case to
 register dollar control options in this variable.")
 
 (defvar gams-statement-mpsge
-  '("MODEL:" "COMMODITIES:" "CONSUMERS:" "CONSUMER:" "SECTORS:" "SECTOR:" "PROD:"
-    "DEMAND:" "REPORT:" "CONSTRAINT:" "AUXILIARY:" "AUXILIARIES:")
+  '("auxiliaries:" "auxiliary:" "commodities:" "commodity:" "constraint:"
+    "consumer:" "consumers:" "demand:" "model:" "prod:" "report:" "sectors:")
   "The default list of MPSGE statements.
-Used for candidate of MPSGE dollar control inserting.  Use upper case to
-register mpsge statements in this variable.")
+Used for candidate of MPSGE dollar control inserting.")
 
 (defvar gams-run-key ?s
   "*Key to run GAMS in the process menu.")
@@ -955,6 +954,77 @@ grouping constructs."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
+;;;     code for completion at point
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun gams-import-words-from-file (file)
+  "Import words from a text file and remove the double quotes."
+  (if (file-exists-p file)
+      (with-temp-buffer
+	(insert-file-contents file)
+	(let ((content (buffer-string)))
+	  (split-string (replace-regexp-in-string "\"" "" content) "\n" t)))
+    (progn (message (concat file " file cannot be found."))
+	   (sit-for 1)
+	   nil)))
+
+(defvar gams-commands
+  (or (gams-import-words-from-file
+       (expand-file-name
+	"gams-commands.txt"
+	(file-name-directory (or load-file-name default-directory))))   
+      nil)
+  "List of GAMS commands for completion.")
+
+(defvar gams-commands-dollar
+    (or (gams-import-words-from-file
+       (expand-file-name
+	"gams-commands-dollar.txt"
+	(file-name-directory (or load-file-name default-directory))))   
+      nil)
+  "List of GAMS dollar commands.")
+
+(defun gams-attach-dollar-to-string (string)
+  "Attach dollar to the beginning of the STRING."
+  (concat "$" string))
+
+(defvar gams-commands-mpsge
+  (mapcar 'gams-attach-dollar-to-string gams-statement-mpsge)
+  "List of GAMS MPSGE commands.")
+
+(defvar gams-commands-all
+  (append
+   gams-commands
+   gams-commands-dollar
+   gams-commands-mpsge)
+  "List of all GAMS commands including dollar control.")
+
+(defvar gams-commands-all-down
+  (append
+   (mapcar 'downcase gams-commands)
+   (mapcar 'downcase gams-commands-dollar)
+   (mapcar 'downcase gams-commands-mpsge))
+  "List of downcase GAMS commands inc. dollar control options for completion.")
+
+(defvar gams-commands-all-up
+  (append
+   (mapcar 'upcase gams-commands)
+   (mapcar 'upcase gams-commands-dollar)
+   (mapcar 'upcase gams-commands-mpsge))
+  "List of uppercase GAMS commands inc. dollar control options for completion.")
+
+(defun gams-completion-at-point ()
+  "Provide completion for GAMS commands."
+  (let ((bounds (bounds-of-thing-at-point 'symbol)))
+    (when bounds
+      (list (car bounds) (cdr bounds)
+	    (cond ((eq gams-completion-case 'lowercase) gams-commands-all-down)
+		  ((eq gams-completion-case 'UPPERCASE) gams-commands-all-up)
+		  (t gams-commands-all))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
 ;;;     Code for font-lock.
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1021,27 +1091,17 @@ grouping constructs."
   '(gams-level-face-1 gams-level-face-2 gams-level-face-3 gams-level-face-4
     gams-level-face-5 gams-level-face-6 gams-level-face-7 gams-level-face-8))
 
+(defun gams-remove-dollar-from-string (string)
+  "Remove dollar from the beginning of the STRING.
+If STRING contains only spaces, return null string."
+  (let ((num (string-match "[^$]" string)))
+    (if num (substring string num) "")))
+
 (defvar gams-dollar-regexp
   (gams-regexp-opt
-   (list
-    "abort" "batinclude" "call" "clear" "clearerrors" "comment" "dollar" "double" "echo" "echon"
-    "eject" "eolcom" "error" "escape" "eval" "exit" "expose" "gdxin" "gdxout" "goto" "hidden" "hide"
-    "if" "ifi" "include" "inlinecom" "kill" "label" "libinclude" "lines" "load" "loaddc" "log" "macro" "maxcol"
-    "mincol" "ondelim" "offdelim" "ondigit" "offdigit" "ondollar" "offdollar" "onecho" "offecho"
-    "onempty" "onexpand" "offempty" "onend" "offend" "oneolcom" "offeolcom" "oneps" "ondotl" "offdotl" "offeps" "onglobal"
-    "offglobal" "oninclude" "offinclude" "oninline" "offinline" "onlisting" "offlisting" "onmargin"
-    "offmargin" "onmulti" "offmulti" "onnestcom" "offnestcom" "onput" "onputs" "onputv" "offput"
-    "onsymlist" "offsymlist" "onsymxref" "offsymxref" "ontext" "offtext" "onuellist" "offuellist"
-    "onuelxref" "offuelxref" "onundf" "offundf" "onupper" "offupper" "onwarning" "offwarning"
-    "phantom" "prefixpath" "protect" "purge" "remark" "set" "setargs" "setcomps" "setddlist"
-    "setglobal" "setenv" "setlocal" "setnames" "shift" "show" "single" "stars" "stop" "stitle"
-    "sysinclude" "terminate" "title" "unload" "use205" "use225" "use999"
-    ) t))
-
-(defvar gams-mpsge-regexp
-  (gams-regexp-opt
-    gams-statement-mpsge t)
-  "Regular expression for mpsge dollar control.")
+   (mapcar 'gams-remove-dollar-from-string gams-commands-dollar)
+   t)
+  "Regular expression for dollar control")
 
 (defvar gams-statement-regexp-base-sub
   (gams-regexp-opt
@@ -1059,28 +1119,8 @@ grouping constructs."
     ) t)
   "Regular expression for reserved words.")
 
-(defvar gams-statement-list-base
-  (list "abort" "acronym" "acronyms" "alias" "all" "and" "assign" "binary"
-        "card" "diag" "display" "eps" "eq" "equation" "equations" "execute"
-        "execute_load" "execute_unload" "ge" "gt"
-        "inf" "integer" "le" "loop" "lt" "maximising" "maximizing"
-        "minimising" "minimizing" "model"
-        "models" "na" "ne" "negative" "nonnegative" "not" "option" "options" "or" "ord"
-        "parameter" "parameters" "positive" "prod" "sameas" "scalar" "scalars"
-        "set" "sets" "smax" "smin" "sos1" "sos2" "sum" "system" "singleton" "table"
-        "using" "variable" "variables" "xor" "yes" "repeat" "until" "while"
-        "if" "then" "else" "elseif" "semicont" "semiint" "file" "files" "put"
-        "putpage" "puttl" "free" "no" "solve" "for" "abort" "abs" "arctan"
-        "ceil" "cos" "errorf" "exp" "floor" "log" "log10" "mapval" "max" "min"
-        "mod" "normal" "power" "round" "sign" "sin" "sqr" "sqrt" "trunc"
-        "uniform" "putclose"
-        "positive variable" "binary variable" "positive variables" "binary variables"
-        "nonnegative variable" "nonnegative variables"
-        "singleton set" "singleton sets"
-        ))
-
 (defvar gams-statement-regexp-base
-  (gams-regexp-opt gams-statement-list-base t)
+  (gams-regexp-opt gams-commands t)
   "Regular expression for statements.
 It is used for font-lock.")
 
@@ -2158,11 +2198,6 @@ LIMIT specifies the search limit."
          (0 gams-mpsge-face t t))
         ;; the ontext - offtext pair.
         (gams-store-point-ontext (0 gams-comment-face t t))
-        ;; MPSGE dollar control options.
-        ("\\$\\(AUXILIARY\\|AUXILIARIES\\|CO\\(MMODITIES\\|NS\\(TRAINT\\|UMERS?\\)\\)\\|DEMAND\\|E\\(CHOP\\|ULCHK\\)\\|FUNLOG\\|MODEL\\|P\\(EPS\\|ROD\\)\\|REPORT\\|SECTORS?\\|WALCHK\\):"
-         (0 gams-mpsge-face t t))
-        ;; the ontext - offtext pair.
-        (gams-store-point-ontext (0 gams-comment-face t t))
         )
       "Font lock keyboards for GAMS mode.  Level 1.")
 
@@ -2269,7 +2304,7 @@ LIMIT specifies the search limit."
   "Regular expression for loop type statements.")
 
 (defvar gams-regexp-mpsge
-  (concat (gams-regexp-opt gams-statement-mpsge t))
+  (gams-regexp-opt gams-statement-mpsge t)
   "Regular expression for mpsge type statements.")
 
 (defvar gams-regexp-equation
@@ -4913,7 +4948,7 @@ BUFF is buffer name."
          ((and (equal ?$ (char-before))
                (or (looking-at
                     (concat gams-dollar-regexp "[^a-zA-Z0-9*]+"))
-                   (looking-at gams-mpsge-regexp)))
+                   (looking-at gams-regexp-mpsge)))
           (setq po-beg (point))
           (setq po-end (match-end 1))
           (goto-char po-end)
@@ -11009,7 +11044,7 @@ Otherwise nil."
                   (goto-char (setq po-end (match-beginning 0)))
                   (when (looking-at "[ \t\n-=<>%/:(;,*+.$]")
                     (setq str (gams-buffer-substring po-beg po-end))
-                    (if (member str gams-statement-list-base)
+                    (if (member str gams-commands)
                         (setq po po-beg)
                       (setq po po-beg))))))))))
     (when (and str
@@ -16069,48 +16104,6 @@ if narrow is non-nil, narrow the window."
                  (>= (window-width (next-window)) 8))
         (setq gams-lxi-width (+ gams-lxi-width 1))))
     (gams-lxi-show-item)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;     code for completion at point
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun gams-import-words-from-file (file)
-  "Import words from a text file and remove the double quotes."
-  (if (file-exists-p file)
-      (with-temp-buffer
-	(insert-file-contents file)
-	(let ((content (buffer-string)))
-	  (split-string (replace-regexp-in-string "\"" "" content) "\n" t)))
-    (progn (message "gams_commands.txt file cannot be found.")
-	   (sit-for 1)
-	   nil)))
-
-(defvar gams-commands
-  (or (gams-import-words-from-file
-       (expand-file-name
-	"gams_commands.txt"
-	(file-name-directory (or load-file-name default-directory))))   
-      nil)
-  "List of GAMS commands for completion.")
-
-(defvar gams-commands-down
-  (mapcar 'downcase gams-commands)
-  "List of downcase GAMS commands for completion.")
-
-(defvar gams-commands-up
-  (mapcar 'upcase gams-commands)
-  "List of uppercase GAMS commands for completion.")
-
-(defun gams-completion-at-point ()
-  "Provide completion for GAMS commands."
-  (let ((bounds (bounds-of-thing-at-point 'symbol)))
-    (when bounds
-      (list (car bounds) (cdr bounds)
-	    (cond ((eq gams-completion-case 'lowercase) gams-commands-down)
-		  ((eq gams-completion-case 'UPPERCASE) gams-commands-up)
-		  (t gams-commands))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

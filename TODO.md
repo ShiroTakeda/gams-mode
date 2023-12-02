@@ -7,8 +7,6 @@ Time-stamp: <2018-03-29 14:26:36 st>
 
 ** TODO Info file.
 
-** TODO File name completion for $include, and $libinclude etc.
-
 ** TODO A command that converts equations to LaTeX format.
 
 
