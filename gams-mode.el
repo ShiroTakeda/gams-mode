@@ -1454,8 +1454,9 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
 (defvar gams-regexp-declaration-2
   (concat
    "\\(parameter\\|singleton[ ]+set\\|set\\|scalar\\|table"
-   "\\|\\(free\\|positive\\|negative\\|nonnegative"
-   "\\|binary\\|integer\\)*[ ]*variable\\|equation\\|model\\|file"
+   "\\|\\(free\\|positive\\|negative\\|nonnegative\\|binary\\|integer"
+   "\\|semicont\\|semiint\\|sos1\\|sos2\\)*[ ]*variable"
+   "\\|equation\\|model\\|file"
    "\\)[s]?[^.]"
    ))
 
@@ -1848,7 +1849,7 @@ LIMIT specifies the search limit."
          
          ;; If not in declaration block, search declaration block.
          ((and (if (re-search-forward
-                    (concat "^[ \t]*" gams-regexp-declaration-2 "[ \t\n]+") limit t)
+                    (concat "^[ \t]*" gams-regexp-declaration-2 "[ \t\n]*") limit t)
                    (progn
                      (setq match-decl (gams-buffer-substring (match-beginning 1)
                                                              (match-end 1))))
@@ -1915,7 +1916,8 @@ END is the point of the declaration block."
           (when (eobp) (throw 'found t)))
         (if (>= (point) lim)
             ;; if current point exceeds limit, do nothing.
-            (throw 'found t)
+	    (progn (goto-char lim)
+		   (throw 'found t))
           (cond
            ;; If reaced to the end of the buffer.
            ((eobp) (throw 'found t))
@@ -10842,7 +10844,7 @@ if prev is non-nil, move up after toggle."
 
 (defun gams-sid-return-block-end (beg)
   "Return the point of the end of the block."
-  (let (temp flag)
+  (let (temp flag mstr)
     (save-excursion
       (goto-char beg)
       (catch 'found
@@ -10868,6 +10870,7 @@ if prev is non-nil, move up after toggle."
                      (throw 'found t))
             ;; If found,
             (setq temp (match-beginning 0))
+	    (setq mstr (gams-buffer-substring (match-beginning 0) (match-end 0)))
             (skip-chars-backward " \t\n")
             (when (and (not (and (not (looking-back ";" nil)) (looking-at "[a-zA-Z0-9_]")))
                        (not (gams-check-line-type))
@@ -10875,6 +10878,8 @@ if prev is non-nil, move up after toggle."
                        (not (gams-in-quote-p))
                        (gams-slash-end-p beg)
                        )
+	      (when (not (equal mstr ";"))
+		(setq temp (1- temp)))
               (setq flag temp)
               (throw 'found t))))))
     flag))
