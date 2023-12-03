@@ -1001,17 +1001,11 @@ grouping constructs."
   "List of all GAMS commands including dollar control.")
 
 (defvar gams-commands-all-down
-  (append
-   (mapcar 'downcase gams-commands)
-   (mapcar 'downcase gams-commands-dollar)
-   (mapcar 'downcase gams-commands-mpsge))
+  (mapcar 'downcase gams-commands-all)
   "List of downcase GAMS commands inc. dollar control options for completion.")
 
 (defvar gams-commands-all-up
-  (append
-   (mapcar 'upcase gams-commands)
-   (mapcar 'upcase gams-commands-dollar)
-   (mapcar 'upcase gams-commands-mpsge))
+  (mapcar 'upcase gams-commands-all)
   "List of uppercase GAMS commands inc. dollar control options for completion.")
 
 (defun gams-completion-at-point ()
