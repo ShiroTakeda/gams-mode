@@ -8,6 +8,16 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.14
+----------------------------------
+
+* Improved code for font locking. For this purpose, I have added the
+  `gams-commands-dollar.txt` file, which contains a list of dollar control
+  options. In addition, I changed the `gams-commands.txt` file to include
+  only commands other than dollar control options.
+
+
+
 Version 6.13
 ----------------------------------
 
