@@ -44,10 +44,9 @@ do
   get_gams_commands ${tempfile} > ${tempfile/temp_/commands_}
 done
 
-cp commands_dollar.txt ../gams-commands-dollar.txt
-
-# Add dollar sign for dollar control options
-sed -i 's/"\([^"]*\)"/"$\1"/g' commands_dollar.txt 
+# Export dollar commands
+sort commands_dollar.txt | uniq > ../gams-commands-dollar.txt
+rm commands_dollar.txt 
 
 # Add combined declations
 sed 's/"\([^"]*\)"/"\1 Variable"/g' commands_declaration_var.txt > commands_declaration2.txt
@@ -64,7 +63,7 @@ done
 # Add missing commands
 echo -e "\"maximizing\"\\n\"minimizing\"" >> temp.txt
 
-# Remove duplicates
-sort temp.txt | uniq > gams_commands.txt
+# Remove duplicates and export GAMS commands
+sort temp.txt | uniq > ../gams-commands.txt
 
 rm temp*.txt
