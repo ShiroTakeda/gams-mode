@@ -16,7 +16,7 @@ sed -n '/systemAttributes()/,/systemData()/p' temp_syntax.txt > temp_sys_attr.tx
 sed -n '/systemData()/,/systemCTConstText()/p' temp_syntax.txt > temp_sys_data.txt
 sed -n '/systemCTConstText()/,/systemCTConstants()/p' temp_syntax.txt > temp_sys_ct_text.txt
 sed -n '/systemCTConstants()/,/modelTypes()/p' temp_syntax.txt > temp_sys_ct_constants.txt
-sed -n '/modelTypes()/,/options()/p' temp_syntax.txt > temp_model.txt
+sed -n '/modelTypes()/,/options()/p' temp_syntax.txt | tr '[A-Z]' '[a-z]' > temp_model.txt
 sed -n '/options()/,/execute()/p' temp_syntax.txt > temp_options.txt
 sed -n '/execute()/,/keyExecute()/p' temp_syntax.txt > temp_execute.txt
 sed -n '/keyExecute()/,/keyOption()/p' temp_syntax.txt > temp_key_execute.txt
