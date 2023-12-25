@@ -989,6 +989,14 @@ grouping constructs."
   "Attach dollar to the beginning of the STRING."
   (concat "$" string))
 
+(defvar gams-commands-dollar-all
+  (append
+   gams-commands-dollar
+   (mapcar 'gams-attach-dollar-to-string gams-commands-dollar)
+   (mapcar 'gams-attach-dollar-to-string
+    (mapcar 'gams-attach-dollar-to-string gams-commands-dollar)))
+  "List of GAMS dollar commands under all formats")
+
 (defvar gams-commands-mpsge
   (mapcar 'gams-attach-dollar-to-string gams-statement-mpsge)
   "List of GAMS MPSGE commands.")
@@ -996,21 +1004,21 @@ grouping constructs."
 (defvar gams-commands-all
   (append
    gams-commands
-   gams-commands-dollar
+   gams-commands-dollar-all
    gams-commands-mpsge)
   "List of all GAMS commands including dollar control.")
 
 (defvar gams-commands-all-down
   (append
    (mapcar 'downcase gams-commands)
-   (mapcar 'downcase gams-commands-dollar)
+   (mapcar 'downcase gams-commands-dollar-all)
    (mapcar 'downcase gams-commands-mpsge))
   "List of downcase GAMS commands inc. dollar control options for completion.")
 
 (defvar gams-commands-all-up
   (append
    (mapcar 'upcase gams-commands)
-   (mapcar 'upcase gams-commands-dollar)
+   (mapcar 'upcase gams-commands-dollar-all)
    (mapcar 'upcase gams-commands-mpsge))
   "List of uppercase GAMS commands inc. dollar control options for completion.")
 
@@ -1099,8 +1107,7 @@ If STRING contains only spaces, return null string."
 
 (defvar gams-dollar-regexp
   (gams-regexp-opt
-   (mapcar 'gams-remove-dollar-from-string gams-commands-dollar)
-   t)
+   gams-commands-dollar t)
   "Regular expression for dollar control")
 
 (defvar gams-statement-regexp-base-sub
