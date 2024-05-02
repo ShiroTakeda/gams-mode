@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2023 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.14
+;; Version: 6.15
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.14"
+(defconst gams-mode-version "6.15"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -8365,7 +8365,7 @@ FUN = Function defined by gams-f,
 MAC = $macro,
 DOL = Dollar control options,
 FIL = $(bat)include and other file-related command,
-TIT = $(s)title,
+TIT = $(s)title or $label,
 COM = Special comment line.
 
 For the details, press ? key.
@@ -8901,7 +8901,7 @@ FUN = Function defined by gams-f,
 MAC = $macro,
 DOL = Dollar control options,
 FIL = $(bat)include and other file-related command,
-TIT = $(s)title,
+TIT = $(s)title or $label,
 COM = Special comment line.")
     (goto-char (point-min))
     (setq buffer-read-only t)
@@ -9212,7 +9212,7 @@ There are 2 types:
 (defsubst gams-sil-regexp-declaration-temp ()
   (setq gams-sil-regexp-declaration-temp
         (concat gams-sil-regexp-declaration-light "\\|"
-                "\\(^$[ ]*[s]?title[ \t]+\\)\\|"                                  ; 8
+                "\\(^$[ ]*[s]?title[ \t]+\\|^$[ ]*label[ \t]+\\)\\|"                                  ; 8
                 "[$][ ]*\\(set\\|setglobal\\|goto\\|label\\|call\\)[ ]+\\|" ; 9
                 "^[ \t]*\\(solve[ \t]+\\)[a-zA-Z_]+\\|"                   ; 10
                 "\\([0-9A-Za-z) \t]+[.][.]\\)[^.]\\|"                     ; 11
@@ -9547,7 +9547,7 @@ LIGHT is t if in light mode.
                   (skip-chars-forward " \t")
                   (push (gams-sil-get-alist-macro fnum) idstruct))
 
-                 ;; $(s)title.
+                 ;; $(s)title or $label.
                  ((and (not light) (match-beginning 8))
                   (goto-char (match-end 8))
                   (push (gams-sil-get-alist-title fnum) idstruct))

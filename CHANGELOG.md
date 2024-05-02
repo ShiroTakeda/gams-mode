@@ -8,6 +8,14 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.15
+----------------------------------
+
+* In GAMS-SIL mode, $label command is now treated in the same way as
+  $title command.
+
+
+
 Version 6.14
 ----------------------------------
 
