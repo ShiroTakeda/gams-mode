@@ -977,12 +977,68 @@ grouping constructs."
       nil)
   "List of GAMS commands for completion.")
 
+(defvar gams-command-dollar-if
+  '("if" "ifE" "ifI" "ifThen" "ifThenE" "ifThenI" "elseIf" "elseIfE" "elseIfI")
+  "List of $if commands")
+
+(defvar gams-command-dollar-conditional
+  '("acrType"
+    "decla_OK"
+    "declared"
+    "defined"
+    "dExist"
+    "dimension"
+    "empty"
+    "equType"
+    "errorFree"
+    "errorLevel"
+    "exist"
+    "filType"
+    "funType"
+    "gamsVersion"
+    "gdxDimension"
+    "gdxEquType"
+    "gdxSetType"
+    "gdxParType"
+    "gdxSetType"
+    "gdxSymExist"
+    "gdxVarType"
+    "macType"
+    "modType"
+    "onState"
+    "parType"
+    "preType"
+    "putOpen"
+    "readable"
+    "set"
+    "setEnv"
+    "setGlobal"
+    "setLocal"
+    "setType"
+    "solver"
+    "uelExist"
+    "varType"
+    "warnings"
+    "xxxType")
+  "List of condition expressions from https://www.gams.com/latest/docs/UG_DollarControlOptions.html#UG_DollarControl_ConditionalCompilationSyntax")
+
+(defvar gams-command-dollar-extra
+  (let (combinations)
+    (dolist (item1 gams-command-dollar-if)
+      (dolist (item2 gams-command-dollar-conditional)
+        (push (concat item1 " " item2) combinations)
+        (push (concat item1 " not " item2) combinations)))
+    (nreverse combinations))
+  "List of all possible combinations of $if commands and condition expressions, including 'not'.")
+
 (defvar gams-commands-dollar
-    (or (gams-import-words-from-file
-       (expand-file-name
-	"gams-commands-dollar.txt"
-	(file-name-directory (or load-file-name default-directory))))   
-      nil)
+  (append
+   (or (gams-import-words-from-file
+	(expand-file-name
+	 "gams-commands-dollar.txt"
+	 (file-name-directory (or load-file-name default-directory))))   
+       nil)
+   gams-command-dollar-extra)
   "List of GAMS dollar commands.")
 
 (defun gams-attach-dollar-to-string (string)
