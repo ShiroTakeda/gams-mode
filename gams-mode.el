@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2023 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.14
+;; Version: 6.15
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: http://shirotakeda.org/en/gams/gams-mode/
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.14"
+(defconst gams-mode-version "6.15"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1065,17 +1065,11 @@ grouping constructs."
   "List of all GAMS commands including dollar control.")
 
 (defvar gams-commands-all-down
-  (append
-   (mapcar 'downcase gams-commands)
-   (mapcar 'downcase gams-commands-dollar-all)
-   (mapcar 'downcase gams-commands-mpsge))
+  (mapcar 'downcase gams-commands-all)
   "List of downcase GAMS commands inc. dollar control options for completion.")
 
 (defvar gams-commands-all-up
-  (append
-   (mapcar 'upcase gams-commands)
-   (mapcar 'upcase gams-commands-dollar-all)
-   (mapcar 'upcase gams-commands-mpsge))
+  (mapcar 'upcase gams-commands-all)
   "List of uppercase GAMS commands inc. dollar control options for completion.")
 
 (defun gams-completion-at-point ()
@@ -1517,8 +1511,9 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
 (defvar gams-regexp-declaration-2
   (concat
    "\\(parameter\\|singleton[ ]+set\\|set\\|scalar\\|table"
-   "\\|\\(free\\|positive\\|negative\\|nonnegative"
-   "\\|binary\\|integer\\)*[ ]*variable\\|equation\\|model\\|file"
+   "\\|\\(free\\|positive\\|negative\\|nonnegative\\|binary\\|integer"
+   "\\|semicont\\|semiint\\|sos1\\|sos2\\)*[ ]*variable"
+   "\\|equation\\|model\\|file"
    "\\)[s]?[^.]"
    ))
 
@@ -1911,7 +1906,7 @@ LIMIT specifies the search limit."
          
          ;; If not in declaration block, search declaration block.
          ((and (if (re-search-forward
-                    (concat "^[ \t]*" gams-regexp-declaration-2 "[ \t\n]+") limit t)
+                    (concat "^[ \t]*" gams-regexp-declaration-2 "[ \t\n]*") limit t)
                    (progn
                      (setq match-decl (gams-buffer-substring (match-beginning 1)
                                                              (match-end 1))))
@@ -1978,7 +1973,8 @@ END is the point of the declaration block."
           (when (eobp) (throw 'found t)))
         (if (>= (point) lim)
             ;; if current point exceeds limit, do nothing.
-            (throw 'found t)
+	    (progn (goto-char lim)
+		   (throw 'found t))
           (cond
            ;; If reaced to the end of the buffer.
            ((eobp) (throw 'found t))
@@ -8432,7 +8428,7 @@ FUN = Function defined by gams-f,
 MAC = $macro,
 DOL = Dollar control options,
 FIL = $(bat)include and other file-related command,
-TIT = $(s)title,
+TIT = $(s)title or $label,
 COM = Special comment line.
 
 For the details, press ? key.
@@ -8968,7 +8964,7 @@ FUN = Function defined by gams-f,
 MAC = $macro,
 DOL = Dollar control options,
 FIL = $(bat)include and other file-related command,
-TIT = $(s)title,
+TIT = $(s)title or $label,
 COM = Special comment line.")
     (goto-char (point-min))
     (setq buffer-read-only t)
@@ -9279,7 +9275,7 @@ There are 2 types:
 (defsubst gams-sil-regexp-declaration-temp ()
   (setq gams-sil-regexp-declaration-temp
         (concat gams-sil-regexp-declaration-light "\\|"
-                "\\(^$[ ]*[s]?title[ \t]+\\)\\|"                                  ; 8
+                "\\(^$[ ]*[s]?title[ \t]+\\|^$[ ]*label[ \t]+\\)\\|"                                  ; 8
                 "[$][ ]*\\(set\\|setglobal\\|goto\\|label\\|call\\)[ ]+\\|" ; 9
                 "^[ \t]*\\(solve[ \t]+\\)[a-zA-Z_]+\\|"                   ; 10
                 "\\([0-9A-Za-z) \t]+[.][.]\\)[^.]\\|"                     ; 11
@@ -9614,7 +9610,7 @@ LIGHT is t if in light mode.
                   (skip-chars-forward " \t")
                   (push (gams-sil-get-alist-macro fnum) idstruct))
 
-                 ;; $(s)title.
+                 ;; $(s)title or $label.
                  ((and (not light) (match-beginning 8))
                   (goto-char (match-end 8))
                   (push (gams-sil-get-alist-title fnum) idstruct))
@@ -10905,7 +10901,7 @@ if prev is non-nil, move up after toggle."
 
 (defun gams-sid-return-block-end (beg)
   "Return the point of the end of the block."
-  (let (temp flag)
+  (let (temp flag mstr)
     (save-excursion
       (goto-char beg)
       (catch 'found
@@ -10931,6 +10927,7 @@ if prev is non-nil, move up after toggle."
                      (throw 'found t))
             ;; If found,
             (setq temp (match-beginning 0))
+	    (setq mstr (gams-buffer-substring (match-beginning 0) (match-end 0)))
             (skip-chars-backward " \t\n")
             (when (and (not (and (not (looking-back ";" nil)) (looking-at "[a-zA-Z0-9_]")))
                        (not (gams-check-line-type))
@@ -10938,6 +10935,8 @@ if prev is non-nil, move up after toggle."
                        (not (gams-in-quote-p))
                        (gams-slash-end-p beg)
                        )
+	      (when (not (equal mstr ";"))
+		(setq temp (1- temp)))
               (setq flag temp)
               (throw 'found t))))))
     flag))
