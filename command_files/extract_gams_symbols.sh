@@ -16,7 +16,7 @@ sed -n '/systemAttributes()/,/systemData()/p' temp_syntax.txt > temp_sys_attr.tx
 sed -n '/systemData()/,/systemCTConstText()/p' temp_syntax.txt > temp_sys_data.txt
 sed -n '/systemCTConstText()/,/systemCTConstants()/p' temp_syntax.txt > temp_sys_ct_text.txt
 sed -n '/systemCTConstants()/,/modelTypes()/p' temp_syntax.txt > temp_sys_ct_constants.txt
-sed -n '/modelTypes()/,/options()/p' temp_syntax.txt > temp_model.txt
+sed -n '/modelTypes()/,/options()/p' temp_syntax.txt | tr '[A-Z]' '[a-z]' > temp_model.txt
 sed -n '/options()/,/execute()/p' temp_syntax.txt > temp_options.txt
 sed -n '/execute()/,/keyExecute()/p' temp_syntax.txt > temp_execute.txt
 sed -n '/keyExecute()/,/keyOption()/p' temp_syntax.txt > temp_key_execute.txt
@@ -44,10 +44,9 @@ do
   get_gams_commands ${tempfile} > ${tempfile/temp_/commands_}
 done
 
-cp commands_dollar.txt ../gams-commands-dollar.txt
-
-# Add dollar sign for dollar control options
-sed -i 's/"\([^"]*\)"/"$\1"/g' commands_dollar.txt 
+# Export dollar commands
+sort commands_dollar.txt | uniq > ../gams-commands-dollar.txt
+rm commands_dollar.txt 
 
 # Add combined declations
 sed 's/"\([^"]*\)"/"\1 Variable"/g' commands_declaration_var.txt > commands_declaration2.txt
@@ -64,7 +63,7 @@ done
 # Add missing commands
 echo -e "\"maximizing\"\\n\"minimizing\"" >> temp.txt
 
-# Remove duplicates
-sort temp.txt | uniq > gams_commands.txt
+# Remove duplicates and export GAMS commands
+sort temp.txt | uniq > ../gams-commands.txt
 
 rm temp*.txt
