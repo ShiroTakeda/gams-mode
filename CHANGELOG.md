@@ -8,12 +8,26 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 6.16
+----------------------------------
+
+* The new GAMS mode supports `company-mode` which is a text completion
+  framework for Emacs. If you want to use company-mode in GAMS mode, 1)
+  install company-mode by yourself, and 2) Please add the following code
+  to init.el
+
+        (add-hook
+         'gams-mode-hook
+         #'(lambda () (company-mode))
+         )
+
+
 Version 6.15
 ----------------------------------
 
 * In GAMS-SIL mode, $label command is now treated in the same way as
   $title command.
-
+  
 
 
 Version 6.14
