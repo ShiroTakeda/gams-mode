@@ -2,12 +2,12 @@
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
-;; Copyright (C) 2001-2023 Shiro Takeda
+;; Copyright (C) 2001-2024 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
 ;; Version: 6.16
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
-;; URL: http://shirotakeda.org/en/gams/gams-mode/
+;; URL: https://github.com/ShiroTakeda/gams-mode
 
 ;; This file is not part of any Emacs.
 
@@ -31,8 +31,8 @@
 ;; GAMS in Emacs (GAMS mode for Emacs).
 
 ;; To install and use this mode, you need to add some codes in init.el.  For the
-;; details, please see README.txt file available at
-;; http://shirotakeda.org/en/gams/gams-mode/
+;; details, please see the following site
+;; https://github.com/ShiroTakeda/gams-mode
 ;;
 ;; If you install this file from MLPA repository, gams-mode.el is downloaded
 ;; from GitHub <https://github.com/ShiroTakeda/gams-mode/tree/master>.  Please
