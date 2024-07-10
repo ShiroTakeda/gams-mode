@@ -103,7 +103,7 @@
 ;;;     Variables for GAMS mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams-system-directory "c:/GAMS/37/"
+(defcustom gams-system-directory "c:/GAMS/42/"
   "*The GAMS system directory (the directory where GAMS is installed).
 This must be assigned the proper value if you want to use
 `gams-view-document' and `gams-model-library'."
