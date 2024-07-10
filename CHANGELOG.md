@@ -16,11 +16,12 @@ Version 6.16
   install company-mode by yourself, and 2) Please add the following code
   to init.el
 
-        (add-hook
-         'gams-mode-hook
-         #'(lambda () (company-mode))
-         )
-
+```emacs-lisp
+(add-hook
+  'gams-mode-hook
+  #'(lambda () (company-mode))
+  )
+```
 
 Version 6.15
 ----------------------------------
