@@ -186,7 +186,7 @@ You can install GAMS mode (`gams-mode.el`) from the MELPA repository. Type `M-x 
 
 To use MELPA, add the following code to your `init.el` file:
 
-```lisp
+```emacs-lisp
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives
@@ -201,19 +201,19 @@ If the GAMS system folder is not included in the PATH environment variable, you 
 
 following line to init.el:
 
-```lisp
+```emacs-lisp
 (setq gams-process-command-name "c:/GAMS/37/gams.exe")
 ```
 
 Additionally, set `gams-system-directory` like this:
 
-```lisp
+```emacs-lisp
 (setq gams-system-directory "c:/GAMS/37/")
 ```
 
 If you want to enable syntax coloring in an Emacs buffer, add the following:
 
-```lisp
+```emacs-lisp
 (require 'font-lock)
 (global-font-lock-mode t)
 ```
@@ -232,7 +232,7 @@ To install `gams-mode.el` manually, follow the procedure below (steps 1 and 2 ar
 
 1. Place the `gams-mode.el` file in one of the directories listed in `load-path`. You can see the contents of `load-path` by entering `M-x customize-option <RET> load-path`. Alternatively, add the directory where `gams-mode.el` is installed to the `load-path` variable. Add the following to your `~/.emacs.d/init.el` file:
 
-    ```lisp
+    ```emacs-lisp
     (setq load-path
           (cons "~/emacs.d/lisp/gams/" ;; Set the installed directory!
                 load-path))
@@ -240,7 +240,7 @@ To install `gams-mode.el` manually, follow the procedure below (steps 1 and 2 ar
 
 2. Add the following to your `~/.emacs.d/init.el` startup file (after setting `load-path`):
 
-    ```lisp
+    ```emacs-lisp
     (require 'gams-mode)
     ```
 
@@ -326,7 +326,7 @@ You can customize the behavior of Emacs and GAMS mode by changing the values of 
 
 You can change the value of these variables by adding the following lines to your `~/.emacs.d/init.el` file. For example:
 
-```lisp
+```emacs-lisp
 (setq gams-process-command-name "c:/GAMS/37/gams.exe")
 (setq gams-statement-upcase nil)
 ```
