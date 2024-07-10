@@ -113,7 +113,7 @@ With (1) and (2), you can quickly perform the following tasks with simple key op
 - Examine the location and meaning of errors.
 - Go back to the error location in the program.
 
-You can do similar tasks in GAMSIDE, but I believe GAMS mode offers a more convenient environment.
+You can do similar tasks in GAMS Studio (GAMSIDE), but I believe GAMS mode offers a more convenient environment.
 
 LST files often become quite large. In such cases, it is hard to search for the output you want to see. (3) provides you with the feature to move to various important items (such as PARAMETER, SET, VAR, EQU) in the LST file with simple key operations.
 
@@ -156,8 +156,6 @@ First, I explain the files distributed in the package.
 | [`doc`](doc)                                         | Document folder including the reference card.                                                                            |
 | `lxi`                                                | This folder includes files used to explain GAMS-LXI mode.                                                                |
  
-http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html.
-
 If you are well acquainted with Emacs, installation is straightforward. Here, I explain the basic Emacs terminologies used below.  But if you are a novice user of Emacs, I recommend you to read the website [Emacs FAQ for Windows](http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html).
 
 
@@ -171,8 +169,6 @@ This is Unix terminology rather than Emacs'. It represents a user's HOME directo
 This is the configuration file that Emacs reads first when it starts. You can change Emacs' behavior by writing various settings in this file. Note that you must create this file yourself, as no "init.el" file exists by default (unless an administrator has created it for you).
 
 `non-nil`
-
-In Emacs terminology, non-nil means anything other than nil, including values such as 0, "a", or t. However, we usually use the symbol `t` as non-nil. So, when I say "set non-nil to x," set `t` to `x` (i.e., `(setq x t)`).
 
 In Emacs terminology, non-nil means anything other than nil, including values such as 0, "a", or t. However, we usually use the symbol `t` as non-nil. So, when I say "set non-nil to x," set `t` to `x` (i.e., `(setq x t)`).
 
@@ -197,18 +193,16 @@ If you want to use a stable version, use GAMS mode from melpa-stable. If you wan
 
 Note that it installs only the `gams-mode.el` file and does not install sample files or explanatory files. To use GAMS mode, you should first read the [GAMS mode website](https://github.com/ShiroTakeda/gams-mode/).
 
-If the GAMS system folder is not included in the PATH environment variable, you need to set the GAMS system folder to PATH or set the full path to `gams.exe` in the variable `gams-process-command-name`. For example, if your `gams.exe` is located at `C:/GAMS/win64/GAMS24.1/`, add the following line to `init.el`:
-
-following line to init.el:
+If the GAMS system folder is not included in the PATH environment variable, you need to set the GAMS system folder to PATH or set the full path to `gams.exe` in the variable `gams-process-command-name`. For example, if your `gams.exe` is located at `C:/GAMS/42/`, add the following line to `init.el`:
 
 ```emacs-lisp
-(setq gams-process-command-name "c:/GAMS/37/gams.exe")
+(setq gams-process-command-name "c:/GAMS/42/gams.exe")
 ```
 
 Additionally, set `gams-system-directory` like this:
 
 ```emacs-lisp
-(setq gams-system-directory "c:/GAMS/37/")
+(setq gams-system-directory "c:/GAMS/42/")
 ```
 
 If you want to enable syntax coloring in an Emacs buffer, add the following:
@@ -338,7 +332,7 @@ Please also read the sample file `gams-setting-sample.el`.
 ## Basic Customizable Variables in GAMS and GAMS-LST Mode:
 
 - `gams-process-command-name` ["gams"]
-  - *GAMS program file name. If the GAMS system directory is not included in the PATH environment variable, you must set the full path to the GAMS program in this variable, like `c:/GAMS20.0/gams.exe`.
+  - *GAMS program file name. If the GAMS system directory is not included in the PATH environment variable, you must set the full path to the GAMS program in this variable, like `c:/GAMS/42/gams.exe`.
 
 - `gams-process-command-option` ["ll=0 lo=3 pw=100 ps=9999"]
   - *Command line options passed to GAMS.
@@ -367,7 +361,7 @@ Please also read the sample file `gams-setting-sample.el`.
 - `gams-user-comment`
   - *User-defined comment template. You can insert the comment template defined in this variable by executing `gams-insert-comment`. `%` in the string indicates the cursor place and will disappear after template insertion. Note: You cannot include double quotations and backslashes in this variable!
 
-- `gams-system-directory` ["c:/GAMS/win64/24.7/"]
+- `gams-system-directory` ["c:/GAMS/42/"]
   - *The GAMS system directory.
 
 - `gams-inlinecom-symbol-start-default` ["/*"]
