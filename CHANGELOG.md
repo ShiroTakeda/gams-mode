@@ -11,10 +11,12 @@ Change logs of GAMS mode.
 Version 6.16
 ----------------------------------
 
-* The new GAMS mode supports `company-mode` which is a text completion
-  framework for Emacs. If you want to use company-mode in GAMS mode, 1)
-  install company-mode by yourself, and 2) Please add the following code
-  to init.el
+* The font-locking and autocompletion features have been improved. 
+
+* `company-mode`, which is a text completion framework for Emacs, has been
+  available in GAMS mode since version 6.13. If you want to use
+  company-mode in GAMS mode, 1) install company-mode by yourself, and 2)
+  add the following code to init.el
 
 ```emacs-lisp
 (add-hook
