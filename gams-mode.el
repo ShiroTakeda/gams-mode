@@ -1046,7 +1046,11 @@ grouping constructs."
   (concat "$" string))
 
 (defvar gams-commands-dollar
-  (mapcar 'gams-attach-dollar-to-string gams-commands-dollar-wo-dollar)
+  (append
+   gams-commands-dollar-wo-dollar
+   (mapcar 'gams-attach-dollar-to-string gams-commands-dollar-wo-dollar)
+   (mapcar 'gams-attach-dollar-to-string
+	   (mapcar 'gams-attach-dollar-to-string gams-commands-dollar-wo-dollar)))
   "List of GAMS dollar commands under all formats")
 
 (defvar gams-commands-mpsge
