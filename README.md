@@ -23,7 +23,7 @@ If you want to know how to install GAMS mode, read [Installation](#installation)
 3. [Installation](#installation)
 4. [Basic Usage](#basic-usage)
 5. [Customization](#customization)
-6. [TODO](#todo)
+6. [YAML and Python code blocks font-locking](#yaml-and-python-code-blocks-font-locking)
 7. [Miscellaneous](#miscellaneous)
 8. [Acknowledgments](#acknowledgments)
 
@@ -389,7 +389,7 @@ M-x customize-group [ENTER]
 gams [ENTER]
 ```
 
-# `poly-gams` for font-locking YAML and Python code blocks of GAMS Connect
+# YAML and Python code blocks font-locking
 
 [GAMS Connect](https://www.gams.com/latest/docs/UG_GAMSCONNECT.html) extends GAMS language with YAML and Python code blocks. To enable font-locking for these code blocks, please install [`poly-gams`](https://github.com/ShiroTakeda/poly-gams/tree/main), a [`polymode`](https://polymode.github.io/) for GAMS mode.
 
