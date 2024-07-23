@@ -6,6 +6,8 @@ Maintainer: Shiro Takeda
 GAMS-mode
 ============================================================
 
+[![MELPA](https://melpa.org/packages/gams-mode-badge.svg)](https://melpa.org/#/gams-mode)
+
 This package offers the Emacs lisp program for using the numerical software GAMS in Emacs (GAMS mode for Emacs).
 
 If you want to know how to install GAMS mode, read [Installation](#installation) below. If you want to know the latest changes added to GAMS mode, see [CHANGELOG.md](CHANGELOG.md) file.
@@ -389,7 +391,7 @@ gams [ENTER]
 
 # `poly-gams` for font-locking YAML and Python code blocks of GAMS Connect
 
-[GAMS Connect](https://www.gams.com/latest/docs/UG_GAMSCONNECT.html) extends GAMS language with YAML and Python code blocks. To enable font-locking for these code blocks, please install [`poly-gams`](https://github.com/ShiroTakeda/poly-gams/tree/main), a [polymode](https://polymode.github.io/) for GAMS mode.
+[GAMS Connect](https://www.gams.com/latest/docs/UG_GAMSCONNECT.html) extends GAMS language with YAML and Python code blocks. To enable font-locking for these code blocks, please install [`poly-gams`](https://github.com/ShiroTakeda/poly-gams/tree/main), a [`polymode`](https://polymode.github.io/) for GAMS mode.
 
 # Miscellaneous
 
