@@ -6559,7 +6559,7 @@ If FLAG is non-nil, jump to the previous item."
   (interactive)
   (delete-other-windows)
   (recenter)
-  (message "Winden window."))
+  (message "Widen window."))
 
 (defun gams-lst-split-window ()
   "Split current window into two windows.  Same as `split-window-vertically'."
