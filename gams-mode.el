@@ -2848,6 +2848,7 @@ The following commands are available in the GAMS mode:
   ) ;;; gams-mode ends.
 
 ;;; Autoload setting.
+;;;###autoload
 (add-to-list 'auto-mode-alist
              (cons
               (format "\\.%s$\\'"
@@ -5907,6 +5908,7 @@ The followings are page scroll commands.  Just changed to upper case letters.
 ;; gams-lst-mode ends here.
 
 ;; For GAMS-LST mode.
+;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.\\(LST\\|lst\\)$" . gams-lst-mode))
 (autoload 'gams-lst-mode "gams" "Enter GAMS-LST mode" t)
 
