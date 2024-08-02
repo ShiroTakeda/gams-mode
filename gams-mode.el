@@ -2852,7 +2852,6 @@ The following commands are available in the GAMS mode:
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.\\(GMS\\|gms\\)$" . gams-mode))
 
-;;;###autoload
 (add-to-list 'auto-mode-alist
              (cons
               (format "\\.%s$\\'"
