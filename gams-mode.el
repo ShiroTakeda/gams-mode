@@ -2757,6 +2757,7 @@ If COM is non-nil, create alist from command name."
 The following commands are available in the GAMS mode:
 
 \\{gams-mode-map}"
+  :group 'gams
   (interactive)
   (kill-all-local-variables)
   (setq major-mode 'gams-mode)
