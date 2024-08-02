@@ -2850,7 +2850,7 @@ The following commands are available in the GAMS mode:
 ;;; Autoload setting.
 (add-to-list 'auto-mode-alist
              (cons
-              (format "\\.\\(xyz\\|%s\\)$"
+              (format "\\.%s$\\'"
                       (regexp-opt (append (mapcar 'downcase gams-file-extension)
                                           (mapcar 'upcase gams-file-extension))))
               'gams-mode))
@@ -5908,8 +5908,6 @@ The followings are page scroll commands.  Just changed to upper case letters.
 
 ;; For GAMS-LST mode.
 (add-to-list 'auto-mode-alist '("\\.\\(LST\\|lst\\)$" . gams-lst-mode))
-(setq auto-mode-alist
-      (cons (cons "\\.\\(LST\\|lst\\)$" 'gams-lst-mode) auto-mode-alist))
 (autoload 'gams-lst-mode "gams" "Enter GAMS-LST mode" t)
 
 (defun gams-lst-help ()
