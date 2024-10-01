@@ -6,6 +6,8 @@ Maintainer: Shiro Takeda
 GAMS-mode
 ============================================================
 
+[![MELPA](https://melpa.org/packages/gams-mode-badge.svg)](https://melpa.org/#/gams-mode)
+
 This package offers the Emacs lisp program for using the numerical software GAMS in Emacs (GAMS mode for Emacs).
 
 If you want to know how to install GAMS mode, read [Installation](#installation) below. If you want to know the latest changes added to GAMS mode, see [CHANGELOG.md](CHANGELOG.md) file.
@@ -21,7 +23,7 @@ If you want to know how to install GAMS mode, read [Installation](#installation)
 3. [Installation](#installation)
 4. [Basic Usage](#basic-usage)
 5. [Customization](#customization)
-6. [TODO](#todo)
+6. [YAML and Python code blocks font-locking](#yaml-and-python-code-blocks-font-locking)
 7. [Miscellaneous](#miscellaneous)
 8. [Acknowledgments](#acknowledgments)
 
@@ -150,11 +152,11 @@ First, I explain the files distributed in the package.
 | [`gams-mode.el`](gams-mode.el)                       | The main Lisp program.                                                                                                   |
 | [`sample_gams_code`](sample_gams_code)               | This folder includes sample GMS files. To learn how to use GAMS mode, read the `gams-sample.gms` file in this folder.    |
 | [`gams-setting-sample.el`](gams-setting-sample.el)   | Sample settings file for `init.el`.                                                                                      |
-| `gams-template.txt`                                  | Sample templates file.                                                                                                   |
+| [`gams-template.txt`](gams-template.txt)                                  | Sample templates file.                                                                                                   |
 | [`CHANGELOG.md`](CHANGELOG.md)                       | Change log file recording the history of changes. To know about changes and newly added functions, please read it.       |
 | [`BUGS_PROBLEMS.md`](BUGS_PROBLEMS.md)               | Known bugs and problems.                                                                                                 |
 | [`doc`](doc)                                         | Document folder including the reference card.                                                                            |
-| `lxi`                                                | This folder includes files used to explain GAMS-LXI mode.                                                                |
+| [`lxi`](lxi)                                                | This folder includes files used to explain GAMS-LXI mode.                                                                |
  
 If you are well acquainted with Emacs, installation is straightforward. Here, I explain the basic Emacs terminologies used below.  But if you are a novice user of Emacs, I recommend you to read the website [Emacs FAQ for Windows](http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html).
 
@@ -205,13 +207,6 @@ Additionally, set `gams-system-directory` like this:
 (setq gams-system-directory "c:/GAMS/42/")
 ```
 
-If you want to enable syntax coloring in an Emacs buffer, add the following:
-
-```emacs-lisp
-(require 'font-lock)
-(global-font-lock-mode t)
-```
-
 These settings are generally sufficient. With them, when you open a file with the extension "gms" ("lst"), GAMS mode (GAMS-LST mode) will start automatically. Byte-compiling `gams-mode.el` may improve the speed of GAMS mode (but it is not necessary).
 
 A sample settings file (`gams-setting-sample.el`) is distributed with this package. Please read it as well.
@@ -254,57 +249,57 @@ Here is the basic command listing. Try each command by yourself! You can also se
 
 Key-binding Command explanation
 
-| Keybinding       | Command Explanation                                      |
-| :--------------- | :------------------------------------------------------- |
-| `C-c C-k`        | Insert GAMS statement with completion.                   |
-| `C-c C-d`        | Insert GAMS dollar control option with completion.       |
-| `C-c C-.`        | Show the identifier declaration part.                    |
-| `C-c C-a`        | Show the identifier list in the buffer.                  |
-| `C-c C-w`        | Open included file.                                      |
-| `C-c C-v`        | Switch to the LST file and show errors if they exist.    |
-| `C-c C-j`        | Switch to the LST file.                                  |
-| `C-c C-t`        | Evoke process menu.                                      |
-| `C-c C-s`        | Start GAMS.                                              |
-| `C-u C-c C-t`    | Edit command and start GAMS.                             |
-| `C-c C-e`        | Insert templates (GAMS-TEMPLATE).                        |
-| `C-c C-o`        | Insert user-defined comment template.                    |
-| `C-l`            | Recenter.                                                |
-| `C-c C-c`        | Insert an ontext-offtext pair.                           |
-| `C-c C-g`        | Jump between ontext and offtext.                         |
-| `C-c M-c`        | (Un)comment an ontext-offtext pair.                      |
-| `C-c M-g`        | Remove an ontext-offtext pair.                           |
-| `C-c C-m`        | View GAMS PDF manuals.                                   |
-| `C-c C-f`        | Change the level of font-lock (colorization).            |
-| `C-c C-;`        | Insert inline comment.                                   |
-| `C-c M-;`        | Insert end-of-line comment.                              |
+| Keybinding    | Command Explanation                                   |
+|:--------------|:------------------------------------------------------|
+| `C-c C-k`     | Insert GAMS statement with completion.                |
+| `C-c C-d`     | Insert GAMS dollar control option with completion.    |
+| `C-c C-.`     | Show the identifier declaration part.                 |
+| `C-c C-a`     | Show the identifier list in the buffer.               |
+| `C-c C-w`     | Open included file.                                   |
+| `C-c C-v`     | Switch to the LST file and show errors if they exist. |
+| `C-c C-j`     | Switch to the LST file.                               |
+| `C-c C-t`     | Evoke process menu.                                   |
+| `C-c C-s`     | Start GAMS.                                           |
+| `C-u C-c C-t` | Edit command and start GAMS.                          |
+| `C-c C-e`     | Insert templates (GAMS-TEMPLATE).                     |
+| `C-c C-o`     | Insert user-defined comment template.                 |
+| `C-l`         | Recenter.                                             |
+| `C-c C-c`     | Insert an ontext-offtext pair.                        |
+| `C-c C-g`     | Jump between ontext and offtext.                      |
+| `C-c M-c`     | (Un)comment an ontext-offtext pair.                   |
+| `C-c M-g`     | Remove an ontext-offtext pair.                        |
+| `C-c C-m`     | View GAMS manuals.                                    |
+| `C-c C-f`     | Change the level of font-lock (colorization).         |
+| `C-c C-;`     | Insert inline comment.                                |
+| `C-c M-;`     | Insert end-of-line comment.                           |
 
                                                                       
 ## GAMS-LST mode:
 --------------
 
-| Keybinding    | Command explanation                                   |
-| :------------ | :---------------------------------------------------- |
-| `y`           | Jump to the error and show its number and meaning.    |
-| `u`           | Jump back to the error place in the program file.     |
-| `i`           | Jump to the input (GMS) file.                         |
-| `q`           | Close the buffer.                                     |
-| `?`           | Help.                                                 |
-| `o`           | Start GAMS-OUTLINE mode.                              |
-| `s(S)`        | Jump to the next (previous) SOLVE SUMMARY.            |
-| `r(R)`        | Jump to the next (previous) REPORT SUMMARY.           |
-| `v(V)`        | Jump to the next (previous) VAR entry.                |
-| `e(E)`        | Jump to the next (previous) EQU entry.                |
-| `p(P)`        | Jump to the next (previous) PARAMETER entry.          |
-| `L`           | Jump to a line you specify.                           |
-| `l`           | Jump to a line.                                       |
-| `SPACE`       | Scroll up.                                            |
-| `DELETE`      | Scroll down.                                          |
-| `1`           | Wien the window.                                      |
-| `2`           | Spit the window.                                      |
-| `m`           | Moe frame.                                            |
-| `w`           | Reize frame.                                          |
-| `z`           | Moe a cursor to the other window.                     |
-| `d,f,g,h,j,k` | Keys for scrollings (see the help in GAMS-LST mode).  |
+| Keybinding    | Command explanation                                  |
+|:--------------|:-----------------------------------------------------|
+| `y`           | Jump to the error and show its number and meaning.   |
+| `u`           | Jump back to the error place in the program file.    |
+| `i`           | Jump to the input (GMS) file.                        |
+| `q`           | Close the buffer.                                    |
+| `?`           | Help.                                                |
+| `o`           | Start GAMS-OUTLINE mode.                             |
+| `s(S)`        | Jump to the next (previous) SOLVE SUMMARY.           |
+| `r(R)`        | Jump to the next (previous) REPORT SUMMARY.          |
+| `v(V)`        | Jump to the next (previous) VAR entry.               |
+| `e(E)`        | Jump to the next (previous) EQU entry.               |
+| `p(P)`        | Jump to the next (previous) PARAMETER entry.         |
+| `L`           | Jump to a line you specify.                          |
+| `l`           | Jump to a line.                                      |
+| `SPACE`       | Scroll up.                                           |
+| `DELETE`      | Scroll down.                                         |
+| `1`           | Widen the window.                                    |
+| `2`           | Spit the window.                                     |
+| `m`           | Move frame.                                          |
+| `w`           | Resize frame.                                        |
+| `z`           | Move a cursor to the other window.                   |
+| `d,f,g,h,j,k` | Keys for scrolling (see the help in GAMS-LST mode). |
 
 For details, please see the help in both modes.
 
@@ -394,9 +389,9 @@ M-x customize-group [ENTER]
 gams [ENTER]
 ```
 
-# TODO:
+# YAML and Python code blocks font-locking
 
-See the TODO file.
+[GAMS Connect](https://www.gams.com/latest/docs/UG_GAMSCONNECT.html) extends GAMS language with YAML and Python code blocks. To enable font-locking for these code blocks, please install [`poly-gams`](https://github.com/ShiroTakeda/poly-gams/tree/main), a [`polymode`](https://polymode.github.io/) for GAMS mode.
 
 # Miscellaneous
 
