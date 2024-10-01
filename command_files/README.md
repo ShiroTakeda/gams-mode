@@ -5,7 +5,7 @@ Maintainer: Shiro Takeda
 
 # Explanation
 
-This folder (directory) includes files of GAMS commands. These files are used for creating gams_commands.txt file.
+This folder contains files with GAMS commands. These files are used to create the `gams-commands.txt` and `gams-commands-dollar.txt` files.
 
 
 <!--

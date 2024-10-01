@@ -3,7 +3,7 @@
 ;;  First-written:	<2001/08/13>
 ;;  Author: Shiro Takeda
 ;;
-;;  This file is created for gams-mode.el version 6.10.
+;;  This file is created for gams-mode.el version 6.16.
 ;;
 ;;  Copy and paste the content of this file into
 ;;  "~/.emacs.d/init.el" file.
@@ -270,11 +270,13 @@
 ;; 	       ;; Bind inserting GAMS statement to C-ca.
 ;; 	       (define-key gams-mode-map "\C-ca" 'gams-insert-statement))
 ;; 	       ))
+
 ;; (add-hook 'gams-lst-mode-hook
 ;; 	  '(lambda ()
 ;;	     ;; a = widen the window.
 ;; 	     (define-key gams-lst-mode-map "a" 'gams-lst-kill-buffer)
 ;; 	     ))
+
 ;; (add-hook 'gams-ol-mode-hook
 ;; 	  '(lambda ()
 ;; 	     (font-lock-mode t)
@@ -290,6 +292,14 @@
 ;; (add-hook
 ;;  'gams-lxi-mode-hook
 ;;  '(lambda () (linum-mode -1)))
+
+;;;; company-mode for GAMS mode
+;;
+;; If you want to use company-mode for GAMS mode add the following code:
+;;
+;; (add-hook 'gams-mode-hook
+;;           ;; Use company-mode
+;;           #'(lambda () (company-mode))) 
 
 
 ;;;; auto-complete mode for GAMS mode

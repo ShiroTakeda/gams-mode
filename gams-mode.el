@@ -2,12 +2,12 @@
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
-;; Copyright (C) 2001-2023 Shiro Takeda
+;; Copyright (C) 2001-2024 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.14
+;; Version: 6.16
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
-;; URL: http://shirotakeda.org/en/gams/gams-mode/
+;; URL: https://github.com/ShiroTakeda/gams-mode
 
 ;; This file is not part of any Emacs.
 
@@ -31,8 +31,8 @@
 ;; GAMS in Emacs (GAMS mode for Emacs).
 
 ;; To install and use this mode, you need to add some codes in init.el.  For the
-;; details, please see README.txt file available at
-;; http://shirotakeda.org/en/gams/gams-mode/
+;; details, please see the following site
+;; https://github.com/ShiroTakeda/gams-mode
 ;;
 ;; If you install this file from MLPA repository, gams-mode.el is downloaded
 ;; from GitHub <https://github.com/ShiroTakeda/gams-mode/tree/master>.  Please
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.14"
+(defconst gams-mode-version "6.16"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -103,7 +103,7 @@
 ;;;     Variables for GAMS mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams-system-directory "c:/GAMS/37/"
+(defcustom gams-system-directory "c:/GAMS/42/"
   "*The GAMS system directory (the directory where GAMS is installed).
 This must be assigned the proper value if you want to use
 `gams-view-document' and `gams-model-library'."
@@ -977,17 +977,81 @@ grouping constructs."
       nil)
   "List of GAMS commands for completion.")
 
-(defvar gams-commands-dollar
-    (or (gams-import-words-from-file
-       (expand-file-name
-	"gams-commands-dollar.txt"
-	(file-name-directory (or load-file-name default-directory))))   
-      nil)
-  "List of GAMS dollar commands.")
+(defvar gams-commands-dollar-if
+  '("if" "ifE" "ifI" "ifThen" "ifThenE" "ifThenI" "elseIf" "elseIfE" "elseIfI")
+  "List of $if commands")
+
+(defvar gams-commands-dollar-conditional
+  '("acrType"
+    "decla_OK"
+    "declared"
+    "defined"
+    "dExist"
+    "dimension"
+    "empty"
+    "equType"
+    "errorFree"
+    "errorLevel"
+    "exist"
+    "filType"
+    "funType"
+    "gamsVersion"
+    "gdxDimension"
+    "gdxEquType"
+    "gdxSetType"
+    "gdxParType"
+    "gdxSetType"
+    "gdxSymExist"
+    "gdxVarType"
+    "macType"
+    "modType"
+    "onState"
+    "parType"
+    "preType"
+    "putOpen"
+    "readable"
+    "set"
+    "setEnv"
+    "setGlobal"
+    "setLocal"
+    "setType"
+    "solver"
+    "uelExist"
+    "varType"
+    "warnings"
+    "xxxType")
+  "List of condition expressions from https://www.gams.com/latest/docs/UG_DollarControlOptions.html#UG_DollarControl_ConditionalCompilationSyntax")
+
+(defvar gams-commands-dollar-extra
+  (let (combinations)
+    (dolist (item1 gams-commands-dollar-if)
+      (dolist (item2 gams-commands-dollar-conditional)
+        (push (concat item1 " " item2) combinations)
+        (push (concat item1 " not " item2) combinations)))
+    (nreverse combinations))
+  "List of all possible combinations of $if commands and condition expressions, including 'not'.")
+
+(defvar gams-commands-dollar-wo-dollar
+  (append
+   (or (gams-import-words-from-file
+	(expand-file-name
+	 "gams-commands-dollar.txt"
+	 (file-name-directory (or load-file-name default-directory))))   
+       nil)
+   gams-commands-dollar-extra)
+  "List of GAMS dollar commands without $.")
 
 (defun gams-attach-dollar-to-string (string)
   "Attach dollar to the beginning of the STRING."
   (concat "$" string))
+
+(defvar gams-commands-dollar
+  (append
+   gams-commands-dollar-wo-dollar
+   (mapcar 'gams-attach-dollar-to-string gams-commands-dollar-wo-dollar)
+   (mapcar 'gams-attach-dollar-to-string
+	   (mapcar 'gams-attach-dollar-to-string gams-commands-dollar-wo-dollar)))
+  "List of GAMS dollar commands under all formats")
 
 (defvar gams-commands-mpsge
   (mapcar 'gams-attach-dollar-to-string gams-statement-mpsge)
@@ -1001,17 +1065,11 @@ grouping constructs."
   "List of all GAMS commands including dollar control.")
 
 (defvar gams-commands-all-down
-  (append
-   (mapcar 'downcase gams-commands)
-   (mapcar 'downcase gams-commands-dollar)
-   (mapcar 'downcase gams-commands-mpsge))
+  (mapcar 'downcase gams-commands-all)
   "List of downcase GAMS commands inc. dollar control options for completion.")
 
 (defvar gams-commands-all-up
-  (append
-   (mapcar 'upcase gams-commands)
-   (mapcar 'upcase gams-commands-dollar)
-   (mapcar 'upcase gams-commands-mpsge))
+  (mapcar 'upcase gams-commands-all)
   "List of uppercase GAMS commands inc. dollar control options for completion.")
 
 (defun gams-completion-at-point ()
@@ -1098,9 +1156,7 @@ If STRING contains only spaces, return null string."
     (if num (substring string num) "")))
 
 (defvar gams-dollar-regexp
-  (gams-regexp-opt
-   (mapcar 'gams-remove-dollar-from-string gams-commands-dollar)
-   t)
+  (gams-regexp-opt gams-commands-dollar-wo-dollar t)
   "Regular expression for dollar control")
 
 (defvar gams-statement-regexp-base-sub
@@ -1454,8 +1510,9 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
 (defvar gams-regexp-declaration-2
   (concat
    "\\(parameter\\|singleton[ ]+set\\|set\\|scalar\\|table"
-   "\\|\\(free\\|positive\\|negative\\|nonnegative"
-   "\\|binary\\|integer\\)*[ ]*variable\\|equation\\|model\\|file"
+   "\\|\\(free\\|positive\\|negative\\|nonnegative\\|binary\\|integer"
+   "\\|semicont\\|semiint\\|sos1\\|sos2\\)*[ ]*variable"
+   "\\|equation\\|model\\|file"
    "\\)[s]?[^.]"
    ))
 
@@ -1848,7 +1905,7 @@ LIMIT specifies the search limit."
          
          ;; If not in declaration block, search declaration block.
          ((and (if (re-search-forward
-                    (concat "^[ \t]*" gams-regexp-declaration-2 "[ \t\n]+") limit t)
+                    (concat "^[ \t]*" gams-regexp-declaration-2 "[ \t\n]*") limit t)
                    (progn
                      (setq match-decl (gams-buffer-substring (match-beginning 1)
                                                              (match-end 1))))
@@ -1915,7 +1972,8 @@ END is the point of the declaration block."
           (when (eobp) (throw 'found t)))
         (if (>= (point) lim)
             ;; if current point exceeds limit, do nothing.
-            (throw 'found t)
+	    (progn (goto-char lim)
+		   (throw 'found t))
           (cond
            ;; If reaced to the end of the buffer.
            ((eobp) (throw 'found t))
@@ -6504,7 +6562,7 @@ If FLAG is non-nil, jump to the previous item."
   (interactive)
   (delete-other-windows)
   (recenter)
-  (message "Winden window."))
+  (message "Widen window."))
 
 (defun gams-lst-split-window ()
   "Split current window into two windows.  Same as `split-window-vertically'."
@@ -8372,7 +8430,7 @@ FUN = Function defined by gams-f,
 MAC = $macro,
 DOL = Dollar control options,
 FIL = $(bat)include and other file-related command,
-TIT = $(s)title,
+TIT = $(s)title or $label,
 COM = Special comment line.
 
 For the details, press ? key.
@@ -8908,7 +8966,7 @@ FUN = Function defined by gams-f,
 MAC = $macro,
 DOL = Dollar control options,
 FIL = $(bat)include and other file-related command,
-TIT = $(s)title,
+TIT = $(s)title or $label,
 COM = Special comment line.")
     (goto-char (point-min))
     (setq buffer-read-only t)
@@ -9219,7 +9277,7 @@ There are 2 types:
 (defsubst gams-sil-regexp-declaration-temp ()
   (setq gams-sil-regexp-declaration-temp
         (concat gams-sil-regexp-declaration-light "\\|"
-                "\\(^$[ ]*[s]?title[ \t]+\\)\\|"                                  ; 8
+                "\\(^$[ ]*[s]?title[ \t]+\\|^$[ ]*label[ \t]+\\)\\|"                                  ; 8
                 "[$][ ]*\\(set\\|setglobal\\|goto\\|label\\|call\\)[ ]+\\|" ; 9
                 "^[ \t]*\\(solve[ \t]+\\)[a-zA-Z_]+\\|"                   ; 10
                 "\\([0-9A-Za-z) \t]+[.][.]\\)[^.]\\|"                     ; 11
@@ -9554,7 +9612,7 @@ LIGHT is t if in light mode.
                   (skip-chars-forward " \t")
                   (push (gams-sil-get-alist-macro fnum) idstruct))
 
-                 ;; $(s)title.
+                 ;; $(s)title or $label.
                  ((and (not light) (match-beginning 8))
                   (goto-char (match-end 8))
                   (push (gams-sil-get-alist-title fnum) idstruct))
@@ -10845,7 +10903,7 @@ if prev is non-nil, move up after toggle."
 
 (defun gams-sid-return-block-end (beg)
   "Return the point of the end of the block."
-  (let (temp flag)
+  (let (temp flag mstr)
     (save-excursion
       (goto-char beg)
       (catch 'found
@@ -10871,6 +10929,7 @@ if prev is non-nil, move up after toggle."
                      (throw 'found t))
             ;; If found,
             (setq temp (match-beginning 0))
+	    (setq mstr (gams-buffer-substring (match-beginning 0) (match-end 0)))
             (skip-chars-backward " \t\n")
             (when (and (not (and (not (looking-back ";" nil)) (looking-at "[a-zA-Z0-9_]")))
                        (not (gams-check-line-type))
@@ -10878,6 +10937,8 @@ if prev is non-nil, move up after toggle."
                        (not (gams-in-quote-p))
                        (gams-slash-end-p beg)
                        )
+	      (when (not (equal mstr ";"))
+		(setq temp (1- temp)))
               (setq flag temp)
               (throw 'found t))))))
     flag))

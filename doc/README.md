@@ -5,8 +5,8 @@ Maintainer: Shiro Takeda
 
 # Explanation
 
-"refcard-gams.tex" is a tex file of reference card for GAMS mode. You can
-compile it with pdflatex.
+`refcard-gams.tex` is a LaTeX file for the reference card for GAMS mode. You can compile it using `pdflatex`.
+
 
 
 <!--
