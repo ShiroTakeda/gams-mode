@@ -2,12 +2,12 @@
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
-;; Copyright (C) 2001-2023 Shiro Takeda
+;; Copyright (C) 2001-2024 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.15
+;; Version: 6.16
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
-;; URL: http://shirotakeda.org/en/gams/gams-mode/
+;; URL: https://github.com/ShiroTakeda/gams-mode
 
 ;; This file is not part of any Emacs.
 
@@ -31,8 +31,8 @@
 ;; GAMS in Emacs (GAMS mode for Emacs).
 
 ;; To install and use this mode, you need to add some codes in init.el.  For the
-;; details, please see README.txt file available at
-;; http://shirotakeda.org/en/gams/gams-mode/
+;; details, please see the following site
+;; https://github.com/ShiroTakeda/gams-mode
 ;;
 ;; If you install this file from MLPA repository, gams-mode.el is downloaded
 ;; from GitHub <https://github.com/ShiroTakeda/gams-mode/tree/master>.  Please
@@ -74,7 +74,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.15"
+(defconst gams-mode-version "6.16"
   "Version of GAMS mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -103,7 +103,7 @@
 ;;;     Variables for GAMS mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams-system-directory "c:/GAMS/37/"
+(defcustom gams-system-directory "c:/GAMS/42/"
   "*The GAMS system directory (the directory where GAMS is installed).
 This must be assigned the proper value if you want to use
 `gams-view-document' and `gams-model-library'."
@@ -977,17 +977,81 @@ grouping constructs."
       nil)
   "List of GAMS commands for completion.")
 
-(defvar gams-commands-dollar
-    (or (gams-import-words-from-file
-       (expand-file-name
-	"gams-commands-dollar.txt"
-	(file-name-directory (or load-file-name default-directory))))   
-      nil)
-  "List of GAMS dollar commands.")
+(defvar gams-commands-dollar-if
+  '("if" "ifE" "ifI" "ifThen" "ifThenE" "ifThenI" "elseIf" "elseIfE" "elseIfI")
+  "List of $if commands")
+
+(defvar gams-commands-dollar-conditional
+  '("acrType"
+    "decla_OK"
+    "declared"
+    "defined"
+    "dExist"
+    "dimension"
+    "empty"
+    "equType"
+    "errorFree"
+    "errorLevel"
+    "exist"
+    "filType"
+    "funType"
+    "gamsVersion"
+    "gdxDimension"
+    "gdxEquType"
+    "gdxSetType"
+    "gdxParType"
+    "gdxSetType"
+    "gdxSymExist"
+    "gdxVarType"
+    "macType"
+    "modType"
+    "onState"
+    "parType"
+    "preType"
+    "putOpen"
+    "readable"
+    "set"
+    "setEnv"
+    "setGlobal"
+    "setLocal"
+    "setType"
+    "solver"
+    "uelExist"
+    "varType"
+    "warnings"
+    "xxxType")
+  "List of condition expressions from https://www.gams.com/latest/docs/UG_DollarControlOptions.html#UG_DollarControl_ConditionalCompilationSyntax")
+
+(defvar gams-commands-dollar-extra
+  (let (combinations)
+    (dolist (item1 gams-commands-dollar-if)
+      (dolist (item2 gams-commands-dollar-conditional)
+        (push (concat item1 " " item2) combinations)
+        (push (concat item1 " not " item2) combinations)))
+    (nreverse combinations))
+  "List of all possible combinations of $if commands and condition expressions, including 'not'.")
+
+(defvar gams-commands-dollar-wo-dollar
+  (append
+   (or (gams-import-words-from-file
+	(expand-file-name
+	 "gams-commands-dollar.txt"
+	 (file-name-directory (or load-file-name default-directory))))   
+       nil)
+   gams-commands-dollar-extra)
+  "List of GAMS dollar commands without $.")
 
 (defun gams-attach-dollar-to-string (string)
   "Attach dollar to the beginning of the STRING."
   (concat "$" string))
+
+(defvar gams-commands-dollar
+  (append
+   gams-commands-dollar-wo-dollar
+   (mapcar 'gams-attach-dollar-to-string gams-commands-dollar-wo-dollar)
+   (mapcar 'gams-attach-dollar-to-string
+	   (mapcar 'gams-attach-dollar-to-string gams-commands-dollar-wo-dollar)))
+  "List of GAMS dollar commands under all formats")
 
 (defvar gams-commands-mpsge
   (mapcar 'gams-attach-dollar-to-string gams-statement-mpsge)
@@ -1092,9 +1156,7 @@ If STRING contains only spaces, return null string."
     (if num (substring string num) "")))
 
 (defvar gams-dollar-regexp
-  (gams-regexp-opt
-   (mapcar 'gams-remove-dollar-from-string gams-commands-dollar)
-   t)
+  (gams-regexp-opt gams-commands-dollar-wo-dollar t)
   "Regular expression for dollar control")
 
 (defvar gams-statement-regexp-base-sub
@@ -6497,7 +6559,7 @@ If FLAG is non-nil, jump to the previous item."
   (interactive)
   (delete-other-windows)
   (recenter)
-  (message "Winden window."))
+  (message "Widen window."))
 
 (defun gams-lst-split-window ()
   "Split current window into two windows.  Same as `split-window-vertically'."
