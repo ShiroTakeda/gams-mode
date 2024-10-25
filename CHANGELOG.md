@@ -8,6 +8,19 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 7.0
+----------------------------------
+
+*  `gams-file-extension` has been removed because it does not work well
+   with deferred package loading and can prevent `poly-gams`from loading
+   properly.
+
+*  All paths to executables and folders should be set automatically if
+   GAMS is present in the PATH. If this is not the case, the only thing to
+   set is the path to the `gams` executable.
+
+* Adjustments in docstrings to follow more elisp conventions (still a lot to do).
+
 Version 6.16
 ----------------------------------
 

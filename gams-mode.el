@@ -125,7 +125,7 @@ https://www.gams.com/latest/docs/UG_GamsCall.html#UG_GamsCall_ListOfCommandLineP
   :group 'gams)
 
 (defcustom gams-statement-file (concat user-emacs-directory "gams-statement.txt")
-  "*The name of the file in which user specific statements are stored.
+  "The name of the file in which user specific statements are stored.
 If you register new statements and dollar control options, they are saved
 in the file specified by this variable."
   :type 'file
@@ -145,61 +145,61 @@ The default casing follows GAMS Studio and is \\='CamelCase."
   :group 'gams)
 
 (defcustom gams-statement-upcase nil
-  "*Non-nil means that statement is inserted in upper case.
+  "Non-nil means that statement is inserted in upper case.
 If you want to use lower case, set nil to this variable."
   :type 'boolean
   :group 'gams)
 
 (defcustom gams-dollar-control-upcase nil
-  "*Non-nil means that dollar control option is inserted in upper case.
+  "Non-nil means that dollar control option is inserted in upper case.
 If you want to use lower case, set nil to this variable."
   :type 'boolean
   :group 'gams)
 
 (defcustom gams-use-mpsge t
-  "*If you use MPSGE, set non-nil to this variable."
+  "If you use MPSGE, set non-nil to this variable."
   :type 'boolean
   :group 'gams)
 
 (defcustom gams-fill-column 80
-  "*The column number used for `fill-paragraph' and `auto-fill-mode'."
+  "The column number used for `fill-paragraph' and `auto-fill-mode'."
   :type 'integer
   :group 'gams)
 
 (defcustom gams-recenter-font-lock t
-  "*If non-nil, `font-lock-fontify-block' when recentering.
+  "If non-nil, `font-lock-fontify-block' when recentering.
 If your computer is slow, you may better set this to nil."
   :type 'boolean
   :group 'gams)
 
 (defcustom gams-mode-hook  nil
-  "*Hook run when `gams-mode' starts."
+  "Hook run when `gams-mode' starts."
   :type 'hook
   :group 'gams)
 
 ;; from yatex.el
 (defcustom gams-close-paren-always t
-  "*Non-nil means that close parenthesis when you type `('."
+  "Non-nil means that close parenthesis when you type `('."
   :type 'boolean
   :group 'gams)
 
 (defcustom gams-close-double-quotation-always t
-  "*Non-nil means that close double quotation when you type `\"'."
+  "Non-nil means that close double quotation when you type `\"'."
   :type 'boolean
   :group 'gams)
 
 (defcustom gams-close-single-quotation-always nil
-  "*Non-nil means that close quotation when you type `''."
+  "Non-nil means that close quotation when you type `''."
   :type 'boolean
   :group 'gams)
 
 (defcustom gams-statement-name "set"
-  "*The initial value of statement insertion."
+  "The initial value of statement insertion."
   :type 'string
   :group 'gams)
 
 (defcustom gams-dollar-control-name "exit"
-  "*The initial value of dollar control insertion."
+  "The initial value of dollar control insertion."
   :type 'string
   :group 'gams)
 
@@ -209,7 +209,7 @@ If your computer is slow, you may better set this to nil."
 * %
 *------------------------------------------------------------------------
 "
-  "*User defined comment template.
+  "User defined comment template.
 You can insert the comment template defined in this variable by executing
 `gams-insert-comment'.  `%' in the string indicates the cursor place and
 will disappear after template insertion.  NB: If you want to include
@@ -219,31 +219,31 @@ with a slash \."
   :group 'gams)
 
 (defcustom gams-comment-column 40
-  "*The default value of `comment-column' in GAMS mode."
+  "The default value of `comment-column' in GAMS mode."
   :type 'integer
   :group 'gams)
 
 (defcustom gams-inlinecom-symbol-start-default "/*"
-  "*The default value for the inline comment start symbol.
+  "The default value for the inline comment start symbol.
 You can insert the inline comment with `gams-comment-dwim-inline'."
   :type 'string
   :group 'gams)
 
-(defcustom gams-inlinecom-symbol-end-default "*/"
-  "*The default value for the inline comment end symbol.
+(defcustom gams-inlinecom-symbol-end-default "/"
+  "The default value for the inline comment end symbol.
 You can insert the inline comment with `gams-comment-dwim-inline'."
   :type 'string
   :group 'gams)
 
 (defcustom gams-eolcom-symbol-default "#"
-  "*The default value for the end of line comment symbol.
+  "The default value for the end of line comment symbol.
 You can insert the inline comment with `gams-comment-dwim'."
   :type 'string
   :group 'gams)
 
 ;;; from epolib.el
 (defcustom gams-default-pop-window-height 15
-  "*The default GAMS process buffer height.
+  "The default GAMS process buffer height.
 If integer, sets the window height of process buffer.  If string, sets the
 percentage of it.  If nil, use default `pop-to-buffer'."
   :type 'integer
@@ -251,29 +251,29 @@ percentage of it.  If nil, use default `pop-to-buffer'."
 
 (defcustom gams-docs-directory
   (concat (file-name-as-directory gams-system-directory) "docs")
-  "*The GAMS document directory.
+  "The GAMS document directory.
 By default, it is set to `gams-system-directory' + docs."
   :type 'file
   :group 'gams)
 
 (defcustom gams-docs-url "https://www.gams.com/latest/docs/"
-  "*URL for the GAMS document."
+  "URL for the GAMS document."
   :type 'url
   :group 'gams)
 
 (defcustom gams-model-library-url "https://www.gams.com/latest/docs/modlibs.html"
-  "*URL for the online GAMS model library."
+  "URL for the online GAMS model library."
   :type 'url
   :group 'gams)
 
 (defcustom gams-insert-dollar-control-on nil
-  "*Non-nil means that $ key is binded to inserting dollar control options.
+  "Non-nil means that $ key is binded to inserting dollar control options.
 If nil, $ key is binded to inserting dollar itself."
   :group 'gams
   :type 'boolean)
 
 (defcustom gams-always-popup-process-buffer t
-  "*Non-nil means popup always the GAMS process buffer when you run GAMS.
+  "Non-nil means popup always the GAMS process buffer when you run GAMS.
 If nil, the GAMS process buffer does not popup unless you type `C-cC-l'."
   :type 'boolean
   :group 'gams)
@@ -285,12 +285,12 @@ If nil, the GAMS process buffer does not popup unless you type `C-cC-l'."
   :group 'gams)
 
 (defcustom gams-special-comment-symbol "@"
-  "*The symbol that indicates the special comment."
+  "The symbol that indicates the special comment."
   :type 'string
   :group 'gams)
 
 (defcustom gams-display-small-logo t
-  "*If non-nil, display GAMS logo in the modeline."
+  "If non-nil, display GAMS logo in the modeline."
   :type 'boolean
   :group 'gams)
 
@@ -300,7 +300,7 @@ If nil, the GAMS process buffer does not popup unless you type `C-cC-l'."
   :group 'gams)
 
 (defcustom gams-outline-regexp "\\*@+[ \t]"
-  "*Outline-regex for `gams-mode'.
+  "Outline-regex for `gams-mode'.
 Specify the regular expressions of the symbol used to represent headlines."
   :type 'string
   :group 'gams)
@@ -310,7 +310,7 @@ Specify the regular expressions of the symbol used to represent headlines."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defcustom gams-template-file (concat user-emacs-directory "gams-template.txt")
-  "*The name of a file used to store templates."
+  "The name of a file used to store templates."
   :type 'file
   :group 'gams)
 
@@ -325,13 +325,13 @@ non-nil."
   :group 'gams)
 
 (defcustom gams-template-cont-color t
-  "*Non-nil means colorization of *Template Content* buffer.
+  "Non-nil means colorization of *Template Content* buffer.
 Non-nil may make the speed of template-mode slow."
   :type 'boolean
   :group 'gams)
 
 (defcustom gams-template-mark "%c"
-  "*The mark that indicates the point of cursor in a template."
+  "The mark that indicates the point of cursor in a template."
   :type 'string
   :group 'gams)
 
@@ -370,7 +370,7 @@ Up to two letters."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defcustom gams-font-lock-level 2
-  "*The default level of colring in GAMS mode.
+  "The default level of coloring in GAMS mode.
 0 => no color.
 1 => minimum.
 2 => maximize."
@@ -378,7 +378,7 @@ Up to two letters."
   :type 'integer)
 
 (defcustom gams-lst-font-lock-level 2
-  "*The default level of coloring in GAMS-LST mdoe.
+  "The default level of coloring in GAMS-LST mdoe.
 0 => no color.
 1 => minimum.
 2 => maximize."
@@ -386,7 +386,7 @@ Up to two letters."
   :type 'integer)
 
 (defcustom gams-ol-font-lock-level 2
-  "*The default level of coloring in GAMS-OUTLINE mode.
+  "The default level of coloring in GAMS-OUTLINE mode.
 0 => no color.
 1 => minimum.
 2 => maximize."
@@ -394,7 +394,7 @@ Up to two letters."
   :type 'integer)
 
 (defcustom gams-lst-mode-hook  nil
-  "*GAMS-LST mode hooks."
+  "GAMS-LST mode hooks."
   :type 'hook
   :group 'gams)
 
@@ -410,25 +410,25 @@ Up to two letters."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defcustom gams-indent-on t
-  "*If non-nil, automatic indent for GAMS mode is enabled.
+  "If non-nil, automatic indent for GAMS mode is enabled.
 If nil, automatic indent doesn't work and tab key insert tab itself."
   :type 'boolean
   :group 'gams)
 
 (defcustom gams-indent-number 4
-  "*Indent number for general statemets."
+  "Indent number for general statemets."
   :type 'integer
   :group 'gams)
 
 (defcustom gams-indent-number-loop 4
-  "*Indent number in loop type environment.
+  "Indent number in loop type environment.
 
 loop type statement means \"loop\", \"if\", \"while\", \"for\" etc."
   :type 'integer
   :group 'gams)
 
 (defcustom gams-indent-number-mpsge 4
-  "*Indent number in mpsge type environment.
+  "Indent number in mpsge type environment.
 
 MPSGE type statement means \"$sector:\", \"$commodities:\", \"$prod:\"
 etc."
@@ -436,12 +436,12 @@ etc."
   :group 'gams)
 
 (defcustom gams-indent-number-equation 4
-  "*Indent number for equation definition."
+  "Indent number for equation definition."
   :type 'integer
   :group 'gams)
 
 (defcustom gams-indent-equation-on t
-  "*Non-nil means indent equation blocks.
+  "Non-nil means indent equation blocks.
 If nil, already written equations are not affected by `gams-indent-line'."
   :type 'boolean
   :group 'gams)
@@ -456,14 +456,14 @@ If nil, already written equations are not affected by `gams-indent-line'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defcustom gams-ol-height 15
-  "*The default height of the OUTLINE buffer with one LST buffer.
+  "The default height of the OUTLINE buffer with one LST buffer.
 You can change the height of the OUTLINE buffer with
 `gams-ol-narrow-one-line' and `gams-ol-widen-one-line'."
   :type 'integer
   :group 'gams)
 
 (defcustom gams-ol-height-two 8
-  "*The default height of the OUTLINE buffer with two LST buffers.
+  "The default height of the OUTLINE buffer with two LST buffers.
 You can change the height of the OUTLINE buffer with
 `gams-ol-narrow-one-line' and `gams-ol-widen-one-line'."
   :type 'integer
@@ -501,7 +501,7 @@ on the top, you must write MAR at the fisrt in this alist."
   :group 'gams)
 
 (defcustom gams-ol-mode-hook nil
-  "*Hook run when GAMS-OUTLINE mode starts."
+  "Hook run when GAMS-OUTLINE mode starts."
   :type 'hook
   :group 'gams)
 
@@ -517,7 +517,7 @@ GAMS LXI mode loads.  If the number of lines of the LST file
 exceeds this value, GAMS-LXI mode only loads a part of it.")
 
 (defcustom gams-lxi-command-name "gamslxi.exe"
-  "*File name of external program for creating the LXI file.
+  "File name of external program for creating the LXI file.
 
 If you want to use GAMS-LXI mode, you need to set the proper
 value to this variable.  If gamslxi.exe is placed at the
@@ -531,7 +531,7 @@ set the full path to gamslxi.exe, for example,
 :group 'gams)
 
 (defcustom gams-lxi-import-command-name "gamslxi-import.exe"
-  "*File name of external program for importing the LST file from GAMS-LXI mode.
+  "File name of external program for importing the LST file from GAMS-LXI mode.
 
 If you want to use GAMS-LXI mode, you need to set the proper
 value to this variable.  If gamslxi-import.exe is placed at the
@@ -551,14 +551,14 @@ need to set the full path to gamslxi-import.exe, for example,
   )
 
 (defcustom gams-lxi-width 40
-"*The default width of the GAMS-LXI buffer.
+"The default width of the GAMS-LXI buffer.
 You can change the width of the LXI buffer with
 `gams-lxi-narrow-one-line' and `gams-lxi-widen-one-line'."
   :type 'integer
   :group 'gams)
 
 (defcustom gams-lxi-mode-hook nil
-  "*GAMS-LXI mode hooks."
+  "GAMS-LXI mode hooks."
   :type 'hook
   :group 'gams)
 
@@ -613,32 +613,32 @@ Used for candidate of MPSGE dollar control inserting.")
 
 ;;;;; Key bindgings.
 (defcustom gams-olk-1 "?"
-  "*Key for `gams-ol-help'."
+  "Key for `gams-ol-help'."
   :type 'string
   :group 'gams-keys)
 
 (defcustom gams-olk-4 "T"
-  "*Key for `gams-ol-select-item'."
+  "Key for `gams-ol-select-item'."
   :type 'string
   :group 'gams-keys)
 
 (defcustom gams-olk-5 " "
-  "*Key for `gams-ol-view-base'."
+  "Key for `gams-ol-view-base'."
   :type 'string
   :group 'gams-keys)
 
 (defcustom gams-olk-6 "q"
-  "*Key for `gams-ol-quit'."
+  "Key for `gams-ol-quit'."
   :type 'string
   :group 'gams-keys)
 
 (defcustom gams-olk-7 "m"
-  "*Key for `gams-ol-mark'."
+  "Key for `gams-ol-mark'."
   :type 'string
   :group 'gams-keys)
 
 (defcustom gams-olk-8 "t"
-  "*Key for `gams-ol-item'."
+  "Key for `gams-ol-item'."
   :type 'string
   :group 'gams-keys)
 
@@ -669,12 +669,12 @@ Used for candidate of MPSGE dollar control inserting.")
   :group 'gams-keys)
 
 (defcustom gams-choose-font-lock-level-key "\C-c\C-f"
-  "*The keybinding for `gams-choose-font-lock-level'."
+  "The keybinding for `gams-choose-font-lock-level'."
   :type 'string
   :group 'gams-keys)
 
 (defcustom gams-sil-expand-file-more t
-  "*If non-nil, expand more files in GAMS-SIL.
+  "If non-nil, expand more files in GAMS-SIL.
 
 In GAMS-SIL mode, the contents of files included by $include
 commands are usually expanded.  For example,
@@ -691,7 +691,7 @@ However, the content of xxx.gms is expanded only if
   :group 'gams)
 
 (defcustom gams-sil-expand-batinclude t
-  "*If non-nil, GAMS-SIL mode expands files included by $batinclude.
+  "If non-nil, GAMS-SIL mode expands files included by $batinclude.
 
 In GAMS-SIL mode, the contents of files included by $include
 commands are always expanded.  But files included by $batinclude are
@@ -700,7 +700,7 @@ not expanded if `gams-sil-expand-batinclude' is nil."
   :group 'gams)
 
 (defcustom gams-sil-mode-hook  nil
-  "*Hook run when GAMS-SIL mode starts."
+  "Hook run when GAMS-SIL mode starts."
   :type 'hook
   :group 'gams)
 
@@ -734,7 +734,7 @@ Taken from `org-level-color-stars-only'."
   :type 'boolean)
 
 (defcustom gams-outline-regexp-font-lock "^\\([*]\\@*\\)\\(\\@[ \t]\\)\\(.*\\)"
-  "*Regular expressions of headline for font-lock."
+  "Regular expressions of headline for font-lock."
   :type 'string
   :group 'gams)
 
@@ -2568,7 +2568,7 @@ If TABLE is nil, table declaration is not consindered as a declaration."
   (insert "\t"))
 
 (defcustom gams-lst-dir-default nil
-  "*The default directory where lst files are stored.
+  "The default directory where lst files are stored.
 If you set a directory to this variable, lst files are stored in that directory.
 If you do not want to specify the lst file directory, set nil to this variable."
   :type '(radio (const :tag "not specify lst file directory \(nil\)" nil)
@@ -8659,7 +8659,7 @@ Nil -> split vertically."
   :group 'gams)
 
 (defcustom gams-sil-display-column-num 25
-"*The default column number in GAMS-SIL mode.
+"The default column number in GAMS-SIL mode.
 The column number for displaying explanatory texts for identifier."
   :type 'integer
   :group 'gams)
@@ -12538,7 +12538,7 @@ For details, see the help of `gams-ol-toggle-display-style'."
   :group 'gams)
 
 (defcustom gams-ol-width 40
-"*The default width of the GAMS-OUTLINE buffer.
+"The default width of the GAMS-OUTLINE buffer.
 You can change the width of the OUTLINE buffer with
 `gams-ol-narrow-one-line' and `gams-ol-widen-one-line'."
   :type 'integer
