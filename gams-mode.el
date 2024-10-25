@@ -172,16 +172,6 @@ If your computer is slow, you may better set this to nil."
   :type 'boolean
   :group 'gams)
 
-(defcustom gams-file-extension '("gms")
-  "*List of gams program file extensions.
-If you open a file with an extension included in this list, GAMS mode
-starts automatically.  It doen't matter whether upper case or lower
-case.  For example,
-
-     (setq gams-file-extension '(\"gms\" \"dat\"))'"
-  :type '(repeat (string :tag "value"))
-  :group 'gams)
-
 (defcustom gams-mode-hook  nil
   "*Hook run when `gams-mode' starts."
   :type 'hook
@@ -2899,12 +2889,6 @@ The following commands are available in the GAMS mode:
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.\\(GMS\\|gms\\)$" . gams-mode))
 
-(add-to-list 'auto-mode-alist
-             (cons
-              (format "\\.%s$\\'"
-                      (regexp-opt (append (mapcar 'downcase gams-file-extension)
-                                          (mapcar 'upcase gams-file-extension))))
-              'gams-mode))
 (autoload 'gams-mode "gams" "Enter GAMS mode" t)
 
 (defun gams-unlogged-message (&rest args)
@@ -17806,7 +17790,6 @@ I forgot what this function is..."
    'gams-dollar-control-name
    'gams-dollar-control-upcase
    'gams-eolcom-symbol-default
-   'gams-file-extension
    'gams-fill-column
    'gams-font-lock-level
    'gams-gamslib-command
