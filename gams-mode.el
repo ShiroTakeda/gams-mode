@@ -2789,14 +2789,12 @@ If COM is non-nil, create alist from command name."
 
 ;;;###autoload
 (define-derived-mode gams-mode prog-mode "GAMS"
-  "Major mode for editing GAMS program file.
+  "Major mode for editing ‘GAMS’ program file.
 
-The following commands are available in the GAMS mode:
+The following commands are available in the ‘GAMS’ mode:
 
 \\{gams-mode-map}"
   :group 'gams
-  (interactive)
-  (kill-all-local-variables)
   (setq major-mode 'gams-mode)
   (setq mode-name "GAMS")
   (gams-mode-key-update)

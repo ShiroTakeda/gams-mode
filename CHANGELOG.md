@@ -21,6 +21,9 @@ Version 7.0
 
 * Adjustments in docstrings to follow more elisp conventions (still a lot to do).
 
+* `major-mode` is now derived from prog-mode. This was supposed to be the
+  case before, but all features of prog-mode were immediately killed.
+
 Version 6.16
 ----------------------------------
 
