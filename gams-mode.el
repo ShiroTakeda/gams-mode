@@ -74,8 +74,8 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst gams-mode-version "6.16"
-  "Version of GAMS mode.")
+(defconst gams-mode-version "7.00"
+  "Version of ‘GAMS’ mode.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;     Define customizable variables.
@@ -84,16 +84,16 @@
 ;;;;; Define groups.
 
 (defgroup gams nil
-  "Group of GAMS mode for Emacs."
+  "Group of ‘GAMS’ mode for Emacs."
   :group 'applications)
 
 (defgroup gams-faces nil
-  "Group of faces for GAMS mode."
+  "Group of faces for ‘GAMS’ mode."
   :group 'gams
   :group 'faces)
 
 (defgroup gams-keys nil
-  "Group of keybindings for GAMS mode."
+  "Group of keybindings for ‘GAMS’ mode."
   :group 'gams
   :group 'keyboard)
 
@@ -103,31 +103,24 @@
 ;;;     Variables for GAMS mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams-system-directory "c:/GAMS/42/"
-  "*The GAMS system directory (the directory where GAMS is installed).
-This must be assigned the proper value if you want to use
-`gams-view-document' and `gams-model-library'."
+(defcustom gams-process-command-name (executable-find "gams")
+  "‘GAMS’ program file name."
   :type 'file
   :group 'gams)
 
-(defcustom gams-process-command-name "gams"
-  "*GAMS program file name.
-
-If you do not include the GAMS system directory in PATH environmental
-variable, you must set the full path to GAMS in this variable like
-
-\"c:/GAMS20.0/gams.exe.\"."
+(defcustom gams-system-directory (file-name-directory gams-process-command-name)
+  "The ‘GAMS’ system directory (the directory where GAMS is installed)."
   :type 'file
   :group 'gams)
 
 (defcustom gams-process-command-option "logOption=3 pageWidth=100"
-  "*The command line options passed to GAMS.
+  "The command line options passed to ‘GAMS’.
 
 If you are Windows Emacs user, LogOption=3 (or lo=3) option is
 necessary to show the GAMS process log.
 
 For the details of GAMS command line options, see the following page:
-https://www.gams.com/39/docs/UG_GamsCall.html#UG_GamsCall_ListOfCommandLineParameters"
+https://www.gams.com/latest/docs/UG_GamsCall.html#UG_GamsCall_ListOfCommandLineParameters"
   :type 'string
   :group 'gams)
 
@@ -295,13 +288,9 @@ If nil, the GAMS process buffer does not popup unless you type `C-cC-l'."
   :type 'boolean
   :group 'gams)
 
-(defcustom gams-gamslib-command "gamslib.exe"
-  "The file name of gamslib program.
-If you do not include the GAMS system directory in PATH
-environmental variable, you must set the full path to gamslib.exe
-in this variable like
-
-\"c:/GAMS23.1/gamslib.exe.\"."
+(defcustom gams-gamslib-command (or (executable-find "gamslib")
+				    (concat gams-system-directory "gamslib"))
+  "The file name of gamslib program."
   :type 'file
   :group 'gams)
 
@@ -14249,13 +14238,13 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     ("Application Area" . 25)
     ("Type" . 8)
     ("Contributor" . 15))
-  "Column width for gamslib")
+  "Column width for gamslib.")
 
 (defvar gams-modlib-tes-width
   '(("SeqNr" . 7)
     ("Name" . 15)
     ("Type" . 10))
-  "Column width for testlib")
+  "Column width for testlib.")
 
 (defvar gams-modlib-dat-width
   '(("SeqNr" . 7)
@@ -14263,20 +14252,20 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     ("File type" . 15)
     ("Tool" . 15)
     ("Windows Only" . 10))
-  "Column width for datalib")
+  "Column width for datalib.")
 
 (defvar gams-modlib-emp-width
   '(("SeqNr" . 7)
     ("Name" . 15)
     ("Type" . 10))
-  "Column width for emplib")
+  "Column width for emplib.")
 
 (defvar gams-modlib-api-width
   '(("SeqNr" . 7)
     ("Name" . 20)
     ("Type" . 15)
     ("Category" . 10))
-  "Column width for apilib")
+  "Column width for apilib.")
 
 (defvar gams-modlib-fin-width
   '(("SeqNr" . 7)
@@ -14284,7 +14273,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     ("Name" . 20)
     ("Chapter" . 25)
     ("PFONr" . 15))
-  "Column width for finslib")
+  "Column width for finslib.")
 
 (defvar gams-modlib-noa-width
   '(("SeqNr" . 7)
@@ -14292,7 +14281,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     ("Name" . 15)
     ("Chapter" . 30)
     ("FigureNr" . 8))
-  "Column width for noalib")
+  "Column width for noalib.")
 
 (defvar gams-modlib-pso-width
   '(("SeqNr" . 7)
@@ -14300,7 +14289,7 @@ To register the viewable item combinations, use `gams-ol-select-item'."
     ("Name" . 15)
     ("Chapter" . 30)
     ("FigureNr" . 8))
-  "Column width for psoptlib")
+  "Column width for psoptlib.")
 
 (defconst gams-modlib-sort-mess
   '((gam . gams-modlib-mod-sort-mess)
