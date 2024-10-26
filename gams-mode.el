@@ -2867,9 +2867,6 @@ The following commands are available in the ‘GAMS’ mode:
   (setq font-lock-mark-block-function 'gams-font-lock-mark-block-function)
   ;; Local variables to store window configurations.
   (make-local-variable 'gams-temp-window)
-  ;; Setting for menu.
-  (easy-menu-add gams-menu)
-  ;;
   (when (and gams-display-small-logo
              (fboundp 'find-image))
     (add-hook 'gams-mode-hook 'gams-add-mode-line))
@@ -5927,7 +5924,6 @@ The followings are page scroll commands.  Just changed to upper case letters.
   (unless gams-lst-ol-buffer-point
     (make-local-variable 'gams-lst-ol-buffer-point))
   ;;
-  (easy-menu-add gams-lst-menu)
   (setq truncate-lines t)
   (run-hooks 'gams-lst-mode-hook)
   (if (and (not (equal gams-lst-font-lock-keywords nil))
@@ -7305,9 +7301,7 @@ The following commands are available in this mode.
   (if gams-user-template-alist
       (gams-temp-select-key)
     (gams-temp-show-message))
-  (setq buffer-read-only t)
-  ;; menu.
-  (easy-menu-add gams-template-mode-menu))
+  (setq buffer-read-only t))
 
 (defun gams-temp-select-key ()
   "Show key assignments in the GAMS-TEMPLATE mode."
@@ -7397,7 +7391,6 @@ The following commands are available in this mode.
   (setq major-mode 'gams-temp-cont-mode)
   (setq mode-name "Content")
   (use-local-map gams-temp-cont-mode-map)
-  (easy-menu-add gams-temp-cont-mode-menu)
   (mapc
    'make-local-variable
    '(gams-comment-prefix
@@ -7808,9 +7801,7 @@ Key-bindings are almost the same as GAMS mode.
   ;; TEST.
   (set-buffer-modified-p nil)
   (current-buffer)
-  (gams-temp-add-key)
-  (easy-menu-add gams-template-edit-menu)
-  ) ;; gams-template-edit-mode ends here.
+  (gams-temp-add-key)) ;; gams-template-edit-mode ends here.
 
 (defun gams-temp-edit-help ()
   "Show help."
@@ -8534,8 +8525,6 @@ This command cannot identify aliased set identifer."
      gams-sil-fold-all-items-p
      gams-sil-id-str))
   (add-hook 'pre-command-hook  'gams-sil-pre-command-hook nil t)
-  ;; Setting for menu.
-  (easy-menu-add gams-sil-menu)
 
  (when (not gams-sil-create-alist-done)
    (setq gams-sil-item-alist
@@ -12397,9 +12386,6 @@ The followings are page scroll commands.  Just changed to upper cases.
     (setq gams-ol-create-alist-done t)
     (gams-ol-item-make-alist gams-ol-view-item)
     (setq gams-ol-view-item-default (gams-ol-make-list-view-item gams-ol-view-item)))
-  ;; Menu
-  (easy-menu-add gams-ol-mode-menu)
-  ;;
   (when global-font-lock-mode
     (font-lock-mode t))
   ;; Run hook
@@ -14799,9 +14785,7 @@ U       Unmark all items
   (setq major-mode 'gams-modlib-mode)
   (setq mode-name "GAMS-MODLIB")
   (use-local-map gams-modlib-mode-map)
-  (setq truncate-lines t)
-  (easy-menu-add gams-modlib-menu)
-  )
+  (setq truncate-lines t))
 
 (defun gams-modlib-show-next ()
   (interactive)
@@ -15626,7 +15610,6 @@ If PAGE is non-nil, page scroll."
   (setq buffer-read-only t
         truncate-lines t)
   (setq font-lock-defaults '(gams-lxi-font-lock-keywords t t))
-  (easy-menu-add gams-lxi-menu)
   (run-hooks 'gams-lxi-mode-hook)
   )
 
