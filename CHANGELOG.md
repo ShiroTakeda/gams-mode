@@ -24,6 +24,8 @@ Version 7.0
 * `major-mode` is now derived from prog-mode. This was supposed to be the
   case before, but all features of prog-mode were immediately killed.
 
+* The GAMS process buffer is now turned to `view-mode` at the end of compilation, which prevents any modification and add special keybindings to move inside the buffer.
+
 Version 6.16
 ----------------------------------
 

@@ -3784,6 +3784,8 @@ PROC is the process name and STATE is the process state."
             (select-window w)
             (goto-char (point-max))
             (recenter -1)))
+          ;; Enable `view-mode` to prevent further editing
+          (view-mode 1)
           (select-window sw)
           (if err
               (message (concat
@@ -3931,8 +3933,7 @@ PROC is process name and STRING is output string from process."
         (select-window gw)
       (delete-other-windows)
       (gams-smart-split-window gams-default-pop-window-height)
-      (switch-to-buffer gams-ps-gms-buffer)
-      )))
+      (switch-to-buffer gams-ps-gms-buffer))))
 
 (defun gams-get-builtin (keyword)
   "Get built-in string specified by KEYWORD in current buffer."
