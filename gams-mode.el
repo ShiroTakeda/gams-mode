@@ -5827,7 +5827,7 @@ Push the overlay onto the `gams-invisible-areas-list' list."
 (setq-default gams-ol-alist nil)
 (setq-default gams-ol-alist-tempo nil)
 (setq-default gams-ol-flag nil)
-(setq-default gams-lst-ol-buffer-point nil)
+(defvar gams-lst-ol-buffer-point nil)
 
 ;;;###autoload
 (defun gams-lst-mode ()
@@ -5932,8 +5932,7 @@ The followings are page scroll commands.  Just changed to upper case letters.
         (font-lock-ensure)
     (if (equal gams-lst-font-lock-keywords nil)
         (font-lock-mode -1)))
-  (set-buffer-modified-p nil)
-)
+  (set-buffer-modified-p nil))
 ;; gams-lst-mode ends here.
 
 ;; For GAMS-LST mode.
@@ -6052,9 +6051,8 @@ and show its meaning in another window if error number is displayed."
         ;; Else part.  When no error is found.
         (progn
           (message (concat mess "No error message is found!"))
-          (goto-char (point-min)))
-        ))))
-;;;
+          (goto-char (point-min)))))))
+
 (defun gams-lst-jump-to-error ()
   "Jump to the error place and return error number."
   (interactive)
