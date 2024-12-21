@@ -2208,6 +2208,8 @@ LIMIT specifies the search limit."
         ("[$]" (0 gams-dollar-face))
         ;; Operator
         ("=\\(e\\|g\\|l\\|n\\)=" (0 gams-operator-face))
+        ;; Mathematical operators: -, +, =, /
+        ("[-+=/]" (0 gams-operator-face))
         ;; Commented out text by ! in MPSGE code
         (gams-store-point-mpsge-comment (0 gams-comment-face t t))
         ;; Standard GAMS statements.
