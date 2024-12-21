@@ -1077,8 +1077,10 @@ grouping constructs."
   "Face for dollar control options.")
 (defvar gams-string-face 'gams-string-face
   "Face for string.")
-(defvar gams-operator-face 'gams-operator-face
-  "Face for operator.")
+(defvar gams-operator-equation-face 'gams-operator-equation-face
+  "Face for equation operators.")
+(defvar gams-operator-math-face 'gams-operator-math-face
+  "Face for mathematical operators.")
 (defvar gams-slash-face 'gams-slash-face
   "Face for set and parameter elements lying between slashes.")
 (defvar gams-explanation-face 'gams-explanation-face
@@ -1247,12 +1249,18 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
   "Face for quoted string in GAMS mode."
   :group 'gams-faces)
 
-(defface gams-operator-face
+(defface gams-operator-equation-face
   (gams-compatible-face
    'font-lock-variable-name-face
    '((((class color) (background light)) (:foreground "#e00000"))
      (((class color) (background dark)) (:foreground "#ccaaff"))))
-  "Face for operators in GAMS mode."
+  "Face for equation operators in GAMS mode."
+  :group 'gams-faces)
+
+(defface gams-operator-math-face
+  '((((class color) (background light)) (:foreground "#0a84ff"))
+     (((class color) (background dark)) (:foreground "#419cff")))
+  "Face for mathematical operators in GAMS mode."
   :group 'gams-faces)
 
 (defface gams-slash-face
@@ -2207,9 +2215,9 @@ LIMIT specifies the search limit."
         ;; Conditional dollar.
         ("[$]" (0 gams-dollar-face))
         ;; Operator
-        ("=\\(e\\|g\\|l\\|n\\)=" (0 gams-operator-face))
+        ("=\\(e\\|g\\|l\\|n\\|x\\|c\\|b\\)=" (0 gams-operator-equation-face))
         ;; Mathematical operators: -, +, =, /
-        ("[-+=/]" (0 gams-operator-face))
+        ("\\(\\.\\.\\|[-+/*=<>]\\)" (0 gams-operator-math-face))
         ;; Commented out text by ! in MPSGE code
         (gams-store-point-mpsge-comment (0 gams-comment-face t t))
         ;; Standard GAMS statements.
@@ -2243,7 +2251,9 @@ LIMIT specifies the search limit."
 (defvar gams-font-lock-keywords-2
       '(
         ;; Operator
-        ("=\\(e\\|g\\|l\\|n\\)=" (0 gams-operator-face))
+        ("=\\(e\\|g\\|l\\|n\\|x\\|c\\|b\\)=" (0 gams-operator-equation-face))
+        ;; Standard Mathematical Operators: -, +, /
+        ("\\(\\.\\.\\|[-+/*=<>]\\)" (0 gams-operator-math-face))
         ;; Semicolon
         (";" (0 gams-lst-warning-face))
         ;; Conditional dollar.
