@@ -5,24 +5,24 @@
 ;;
 ;;  This file is created for gams-mode.el version 6.16.
 ;;
-;;  Copy and paste the content of this file into
+;;  Copy and paste the contents of this file into
 ;;  "~/.emacs.d/init.el" file.
 ;;
-;;  You can see the detailed explanation of each variable with
+;;  You can view detailed explanations of each variable using
 ;;  M-x describe-variable.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	 Necessary settings.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; If you install GAMS mode from MELPA, load path and require settings are not
-;; necessary. If you install GAMS mode manually, you need to do load path and
-;; require settings.
+;; If you install GAMS mode from MELPA, neither load path nor require settings
+;; are necessary. If you install GAMS mode manually, you need to do load path
+;; and require settings.
 
 ;;;; Load path setting.
 ;;
-;; Suppose that c:/home/gams is a directory in which gams-mode.el is installed.
-;; Then you should add the following.
+;; Assuming that gams-model.el is installed in the directory `c:/home/gams',
+;; then you should add the following.
 ;;
 (add-to-list 'load-path "c:/home/gams")
 
@@ -32,10 +32,10 @@
 ;;
 ;; (require 'gams-mode)
 
-;;;; The place of GAMS program.
+;;;; Location of the GAMS program.
 ;;
-;; If you do not include GAMS system directory in your PATH environmental
-;; variable, specify explicitly the place of gams program like
+;; If the GAMS system directory is not in you PATH environmental variable,
+;; explicitly specify the GAMS program location as follows:
 ;;
 ;; (setq gams-process-command-name "c:/GAMS/37/gams.exe")
 
@@ -47,27 +47,20 @@
 ;; The following settings are not necessarily required, but they change the
 ;; important behavior of GAMS mode.
 
-;; By default, GAMS mode will automatically start only when you open a file with
-;; an extension `gms'. If you want to add files with other extensions (for
-;; example, `dat'), you need to set the following. NB: This setting must be
-;; placed before (require 'gams).
-;;
-;; (setq gams-file-extension '("gms" "dat"))
-
 ;;;; Log file.
 ;;
 ;; If non-nil, GAMS log (the content of process buffer) is written down to log
 ;; file even without lo=2 option (or lo=4 option).
 ;; (setq gams-process-log-to-file t)
 ;;
-;; The extension of GAMS log file
+;; GAMS log file extension.
 ;; (setq gams-log-file-extension "log")
 
 ;;;; Template file name for GAMS-TEMPLATE.
 ;;
-;; A sample template file "gams-template.txt" is distributed with this file.  If
-;; you want to try a sample file, you must save it in ".emacs.d" directory.  Or
-;; you should specify the explicit name of your template file name like
+;; A sample template file "gams-template.txt" is included n this file.  If you
+;; want to try a sample file, save it in the ".emacs.d" directory.  Or you
+;; should specify the explicit name of your template file name like
 ;;
 ;; (setq gams-template-file "~/.emacs.d/gams-template.txt")
 
@@ -76,8 +69,8 @@
 ;; The default value is
 ;; (setq gams-process-command-option "logOption=3 pageWidth=100")
 ;;
-;; Notice: If you are an Emacs user on MS windows, you should include
-;; logOption=3 (lo=3) option!!!
+;; Note: if you are using Emacs on MS windows, include logOption=3 (lo=3)
+;; option!!!
 
 ;;;; GAMS system directory.
 ;;
@@ -209,6 +202,11 @@
 ;;
 ;; Column number for equation definition.
 ;; (setq gams-indent-number-equation 4)
+
+;;;; Setting for GAMS model library
+;;
+;; The file name of gamslib program.
+;; (setq gams-gamslib-command (concat gams-system-directory "gamslib"))
 
 ;;;; Indent equation blocks or not?
 ;;
