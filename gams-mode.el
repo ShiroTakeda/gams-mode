@@ -2217,7 +2217,7 @@ LIMIT specifies the search limit."
         ;; Operator
         ("=\\(e\\|g\\|l\\|n\\|x\\|c\\|b\\)=" (0 gams-operator-equation-face))
         ;; Mathematical operators: -, +, =, /
-        ("\\(and\\|\\.\\.\\|[-+/*=<>]\\)" (0 gams-operator-math-face))
+        ("\\(lt\\|le\\|eq\\|ne\\|ge\\|gt\\|not\\|and\\|or\\|xor\\|imp\\|eqv\\|\\.\\.\\|[-+/*=<>]\\)" (0 gams-operator-math-face))
         ;; Commented out text by ! in MPSGE code
         (gams-store-point-mpsge-comment (0 gams-comment-face t t))
         ;; Standard GAMS statements.
@@ -2253,7 +2253,7 @@ LIMIT specifies the search limit."
         ;; Operator
         ("=\\(e\\|g\\|l\\|n\\|x\\|c\\|b\\)=" (0 gams-operator-equation-face))
         ;; Standard Mathematical Operators: -, +, /
-        ("\\(and\\|\\.\\.\\|[-+/*=<>]\\)" (0 gams-operator-math-face))
+        ("\\(lt\\|le\\|eq\\|ne\\|ge\\|gt\\|not\\|and\\|or\\|xor\\|imp\\|eqv\\|\\.\\.\\|[-+/*=<>]\\)" (0 gams-operator-math-face))
         ;; Semicolon
         (";" (0 gams-lst-warning-face))
         ;; Conditional dollar.
