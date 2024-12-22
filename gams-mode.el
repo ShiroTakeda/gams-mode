@@ -1253,8 +1253,7 @@ If INHERITS is not given and SPECS is, use SPECS to define the face."
   (gams-compatible-face
    'font-lock-variable-name-face
    '((((class color) (background light)) (:foreground "#e00000"))
-     (((class color) (background dark)) (:foreground "#ccaaff"))
-     (t (:bold t))))
+     (((class color) (background dark)) (:foreground "#ccaaff"))))
   "Face for equation operators in GAMS mode."
   :group 'gams-faces)
 
