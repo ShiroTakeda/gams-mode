@@ -131,6 +131,16 @@ in the file specified by this variable."
   :type 'file
   :group 'gams)
 
+(defcustom gams-company-backends
+  '((company-files company-yasnippet company-dabbrev-code company-capf :separate))
+  "Choice of company backends."
+  :type '(set (const company-files)
+              (const company-yasnippet)
+              (const company-dabbrev-code)
+              (const company-capf)
+              (const :separate))
+  :group 'gams)
+
 (defcustom gams-completion-case 'CamelCase
   "Controls the auto-completion casing.
 
@@ -2856,7 +2866,7 @@ The following commands are available in the ‘GAMS’ mode:
         comment-column gams-comment-column
         comment-end ""
         comment-start-skip (concat "^[" gams-comment-prefix "]+[ \t]*")
-	company-backends '((company-files company-yasnippet company-dabbrev-code company-capf :separate))
+	company-backends gams-company-backends
 	completion-at-point-functions '(gams-completion-at-point)
 	completion-ignore-case t)
   ;; Various setting.
@@ -17753,6 +17763,7 @@ I forgot what this function is..."
    'gams-close-paren-always
    'gams-close-single-quotation-always
    'gams-comment-column
+   'gams-company-backends
    'gams-completion-case
    'gams-commands
    'gams-cycle-level-faces

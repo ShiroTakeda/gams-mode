@@ -58,7 +58,7 @@ GAMS mode for Emacs includes five major modes (I will skip the explanation of th
 |:----------------------|:----------------------------------------------|
 | GAMS mode:            | Editing GAMS program files.                   |
 | GAMS-LST mode:        | Viewing LST files.                            |
-| GAMS-SIL mode:        | Viewing GAMS program structure.               | 
+| GAMS-SIL mode:        | Viewing GAMS program structure.               |
 | GAMS-TEMPLATE mode:   | Handling templates of programs.               |
 | GAMS-OUTLINE mode:    | Viewing important items of LST files.         |
 
@@ -157,7 +157,7 @@ First, I explain the files distributed in the package.
 | [`BUGS_PROBLEMS.md`](BUGS_PROBLEMS.md)               | Known bugs and problems.                                                                                                 |
 | [`doc`](doc)                                         | Document folder including the reference card.                                                                            |
 | [`lxi`](lxi)                                                | This folder includes files used to explain GAMS-LXI mode.                                                                |
- 
+
 If you are well acquainted with Emacs, installation is straightforward. Here, I explain the basic Emacs terminologies used below.  But if you are a novice user of Emacs, I recommend you to read the website [Emacs FAQ for Windows](http://www.gnu.org/software/emacs/manual/html_node/efaq-w32/index.html).
 
 
@@ -245,7 +245,6 @@ To learn how to use GAMS mode, it is best to read the `gams-sample.gms` file. Th
 Here is the basic command listing. Try each command by yourself! You can also see the basic keybindings in `refcard-gams.pdf`.
 
 ## GAMS mode:
-----------
 
 Key-binding Command explanation
 
@@ -273,9 +272,17 @@ Key-binding Command explanation
 | `C-c C-;`     | Insert inline comment.                                |
 | `C-c M-;`     | Insert end-of-line comment.                           |
 
-                                                                      
+### Auto-completion
+
+GAMS mode provides in-buffer completion through standard Emacs completion-at-point-functions (CAPF). All GAMS commands (statements, dollar control options, etc.) are provided through CAPF (mapped by default in Emacs to `C-M-i`).
+
+Another Emacs completion feature useful with GAMS mode is [Dynamic Abbrev expansion](https://www.gnu.org/software/emacs/manual/html_node/emacs/Dynamic-Abbrevs.html), which automatically expands a word in the buffer based on the buffer content (mapped by default to `M-/`). This function is useful for expanding symbols at the point. For example, if the buffer contains `eq_mkt_clearing` and you type `eq_mk M-/`, Emacs inserts `eq_mkt_clearing`.
+
+For users of the [auto-complete package](https://github.com/auto-complete/auto-complete) for auto-completion (an obsolete package that is no longer maintained), it is possible to use [gams-ac](https://github.com/ShiroTakeda/gams-ac) for auto-completion in GAMS mode.
+
+For users of the [company package](http://company-mode.github.io/) for auto-completion, GAMS mode defines the following backends: `(company-files company-yasnippet company-dabbrev-code company-capf :separate)`. These backends provide auto-completion for file names, snippets, dynamic abbreviations, and CAPF. It is possible to customize the backends with the variable `gams-company-backends`.
+
 ## GAMS-LST mode:
---------------
 
 | Keybinding    | Command explanation                                  |
 |:--------------|:-----------------------------------------------------|
