@@ -4152,9 +4152,9 @@ The directory of the local GAMS documents is determined by the variable
           (message "Press ENTER key if you use online manual. Press other keys for offline manual.")
           (setq key (read-char))
           (if (equal key 13)
-              (funcall 'gams-browse-url-function gams-docs-url)
+              (funcall gams-browse-url-function gams-docs-url)
             (if fl-docs-dir
-                (funcall 'gams-browse-url-function
+                (funcall gams-browse-url-function
                          (browse-url-file-url (concat docs-dir "index.html")))
               (message
                (format
@@ -14363,7 +14363,7 @@ See also the variable `gams-gamslib-command'."
         (setq type 'pso) (setq lbuf "*psoptlib*"))
        )
       (if (equal key "o")
-          (progn (funcall 'gams-browse-url-function gams-model-library-url)
+          (progn (funcall gams-browse-url-function gams-model-library-url)
                  (message "Open online GAMS model libraries."))
         (when (string-match "m\\|t\\|d\\|e\\|a\\|f\\|n\\|p" key)
           ;;
