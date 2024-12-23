@@ -334,46 +334,46 @@ Please also read the sample file `gams-setting-sample.el`.
 ## Basic Customizable Variables in GAMS and GAMS-LST Mode:
 
 - `gams-process-command-name` ["gams"]
-  - *GAMS program file name. If the GAMS system directory is not included in the PATH environment variable, you must set the full path to the GAMS program in this variable, like `c:/GAMS/42/gams.exe`.
+  - GAMS program file name. If the GAMS system directory is not included in the PATH environment variable, you must set the full path to the GAMS program in this variable, like `c:/GAMS/42/gams.exe`.
 
 - `gams-process-command-option` ["ll=0 lo=3 pw=100 ps=9999"]
-  - *Command line options passed to GAMS.
+  - Command line options passed to GAMS.
 
 - `gams-statement-file` ["~/.emacs.d/gams-statement.txt"]
-  - *The name of the file in which user-specific statements are stored.
+  - The name of the file in which user-specific statements are stored.
 
 - `gams-fill-column` [80]
-  - *The column number used for `fill-paragraph` and `auto-fill-mode`.
+  - The column number used for `fill-paragraph` and `auto-fill-mode`.
 
 - `gams-recenter-font-lock` [t]
-  - *Non-nil means that the buffer will be fontified when recentering. If your computer is slow, you may want to set this to nil.
-
-- `gams-file-extension` ['("gms")]
-  - *List of GAMS program file extensions. If you open a file with an extension included in this list, GAMS mode starts automatically. It doesn't matter whether the extension is in upper case or lower case.
+  - Non-nil means that the buffer will be fontified when recentering. If your computer is slow, you may want to set this to nil.
 
 - `gams-mode-hook` [nil]
-  - *Hook run when GAMS mode starts.
+  - Hook run when GAMS mode starts.
 
 - `gams-mode-load-hook` [nil]
-  - *List of functions to be called when `gams-mode.el` is loaded.
+  - List of functions to be called when `gams-mode.el` is loaded.
 
 - `gams-close-paren-always` [t]
-  - *Non-nil means that closing parentheses will always be inserted.
+  - Non-nil means that closing parentheses will always be inserted.
 
 - `gams-user-comment`
-  - *User-defined comment template. You can insert the comment template defined in this variable by executing `gams-insert-comment`. `%` in the string indicates the cursor place and will disappear after template insertion. Note: You cannot include double quotations and backslashes in this variable!
+  - User-defined comment template. You can insert the comment template defined in this variable by executing `gams-insert-comment`. `%` in the string indicates the cursor place and will disappear after template insertion. Note: You cannot include double quotations and backslashes in this variable!
 
-- `gams-system-directory` ["c:/GAMS/42/"]
-  - *The GAMS system directory.
+- `gams-system-directory` [default to base directory of gams executable]
+  - The GAMS system directory.
 
 - `gams-inlinecom-symbol-start-default` ["/*"]
-  - *The default value for the inline comment start symbol.
+  - The default value for the inline comment start symbol.
 
 - `gams-inlinecom-symbol-end-default` ["*/"]
-  - *The default value for the inline comment end symbol.
+  - The default value for the inline comment end symbol.
 
 - `gams-eolcom-symbol-default` ["#"]
-  - *The default value for the end-of-line comment symbol.
+  - The default value for the end-of-line comment symbol.
+
+- `gams-browse-url-function`  ["browse-url"]
+  - The default function to browse GAMS documentation. On Emacs version that support `xwidget`, setting this to `xwidget-webkit-browse-url` allows to browse GAMS documentation inside Emacs with perfect rendering.
 
 ## GAMS-TEMPLATE Mode:
 - `gams-template-file` ["~/.emacs.d/gams-template.txt"]
