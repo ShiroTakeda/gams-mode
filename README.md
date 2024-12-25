@@ -221,7 +221,7 @@ In order to configure GAMS mode and other packages in your `init.el`, you may wa
 ``` emacs-lisp
 (use-package gams-mode
   :ensure t
-  :defer t ;; It is usually now necessary to load GAMS mode at startup. Better to defer loading
+  :defer t ;; It is usually not necessary to load GAMS mode at startup. Better to defer loading
   :mode ("\\.inc\\'" . gams-mode) ;; To also associate *.inc files to GAMS mode
   :custom
   (gams-process-command-name "c:/GAMS/48/gams.exe") ;; Necessary if gams executable is not in the PATH
