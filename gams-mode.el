@@ -2619,6 +2619,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map "\C-c\C-x" 'gams-lxi)
       (define-key map "\C-c\C-l" 'gams-popup-process-buffer)
       (define-key map "\C-c\C-s" 'gams-start-processor)
+      (define-key map "\C-c\C-x" 'gams-open-corresponding-gdx-file)
       (define-key map [f9] 'gams-start-processor)
       (define-key map [f10] 'gams-view-lst)
       (define-key map "\C-c\C-i" 'gams-from-gms-to-outline)
@@ -3339,6 +3340,17 @@ if `gams-use-mpsge' is non-nil)."
         (insert (concat "$" statement)))
     (if (<= (minibuffer-depth) 0) (use-global-map global-map))
     (insert "")))       ; insert dummy string to fontify (Emacs20)
+
+(defun gams-open-corresponding-gdx-file ()
+  "Open the corresponding GDX file for the current buffer in an external application."
+  (interactive)
+  (if-let ((buffer-file (buffer-file-name)))
+      (let* ((base-name (file-name-sans-extension buffer-file)) ; Remove the file extension from the current file name
+             (gdx-file (concat base-name ".gdx"))) ; Add the .gdx extension
+        (if (file-exists-p gdx-file)
+            (browse-url gdx-file) ; Open the GDX file using the default URI handler
+          (message "GDX file does not exist: %s"gdx-file)))
+    (message "Buffer is not visiting a file!")))
 
 (defun gams-set-lst-filename ()
   "Set LST file name."
@@ -14769,8 +14781,7 @@ H       Mark all items
 U       Unmark all items
 ")
     (goto-char (point-min))
-    (setq buffer-read-only t)
-    ))
+    (setq buffer-read-only t)))
 
 (setq-default gams-modlib-marked-item-list nil)
 
