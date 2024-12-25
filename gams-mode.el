@@ -3352,6 +3352,29 @@ if `gams-use-mpsge' is non-nil)."
           (message "GDX file does not exist: %s"gdx-file)))
     (message "Buffer is not visiting a file!")))
 
+(defun gams-clean-files-and-folders ()
+  "Delete GAMS-created files in the current directory.
+
+Delete files matching *.g00, *.gdx, *.lst, *.log, *.lxi, *.ref, and folders
+named 225*."
+  (interactive)
+  (let* ((current-dir default-directory)
+         (file-patterns '( "*.g00" "*.gdx" "*.lst" "*.log" "*.lxi" "*.ref"))
+         (folder-pattern "225*")
+         (files-to-delete (apply 'append (mapcar (lambda (pattern)
+                                                   (file-expand-wildcards (concat current-dir pattern)))
+                                                 file-patterns)))
+         (folders-to-delete (file-expand-wildcards (concat current-dir folder-pattern) t)))
+    ;; Delete files
+    (dolist (file files-to-delete)
+      (when (file-exists-p file)
+        (delete-file file)))
+    ;; Delete folders
+    (dolist (folder folders-to-delete)
+      (when (and (file-directory-p folder) (not (string-match "/\\.\\.?$" folder)))
+        (delete-directory folder t)))
+    (message "Clean folder from GAMS-created files.")))
+
 (defun gams-set-lst-filename ()
   "Set LST file name."
   (let (fname)
@@ -5818,11 +5841,12 @@ Push the overlay onto the `gams-invisible-areas-list' list."
   (define-key map "J" 'gams-lst-scroll-page-double)
   (define-key map "K" 'gams-lst-scroll-page-down-double)
 
+  (define-key map "\C-c\C-x" 'gams-open-corresponding-gdx-file)
+
   (define-key map gams-choose-font-lock-level-key
     'gams-choose-font-lock-level)
 
-  (define-key map "." 'gams-lst-file-summary)
-  )
+  (define-key map"." 'gams-lst-file-summary))
 
 ;;; Menu for GAMS-LST mode.
 (easy-menu-define

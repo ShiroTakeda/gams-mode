@@ -279,7 +279,7 @@ Here are essential key bindings. For details, please see the help in both modes.
 | `C-c C-f`      | Change the level of font-lock (colorization).         |
 | `C-c C-;`      | Insert inline comment.                                |
 | `C-c M-;`      | Insert end-of-line comment.                           |
-| `C-c C-x`      | Open the same-name GDX file with GAMS Studio          |
+| `C-c C-x`      | Open the same-name GDX file with GAMS Studio.         |
 
 #### GAMS-LST mode
 
@@ -306,6 +306,7 @@ Here are essential key bindings. For details, please see the help in both modes.
 | `w`            | Resize frame.                                        |
 | `z`            | Move a cursor to the other window.                   |
 | `d,f,g,h,j,k`  | Keys for scrolling (see the help in GAMS-LST mode).  |
+| `C-c C-x`      | Open the same-name GDX file with GAMS Studio.        |
 
 ### GAMS template
 
