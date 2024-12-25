@@ -3342,7 +3342,7 @@ if `gams-use-mpsge' is non-nil)."
     (insert "")))       ; insert dummy string to fontify (Emacs20)
 
 (defun gams-open-corresponding-gdx-file ()
-  "Open the corresponding GDX file for the current buffer in an external application."
+  "Open the corresponding GDX file for the current buffer."
   (interactive)
   (if-let ((buffer-file (buffer-file-name)))
       (let* ((base-name (file-name-sans-extension buffer-file)) ; Remove the file extension from the current file name
@@ -3373,7 +3373,7 @@ named 225*."
     (dolist (folder folders-to-delete)
       (when (and (file-directory-p folder) (not (string-match "/\\.\\.?$" folder)))
         (delete-directory folder t)))
-    (message "Clean folder from GAMS-created files.")))
+    (message "Clean folder from GAMS-created files and folders.")))
 
 (defun gams-set-lst-filename ()
   "Set LST file name."
