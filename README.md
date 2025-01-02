@@ -234,6 +234,12 @@ In order to configure GAMS mode and other packages in your `init.el`, you may wa
   (gams-indent-number-equation 2))
 ```
 
+Font-locking for GAMS files faces the challenge that some GAMS commands may span several pages (e.g., `$on/offtext` comments) and may exceed Emacs' default size for font-locking, which is governed by the `jit-lock-chunk-size` variable. It is advisable to increase the value of this variable above its default of 1500. Larger values may slow down Emacs, but this is less of a concern these days with modern computers. Below is an example configuration:
+
+``` emacs-lisp
+(setopt jit-log-chunk-size 5000)
+```
+
 ## Basic Usage
 
 To learn how to use GAMS mode, it is best to read the `gams-sample.gms` file. The `gams-sample.gms` file enables you to acquire necessary skills in a learning-by-doing manner.
