@@ -2619,7 +2619,7 @@ If you do not want to specify the lst file directory, set nil to this variable."
       (define-key map "\C-c\C-x" 'gams-lxi)
       (define-key map "\C-c\C-l" 'gams-popup-process-buffer)
       (define-key map "\C-c\C-s" 'gams-start-processor)
-      (define-key map "\C-c\C-x" 'gams-open-corresponding-gdx-file)
+      (define-key map "\C-c\C-x" 'gams-open-gdx)
       (define-key map [f9] 'gams-start-processor)
       (define-key map [f10] 'gams-view-lst)
       (define-key map "\C-c\C-i" 'gams-from-gms-to-outline)
@@ -3341,16 +3341,26 @@ if `gams-use-mpsge' is non-nil)."
     (if (<= (minibuffer-depth) 0) (use-global-map global-map))
     (insert "")))       ; insert dummy string to fontify (Emacs20)
 
-(defun gams-open-corresponding-gdx-file ()
-  "Open the corresponding GDX file for the current buffer."
-  (interactive)
-  (if-let ((buffer-file (buffer-file-name)))
-      (let* ((base-name (file-name-sans-extension buffer-file)) ; Remove the file extension from the current file name
-             (gdx-file (concat base-name ".gdx"))) ; Add the .gdx extension
-        (if (file-exists-p gdx-file)
-            (browse-url gdx-file) ; Open the GDX file using the default URI handler
-          (message "GDX file does not exist: %s"gdx-file)))
-    (message "Buffer is not visiting a file!")))
+(defun gams-open-gdx (&optional arg)
+  "Open the corresponding GDX file for the current buffer.
+
+If the buffer is associated with a file, try to open a GDX file with the
+same name. If the GDX file doesn't exist, or the buffer is not
+associated with a file, prompt for a GDX filename. If called with a
+universal argument ARG, always prompt for a filename."
+  (interactive "P")
+  (let* ((buffer-file (and (not arg) (buffer-file-name))) ; Get buffer's file name unless prompted
+         (base-name (and buffer-file (file-name-sans-extension buffer-file))) ; Base name derived from buffer-file
+         (default-gdx-file (and base-name (concat base-name ".gdx")))) ; Default GDX file path
+    (if (or arg (not default-gdx-file) (not (file-exists-p default-gdx-file)))
+        ;; Prompt for a GDX filename if needed
+        (let ((gdx-file (expand-file-name
+			 (read-file-name "GDX file to open: " nil nil t))))
+          (if (and gdx-file (file-exists-p gdx-file))
+              (browse-url gdx-file) ; Open the GDX file
+            (message "Selected GDX file does not exist: %s" gdx-file)))
+      ;; Open the default GDX file if it exists
+      (browse-url (expand-file-name default-gdx-file)))))
 
 (defun gams-clean-files-and-folders ()
   "Delete GAMS-created files in the current directory.
@@ -5841,7 +5851,7 @@ Push the overlay onto the `gams-invisible-areas-list' list."
   (define-key map "J" 'gams-lst-scroll-page-double)
   (define-key map "K" 'gams-lst-scroll-page-down-double)
 
-  (define-key map "\C-c\C-x" 'gams-open-corresponding-gdx-file)
+  (define-key map "\C-c\C-x" 'gams-open-gdx)
 
   (define-key map gams-choose-font-lock-level-key
     'gams-choose-font-lock-level)

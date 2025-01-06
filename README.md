@@ -262,57 +262,57 @@ Here are essential key bindings. For details, please see the help in both modes.
 
 #### GAMS mode
 
-| Key binding    | Command Explanation                                   |
-|:---------------|:------------------------------------------------------|
-| `C-c C-k`      | Insert GAMS statement with completion.                |
-| `C-c C-d`      | Insert GAMS dollar control option with completion.    |
-| `C-c C-.`      | Show the identifier declaration part.                 |
-| `C-c C-a`      | Show the identifier list in the buffer.               |
-| `C-c C-w`      | Open included file.                                   |
-| `C-c C-v`      | Switch to the LST file and show errors if they exist. |
-| `C-c C-j`      | Switch to the LST file.                               |
-| `C-c C-t`      | Evoke process menu.                                   |
-| `C-c C-s`      | Start GAMS.                                           |
-| `C-u C-c C-t`  | Edit command and start GAMS.                          |
-| `C-c C-e`      | Insert templates (GAMS-TEMPLATE).                     |
-| `C-c C-o`      | Insert user-defined comment template.                 |
-| `C-l`          | Recenter.                                             |
-| `C-c C-c`      | Insert an ontext-offtext pair.                        |
-| `C-c C-g`      | Jump between ontext and offtext.                      |
-| `C-c M-c`      | (Un)comment an ontext-offtext pair.                   |
-| `C-c M-g`      | Remove an ontext-offtext pair.                        |
-| `C-c C-m`      | View GAMS manuals.                                    |
-| `C-c C-f`      | Change the level of font-lock (colorization).         |
-| `C-c C-;`      | Insert inline comment.                                |
-| `C-c M-;`      | Insert end-of-line comment.                           |
-| `C-c C-x`      | Open the same-name GDX file with GAMS Studio.         |
+| Key binding    | Command Explanation                                              |
+|:---------------|:-----------------------------------------------------------------|
+| `C-c C-k`      | Insert GAMS statement with completion.                           |
+| `C-c C-d`      | Insert GAMS dollar control option with completion.               |
+| `C-c C-.`      | Show the identifier declaration part.                            |
+| `C-c C-a`      | Show the identifier list in the buffer.                          |
+| `C-c C-w`      | Open included file.                                              |
+| `C-c C-v`      | Switch to the LST file and show errors if they exist.            |
+| `C-c C-j`      | Switch to the LST file.                                          |
+| `C-c C-t`      | Evoke process menu.                                              |
+| `C-c C-s`      | Start GAMS.                                                      |
+| `C-u C-c C-t`  | Edit command and start GAMS.                                     |
+| `C-c C-e`      | Insert templates (GAMS-TEMPLATE).                                |
+| `C-c C-o`      | Insert user-defined comment template.                            |
+| `C-l`          | Recenter.                                                        |
+| `C-c C-c`      | Insert an ontext-offtext pair.                                   |
+| `C-c C-g`      | Jump between ontext and offtext.                                 |
+| `C-c M-c`      | (Un)comment an ontext-offtext pair.                              |
+| `C-c M-g`      | Remove an ontext-offtext pair.                                   |
+| `C-c C-m`      | View GAMS manuals.                                               |
+| `C-c C-f`      | Change the level of font-lock (colorization).                    |
+| `C-c C-;`      | Insert inline comment.                                           |
+| `C-c M-;`      | Insert end-of-line comment.                                      |
+| `C-c C-x`      | Open a GDX file with GAMS Studio (same name file or from prompt. |
 
 #### GAMS-LST mode
 
-| Key binding    | Command explanation                                  |
-|:---------------|:-----------------------------------------------------|
-| `y`            | Jump to the error and show its number and meaning.   |
-| `u`            | Jump back to the error place in the program file.    |
-| `i`            | Jump to the input (GMS) file.                        |
-| `q`            | Close the buffer.                                    |
-| `?`            | Help.                                                |
-| `o`            | Start GAMS-OUTLINE mode.                             |
-| `s(S)`         | Jump to the next (previous) SOLVE SUMMARY.           |
-| `r(R)`         | Jump to the next (previous) REPORT SUMMARY.          |
-| `v(V)`         | Jump to the next (previous) VAR entry.               |
-| `e(E)`         | Jump to the next (previous) EQU entry.               |
-| `p(P)`         | Jump to the next (previous) PARAMETER entry.         |
-| `L`            | Jump to a line you specify.                          |
-| `l`            | Jump to a line.                                      |
-| `SPACE`        | Scroll up.                                           |
-| `DELETE`       | Scroll down.                                         |
-| `1`            | Widen the window.                                    |
-| `2`            | Spit the window.                                     |
-| `m`            | Move frame.                                          |
-| `w`            | Resize frame.                                        |
-| `z`            | Move a cursor to the other window.                   |
-| `d,f,g,h,j,k`  | Keys for scrolling (see the help in GAMS-LST mode).  |
-| `C-c C-x`      | Open the same-name GDX file with GAMS Studio.        |
+| Key binding    | Command explanation                                              |
+|:---------------|:-----------------------------------------------------------------|
+| `y`            | Jump to the error and show its number and meaning.               |
+| `u`            | Jump back to the error place in the program file.                |
+| `i`            | Jump to the input (GMS) file.                                    |
+| `q`            | Close the buffer.                                                |
+| `?`            | Help.                                                            |
+| `o`            | Start GAMS-OUTLINE mode.                                         |
+| `s(S)`         | Jump to the next (previous) SOLVE SUMMARY.                       |
+| `r(R)`         | Jump to the next (previous) REPORT SUMMARY.                      |
+| `v(V)`         | Jump to the next (previous) VAR entry.                           |
+| `e(E)`         | Jump to the next (previous) EQU entry.                           |
+| `p(P)`         | Jump to the next (previous) PARAMETER entry.                     |
+| `L`            | Jump to a line you specify.                                      |
+| `l`            | Jump to a line.                                                  |
+| `SPACE`        | Scroll up.                                                       |
+| `DELETE`       | Scroll down.                                                     |
+| `1`            | Widen the window.                                                |
+| `2`            | Spit the window.                                                 |
+| `m`            | Move frame.                                                      |
+| `w`            | Resize frame.                                                    |
+| `z`            | Move a cursor to the other window.                               |
+| `d,f,g,h,j,k`  | Keys for scrolling (see the help in GAMS-LST mode).              |
+| `C-c C-x`      | Open a GDX file with GAMS Studio (same name file or from prompt. |
 
 ### GAMS template
 
