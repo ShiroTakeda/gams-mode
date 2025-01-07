@@ -69,7 +69,7 @@ $stitle         Basic usage.
 $ontext
 
 First, try to run GAMS on this file.  Type `C-cC-t', then you see the following
-message in the echo are (mini-buffer).
+message in the echo area (mini-buffer).
 
 
     Start GAMS (s), Kill GAMS process (k), Change GAMS command (c), Change options (o).
