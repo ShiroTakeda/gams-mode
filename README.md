@@ -119,7 +119,7 @@ As pointed out above, the LST file is often very large, and it is often very dif
 (5) provides a way for that. With this feature, you can easily view the important elements (PARAMETER, VAR, EQU, etc.) in LST files.
 
 You can see where the particular PARAMETER or VAR is and view its content. You can also compare the numerical values in one part of the file with those in another part. You can understand what this function is like by looking at the screenshots on  [the screenshots
-page](https://www.flickr.com/search/?sort=date-taken-desc&safe_search=1&tags=gamsmode&user_id=144666886%40N07&view_all=1).
+page](https://photos.app.goo.gl/XS62pfooFUEs8Fty5).
 
 These are the basic explanations of this program. Of course, there are many other functions!
 
@@ -127,7 +127,7 @@ Bug reports, requests, and suggestions are all welcome!
 
 ## Screenshots
 
-See [screenshots page](https://www.flickr.com/search/?sort=date-taken-desc&safe_search=1&tags=gamsmode&user_id=144666886%40N07&view_all=1).
+See [screenshots page]((https://photos.app.goo.gl/XS62pfooFUEs8Fty5).
 
 ## Installation
 
