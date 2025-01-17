@@ -127,7 +127,7 @@ Bug reports, requests, and suggestions are all welcome!
 
 ## Screenshots
 
-See [screenshots page]((https://photos.app.goo.gl/XS62pfooFUEs8Fty5).
+See [screenshots page](https://photos.app.goo.gl/XS62pfooFUEs8Fty5).
 
 ## Installation
 
