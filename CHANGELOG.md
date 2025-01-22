@@ -39,7 +39,7 @@ Version 7.0
 
 * Add syntax highlighting for mathematical operators.
 
-* Add function `gams-open-corresponding-gdx-file` that opens in GAMS Studio the gdx file with the same name as the current gms file. Bound to `C-c C-x`.
+* Add function `gams-open-gdx` that opens in GAMS Studio the gdx file with the same name as the current gms file, if available, or ask for a gdx file name. Bound to `C-c C-x`.
 
 * Add function `gams-clean-files-and-folders` that clean all GAMS-created files and folders.
 
