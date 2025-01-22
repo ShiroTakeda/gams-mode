@@ -3760,7 +3760,7 @@ Otherwise split window conventionally."
          (- (gams-screen-height) window-min-height 1))
         window-min-height))))
 
-(defun gams-process-caluculate-time (begtime)
+(defun gams-process-calculate-time (begtime)
   "Calculate time from BEGTIME to now and return it."
   (let ((curr-time
          (floor
@@ -3819,7 +3819,7 @@ PROC is the process name and STATE is the process state."
            (format "\nGAMS process %s at %s\n"
                    state-mess
                    (current-time-string)))
-          (setq temp (gams-process-caluculate-time
+          (setq temp (gams-process-calculate-time
                       gams-ps-compile-start-time))
           (insert
            (format "Total running time is %s:%s:%s.\n"
@@ -3849,6 +3849,8 @@ PROC is the process name and STATE is the process state."
             (recenter -1)))
           ;; Enable `view-mode` to prevent further editing
           (view-mode 1)
+	  ;; Enable compilation minor mode to be able to jump to errors
+	  (compilation-minor-mode)
           (select-window sw)
           (if err
               (message (concat
@@ -3857,6 +3859,14 @@ PROC is the process name and STATE is the process state."
             (message (concat
                       "GAMS process has finished.  "
                       "C-cC-v or [F10]= LST file, [F11]= OUTLINE.")))))))))
+
+;; Error detection in process buffer using compile mode
+(defvar gams-process-error-regexp
+  '("^--- \\(.*\\)(\\([0-9]+\\)) .*Error\\(s?\\)$" 1 2)
+  "Regexp to detect errors in GAMS process using compile mode.")
+(add-to-list 'compilation-error-regexp-alist-alist
+             (cons 'gams gams-process-error-regexp))
+(add-to-list 'compilation-error-regexp-alist 'gams)
 
 (defun gams-process-error-exist-p ()
   "Judge whether GAMS process ends with errors."

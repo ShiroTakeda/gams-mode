@@ -11,6 +11,10 @@ Change logs of GAMS mode.
 Version 7.0
 ----------------------------------
 
+* Enable jump to errors from process buffer using `compilation-minor-mode`
+  and some regexp. This allows the use of standard Emacs keybindings to
+  jump to errors from the `gms` file.
+
 *  `gams-file-extension` has been removed because it does not work well
    with deferred package loading and can prevent `poly-gams`from loading
    properly.
