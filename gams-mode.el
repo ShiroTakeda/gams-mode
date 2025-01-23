@@ -51,6 +51,7 @@
 (eval-and-compile
   (require 'easymenu)
   (require 'align)
+  (require 'compile)
   (require 'org))
 
 (defsubst gams-oddp (x)
