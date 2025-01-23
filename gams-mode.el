@@ -2,9 +2,9 @@
 
 ;; Author: Shiro Takeda
 ;; Maintainer: Shiro Takeda
-;; Copyright (C) 2001-2024 Shiro Takeda
+;; Copyright (C) 2001-2025 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 6.16
+;; Version: 7.00
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: https://github.com/ShiroTakeda/gams-mode
@@ -34,7 +34,7 @@
 ;; details, please see the following site
 ;; https://github.com/ShiroTakeda/gams-mode
 ;;
-;; If you install this file from MLPA repository, gams-mode.el is downloaded
+;; If you install this file from MELPA repository, gams-mode.el is downloaded
 ;; from GitHub <https://github.com/ShiroTakeda/gams-mode/tree/master>.  Please
 ;; see CHANGELOG.md at GitHub for the latest changes.
 
@@ -117,8 +117,12 @@
 (defcustom gams-process-command-option "logOption=3 pageWidth=100"
   "The command line options passed to ‘GAMS’.
 
-If you are Windows Emacs user, LogOption=3 (or lo=3) option is
+If you are Windows Emacs user, logOption=3 (or lo=3) option is
 necessary to show the GAMS process log.
+
+To be able to jump to errors from the process buffer, it is necessary to
+use logLine=1 (ll=1) or logLine=2 (the default). With logLine=0, this
+feature is not available.
 
 For the details of GAMS command line options, see the following page:
 https://www.gams.com/latest/docs/UG_GamsCall.html#UG_GamsCall_ListOfCommandLineParameters"
