@@ -1,13 +1,16 @@
 #!/bin/sh
 
+# Define TMPDIR if not set
+TMPDIR="${TMPDIR:-/tmp}"
+
 FILENAME=linux_x64_64_sfx.exe
-FILEPATH=${TEMPDIR}/${FILENAME}
+FILEPATH=${TMPDIR}/${FILENAME}
 GAMSVERSION=$1
 URL=https://d37drm4t2jghv5.cloudfront.net/distributions/${GAMSVERSION}/linux/${FILENAME}
 
-curl $URL -o $FILEPATH
+curl $URL --output $FILEPATH
 chmod +x $FILEPATH
-sudo mkdir /opt/gams
+sudo mkdir --parents /opt/gams
 cd /opt/gams
 sudo $FILEPATH
 rm $FILEPATH
