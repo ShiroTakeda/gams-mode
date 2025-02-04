@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -e  # Exit on errors
+set -x  # Print commands
+
 if [ "$(uname -m)" = "arm64" ]
 then
     mac="arm64"

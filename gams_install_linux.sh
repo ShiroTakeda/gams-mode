@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -e  # Exit on errors
+set -x  # Print commands
+
 # Define TMPDIR if not set
 TMPDIR="${TMPDIR:-/tmp}"
 
