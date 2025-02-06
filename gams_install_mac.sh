@@ -5,20 +5,24 @@ set -x  # Print commands
 
 if [ "$(uname -m)" = "arm64" ]
 then
-    mac="arm64"
+    arch="arm64"
 else
-    mac="x86_64"
+    arch="x86_64"
 fi
 
-FILENAME=osx_${mac}_sfx.exe
-FILEPATH=~/Downloads/${FILENAME}
+# Define TMPDIR if not set
+TMPDIR="${TMPDIR:-/tmp}"
+
+INSTALLDIR=/Applications/GAMS
+FILENAME=osx_${arch}_sfx.exe
+FILEPATH=${TMPDIR}/${FILENAME}
 GAMSVERSION=$1
 URL=https://d37drm4t2jghv5.cloudfront.net/distributions/${GAMSVERSION}/macosx/${FILENAME}
 
-curl $URL -o $FILEPATH
+curl $URL --output $FILEPATH
 xattr -rd com.apple.quarantine $FILEPATH
 chmod +x $FILEPATH
-sudo mkdir /Applications/GAMS
-cd /Applications/GAMS
+sudo mkdir -p $INSTALLDIR
+cd $INSTALLDIR
 sudo $FILEPATH
 rm $FILEPATH
