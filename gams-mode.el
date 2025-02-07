@@ -3856,6 +3856,8 @@ PROC is the process name and STATE is the process state."
           (view-mode 1)
 	  ;; Enable compilation minor mode to be able to jump to errors
 	  (compilation-minor-mode)
+          ;; Ensures that next-error jumps to errors in this buffer and not to the last compile buffer
+	  (next-error-select-buffer (current-buffer))
           (select-window sw)
           (if err
               (message (concat
