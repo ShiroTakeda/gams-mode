@@ -3956,9 +3956,7 @@ COMMAND is command line string."
      (setq p (start-process "execute" pbuff-name shell-file-name
                             gams-shell-c command))
      'gams-process-sentinel)
-    (if gams-use-process-filter
-        (set-process-filter p 'gams-process-filter)
-      (set-process-filter p nil))
+    (set-process-filter p 'compilation-filter)
     (message "Running GAMS.  Type C-cC-l to popup the GAMS process buffer.")
     (set-marker (process-mark p) (1- (point)))
     (select-window sw)))
@@ -3966,28 +3964,28 @@ COMMAND is command line string."
 (defvar gams-ps-mode-map (make-keymap) "Keymap used in gams ps mode.")
 (define-key gams-ps-mode-map "\C-c\C-l" 'gams-ps-back-to-gms)
 
-;;; New variable.
-(defvar gams-use-process-filter nil
-  "Non-nil means use the process output filter.")
-(setq gams-use-process-filter nil)
+;; ;;; New variable.
+;; (defvar gams-use-process-filter nil
+;;   "Non-nil means use the process output filter.")
+;; (setq gams-use-process-filter t)
 
-(defun gams-process-filter (proc string)
-  "Filter function for running process.
-PROC is process name and STRING is output string from process."
-  (let ((p-buff (process-buffer proc))
-        po-beg po-end m title)
-    (with-current-buffer
-        p-buff
-      (setq m (point-marker))
-      (goto-char (point-max))
-      (backward-char 1)
-      (insert string)
-      (when (and (setq po-beg (string-match "[[]" string))
-                 (setq po-end (string-match "[]]" string)))
-        (setq title (substring string (1+ po-beg) po-end))
-        (modify-frame-parameters gams-ps-frame (list (cons 'name title))))
-      (goto-char (marker-position m))
-      (set-marker m nil))))
+;; (defun gams-process-filter (proc string)
+;;   "Filter function for running process.
+;; PROC is process name and STRING is output string from process."
+;;   (let ((p-buff (process-buffer proc))
+;;         po-beg po-end m title)
+;;     (with-current-buffer
+;;         p-buff
+;;       (setq m (point-marker))
+;;       (goto-char (point-max))
+;;       (backward-char 1)
+;;       (insert string)
+;;       (when (and (setq po-beg (string-match "[[]" string))
+;;                  (setq po-end (string-match "[]]" string)))
+;;         (setq title (substring string (1+ po-beg) po-end))
+;;         (modify-frame-parameters gams-ps-frame (list (cons 'name title))))
+;;       (goto-char (marker-position m))
+;;       (set-marker m nil))))
 
 (define-derived-mode gams-ps-mode fundamental-mode "GAMS-PS"
   "Mode for GAMS process buffer."
