@@ -3804,6 +3804,17 @@ Otherwise split window conventionally."
 (setq-default gams-ps-frame nil)
 (setq-default gams-ps-orig-frame-title nil)
 
+
+(defun gams-process-refresh-compilation-highlighting (buffer)
+  "Refresh compilation highlighting in BUFFER."
+  (with-current-buffer buffer
+    ;; Disable and re-enable compilation-minor-mode (unclear why, but directly enabling this mode is not enough)
+    (compilation-minor-mode -1)
+    (compilation-minor-mode 1)
+    ;; Force complete reparsing
+    (font-lock-ensure)
+    (compilation--ensure-parse (point-min) (point-max))))
+
 ;;; From epop.el
 (defun gams-process-sentinel (proc state)
   "Display the end of process buffer.
@@ -3855,7 +3866,7 @@ PROC is the process name and STATE is the process state."
           ;; Enable `view-mode` to prevent further editing
           (view-mode 1)
 	  ;; Enable compilation minor mode to be able to jump to errors
-	  (compilation-minor-mode)
+          (gams-process-refresh-compilation-highlighting (current-buffer))
           ;; Ensures that next-error jumps to errors in this buffer and not to the last compile buffer
 	  (next-error-select-buffer (current-buffer))
           (select-window sw)
