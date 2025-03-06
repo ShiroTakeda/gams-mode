@@ -3804,16 +3804,18 @@ Otherwise split window conventionally."
 (setq-default gams-ps-frame nil)
 (setq-default gams-ps-orig-frame-title nil)
 
-
-(defun gams-process-refresh-compilation-highlighting (buffer)
+(defun gams-process--refresh-compilation-highlighting (buffer)
   "Refresh compilation highlighting in BUFFER."
+  ;; Disable and re-enable compilation-minor-mode (unclear why, but directly enabling this mode is not enough)
   (with-current-buffer buffer
-    ;; Disable and re-enable compilation-minor-mode (unclear why, but directly enabling this mode is not enough)
+
     (compilation-minor-mode -1)
     (compilation-minor-mode 1)
     ;; Force complete reparsing
     (font-lock-ensure)
-    (compilation--ensure-parse (point-min) (point-max))))
+    ;; Ensure compilation parsing is updated
+    (compilation--ensure-parse (point-max))))
+
 
 ;;; From epop.el
 (defun gams-process-sentinel (proc state)
@@ -3866,7 +3868,7 @@ PROC is the process name and STATE is the process state."
           ;; Enable `view-mode` to prevent further editing
           (view-mode 1)
 	  ;; Enable compilation minor mode to be able to jump to errors
-          (gams-process-refresh-compilation-highlighting (current-buffer))
+          (gams-process--refresh-compilation-highlighting (current-buffer))
           ;; Ensures that next-error jumps to errors in this buffer and not to the last compile buffer
 	  (next-error-select-buffer (current-buffer))
           (select-window sw)
@@ -3885,12 +3887,14 @@ PROC is the process name and STATE is the process state."
 (defvar gams-process-note-regexp
   '("^--- \\(.+?\\)(\\([0-9]+\\)) +[0-9]+ Mb\\(?: +[0-9]+ secs\\)?$" 1 2 nil 0)
   "Regexp to detect performance-related messages in GAMS process using compile mode as notes.")
+
 (add-to-list 'compilation-error-regexp-alist-alist
-             (cons 'gams gams-process-error-regexp))
-(add-to-list 'compilation-error-regexp-alist 'gams)
+             (cons 'gams-error gams-process-error-regexp))
 (add-to-list 'compilation-error-regexp-alist-alist
              (cons 'gams-note gams-process-note-regexp))
-(add-to-list 'compilation-error-regexp-alist 'gams-note)
+
+(dolist (entry '(gams-error gams-note))
+  (add-to-list 'compilation-error-regexp-alist entry))
 
 (defun gams-process-error-exist-p ()
   "Judge whether GAMS process ends with errors."
