@@ -1,11 +1,30 @@
 ;;; gams-install.el --- Install GAMS from Emacs -*- lexical-binding: t -*-
 
 ;; Author: Christophe Gouel
+;; Maintainer: Christophe Gouel
+;; Copyright (C) 2025 Christophe Gouel
 ;; Keywords: gams, installation
-;; Version: 0.1
+;; Version: 1.00
 ;; Package-Requires: ((emacs "25.1"))
 
+;; This file is not part of any Emacs.
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 2, or (at your option)
+;; any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; A copy of the GNU General Public License can be obtained from this
+;; program's author or from the Free Software Foundation,
+;; Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
 ;;; Commentary:
+
 ;; This package provides functions to install GAMS directly from Emacs.
 ;; Currently supports macOS and Linux platforms.
 
@@ -19,6 +38,7 @@ If nil, the default directory will be used:
   :type 'string
   :group 'gams)
 
+;;;###autoload
 (defun gams-install-get-latest-version (&optional callback)
   "Fetch the latest GAMS version from the download page asynchronously.
 If CALLBACK is provided, call it with the version as argument when done."
@@ -34,6 +54,7 @@ If CALLBACK is provided, call it with the version as argument when done."
            (funcall callback version))
          version)))))
 
+;;;###autoload
 (defun gams-install (&optional version)
   "Install GAMS using the installation script.
 If VERSION is nil, install the latest version.
@@ -81,9 +102,10 @@ Only works on macOS and Linux."
                    ;; Copy path to kill ring
                    (kill-new install-path)
                    ;; Display success message with path
-                   (message "GAMS installation completed successfully! GAMS was installed in %s. Remember to add this folder to your PATH!" 
+                   (message "GAMS installation completed successfully! GAMS was installed in %s. Remember to add this folder to your PATH!"
                             install-path)))))))))))
 
+;;;###autoload
 (defun gams-install-check-installation ()
   "Check if GAMS is already installed and return the version if found."
   (interactive)
