@@ -71,7 +71,18 @@ Only works on macOS and Linux."
        (get-buffer-process (current-buffer))
        (lambda (proc event)
          (when (string-match "finished" event)
-           (message "GAMS installation completed successfully!")))))))
+           ;; Extract the installation path from the last line of output
+           (with-current-buffer (process-buffer proc)
+             (save-excursion
+               (goto-char (point-max))
+               (forward-line -1)
+               (when (looking-at "^\\(.+\\)$")
+                 (let ((install-path (match-string 1)))
+                   ;; Copy path to kill ring
+                   (kill-new install-path)
+                   ;; Display success message with path
+                   (message "GAMS installation completed successfully! GAMS was installed in %s. Remember to add this folder to your PATH!" 
+                            install-path)))))))))))
 
 (defun gams-install-check-installation ()
   "Check if GAMS is already installed and return the version if found."
