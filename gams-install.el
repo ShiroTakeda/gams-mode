@@ -56,23 +56,31 @@ Only works on macOS and Linux."
 (defun gams-install-run-script (script-path version)
   "Run the GAMS installation SCRIPT-PATH with VERSION."
   (message "Installing GAMS version %s..." version)
-  (let ((default-directory (file-name-directory script-path))
-        (buffer (get-buffer-create "*GAMS Installation*"))
-        (args (list version)))
+  (let* ((default-directory (file-name-directory script-path))
+         (command (concat "sh " (shell-quote-argument script-path) " "
+                         (shell-quote-argument version)
+                         (when gams-install-directory
+                           (concat " " (shell-quote-argument gams-install-directory))))))
 
-    ;; Add custom installation directory if specified
-    (when gams-install-directory
-      (setq args (append args (list gams-install-directory))))
+    ;; Use compile instead of start-process
+    (with-current-buffer (compile command)
+      (setq-local compilation-scroll-output t)
 
-    (with-current-buffer buffer
-      (erase-buffer)
-      (display-buffer buffer)
-      (let ((process (apply #'start-process "gams-install" buffer "sh" script-path args)))
-        (set-process-sentinel
-         process
-         (lambda (proc event)
-           (when (string-match "finished" event)
-             (message "GAMS installation completed successfully!"))))))))
+      ;; Set process sentinel to clean up
+      (set-process-sentinel
+       (get-buffer-process (current-buffer))
+       (lambda (proc event)
+         (when (string-match "finished" event)
+           (message "GAMS installation completed successfully!")))))))
+
+(defun gams-install-filter-output ()
+  "Filter function for GAMS installation output."
+  (let ((inhibit-read-only t))
+    (save-excursion
+      ;; Filter out progress indicators and other noise
+      (goto-char compilation-filter-start)
+      (while (re-search-forward "\\(\\([0-9]+\\)%\\|[#.]+\\)" (point-max) t)
+        (replace-match "")))))
 
 (defun gams-install-check-installation ()
   "Check if GAMS is already installed and return the version if found."
