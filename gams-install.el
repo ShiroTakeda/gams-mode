@@ -73,15 +73,6 @@ Only works on macOS and Linux."
          (when (string-match "finished" event)
            (message "GAMS installation completed successfully!")))))))
 
-(defun gams-install-filter-output ()
-  "Filter function for GAMS installation output."
-  (let ((inhibit-read-only t))
-    (save-excursion
-      ;; Filter out progress indicators and other noise
-      (goto-char compilation-filter-start)
-      (while (re-search-forward "\\(\\([0-9]+\\)%\\|[#.]+\\)" (point-max) t)
-        (replace-match "")))))
-
 (defun gams-install-check-installation ()
   "Check if GAMS is already installed and return the version if found."
   (interactive)
@@ -89,9 +80,11 @@ Only works on macOS and Linux."
     (if gams-path
         (let ((version
                (with-temp-buffer
-                 (call-process gams-path nil t nil "lo=3")
+                 ;; Run GAMS without arguments to get version info
+                 (call-process gams-path nil t nil)
                  (goto-char (point-min))
-                 (when (re-search-forward "GAMS Release \\([0-9]+\\.[0-9]+\\.[0-9]+\\)" nil t)
+                 ;; Look for the version in the standard format
+                 (when (re-search-forward "\\*\\*\\* GAMS Release[ \t]*:[ \t]*\\([0-9]+\\.[0-9]+\\.[0-9]+\\)" nil t)
                    (match-string 1)))))
           (if version
               (progn
