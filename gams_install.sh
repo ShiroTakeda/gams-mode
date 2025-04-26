@@ -67,3 +67,5 @@ chmod +x $FILEPATH
 sudo mkdir -p $INSTALLDIR
 cd $INSTALLDIR
 sudo $FILEPATH
+
+echo "$INSTALLDIR/$(ls -t | head -n 1)"
