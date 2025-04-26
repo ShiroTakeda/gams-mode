@@ -5,11 +5,16 @@ set -x  # Print commands
 
 # Ensure GAMSVERSION is provided
 if [ -z "$1" ]; then
-    echo "Usage: $0 <GAMSVERSION>"
+    echo "Usage: $0 <GAMSVERSION> [INSTALLDIR]"
     exit 1
 fi
 
 GAMSVERSION=$1
+
+# Check if custom installation directory is provided
+if [ -n "$2" ]; then
+    INSTALLDIR="$2"
+fi
 
 # Determine architecture
 if [ "$(uname -m)" = "arm64" ]
@@ -20,18 +25,24 @@ else
     then
 	ARCH="x86_64"
     else
-	ARCH="x64_64"
+	ARCH="x86_64"
     fi
 fi
 
 # Identify OS and set target variables
 if [ "$(uname)" = "Darwin" ]
 then
-    INSTALLDIR=/Applications/GAMS
+    # Only set default INSTALLDIR if not already set
+    if [ -z "$INSTALLDIR" ]; then
+        INSTALLDIR=/Applications/GAMS
+    fi
     FILENAME=osx_${ARCH}_sfx.exe
     URL=https://d37drm4t2jghv5.cloudfront.net/distributions/${GAMSVERSION}/macosx/${FILENAME}
 else
-    INSTALLDIR=/opt/gams
+    # Only set default INSTALLDIR if not already set
+    if [ -z "$INSTALLDIR" ]; then
+        INSTALLDIR=/opt/gams
+    fi
     FILENAME=linux_${ARCH}_sfx.exe
     URL=https://d37drm4t2jghv5.cloudfront.net/distributions/${GAMSVERSION}/linux/${FILENAME}
 fi
