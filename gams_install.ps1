@@ -3,9 +3,6 @@
 param (
     [Parameter(Mandatory=$true)]
     [string]$GamsVersion,
-
-    [Parameter(Mandatory=$false)]
-    [string]$InstallDir
 )
 
 # Show execution information
@@ -34,7 +31,7 @@ catch {
 # Run the installer with silent options
 Write-Host "Installing GAMS $GamsVersion"
 try {
-    Start-Process -FilePath $FilePath -ArgumentList "/SP- /SILENT /installAllUsers=no /currentUser /DIR=`"$InstallDir\gams$GamsVersion`" /desktopIcons=no" -Wait
+    Start-Process -FilePath $FilePath -ArgumentList "/SP- /SILENT /installAllUsers=no /currentUser /desktopIcons=no" -Wait
 
     # Check if installation was successful
     $GamsExePath = Join-Path -Path "C:\GAMS\gams$GamsVersion" -ChildPath "gams.exe"
