@@ -82,42 +82,26 @@ Works on Windows, macOS and Linux."
   "Run the GAMS installation SCRIPT-PATH with VERSION."
   (message "Installing GAMS version %s..." version)
   (let* ((default-directory (file-name-directory script-path))
-         (buffer (get-buffer-create "*GAMS Installation*"))
+         (buffer-name "*GAMS Installation*")
          (command (if (eq system-type 'windows-nt)
                      (format "powershell -ExecutionPolicy Bypass -File \"%s\" %s %s" 
                              script-path 
                              version 
-                             (if gams-install-directory gams-install-directory ""))
+                             (if gams-install-directory (shell-quote-argument gams-install-directory) ""))
                    (format "sh \"%s\" %s %s" 
                            script-path 
                            version 
-                           (if gams-install-directory gams-install-directory "")))))
+                           (if gams-install-directory (shell-quote-argument gams-install-directory) "")))))
     
     ;; Setup the buffer
-    (with-current-buffer buffer
-      (erase-buffer)
-      (view-mode -1)
-      (fundamental-mode))
+    (when (get-buffer buffer-name)
+      (kill-buffer buffer-name))
     
-    ;; Run the command
-    (with-current-buffer (async-shell-command command buffer)
-      ;; Add a hook to process the output when the process finishes
-      (add-hook 'comint-output-filter-functions
-                (lambda (text)
-                  (when (string-match "GAMS installation completed successfully" text)
-                    ;; Extract the installation path from the last line
-                    (with-current-buffer buffer
-                      (save-excursion
-                        (goto-char (point-max))
-                        (forward-line -1)
-                        (when (looking-at "^\\(.+\\)$")
-                          (let ((install-path (match-string 1)))
-                            ;; Copy path to kill ring
-                            (kill-new install-path)
-                            ;; Display success message with path
-                            (message "GAMS installation completed successfully! GAMS was installed in %s. Remember to add this folder to your PATH!"
-                                     install-path)))))))
-                nil t))))
+    ;; Run the command asynchronously
+    (async-shell-command command (get-buffer-create buffer-name))
+    
+    ;; Show a simple message
+    (message "GAMS installation started. Enter your password if prompted.")))
 
 ;;;###autoload
 (defun gams-install-check-installation ()

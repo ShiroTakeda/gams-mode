@@ -1,7 +1,6 @@
 #!/bin/sh
 
 set -e  # Exit on errors
-set -x  # Print commands
 
 # Ensure GAMSVERSION is provided
 if [ -z "$1" ]; then
@@ -55,17 +54,24 @@ FILEPATH=${TMPDIR}/${FILENAME}
 # Automatically clean up on script exit
 trap 'rm -f "$FILEPATH"; rmdir "$TMPDIR"' EXIT
 
-# Remove macOS quarantine attribute if needed
+echo "/nDownloading GAMS ${GAMSVERSION} for $(uname) ${ARCH}"
 curl $URL --output $FILEPATH
+# Remove macOS quarantine attribute if needed
 if [ "$(uname)" = "Darwin" ]
 then
     xattr -rd com.apple.quarantine $FILEPATH
 fi
 
+
+echo "Installing GAMS ${GAMSVERSION} to $INSTALLDIR"
+set -x  # Print commands
 # Make executable & install
 chmod +x $FILEPATH
 sudo mkdir -p $INSTALLDIR
 cd $INSTALLDIR
 sudo $FILEPATH
+set +x  # Stop printing commands
 
-echo "$INSTALLDIR/$(ls -t | head -n 1)"
+echo "GAMS installation completed successfully!"
+echo "GAMS was installed in $INSTALLDIR/$(ls -t | head -n 1)."
+echo "Remember to add this folder to your PATH!"
