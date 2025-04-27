@@ -26,7 +26,7 @@
 ;;; Commentary:
 
 ;; This package provides functions to install GAMS directly from Emacs.
-;; Currently supports Windows, macOS and Linux platforms.
+;; Currently supports Windows, macOS and, Linux platforms.
 
 ;;; Code:
 
@@ -55,28 +55,40 @@ If CALLBACK is provided, call it with the version as argument when done."
            (funcall callback version))
          version)))))
 
+(defun gams-install-find-scripts-directory ()
+  "Find the directory containing the GAMS installation scripts."
+  (let ((package-dir (file-name-directory (locate-library "gams-install"))))
+    (if package-dir
+        package-dir
+      (error "Cannot locate GAMS installation scripts directory"))))
+
 ;;;###autoload
 (defun gams-install (&optional version)
   "Install GAMS using the installation script.
-If VERSION is nil, install the latest version.
-Works on Windows, macOS and Linux."
-  (interactive)
-  (let* ((package-dir (file-name-directory (or load-file-name buffer-file-name)))
+If VERSION is nil and universal argument is used, ask for version number.
+If VERSION is nil and no universal argument, install the latest version.
+Works on Windows, macOS, and Linux."
+  (interactive "P")
+  (let* ((scripts-dir (gams-install-find-scripts-directory))
          (script-path (cond
                        ((eq system-type 'windows-nt)
-                        (expand-file-name "gams_install.ps1" package-dir))
+                        (expand-file-name "gams_install.ps1" scripts-dir))
                        ((or (eq system-type 'darwin) (eq system-type 'gnu/linux))
-                        (expand-file-name "gams_install.sh" package-dir))
-                       (t (user-error "GAMS installation is not supported on this platform")))))
+                        (expand-file-name "gams_install.sh" scripts-dir))
+                       (t (user-error "GAMS installation is not supported on this platform"))))
+         (user-version (when (consp version)
+                         (read-string "Enter GAMS version number: "))))
     (unless (file-exists-p script-path)
       (user-error "Installation script not found at %s" script-path))
 
-    (if version
-        (gams-install-run-script script-path version)
-      (message "Fetching latest GAMS version...")
-      (gams-install-get-latest-version
-       (lambda (latest-version)
-         (gams-install-run-script script-path latest-version))))))
+    (if user-version
+        (gams-install-run-script script-path user-version)
+      (if version
+          (gams-install-run-script script-path version)
+        (message "Fetching latest GAMS version...")
+        (gams-install-get-latest-version
+         (lambda (latest-version)
+           (gams-install-run-script script-path latest-version)))))))
 
 (defun gams-install-run-script (script-path version)
   "Run the GAMS installation SCRIPT-PATH with VERSION."
@@ -84,22 +96,22 @@ Works on Windows, macOS and Linux."
   (let* ((default-directory (file-name-directory script-path))
          (buffer-name "*GAMS Installation*")
          (command (if (eq system-type 'windows-nt)
-                     (format "powershell -ExecutionPolicy Bypass -File \"%s\" %s %s" 
-                             script-path 
-                             version 
+                     (format "powershell -ExecutionPolicy Bypass -File \"%s\" %s %s"
+                             script-path
+                             version
                              (if gams-install-directory (shell-quote-argument gams-install-directory) ""))
-                   (format "sh \"%s\" %s %s" 
-                           script-path 
-                           version 
+                   (format "sh \"%s\" %s %s"
+                           script-path
+                           version
                            (if gams-install-directory (shell-quote-argument gams-install-directory) "")))))
-    
+
     ;; Setup the buffer
     (when (get-buffer buffer-name)
       (kill-buffer buffer-name))
-    
+
     ;; Run the command asynchronously
     (async-shell-command command (get-buffer-create buffer-name))
-    
+
     ;; Show a simple message
     (message "GAMS installation started. Enter your password if prompted.")))
 
