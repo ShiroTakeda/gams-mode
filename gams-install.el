@@ -26,13 +26,14 @@
 ;;; Commentary:
 
 ;; This package provides functions to install GAMS directly from Emacs.
-;; Currently supports macOS and Linux platforms.
+;; Currently supports Windows, macOS and Linux platforms.
 
 ;;; Code:
 
 (defcustom gams-install-directory nil
   "Custom installation directory for GAMS.
 If nil, the default directory will be used:
+- Windows: C:\\GAMS
 - macOS: /Applications/GAMS
 - Linux: /opt/gams"
   :type 'string
@@ -58,58 +59,71 @@ If CALLBACK is provided, call it with the version as argument when done."
 (defun gams-install (&optional version)
   "Install GAMS using the installation script.
 If VERSION is nil, install the latest version.
-Only works on macOS and Linux."
+Works on Windows, macOS and Linux."
   (interactive)
-  (if (not (or (eq system-type 'darwin) (eq system-type 'gnu/linux)))
-      (user-error "GAMS installation is only supported on macOS and Linux")
-    (let* ((package-dir (file-name-directory (or load-file-name buffer-file-name)))
-           (script-path (expand-file-name "gams_install.sh" package-dir)))
-      (unless (file-exists-p script-path)
-        (user-error "Installation script not found at %s" script-path))
+  (let* ((package-dir (file-name-directory (or load-file-name buffer-file-name)))
+         (script-path (cond
+                       ((eq system-type 'windows-nt)
+                        (expand-file-name "gams_install.ps1" package-dir))
+                       ((or (eq system-type 'darwin) (eq system-type 'gnu/linux))
+                        (expand-file-name "gams_install.sh" package-dir))
+                       (t (user-error "GAMS installation is not supported on this platform")))))
+    (unless (file-exists-p script-path)
+      (user-error "Installation script not found at %s" script-path))
 
-      (if version
-          (gams-install-run-script script-path version)
-        (message "Fetching latest GAMS version...")
-        (gams-install-get-latest-version
-         (lambda (latest-version)
-           (gams-install-run-script script-path latest-version)))))))
+    (if version
+        (gams-install-run-script script-path version)
+      (message "Fetching latest GAMS version...")
+      (gams-install-get-latest-version
+       (lambda (latest-version)
+         (gams-install-run-script script-path latest-version))))))
 
 (defun gams-install-run-script (script-path version)
   "Run the GAMS installation SCRIPT-PATH with VERSION."
   (message "Installing GAMS version %s..." version)
   (let* ((default-directory (file-name-directory script-path))
-         (command (concat "sh " (shell-quote-argument script-path) " "
-                         (shell-quote-argument version)
-                         (when gams-install-directory
-                           (concat " " (shell-quote-argument gams-install-directory))))))
-
-    ;; Use compile instead of start-process
-    (with-current-buffer (compile command)
-      (setq-local compilation-scroll-output t)
-
-      ;; Set process sentinel to clean up
-      (set-process-sentinel
-       (get-buffer-process (current-buffer))
-       (lambda (proc event)
-         (when (string-match "finished" event)
-           ;; Extract the installation path from the last line of output
-           (with-current-buffer (process-buffer proc)
-             (save-excursion
-               (goto-char (point-max))
-               (forward-line -1)
-               (when (looking-at "^\\(.+\\)$")
-                 (let ((install-path (match-string 1)))
-                   ;; Copy path to kill ring
-                   (kill-new install-path)
-                   ;; Display success message with path
-                   (message "GAMS installation completed successfully! GAMS was installed in %s. Remember to add this folder to your PATH!"
-                            install-path)))))))))))
+         (buffer (get-buffer-create "*GAMS Installation*"))
+         (command (if (eq system-type 'windows-nt)
+                     (format "powershell -ExecutionPolicy Bypass -File \"%s\" %s %s" 
+                             script-path 
+                             version 
+                             (if gams-install-directory gams-install-directory ""))
+                   (format "sh \"%s\" %s %s" 
+                           script-path 
+                           version 
+                           (if gams-install-directory gams-install-directory "")))))
+    
+    ;; Setup the buffer
+    (with-current-buffer buffer
+      (erase-buffer)
+      (view-mode -1)
+      (fundamental-mode))
+    
+    ;; Run the command
+    (with-current-buffer (async-shell-command command buffer)
+      ;; Add a hook to process the output when the process finishes
+      (add-hook 'comint-output-filter-functions
+                (lambda (text)
+                  (when (string-match "GAMS installation completed successfully" text)
+                    ;; Extract the installation path from the last line
+                    (with-current-buffer buffer
+                      (save-excursion
+                        (goto-char (point-max))
+                        (forward-line -1)
+                        (when (looking-at "^\\(.+\\)$")
+                          (let ((install-path (match-string 1)))
+                            ;; Copy path to kill ring
+                            (kill-new install-path)
+                            ;; Display success message with path
+                            (message "GAMS installation completed successfully! GAMS was installed in %s. Remember to add this folder to your PATH!"
+                                     install-path)))))))
+                nil t))))
 
 ;;;###autoload
 (defun gams-install-check-installation ()
   "Check if GAMS is already installed and return the version if found."
   (interactive)
-  (let ((gams-path (executable-find "gams")))
+  (let ((gams-path (executable-find (if (eq system-type 'windows-nt) "gams.exe" "gams"))))
     (if gams-path
         (let ((version
                (with-temp-buffer
