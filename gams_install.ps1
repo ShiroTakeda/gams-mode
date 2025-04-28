@@ -2,7 +2,7 @@
 
 param (
     [Parameter(Mandatory=$true)]
-    [string]$GamsVersion,
+    [string]$GamsVersion
 )
 
 # Show execution information
