@@ -32,6 +32,8 @@
 
 (defcustom gams-install-directory nil
   "Custom installation directory for GAMS.
+Under Windows, it is not possible to customize the installation
+directory, so this variable is ignored.
 If nil, the default directory will be used:
 - Windows: C:\\GAMS
 - macOS: /Applications/GAMS
@@ -96,14 +98,16 @@ Works on Windows, macOS, and Linux."
   (let* ((default-directory (file-name-directory script-path))
          (buffer-name "*GAMS Installation*")
          (command (if (eq system-type 'windows-nt)
-                     (format "powershell -ExecutionPolicy Bypass -File \"%s\" %s %s"
-                             script-path
-                             version
-                             (if gams-install-directory (shell-quote-argument gams-install-directory) ""))
-                   (format "sh \"%s\" %s %s"
-                           script-path
-                           version
-                           (if gams-install-directory (shell-quote-argument gams-install-directory) "")))))
+                      (progn
+                        (when gams-install-directory
+                          (message "Note: Custom installation directory is not supported on Windows and will be ignored"))
+                        (format "powershell -ExecutionPolicy Bypass -File \"%s\" %s"
+                                script-path
+                                version))
+                    (format "sh \"%s\" %s %s"
+                            script-path
+                            version
+                            (if gams-install-directory (shell-quote-argument gams-install-directory) "")))))
 
     ;; Setup the buffer
     (when (get-buffer buffer-name)
