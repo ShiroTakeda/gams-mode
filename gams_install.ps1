@@ -36,8 +36,10 @@ try {
     # Check if installation was successful
     $GamsExePath = Join-Path -Path "C:\GAMS\gams$GamsVersion" -ChildPath "gams.exe"
     if (Test-Path -Path $GamsExePath) {
-        Write-Host "GAMS $GamsVersion installed successfully!"
-        # Output the installation path for capture by the Emacs function
+        Write-Host "GAMS installation completed successfully!"
+	Write-Host "GAMS was installed in C:\GAMS\gams$GamsVersion."
+	Write-Host "Remember to add this folder to your PATH and to update the environment variable GAMSDIR, if used!"
+        # Output the installation path for potential capture by Emacs
         Write-Output "C:\GAMS\gams$GamsVersion"
     } else {
         Write-Error "GAMS installation failed. Could not find gams.exe in the installation directory."
