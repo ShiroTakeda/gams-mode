@@ -24,7 +24,7 @@ else
     then
 	ARCH="x86_64"
     else
-	ARCH="x86_64"
+	ARCH="x64_64"
     fi
 fi
 
