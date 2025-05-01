@@ -117,7 +117,10 @@ Works on Windows, macOS, and Linux."
     (async-shell-command command (get-buffer-create buffer-name))
 
     ;; Show a simple message
-    (message "GAMS installation started. Enter your password if prompted.")))
+    (message (concat
+	      "GAMS installation started."
+	      (unless (eq system-type 'windows-nt)
+		 " Enter your password if prompted.")))))
 
 ;;;###autoload
 (defun gams-install-check-installation ()
