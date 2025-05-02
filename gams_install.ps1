@@ -5,6 +5,8 @@ param (
     [string]$GamsVersion
 )
 
+$GamsMajorVersion = $GamsVersion -split '\.' | Select-Object -First 1
+
 # Show execution information
 Set-PSDebug -Trace 1
 
@@ -34,13 +36,13 @@ try {
     Start-Process -FilePath $FilePath -ArgumentList "/SP- /SILENT /installAllUsers=no /currentUser /desktopIcons=no" -Wait
 
     # Check if installation was successful
-    $GamsExePath = Join-Path -Path "C:\GAMS\gams$GamsVersion" -ChildPath "gams.exe"
+    $GamsExePath = Join-Path -Path "C:\GAMS\$GamsMajorVersion" -ChildPath "gams.exe"
     if (Test-Path -Path $GamsExePath) {
         Write-Host "GAMS installation completed successfully!"
-	Write-Host "GAMS was installed in C:\GAMS\gams$GamsVersion."
+	Write-Host "GAMS was installed in C:\GAMS\$GamsMajorVersion."
 	Write-Host "Remember to add this folder to your PATH and to update the environment variable GAMSDIR, if used!"
         # Output the installation path for potential capture by Emacs
-        Write-Output "C:\GAMS\gams$GamsVersion"
+        Write-Output "C:\GAMS\$GamsMajorVersion"
     } else {
         Write-Error "GAMS installation failed. Could not find gams.exe in the installation directory."
         exit 1
