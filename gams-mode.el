@@ -104,14 +104,14 @@
 ;;;     Variables for GAMS mode.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defcustom gams-process-command-name (executable-find "gams")
+(defcustom gams-process-command-name (or (executable-find "gams") "gams")
   "‘GAMS’ program file name."
   :type 'file
   :group 'gams)
 
 (defcustom gams-system-directory (file-name-directory gams-process-command-name)
   "The ‘GAMS’ system directory (the directory where GAMS is installed)."
-  :type 'file
+  :type 'directory
   :group 'gams)
 
 (defcustom gams-process-command-option "logOption=3 pageWidth=100"
@@ -264,7 +264,7 @@ percentage of it.  If nil, use default `pop-to-buffer'."
   (concat (file-name-as-directory gams-system-directory) "docs")
   "The GAMS document directory.
 By default, it is set to `gams-system-directory' + docs."
-  :type 'file
+  :type 'directory
   :group 'gams)
 
 (defcustom gams-docs-url "https://www.gams.com/latest/docs/"
