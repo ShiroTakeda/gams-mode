@@ -1,13 +1,12 @@
 ;;; gams-install.el --- Install GAMS from Emacs -*- lexical-binding: t -*-
 
-;; Author: Christophe Gouel
+;; Author: Christophe Gouel <christophe.gouel@inrae.fr>
 ;; Maintainer: Christophe Gouel
 ;; Copyright (C) 2025 Christophe Gouel
-;; Keywords: gams, installation
-;; Version: 1.00
-;; Package-Requires: ((emacs "25.1"))
 
 ;; This file is not part of any Emacs.
+
+;;; License:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -26,7 +25,6 @@
 ;;; Commentary:
 
 ;; This package provides functions to install GAMS directly from Emacs.
-;; Currently supports Windows, macOS and, Linux platforms.
 
 ;;; Code:
 
@@ -68,8 +66,7 @@ If CALLBACK is provided, call it with the version as argument when done."
 (defun gams-install (&optional version)
   "Install GAMS using the installation script.
 If VERSION is nil and universal argument is used, ask for version number.
-If VERSION is nil and no universal argument, install the latest version.
-Works on Windows, macOS, and Linux."
+If VERSION is nil and no universal argument, install the latest version."
   (interactive "P")
   (let* ((scripts-dir (gams-install-find-scripts-directory))
          (script-path (cond
@@ -120,13 +117,21 @@ Works on Windows, macOS, and Linux."
     (message (concat
 	      "GAMS installation started."
 	      (unless (eq system-type 'windows-nt)
-		 " Enter your password if prompted.")))))
+		" Enter your password if prompted.")))
+
+    ;; For macOS, suggest installing GAMS Studio separately
+    (when (eq system-type 'darwin)
+      (run-with-timer 5 nil
+		      (lambda ()
+                        (when (y-or-n-p "On macOS, GAMS Studio needs to be installed separately. Install GAMS Studio now?")
+                          (gams-install-studio)))))))
+
 
 ;;;###autoload
 (defun gams-install-check-installation ()
   "Check if GAMS is already installed and return the version if found."
   (interactive)
-  (let ((gams-path (executable-find (if (eq system-type 'windows-nt) "gams.exe" "gams"))))
+  (let ((gams-path (executable-find "gams")))
     (if gams-path
         (let ((version
                (with-temp-buffer
@@ -144,6 +149,31 @@ Works on Windows, macOS, and Linux."
             t))
       (message "GAMS is not installed or not in PATH")
       nil)))
+
+;;;###autoload
+(defun gams-install-studio ()
+  "Install GAMS Studio on macOS.
+This function downloads and installs the latest version of GAMS Studio
+for the current architecture (arm64 or x86_64)."
+  (interactive)
+  (if (not (eq system-type 'darwin))
+      (user-error "GAMS Studio installation is only supported on macOS")
+    (let* ((scripts-dir (gams-install-find-scripts-directory))
+           (script-path (expand-file-name "gams_install_studio.sh" scripts-dir))
+           (buffer-name "*GAMS Studio Installation*"))
+
+      (unless (file-exists-p script-path)
+        (user-error "Installation script not found at %s" script-path))
+
+      ;; Setup the buffer
+      (when (get-buffer buffer-name)
+        (kill-buffer buffer-name))
+
+      ;; Run the command asynchronously
+      (async-shell-command (format "sh \"%s\"" script-path)
+                           (get-buffer-create buffer-name))
+
+      (message "GAMS Studio installation started."))))
 
 (provide 'gams-install)
 ;;; gams-install.el ends here
