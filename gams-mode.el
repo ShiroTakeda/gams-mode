@@ -3882,10 +3882,10 @@ PROC is the process name and STATE is the process state."
 
 ;; Error detection in process buffer using compile mode
 (defvar gams-process-error-regexp
-  '("^--- \\.* * \\(.+?\\)(\\([0-9]+\\)) .*Error\\(s?\\)$" 1 2)
+  '("^--- \\(?:\\.\\{1,\\} +\\)*\\([^ ]+\\)(\\([0-9]+\\)) [0-9]+ Mb [0-9]+ Error\\(s?\\)$" 1 2)
   "Regexp to detect errors in GAMS process using compile mode.")
 (defvar gams-process-note-regexp
-  '("^--- \\.* *\\(.+?\\)(\\([0-9]+\\)) +[0-9]+ Mb\\(?: +[0-9]+ secs\\)?$" 1 2 nil 0)
+  '("^--- \\(?:\\.\\{1,\\} +\\)*\\([^ ]+\\)(\\([0-9]+\\)) +[0-9]+ Mb\\(?: +[0-9]+ secs\\)?$" 1 2 nil 0)
   "Regexp to detect performance-related messages in GAMS process using compile mode as notes.")
 
 (add-to-list 'compilation-error-regexp-alist-alist
