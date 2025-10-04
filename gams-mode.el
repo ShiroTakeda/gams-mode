@@ -12604,11 +12604,11 @@ There are four styles:
 4: horizontal-horizontal
 
 The former indicates how OUTLINE and LST buffers are arrayed.
-'vertical' means two buffers are arrayed vertically and
-'horizontal' means two buffers are arrayed horizontally.
+`vertical' means two buffers are arrayed vertically and
+`horizontal' means two buffers are arrayed horizontally.
 
-The latter indicates how two LST buffers are arrayed.  'vertical'
-means two buffers are arrayed vertically and 'horizontal' means
+The latter indicates how two LST buffers are arrayed.  `vertical'
+means two buffers are arrayed vertically and `horizontal' means
 two buffers are arrayed horizontally.  This choice is valid only
 if there are two LST windows exist (that is, there is the marked item).
 
@@ -15128,7 +15128,7 @@ DIR: the destination directory."
 
 (defun gams-modlib-search-library ()
   "Search items in the library.
-Search is `OR search'.  For example, if you search 'cge mpsge',
+Search is `OR search'.  For example, if you search `cge mpsge',
 Models that include words cge `or' mpsge are searched."
   (interactive)
   (let* ((type (gams-modlib-return-type))
