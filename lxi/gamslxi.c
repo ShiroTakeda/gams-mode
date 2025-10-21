@@ -5,7 +5,7 @@
 
   Version: 2.0
   $Id: gamslxi.c,v 1.1 2009/06/15 17:13:18 st Exp $
-  Time-stamp: <2018-01-24 19:05:59 st>
+  Time-stamp: <2025-10-21 16:26:54 st>
 
   Author: Shiro Takeda
   Maintainer: Shiro Takeda
@@ -66,7 +66,7 @@
 
 #define PAGEW 256
 
-extern char gamsver[]="1.0";	/* Version number */
+char gamsver[]="1.0";	/* Version number */
 
 /* Prototype */
 void usage (void);
