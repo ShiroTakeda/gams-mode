@@ -220,18 +220,15 @@ Additionally, set proper values for `gams-process-command-name` and `gams-system
 
 GAMS mode can install GAMS directly from Emacs. This functionality is provided by the `gams-install.el` package. The installation requires admin rights under macOS and Linux, but not under Windows. After the installation, it is the user's responsibility to add GAMS folder to the PATH. GAMS installation folder is displayed at the end of the installation, at the bottom of the `*GAMS Installation*` buffer.
 
-On macOS, after installing GAMS, you will be prompted to install GAMS Studio separately (latest version only), as the GAMS installer for macOS does not include GAMS Studio.
-
 ### Installation commands
 
 - `M-x gams-install` - Install the latest version of GAMS
 - `C-u M-x gams-install` - Prompt for a specific GAMS version to install
 - `M-x gams-install-check-installation` - Check if GAMS is already installed and display the version
-- `M-x gams-install-studio` - Install GAMS Studio on macOS
 
 ### Customization option
 
-- `gams-install-directory` - Specify a custom installation directory for GAMS (not applicable on Windows)
+- `gams-install-directory` - Specify a custom installation directory for GAMS on Linux
 
 ## Configuration
 

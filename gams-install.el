@@ -29,12 +29,12 @@
 ;;; Code:
 
 (defcustom gams-install-directory nil
-  "Custom installation directory for GAMS.
-Under Windows, it is not possible to customize the installation
+  "Custom installation directory for GAMS under Linux.
+Outside Linux, it is not possible to customize the installation
 directory, so this variable is ignored.
 If nil, the default directory will be used:
 - Windows: C:\\GAMS
-- macOS: /Applications/GAMS
+- macOS: /Library/Frameworks/GAMS.framework/Versions
 - Linux: /opt/gams"
   :type 'string
   :group 'gams)
@@ -117,14 +117,7 @@ If VERSION is nil and no universal argument, install the latest version."
     (message (concat
 	      "GAMS installation started."
 	      (unless (eq system-type 'windows-nt)
-		" Enter your password if prompted.")))
-
-    ;; For macOS, suggest installing GAMS Studio separately
-    (when (eq system-type 'darwin)
-      (run-with-timer 5 nil
-		      (lambda ()
-                        (when (y-or-n-p "On macOS, GAMS Studio needs to be installed separately. Install GAMS Studio now?")
-                          (gams-install-studio)))))))
+		" Enter your password if prompted.")))))
 
 
 ;;;###autoload
@@ -149,31 +142,6 @@ If VERSION is nil and no universal argument, install the latest version."
             t))
       (message "GAMS is not installed or not in PATH")
       nil)))
-
-;;;###autoload
-(defun gams-install-studio ()
-  "Install GAMS Studio on macOS.
-This function downloads and installs the latest version of GAMS Studio
-for the current architecture (arm64 or x86_64)."
-  (interactive)
-  (if (not (eq system-type 'darwin))
-      (user-error "GAMS Studio installation is only supported on macOS")
-    (let* ((scripts-dir (gams-install-find-scripts-directory))
-           (script-path (expand-file-name "gams_install_studio.sh" scripts-dir))
-           (buffer-name "*GAMS Studio Installation*"))
-
-      (unless (file-exists-p script-path)
-        (user-error "Installation script not found at %s" script-path))
-
-      ;; Setup the buffer
-      (when (get-buffer buffer-name)
-        (kill-buffer buffer-name))
-
-      ;; Run the command asynchronously
-      (async-shell-command (format "sh \"%s\"" script-path)
-                           (get-buffer-create buffer-name))
-
-      (message "GAMS Studio installation started."))))
 
 (provide 'gams-install)
 ;;; gams-install.el ends here
