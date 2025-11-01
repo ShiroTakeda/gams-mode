@@ -1,0 +1,434 @@
+\input texinfo
+@setfilename gams-mode.info
+@settitle GAMS Mode
+
+@dircategory Emacs Modes
+@direntry
+* GAMS Mode: (gams-mode).   Edit and manage General Algebraic Modeling System projects.
+@end direntry
+
+@copying
+Copyright @copyright{} 2001--2025 Shiro Takeda
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.
+@end copying
+
+@titlepage
+@title GAMS Mode Manual
+@subtitle Editing and running GAMS models from Emacs
+@author Shiro Takeda
+
+@page
+@vskip 0pt plus 1filll
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.
+@end titlepage
+
+@contents
+
+@ifnottex
+@node Top
+@top GAMS Mode
+@insertcopying
+@end ifnottex
+
+@chapter Introduction
+@cindex GAMS
+@cindex Algebraic modeling
+
+GAMS mode integrates the General Algebraic Modeling System (GAMS) with
+Emacs.  It provides a major mode for authoring @file{.gms} files,
+specialized viewers for solver output, and utilities that streamline the
+workflow of editing, running, and analysing GAMS projects inside Emacs.
+
+The mode is distributed through GNU ELPA-compatible archives (MELPA and
+MELPA Stable) and may also be installed manually from the project
+repository.  This manual describes the features that GAMS mode adds to
+Emacs, how to configure it, and how to invoke the commands that support
+editing and running models.
+
+@section Major components
+
+GAMS mode installs several major modes, each tailored to a different
+stage of the GAMS workflow.
+
+@itemize
+@item @code{gams-mode} edits model source files.
+@item @code{gams-lst-mode} views solver listings (@file{.lst}).
+@item @code{gams-sil-mode} presents a structural outline of model
+elements.
+@item @code{gams-template-mode} manages code templates and snippets.
+@item @code{gams-outline-mode} highlights important entries in listing
+files.
+@end itemize
+
+All modes share consistent key bindings and menu entries.  The sections
+that follow explain how to install the package, run the auxiliary tools,
+and adapt the behaviour through customization interfaces.
+
+@chapter Installing GAMS Mode
+@cindex Installation
+
+@section Installing from MELPA
+
+The recommended method is to install the package from MELPA or MELPA
+Stable.  Add the archive to @code{package-archives} in
+@file{init.el} when necessary:
+
+@lisp
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+@end lisp
+
+Then run @kbd{M-x package-refresh-contents RET} followed by
+@kbd{M-x package-install RET gams-mode RET}.  The MELPA build installs
+the Lisp sources that power the major modes.  Optional sample files and
+documentation remain in the repository and may be downloaded
+separately.
+
+When the GAMS executable is not available on the @env{PATH}, set
+@code{gams-process-command-name} to its absolute location, e.g.
+
+@lisp
+(setopt gams-process-command-name "c:/GAMS/48/gams.exe")
+@end lisp
+
+With the executable configured, visiting a file whose extension matches
+@code{gams-mode-file-regexp} (such as @file{.gms} or @file{.inc})
+activates GAMS mode automatically.
+
+@section Manual installation
+
+Manual setups place @file{gams-mode.el} and auxiliary files in a
+directory that Emacs can load.  Add the directory to @code{load-path}
+and require the feature:
+
+@lisp
+(add-to-list 'load-path "~/emacs.d/lisp/gams/")
+(require 'gams-mode)
+@end lisp
+
+Copy the sample template @file{gams-template.txt} to
+@file{~/.emacs.d/} to make predefined templates available, and review
+@file{gams-setting-sample.el} for configurable options and helper
+functions.
+
+@chapter Installing GAMS from Emacs
+@cindex gams-install.el
+
+The package @file{gams-install.el} automates the installation of the
+GAMS distribution itself.  It fetches the official installers for
+Windows, macOS, and GNU/Linux and drives the platform-specific scripts
+that perform the installation.
+
+Administrative privileges are required on macOS and GNU/Linux because
+the scripts install system-wide files.
+
+@section Commands
+
+@table @kbd
+@item M-x gams-install
+Download and install the latest available GAMS release that matches the
+current platform.
+
+@item C-u M-x gams-install
+Prompt for a specific release number before running the installer.
+
+@item M-x gams-install-check-installation
+Report the version of the @code{gams} executable found on
+@env{PATH}.  When no executable is available, the command displays a
+message explaining the situation.
+@end table
+
+Installations display progress inside the buffer named @samp{*GAMS
+Installation*}.  The scripts print the final installation directory so
+that it can be added to @env{PATH} or referenced when configuring
+@code{gams-process-command-name}.
+
+@section Customization
+
+@defopt gams-install-directory nil
+Default installation directory for GNU/Linux systems.  Non-nil values
+override the default of @file{/opt/gams}.  The variable is ignored on
+Windows and macOS where the installers impose their own directory layout.
+@end defopt
+
+On macOS the installer deploys under
+@file{/Library/Frameworks/GAMS.framework/Versions/Current/Resources/}.
+Windows installations go under @file{C:\@/GAMS\<major version>}.
+
+@chapter Getting Started
+
+The file @file{sample_gams_code/gams-sample.gms} demonstrates most
+features of the mode.  Visiting the file and following the instructions
+in the comments is an effective way to explore the editing commands.
+
+@section Basic workflow
+
+@enumerate
+@item Open or create a @file{.gms} file.  GAMS mode activates
+automatically and enables syntax highlighting, indentation, and
+navigation commands tailored to GAMS.
+@item Invoke @kbd{C-c C-c} to run the model with the current settings.
+The command saves the buffer when necessary, launches the @code{gams}
+process, and shows progress in the compilation buffer.
+@item Inspect the listing file via @kbd{C-c C-l}.  The LST viewer exposes
+dedicated navigation keys and integration with @code{next-error}.
+@item Use completion commands such as @kbd{C-c C-k} and @kbd{C-c C-d} to
+insert statements and dollar control options without retyping them.
+@end enumerate
+
+@section Key bindings
+@cindex Key bindings, GAMS mode
+
+This section lists frequently used bindings in @code{gams-mode}.  All
+commands are available through @kbd{M-x} and the GAMS menu.
+
+@table @kbd
+@item C-c C-k
+Insert a GAMS statement with completion support.
+@item C-c C-d
+Insert a dollar control option with completion.
+@item C-c C-t
+Open the template list (GAMS Template mode).
+@item C-c C-e
+Start template editing for the current buffer.
+@item C-c C-c
+Run the current model and display the process buffer.
+@item C-c C-l
+Open the associated listing file in GAMS LST mode.
+@item C-c C-m
+Browse the GAMS documentation for the symbol at point.
+@item C-c C-x
+Open the GDX file that matches the current model name, or prompt for a
+file when no match is found.
+@end table
+
+@section Auto-completion
+@cindex Completion
+
+Completion is provided through Emacs' standard
+@code{completion-at-point-functions}.  Use @kbd{C-M-i} or @kbd{M-TAB} to
+trigger the completions for statements, control options, and symbols
+discovered in the current buffer.  Dynamic abbreviation expansion
+(@kbd{M-/}) integrates well with model editing.
+
+When @code{company-mode} is enabled, the default backends are configured
+through @code{gams-company-backends}, combining file completion,
+snippets, dynamic abbreviations, and the built-in GAMS completion
+sources.
+
+@section Template management
+
+Templates allow frequently used code fragments to be inserted quickly.
+GAMS Template mode offers commands to create, rename, delete, and
+reorder template entries.  The default template file is
+@file{~/.emacs.d/gams-template.txt}.  A sample file ships with the
+package.
+
+Use @kbd{C-c C-t} to open the template list and @kbd{?} inside the list
+buffer to read the mode-specific help.
+
+@chapter Viewing solver output
+@cindex Listing files
+@cindex GAMS LST mode
+
+@code{gams-lst-mode} provides navigation facilities for listing files.
+It derives from @code{special-mode} and adds key bindings that jump
+between errors and sections.  When @code{compilation-minor-mode} is
+enabled, standard commands such as @kbd{M-g M-n} and @kbd{M-g M-p} jump
+between error messages reported by the solver.
+
+Within an LST buffer the following bindings are particularly useful:
+
+@table @kbd
+@item n / p
+Move to the next or previous section detected in the listing.
+@item o
+Open GAMS Outline mode for the current listing.
+@item g
+Revert the buffer to reflect the most recent run.
+@item d f g h j k
+Scroll the listing buffer without moving point.
+@item w
+Resize the frame to a convenient layout for log inspection.
+@end table
+
+@section Outline and SIL modes
+
+@code{gams-outline-mode} extracts and highlights relevant lines from the
+listing file.  It is entered with @kbd{o} from LST mode.  Press
+@kbd{?} in the outline buffer for a summary of navigation commands.
+
+@code{gams-sil-mode} presents a structural outline of the source file,
+grouping symbols such as sets, parameters, variables, and equations.
+Use it to navigate large models quickly.
+
+@chapter Configuration and customization
+@cindex Customization
+@cindex Options
+
+All customization variables belong to the customization group
+@code{gams}.  Access it via @kbd{M-x customize-group RET gams RET}.
+This chapter lists the most frequently tuned variables.
+
+@defopt gams-process-command-name (executable-find "gams")
+Name or absolute file name of the GAMS executable.  When the executable
+is not on @env{PATH}, point this variable to the desired binary, e.g.
+@code{"c:/GAMS/48/gams.exe"}.
+@end defopt
+
+@defopt gams-system-directory (file-name-directory gams-process-command-name)
+Directory that contains the installed GAMS system files.  The directory
+is used to construct paths to documentation and auxiliary binaries.
+@end defopt
+
+@defopt gams-process-command-option "logOption=3 pageWidth=100"
+Default command-line options passed to the GAMS executable.  To enable
+@code{next-error} integration ensure that @code{logLine} is set to @code{1}
+or @code{2}.
+@end defopt
+
+@defopt gams-statement-file
+  (concat user-emacs-directory "gams-statement.txt")
+File that stores user-defined statements and dollar control options.
+The file is updated automatically when new entries are registered from
+the insertion commands.
+@end defopt
+
+@defopt gams-company-backends
+  '((company-files company-yasnippet company-dabbrev-code company-capf :separate))
+List of completion backends used when @code{company-mode} is active in
+GAMS buffers.
+@end defopt
+
+@defopt gams-completion-case 'CamelCase
+Preferred casing of inserted statements.  Valid values are
+@code{CamelCase}, @code{lowercase}, and @code{UPPERCASE}.
+@end defopt
+
+@defopt gams-fill-column 80
+Fill column used when wrapping comments and statements through
+@code{fill-paragraph} and @code{auto-fill-mode}.
+@end defopt
+
+@defopt gams-mode-hook nil
+Hook run after @code{gams-mode} initializes.  Use it to enable auxiliary
+minor modes or buffer-local settings.
+@end defopt
+
+@defopt gams-close-paren-always t
+When non-nil, insert the matching closing parenthesis automatically.
+@end defopt
+
+@defopt gams-close-double-quotation-always t
+When non-nil, insert the closing double quote automatically after typing
+@samp{"}.
+@end defopt
+
+@defopt gams-dollar-control-upcase nil
+When non-nil, insert dollar control options in uppercase by default.
+@end defopt
+
+@defopt gams-use-mpsge t
+Enable features that integrate with MPSGE models.
+@end defopt
+
+@section Process options
+
+Several variables configure how the mode interacts with the external
+GAMS process and how results are displayed.
+
+@defopt gams-always-popup-process-buffer t
+When non-nil, display the GAMS process buffer whenever a run is started.
+Disable this option to leave the current window configuration untouched.
+@end defopt
+
+@defopt gams-process-log-to-file nil
+When non-nil, append process output to a log file in addition to the
+process buffer.  The log file name is derived from
+@code{gams-log-file-extension}.
+@end defopt
+
+@defopt gams-log-file-extension "log"
+Extension used when creating log files for process output.
+@end defopt
+
+@defopt gams-browse-url-function 'browse-url
+Function used to open the GAMS documentation.  Set this to
+@code{xwidget-webkit-browse-url} to view the manuals inside Emacs when
+Xwidgets are available.
+@end defopt
+
+These options, among others defined in @file{gams-mode.el}, can be
+modified via Customize or by calling @code{setopt}.
+
+@chapter Reference
+
+This chapter summarises additional commands that complement the editing
+workflow.
+
+@defun gams-open-gdx
+Open the GDX file that shares its name with the current model.  When the
+file is not found, prompt for a GDX file and open it in GAMS Studio.
+@end defun
+
+@defun gams-view-document
+Display GAMS documentation for the symbol at point.  The browsing
+function is controlled by @code{gams-browse-url-function}.  On Emacs
+builds with Xwidgets support, setting the variable to
+@code{xwidget-webkit-browse-url} opens the manuals inside Emacs.
+@end defun
+
+@defun gams-clean-files-and-folders
+Remove files and directories generated by GAMS runs in the current
+project directory.
+@end defun
+
+@section Sample resources
+
+The distribution includes sample files that illustrate the mode's
+features:
+
+@itemize
+@item @file{sample_gams_code/} contains models referenced by the
+documentation, including @file{gams-sample.gms} and outline samples.
+@item @file{gams-setting-sample.el} demonstrates a full configuration.
+@item @file{gams-template.txt} provides ready-to-use code templates.
+@item @file{doc/refcard-gams.pdf} offers a printable reference card for
+the major commands and key bindings.
+@end itemize
+
+@chapter Troubleshooting
+
+The file @file{BUGS_PROBLEMS.md} lists known issues and workarounds.  In
+addition, the following checks resolve common installation problems:
+
+@itemize
+@item Ensure that @code{gams-process-command-name} points to a valid
+executable.  Use @kbd{M-x gams-install-check-installation} to verify the
+detected version.
+@item Confirm that @code{logLine} is set to @code{1} or @code{2} in
+@code{gams-process-command-option} so that @code{next-error} can parse
+log entries correctly.
+@item Increase @code{jit-lock-chunk-size} when editing models with large
+blocks such as @code{$ontext} sections to keep font locking responsive.
+@end itemize
+
+@appendix Copying
+
+The full text of the GNU Free Documentation License, Version 1.3, is
+available from @url{https://www.gnu.org/licenses/fdl-1.3.html}.  This
+manual is distributed under that license as stated in the copying
+notice.
+
+@bye

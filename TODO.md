@@ -5,8 +5,6 @@ Time-stamp: <2018-03-29 14:26:36 st>
 
 * A list of TODO for GAMS mode.
 
-** TODO Info file.
-
 ** TODO A command that converts equations to LaTeX format.
 
 
