@@ -80,7 +80,7 @@ set +x  # Stop printing commands
 echo "GAMS installation completed successfully!"
 if [ "$(uname)" = "Darwin" ]
 then
-    echo "GAMS was installed in $INSTALLDIR."
+    echo "GAMS was installed in /Library/Frameworks/GAMS.framework/Versions/Current/Resources."
 else
     echo "GAMS was installed in $INSTALLDIR/$(ls -t | head -n 1)."
 fi
