@@ -37,8 +37,20 @@ Texts.
 @node Top
 @top GAMS Mode
 @insertcopying
+@menu
+* Introduction::
+* Installing GAMS Mode::
+* Installing GAMS from Emacs::
+* Getting Started::
+* Viewing Solver Output::
+* Configuration and Customization::
+* Reference::
+* Troubleshooting::
+* Copying::
+@end menu
 @end ifnottex
 
+@node Introduction
 @chapter Introduction
 @cindex GAMS
 @cindex Algebraic modeling
@@ -73,6 +85,7 @@ All modes share consistent key bindings and menu entries.  The sections
 that follow explain how to install the package, run the auxiliary tools,
 and adapt the behaviour through customization interfaces.
 
+@node Installing GAMS Mode
 @chapter Installing GAMS Mode
 @cindex Installation
 
@@ -122,6 +135,7 @@ Copy the sample template @file{gams-template.txt} to
 @file{gams-setting-sample.el} for configurable options and helper
 functions.
 
+@node Installing GAMS from Emacs
 @chapter Installing GAMS from Emacs
 @cindex gams-install.el
 
@@ -166,6 +180,7 @@ On macOS the installer deploys under
 @file{/Library/Frameworks/GAMS.framework/Versions/Current/Resources/}.
 Windows installations go under @file{C:\@/GAMS\<major version>}.
 
+@node Getting Started
 @chapter Getting Started
 
 The file @file{sample_gams_code/gams-sample.gms} demonstrates most
@@ -238,7 +253,8 @@ package.
 Use @kbd{C-c C-t} to open the template list and @kbd{?} inside the list
 buffer to read the mode-specific help.
 
-@chapter Viewing solver output
+@node Viewing Solver Output
+@chapter Viewing Solver Output
 @cindex Listing files
 @cindex GAMS LST mode
 
@@ -273,7 +289,8 @@ listing file.  It is entered with @kbd{o} from LST mode.  Press
 grouping symbols such as sets, parameters, variables, and equations.
 Use it to navigate large models quickly.
 
-@chapter Configuration and customization
+@node Configuration and Customization
+@chapter Configuration and Customization
 @cindex Customization
 @cindex Options
 
@@ -372,6 +389,7 @@ Xwidgets are available.
 These options, among others defined in @file{gams-mode.el}, can be
 modified via Customize or by calling @code{setopt}.
 
+@node Reference
 @chapter Reference
 
 This chapter summarises additional commands that complement the editing
@@ -408,6 +426,7 @@ documentation, including @file{gams-sample.gms} and outline samples.
 the major commands and key bindings.
 @end itemize
 
+@node Troubleshooting
 @chapter Troubleshooting
 
 The file @file{BUGS_PROBLEMS.md} lists known issues and workarounds.  In
@@ -424,6 +443,7 @@ log entries correctly.
 blocks such as @code{$ontext} sections to keep font locking responsive.
 @end itemize
 
+@node Copying
 @appendix Copying
 
 The full text of the GNU Free Documentation License, Version 1.3, is
