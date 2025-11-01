@@ -3858,7 +3858,14 @@ PROC is the process name and STATE is the process state."
           (view-mode 1)
 	  ;; Enable compilation minor mode to be able to jump to errors
 	  (compilation-minor-mode)
-          ;; Ensures that next-error jumps to errors in this buffer and not to the last compile buffer
+          ;; Ensure only the desired error regexps are active.
+          ;; In GAMS process buffers, matchers like `cucumber` from other
+          ;; modes can incorrectly highlight lines such as “v:2”.  We set
+          ;; `compilation-error-regexp-alist` buffer‑locally and remove
+          ;; the cucumber entry to avoid these false positives.
+          (setq-local compilation-error-regexp-alist
+                      (remove 'cucumber compilation-error-regexp-alist))
+	  ;; Ensures that next-error jumps to errors in this buffer and not to the last compile buffer
 	  (next-error-select-buffer (current-buffer))
           (select-window sw)
           (if err
