@@ -4,7 +4,7 @@
 ;; Maintainer: Shiro Takeda
 ;; Copyright (C) 2001-2025 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
-;; Version: 7.00
+;; Version: 7.1
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: https://github.com/ShiroTakeda/gams-mode
@@ -53,6 +53,8 @@
   (require 'align)
   (require 'compile)
   (require 'org))
+
+(require 'gams-install)
 
 (defsubst gams-oddp (x)
   "Return t if X is odd."
@@ -3867,9 +3869,16 @@ PROC is the process name and STATE is the process state."
             (recenter -1)))
           ;; Enable `view-mode` to prevent further editing
           (view-mode 1)
+          ;; Ensure only the desired error regexps are active.
+          ;; In GAMS process buffers, matchers like `cucumber` from other
+          ;; modes can incorrectly highlight lines such as “v:2”.  We set
+          ;; `compilation-error-regexp-alist` buffer‑locally and remove
+          ;; the cucumber entry to avoid these false positives.
+          (setq-local compilation-error-regexp-alist
+                      (remove 'cucumber compilation-error-regexp-alist))
 	  ;; Enable compilation minor mode to be able to jump to errors
           (gams-process--refresh-compilation-highlighting (current-buffer))
-          ;; Ensures that next-error jumps to errors in this buffer and not to the last compile buffer
+	  ;; Ensures that next-error jumps to errors in this buffer and not to the last compile buffer
 	  (next-error-select-buffer (current-buffer))
           (select-window sw)
           (if err

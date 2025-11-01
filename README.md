@@ -16,11 +16,12 @@ If you want to know how to install GAMS mode, read [Installation](#installation)
 1. [Introduction (brief overview)](#introduction-brief-overview)
 2. [Screenshots](#screenshots)
 3. [Installation](#installation)
-4. [Basic Usage](#basic-usage)
-5. [Customization](#customization)
-6. [YAML and Python code blocks font-locking](#yaml-and-python-code-blocks-font-locking)
-7. [Miscellaneous](#miscellaneous)
-8. [Acknowledgments](#acknowledgments)
+4. [Installing GAMS from Emacs](#installing-gams-from-emacs)
+5. [Basic Usage](#basic-usage)
+6. [Customization](#customization)
+7. [YAML and Python code blocks font-locking](#yaml-and-python-code-blocks-font-locking)
+8. [Miscellaneous](#miscellaneous)
+9. [Acknowledgments](#acknowledgments)
 
 ## Introduction (brief overview)
 
@@ -137,6 +138,7 @@ First, I explain the files distributed in the package.
 | :--------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- |
 | `README.md`                                          | This file. Please read this first.                                                                                       |
 | [`gams-mode.el`](gams-mode.el)                       | The main Lisp program.                                                                                                   |
+| [`gams-install.el`](gams-install.el)                 | Lisp program for installing GAMS directly from Emacs.                                                                    |
 | [`sample_gams_code`](sample_gams_code)               | This folder includes sample GMS files. To learn how to use GAMS mode, read the `gams-sample.gms` file in this folder.    |
 | [`gams-setting-sample.el`](gams-setting-sample.el)   | Sample settings file for `init.el`.                                                                                      |
 | [`gams-template.txt`](gams-template.txt)                                  | Sample templates file.                                                                                                   |
@@ -213,6 +215,20 @@ To install `gams-mode.el` manually, follow the procedure below (steps 1 and 2 ar
     ```
 
 Additionally, set proper values for `gams-process-command-name` and `gams-system-directory`.
+
+## Installing GAMS from Emacs
+
+GAMS mode can install GAMS directly from Emacs. This functionality is provided by the `gams-install.el` package. The installation requires admin rights under macOS and Linux, but not under Windows. After the installation, it is the user's responsibility to add GAMS folder to the PATH. GAMS installation folder is displayed at the end of the installation, at the bottom of the `*GAMS Installation*` buffer.
+
+### Installation commands
+
+- `M-x gams-install` - Install the latest version of GAMS
+- `C-u M-x gams-install` - Prompt for a specific GAMS version to install
+- `M-x gams-install-check-installation` - Check if GAMS is already installed and display the version
+
+### Customization option
+
+- `gams-install-directory` - Specify a custom installation directory for GAMS on Linux
 
 ## Configuration
 

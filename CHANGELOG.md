@@ -8,6 +8,17 @@ Maintainer: Shiro Takeda
 Change logs of GAMS mode.
 ====================================================
 
+Version 7.1
+----------------------------------
+
+* Introduce `gams-install.el`, enabling GAMS installation directly from
+  Emacs on Windows, macOS, and Linux, including asynchronous download of
+  the latest release or a user-specified version.
+* Add helper `gams-install-check-installation` and Linux-only
+  customization of the installation directory.
+* Provide accompanying platform scripts (`gams_install.sh`,
+  `gams_install.ps1`).
+
 Version 7.0
 ----------------------------------
 
@@ -15,13 +26,13 @@ Version 7.0
   and some regexp. This allows the use of standard Emacs keybindings to
   jump to errors from the `gms` file.
 
-*  `gams-file-extension` has been removed because it does not work well
-   with deferred package loading and can prevent `poly-gams`from loading
+* `gams-file-extension` has been removed because it does not work well
+   with deferred package loading and can prevent `poly-gams `from loading
    properly.
 
-*  All paths to executables and folders should be set automatically if
-   GAMS is present in the PATH. If this is not the case, the only thing to
-   set is the path to the `gams` executable.
+* All paths to executables and folders should be set automatically if GAMS
+  is present in the PATH. If this is not the case, the only thing to set
+  is the path to the `gams` executable.
 
 * Adjustments in docstrings to follow more elisp conventions (still a lot to do).
 
