@@ -2204,6 +2204,9 @@ But the words registered in this list are colored by
   :type '(repeat (string :tag "keyword"))
   :group 'gams)
 
+(defvar gams-highlighted-keywords-in-comment-regexp nil
+  "Regexp matching highlighted keywords inside comments in GAMS mode.")
+
 (defun gams-store-point-highlighted-keywords (limit)
   "Store points for font-lock for highlighted keywords.
 LIMIT specifies the search limit."
@@ -3622,7 +3625,7 @@ and initial *.  JUSTIFY."
         ;; Non-nil if the current line contains a comment.
         has-comment
         ;; Non-nil if the current line contains code and a comment.
-        has-code-and-comment
+        ;; has-code-and-comment
         ;; If has-comment, the appropriate fill-prefix for the comment.
         comment-fill-prefix)
     ;; Figure out what kind of comment we are looking at.
@@ -3682,9 +3685,7 @@ and initial *.  JUSTIFY."
                   (concat paragraph-start "\\|^\\([" gams-comment-prefix "]\\)$"))
                  (paragraph-ignore-fill-prefix nil)
                  (fill-prefix comment-fill-prefix)
-                 (after-line (if has-code-and-comment
-                                 (save-excursion
-                                   (forward-line 1) (point))))
+                 (after-line nil)
                  (end (progn
                         (forward-paragraph)
                         (or (bolp) (newline 1))
@@ -4060,7 +4061,7 @@ If ASK is non-nil, you can edit command line."
     (gams-set-lst-filename)
     (let* ((builtin "#!")
            (fname (file-name-nondirectory buffer-file-name))
-           arg newarg prompt out-opt)
+           arg newarg out-opt)
       (when (string-match " " fname)
         (if (string-match gams-w32-system-shells shell-file-name)
             (setq fname (concat "\"" fname "\""))
@@ -4078,19 +4079,17 @@ If ASK is non-nil, you can edit command line."
       (basic-save-buffer)
 
       (gams-start-process-other-window
-       (cond
-        (prompt
-         (read-string "Execute: " arg))
-        (ask
-         (setq newarg (read-string "Edit command if you want:  " arg))
-         (if (and builtin
-                  (not (string= newarg arg))
-                  (y-or-n-p "Use this command line also in the future? "))
-             (progn
-               (gams-update-builtin builtin newarg)
-               (message "The command line is inserted in the fisrt line in this file!")))
-         newarg)
-        (t arg))))))
+       (if ask
+	   (progn 
+             (setq newarg (read-string "Edit command if you want:  " arg))
+             (if (and builtin
+                      (not (string= newarg arg))
+                      (y-or-n-p "Use this command line also in the future? "))
+		 (progn
+		   (gams-update-builtin builtin newarg)
+		   (message "The command line is inserted in the fisrt line in this file!")))
+             newarg)
+         arg)))))
 
 (defun gams-kill-processor ()
   "Stop (kill) a GAMS process."
@@ -4179,30 +4178,31 @@ The directory of the local GAMS documents is determined by the variable
 `gams-docs-directory'.  By default, `gams-docs-directory' is set to
 `gams-system-directory' + docs."
   (interactive "P")
-  (unwind-protect
-      (let* ((completion-ignore-case t)
-             (def-dir default-directory)
-             (docs-dir (file-name-as-directory gams-docs-directory))
-             key
-             fl-docs-dir) ;; let* ends.
-        (setq fl-docs-dir (or (file-exists-p docs-dir) nil))
-        (when command
-          (setq command (gams-view-doc-get-command)))
-        (if (and command
-                 (not (equal command "")))
-            (gams-view-doc-search-command command nil)
-          (message "Press ENTER key if you use online manual. Press other keys for offline manual.")
-          (setq key (read-char))
-          (if (equal key 13)
-              (funcall gams-browse-url-function gams-docs-url)
-            (if fl-docs-dir
-                (funcall gams-browse-url-function
-                         (browse-url-file-url (concat docs-dir "index.html")))
-              (message
-               (format
-                "\"%s\" does not exist. Check `gams-docs-directory' setting."
-                (concat docs-dir "index.html"))))))
-        (setq default-directory def-dir))))
+  (let* ((completion-ignore-case t)
+         (def-dir default-directory)
+         (docs-dir (file-name-as-directory gams-docs-directory))
+         key
+         fl-docs-dir
+         ) ;; let* ends.
+    (setq fl-docs-dir (or (file-exists-p docs-dir) nil))
+    (when command
+      (setq command (gams-view-doc-get-command)))
+    (if (and command
+             (not (equal command "")))
+        (gams-view-doc-search-command command nil)
+      (message "Press ENTER key if you use online manual. Press other keys for offline manual.")
+      (setq key (read-char))
+      (if (equal key 13)
+          (funcall gams-browse-url-function gams-docs-url)
+        (if fl-docs-dir
+            (funcall gams-browse-url-function
+                     (browse-url-file-url (concat docs-dir "index.html")))
+          (message
+           (format
+            "\"%s\" does not exist. Check `gams-docs-directory' setting."
+            (concat docs-dir "index.html"))))))
+    (setq default-directory def-dir)))
+
 
 ;;; New command.
 (defun gams-from-gms-to-outline ()
@@ -5159,26 +5159,6 @@ If STRING contains only spaces, return null string."
   (let ((num (string-match "[^ \t,.]" string)))
     (if num (substring string num) "")))
 
-(defvar gams-mb-map-ext-1 nil
-  "*Key map used at gams completion of statements in the minibuffer.")
-(if gams-mb-map-ext-1 nil
-  (setq gams-mb-map-ext-1
-        (copy-keymap minibuffer-local-completion-map))
-  (define-key gams-mb-map-ext-1
-    "\C-i" 'minibuffer-complete))
-
-(defvar gams-mb-map-ext-2 nil
-  "*Key map used at gams completion of statements in the minibuffer.")
-(if gams-mb-map-ext-2 nil
-  (setq gams-mb-map-ext-2
-        (copy-keymap minibuffer-local-completion-map))
-  (define-key gams-mb-map-ext-2
-    "\C-i" 'minibuffer-complete)
-  (define-key gams-mb-map-ext-2
-    " " 'gams-minibuffer-insert-space)
-  (define-key gams-mb-map-ext-2
-    "(" 'gams-insert-parens))
-
 (defun gams-minibuffer-insert-space ()
   (interactive)
   (insert " "))
@@ -5193,9 +5173,9 @@ If STRING contains only spaces, return null string."
 (put 'gams-st-hist-solve-solver 'no-default t)
 (put 'gams-st-hist-solve-maximin 'no-default t)
 
-(defun gams-read-statement-ext (prompt completion &optional history initial key)
+(defun gams-read-statement-ext (prompt completion &optional history initial)
   "Read a GAMS statements with completion."
-  (gams-remove-spaces-from-string
+ (gams-remove-spaces-from-string
    (completing-read
     prompt completion nil nil initial history)))
 
@@ -5219,7 +5199,7 @@ If STRING contains only spaces, return null string."
       (upcase str)
     (downcase str)))
 
-(defun gams-insert-post-option (&optional name)
+(defun gams-insert-post-option ()
   (let ((opt-def
          (or gams-insert-option-previous
              gams-insert-option-default))
@@ -5231,7 +5211,7 @@ If STRING contains only spaces, return null string."
         (setq opt-name
               (gams-read-statement-ext
                (format "Insert an option name (default = %s): " opt-def)
-               opt-comp nil nil gams-mb-map-ext-1))
+               opt-comp nil nil))
         (when (equal "" opt-name) (setq opt-name opt-def))
         (setq gams-insert-option-previous opt-name)
         (insert (gams-change-case opt-name))
@@ -5250,7 +5230,7 @@ If STRING contains only spaces, return null string."
                            (if opt-default
                                (format " [default = %s]: " opt-default)
                              ": "))
-                   nil nil nil gams-mb-map-ext-1))
+                   nil nil nil))
             (cond
              ((not (equal arg ""))
               (insert (concat arg ", ")))
@@ -5280,7 +5260,7 @@ If STRING contains only spaces, return null string."
     (indent-region po-beg (point) nil)
     (goto-char (1+ po-beg))
     (setq arg-1 (gams-read-statement-ext
-                 mess nil nil nil gams-mb-map-ext-2))
+                 mess nil nil nil))
     (unless (equal "" arg-1)
       (insert arg-1))))
 
@@ -5307,7 +5287,7 @@ If STRING contains only spaces, return null string."
       (setq alist (cdr alist)))
     al))
 
-(defun gams-insert-post-solve (&optional name)
+(defun gams-insert-post-solve ()
   (let ((def-solv (or gams-insert-solver-type-previous
                      gams-insert-solver-type-default))
         mod-name sol-type maxmin maximand guess)
@@ -5323,7 +5303,7 @@ If STRING contains only spaces, return null string."
       (setq mod-name
             (gams-read-statement-ext
              (concat (format "Insert model name: (default = %s): " guess))
-             alist-modname gams-st-hist-solve-model nil nil))
+             alist-modname gams-st-hist-solve-model nil))
       (when (equal mod-name "")
         (setq mod-name guess))
       (insert mod-name)
@@ -5333,7 +5313,7 @@ If STRING contains only spaces, return null string."
           (gams-read-statement-ext
            (format "Insert solver type (default = %s): " def-solv)
            gams-insert-solver-type-list
-           gams-st-hist-solve-solver nil nil))
+           gams-st-hist-solve-solver nil))
     (if (equal sol-type "")
         (progn (setq sol-type def-solv)
                (insert (concat (gams-change-case sol-type) " ")))
@@ -5369,7 +5349,7 @@ If STRING contains only spaces, return null string."
         (setq maximand
               (gams-read-statement-ext
                (concat "Insert the objective variable: ")
-               var-alist nil nil nil))
+               var-alist nil nil))
         (unless (equal maximand "")
           (insert (concat maximand ";")))))
      (t
@@ -5413,7 +5393,7 @@ If STRING contains only spaces, return null string."
           (setq ele
                 (gams-read-statement-ext
                  "Insert equation identifier (all = all, @ll = list all equations): "
-                 eq-comp nil nil gams-mb-map-ext-1))
+                 eq-comp nil nil))
           (cond
            ((equal ele "")
             (skip-chars-backward ", ")
@@ -5431,7 +5411,7 @@ If STRING contains only spaces, return null string."
             (throw 'flag t))
            (t (insert (concat ele ", ")))))))))
 
-(defun gams-insert-post-model (&optional name)
+(defun gams-insert-post-model ()
   (let (m-name m-exp key)
     (insert " ")
     (catch 'flag
@@ -5439,12 +5419,12 @@ If STRING contains only spaces, return null string."
         (setq m-name
               (gams-read-statement-ext
                (concat "Insert model name: ")
-               nil nil nil gams-mb-map-ext-2))
+               nil nil nil))
         (unless (equal "" m-name) (insert (concat m-name " ")))
         (setq m-exp
               (gams-read-statement-ext
                (concat "Insert model explanatory texts: ")
-               nil nil nil gams-mb-map-ext-2))
+               nil nil nil))
         (unless (equal m-exp "") (insert (concat m-exp " ")))
         (insert "/  /")
         (backward-char 2)
@@ -5468,13 +5448,13 @@ If STRING contains only spaces, return null string."
     (setq f-label
           (gams-read-statement-ext
            (concat "Insert file label: ")
-           nil nil nil nil))
+           nil nil nil))
     (unless (equal f-label "")
       (insert (concat f-label " ")))
     (setq f-exp
          (gams-read-statement-ext
            (concat "Insert file explanatory texts: ")
-           nil nil nil gams-mb-map-ext-2))
+           nil nil nil))
     (if (equal f-exp "")
         (delete-char -1)
       (insert (concat f-exp " ")))
@@ -5483,13 +5463,13 @@ If STRING contains only spaces, return null string."
     (setq f-name
           (gams-read-statement-ext
            (concat "Insert file name: ")
-           f-comp nil nil nil))
+           f-comp nil nil))
     (unless (equal f-name "")
       (insert f-name)
       (end-of-line)
       (insert ";"))))
 
-(defun gams-insert-post-put (&optional name)
+(defun gams-insert-post-put ()
   (let* ((f-comp
           (gams-list-to-alist
            (gams-store-file-label (point-min) (point))))
@@ -5498,7 +5478,7 @@ If STRING contains only spaces, return null string."
                  "Insert file label (no file lable difined yet!): "))
          f-label)
     (insert " ")
-    (setq f-label (gams-read-statement-ext mess f-comp nil nil nil))
+    (setq f-label (gams-read-statement-ext mess f-comp nil nil))
     (unless (equal f-label "")
       (insert f-label)
       (insert ";"))))
@@ -5630,7 +5610,9 @@ Completion of internal file name."
         (insert statement)
         (let ((func-name (cdr (assoc (downcase statement) gams-statement-alist-ext))))
           (when func-name
-            (funcall func-name statement))))
+	    (if (string-match "\\(?:model\\|option\\|put\\|solve\\)" statement)
+		(funcall func-name)
+	      (funcall func-name statement)))))
     (if (<= (minibuffer-depth) 0) (use-global-map global-map))
     (insert "")))
  ;;insert dummy string to fontify(Emacs20)
@@ -7222,7 +7204,7 @@ If PAGE is non-nil, page scroll."
   "Start the GAMS-TEMPLATE mode."
   (interactive)
   (let ((file (expand-file-name gams-template-file))
-        (cur-buff (current-buffer))
+        (cur-buf (current-buffer))
         flag)
     (if (not (file-exists-p file))
         (progn
@@ -7450,7 +7432,6 @@ The following commands are available in this mode.
         (font-lock-ensure)
       (if (equal gams-font-lock-keywords nil)
           (font-lock-mode -1))))
-  (buffer-name)
   (setq buffer-read-only t)) ;;
 
 (defun gams-temp-get-name ()
@@ -7951,10 +7932,13 @@ red = re-edit."
           (progn
             (gams-temp-write-alist alist)
             (write-file tfile)
-            (kill-buffer (find-buffer-visiting tfile)))))))
+            (kill-buffer (find-buffer-visiting tfile)))
+        (when (buffer-live-p (current-buffer))
+          (kill-buffer (current-buffer)))))))
 
 (defun gams-temp-write-alist-to-file ()
-  "Save the content of `gams-user-template-alist' into the file `gams-user-template-alist'."
+  "Save the content of `gams-user-template-alist' into
+the file `gams-user-template-alist'."
   (interactive)
   (save-excursion
     (when gams-user-template-alist
@@ -9277,7 +9261,7 @@ Return the new file number."
      (set-marker (make-marker) (point)))))
 
 (defsubst gams-sil-get-alist-exit (fnum)
-  (let* ((con "EXIT !!!")
+  (let* ((con (copy-sequence "EXIT !!!"))
          (len (length con)))
     (put-text-property 0 len 'face gams-lst-warning-face con)
     (list
@@ -10321,7 +10305,8 @@ To register the viewable item combinations, use `gams-sil-select-item'."
     new-list))
 
 (defun gams-register-sil-item ()
-  "Save the content of `gams-user-identifier-item-alist' into the file `gams-statement-file'."
+  "Save the content of `gams-user-identifier-item-alist' into the file
+`gams-statement-file'."
   (interactive)
   (if (and gams-user-identifier-item-alist
            (not (equal gams-user-identifier-item-alist gams-user-identifier-item-alist-initial)))
@@ -10358,9 +10343,9 @@ To register the viewable item combinations, use `gams-sil-select-item'."
             (goto-char (point-min))
             ;; Check whether the list-name part exists or not.
             (if (not (re-search-forward
-                       (concat
-                        "\\(setq\\) " alist-name)
-                       nil t))
+                      (concat
+                       "\\(setq\\) " alist-name)
+                      nil t))
                 ;; If it doesn't exists, do nothing.
                 nil
               ;; If it exists, delete it.
@@ -11804,7 +11789,8 @@ DEF is t if declaration place exists."
               gams-sid-mess-1))))
 
 (defun gams-sid-copy-explanatory-text (po-def len)
-  "Copy (extract) the explanatory text of the identifier from the declaration place."
+  "Copy (extract) the explanatory text of the identifier from the declaration
+place."
   (let ((case-fold-search t)
         fl_q fl_e beg end etxt)
 
@@ -12212,7 +12198,7 @@ If VIEW is non-nil, return the value of `gams-ol-alist-tempo'."
 (defun gams-ol-mode (lst-file-buf)
   "The GAMS-OUTLINE mode.
 
-\\[gams-ol-view-base]            Show the content of the item on the current line.
+\\[gams-ol-view-base]            Show the content of the current line item.
 \\[gams-ol-select-item]          Select viewable items.
 \\[gams-ol-item]                 Select registered viewable item combination.
 \\[gams-ol-next]                 Next line.
@@ -17555,7 +17541,8 @@ I forgot what this function is..."
 (defconst gams-icon-file-name "gams-logo.xpm")
 (defun gams-mode-line-buffer-identification ()
   (let ((icon gams-icon-file-name)
-        (str "A") temp)
+        (str (copy-sequence "A"))
+	temp)
     (if (fboundp 'find-image)
         (progn
           (setq temp
