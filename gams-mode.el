@@ -3011,69 +3011,6 @@ results."
            (append gams-dollar-control-up gams-user-dollar-control-list))
          gams-dollar-control-upcase)))
 
-;;; From yatex.el
-
-(defun gams-minibuffer-complete ()
-  "Complete in minibuffer.
-If the symbol 'delim is bound and is string, its value is assumed to be
-the character class of delimiters.  Completion will be performed on
-the last field separated by those delimiters.
-  If the symbol 'quick is bound and is 't, when the `try-completion' results
-in t, exit minibuffer immediately."
-  (interactive)
-  (save-restriction
-    (narrow-to-region
-     (if (fboundp 'field-beginning) (field-beginning (point-max)) (point-min))
-     (point-max))
-    (let* ((md (match-data))
-          beg word delim compl
-          (quick (and (boundp 'quick) (eq quick t)))
-          (displist ; function to display completion-list
-           (function
-            (lambda ()
-              (with-output-to-temp-buffer "*Completions*"
-                (display-completion-list
-                 (all-completions word minibuffer-completion-table)))))))
-      (setq beg (if (and (boundp 'delim) (stringp delim))
-                    (save-excursion
-                      (skip-chars-backward (concat "^" delim))
-                      (point))
-                  (point-min))
-            word (gams-buffer-substring beg (point-max))
-            compl (try-completion word minibuffer-completion-table))
-      (cond
-       ((eq compl t)
-        (if quick (exit-minibuffer)
-          (let ((p (point)) (max (point-max)))
-            (unwind-protect
-                (progn
-                  (goto-char max)
-                  (insert " [Sole completion]")
-                  (goto-char p)
-                  (sit-for 1))
-              (delete-region max (point-max))
-              (goto-char p)))))
-       ((eq compl nil)
-        (ding)
-        (save-excursion
-          (let (p)
-            (unwind-protect
-                (progn
-                  (goto-char (setq p (point-max)))
-                  (insert " [No match]")
-                  (goto-char p)
-                  (sit-for 2))
-              (delete-region p (point-max))))))
-       ((string= compl word)
-        (funcall displist))
-       (t (delete-region beg (point-max))
-          (insert compl)
-          (if quick
-              (if (eq (try-completion compl minibuffer-completion-table) t)
-                  (exit-minibuffer)
-                (funcall displist)))))
-      (store-match-data md))))
-
 (defvar gams-statement-completion-map nil
   "*Key map used at gams completion of statements in the minibuffer.")
 (if gams-statement-completion-map nil
@@ -4182,8 +4119,7 @@ The directory of the local GAMS documents is determined by the variable
          (def-dir default-directory)
          (docs-dir (file-name-as-directory gams-docs-directory))
          key
-         fl-docs-dir
-         ) ;; let* ends.
+         fl-docs-dir) ;; let* ends.
     (setq fl-docs-dir (or (file-exists-p docs-dir) nil))
     (when command
       (setq command (gams-view-doc-get-command)))
