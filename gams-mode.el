@@ -5,7 +5,7 @@
 ;; Copyright (C) 2001-2025 Shiro Takeda
 ;; First Created: Sun Aug 19, 2001 12:48 PM
 ;; Version: 7.1
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "25.1"))
 ;; Keywords: languages, tools, GAMS
 ;; URL: https://github.com/ShiroTakeda/gams-mode
 
@@ -123,7 +123,7 @@ If you are Windows Emacs user, logOption=3 (or lo=3) option is
 necessary to show the GAMS process log.
 
 To be able to jump to errors from the process buffer, it is necessary to
-use logLine=1 (ll=1) or logLine=2 (the default). With logLine=0, this
+use logLine=1 (ll=1) or logLine=2 (the default).  With logLine=0, this
 feature is not available.
 
 For the details of GAMS command line options, see the following page:
@@ -3352,8 +3352,8 @@ if `gams-use-mpsge' is non-nil)."
   "Open the corresponding GDX file for the current buffer.
 
 If the buffer is associated with a file, try to open a GDX file with the
-same name. If the GDX file doesn't exist, or the buffer is not
-associated with a file, prompt for a GDX filename. If called with a
+same name.  If the GDX file doesn't exist, or the buffer is not
+associated with a file, prompt for a GDX filename.  If called with a
 universal argument ARG, always prompt for a filename."
   (interactive "P")
   (let* ((buffer-file (and (not arg) (buffer-file-name))) ; Get buffer's file name unless prompted
@@ -5628,8 +5628,8 @@ BEG and END are points."
 (defun gams-insert-statement-extended (&optional cmd)
   "Insert GAMS statement with extended features.
 This command has various extended features than the normal
-`gams-insert-statement'. Types of statements you can insert with this command
-are:
+`gams-insert-statement'.  Types of statements you can insert with this
+command are:
 
 OPTION type statement
 MODEL type statement
