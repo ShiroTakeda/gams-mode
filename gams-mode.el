@@ -55,8 +55,6 @@
   (require 'browse-url)
   (require 'org))
 
-(require 'gams-install)
-
 (defsubst gams-oddp (x)
   "Return t if X is odd."
   (eq (logand x 1) 1))
