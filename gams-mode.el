@@ -9706,10 +9706,12 @@ LIGHT is t if in light mode."
       (match-beginning 0))))
 
 (defsubst gams-sil-make-alist (type fnum po name &optional exp)
+  "Return a standard SIL entry for TYPE at position PO in file FNUM.
+NAME is the identifier and optional EXP stores explanatory text."
   (list type fnum po name (or exp nil) (set-marker (make-marker) po)))
 
 (defsubst gams-sil-get-mpsge-model-name (fnum)
-  "Extract MPSGE model name."
+  "Extract an MPSGE model name from file FNUM."
   (skip-chars-forward " \t")
   (when (looking-at "[0-9a-zA-Z_]+")
     (let ((beg (match-beginning 0))
@@ -9717,7 +9719,7 @@ LIGHT is t if in light mode."
       (gams-sil-make-alist 'mod fnum beg (gams-buffer-substring beg end) nil))))
 
 (defsubst gams-sil-get-mpsge-variable (fnum)
-  "FNUM is the file number in which the identifier is defined."
+  "Return an entry describing an MPSGE variable in file FNUM."
   (let ((lend (line-end-position))
         beg end id exp)
     (when (re-search-forward "^[ \t]*\\([0-9a-zA-Z_]+\\)" lend t)
@@ -9733,7 +9735,7 @@ LIGHT is t if in light mode."
       (gams-sil-make-alist 'mps fnum beg id exp))))
 
 (defsubst gams-sil-get-mpsge-report-variable (fnum)
-  "FNUM is the file number in which the identifier is defined."
+  "Return an entry describing an MPSGE report variable in file FNUM."
   (let ((lend (line-end-position))
         beg end id exp)
     (when (re-search-forward "^[ \t]*v:\\([0-9a-zA-Z_]+\\)" lend t)
@@ -9749,7 +9751,7 @@ LIGHT is t if in light mode."
       (gams-sil-make-alist 'mps fnum beg id exp))))
 
 (defsubst gams-sil-get-mpsge-variable-definition (fnum)
-  "FNUM is the file number in which the identifier is defined."
+  "Return an entry describing an MPSGE variable definition in file FNUM."
   (let ((beg (point))
         end id)
     (skip-chars-forward "a-zA-Z0-9_")
@@ -9760,7 +9762,7 @@ LIGHT is t if in light mode."
     (gams-sil-make-alist 'def fnum beg id "")))
 
 (defun gams-sil-get-alist-mpsge (fnum)
-  "FNUM is the file number in which the identifier is defined."
+  "Return SIL entries for the MPSGE block found in file FNUM."
   (let ((end (gams-return-mpsge-end))
         alist rep block-begin block-end m-string)
     ;; Extract MPSGE model name.
@@ -9807,8 +9809,7 @@ LIGHT is t if in light mode."
     alist))
 
 (defun gams-sil-get-alist (fnum type)
-  "FNUM is the file number in which the identifier is defined.
-TYPE is the type of identifier."
+  "Return entries of TYPE found in file FNUM."
   (let ((f-tbl nil)
         alist po-beg ex-beg ex-end po id exp f-id)
     (when (equal type 'tbl)
@@ -9883,6 +9884,8 @@ TYPE is the type of identifier."
     alist))
 
 (defun gams-sil-get-alist-exp (&optional sil)
+  "Return the end position of an explanatory text.
+Optional SIL non-nil adjusts handling for SIL blocks."
   (let (po-end)
     (save-excursion
       (catch 'found
@@ -9988,6 +9991,7 @@ SIL buffer."
       (setq buffer-read-only t))))
 
 (defun gams-sil-select-key ()
+  "Insert the help text showing SIL selection key bindings."
     (insert (concat "\n"
                     (format "[spc]    = toggle\n")
                     (format "[%s/%s]    = toggle on\n"
@@ -10009,7 +10013,8 @@ If the FLAG is non-nil, use `gams-sil-view-item'."
         t
       nil)))
 
-(defvar gams-sil-silbuff nil)
+(defvar gams-sil-silbuff nil
+  "Buffer associated with the current SIL selection window.")
 (setq-default gams-sil-silbuff nil)
 
 (defun gams-sil-select-mode (buffname)
@@ -10032,6 +10037,7 @@ BUFFNAME is the SIL buffer name."
         (gams-ol-check-func gams-sil-view-item)))
 
 (defun gams-sil-make-list-view-item (alist)
+  "Return a normalized copy of ALIST for use as a view-item choice."
   (let ((temp-alist-2 alist)
         (temp-alist-3 gams-sil-item-alist-2)
         list-1 temp-ele)
@@ -10046,6 +10052,7 @@ BUFFNAME is the SIL buffer name."
 ;;; initialize.
 
 (defun gams-sil-item-insert (alist num)
+  "Insert ALIST into the view matrix; mark it if NUM is non-nil."
   (let ((item-num (car alist))
         (item-cont (car (cdr alist)))
         (temp-alist1 gams-sil-item-alist)
@@ -10115,15 +10122,16 @@ BUFFNAME is the SIL buffer name."
     (setq buffer-read-only t)))
 
 (defsubst gams-sil-item-show-key ()
+  "Display the key bindings available in SIL item selection."
   (message
-    (concat
-     "* => the current choice, "
-     "Key: "
-     "[n]ext, "
-     "[p]rev, "
-     "ENT = select, "
-     "[q]uit, "
-     "[d]elete")))
+   (concat
+    "* => the current choice, "
+    "Key: "
+    "[n]ext, "
+    "[p]rev, "
+    "ENT = select, "
+    "[q]uit, "
+    "[d]elete")))
 
 (defun gams-sil-item ()
   "Select the registered item combination.
@@ -10148,7 +10156,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
   (define-key map "d" 'gams-sil-item-delete))
 
 (defun gams-sil-item-mode (buff)
-  "Mode for changing command line options."
+  "Major mode used when selecting SIL item combinations from BUFF."
   (kill-all-local-variables)
   (setq mode-name "item"
         major-mode 'gams-sil-item-select-mode)
@@ -10269,6 +10277,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
           (gams-sil-item-view)))))))
 
 (defun gams-sil-change-view-item (list)
+  "Apply LIST (a vector of ones/zeros) to `gams-sil-view-item'."
   (let ((alist gams-sil-item-alist)
         (alist2 gams-sil-item-alist-2)
         new-alist)
@@ -10298,6 +10307,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
         "default")))))
 
 (defun gams-sil-item-make-number-list (num-list)
+  "Return a normalized numeric string describing NUM-LIST."
   (let* ((co (length gams-sil-item-alist-2))
          (old-list (reverse num-list))
          (diff (- (length gams-sil-item-alist-2) (length old-list)))
@@ -10316,8 +10326,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
     new-list))
 
 (defun gams-register-sil-item ()
-  "Save the content of `gams-user-identifier-item-alist' into the file
-`gams-statement-file'."
+  "Persist `gams-user-identifier-item-alist' into `gams-statement-file'."
   (interactive)
   (if (and gams-user-identifier-item-alist
            (not (equal gams-user-identifier-item-alist gams-user-identifier-item-alist-initial)))
@@ -10378,6 +10387,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
             (kill-buffer temp-buff))))))
 
 (defun gams-sil-item-add ()
+  "Add the current SIL view combination to the saved list."
   (interactive)
   (message "Do you really register this item combination?  Type `y' if yes.")
   (if (equal ?y (read-char))
@@ -10394,7 +10404,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
         (message "Added this viewable item combination to item list."))))
 
 (defun gams-sil-select-quit ()
-  "Quit the select-item mode."
+  "Quit the select-item mode, syncing the SIL buffer if needed."
   (interactive)
   (let ((cur-buff (current-buffer))
         (silbuf gams-sil-silbuff)
@@ -10436,7 +10446,7 @@ To register the viewable item combinations, use `gams-sil-select-item'."
       (kill-buffer cur-buff))))
 
 (defsubst gams-sil-select-judge ()
-  "Judge the item on the line and return its value."
+  "Return the symbol describing the item on the current line."
   (save-excursion
     (let (str)
       (beginning-of-line)
@@ -10512,7 +10522,7 @@ If PREV is non-nil, move up after toggle."
   (gams-sil-toggle t))
 
 (defun gams-sil-toggle-on-prev ()
-  "Toggle on the item on the current line."
+  "Toggle on the previous item and move up one line."
   (interactive)
   (gams-sil-toggle t nil t))
 
@@ -10613,12 +10623,14 @@ If PREV is non-nil, move up after toggle."
     found))
 
 (defsubst gams-sil-invisible-item (beg end)
+  "Hide the region between BEG and END using a SIL overlay."
   (let ((ov (make-overlay beg end)))
     (overlay-put ov 'evaporate t)
     (overlay-put ov 'invisible 'gams-sil)
     (overlay-put ov 'gams-sil t)))
 
 (defun gams-sil-visible-item (beg)
+  "Remove the SIL overlay that starts around BEG."
   (let ((ov (gams-sil-overlay-at (1+ beg))))
     (when ov (delete-overlay ov))))
 
@@ -10631,7 +10643,7 @@ If PREV is non-nil, move up after toggle."
       (gams-sil-fold-all-items))))
 
 (defun gams-sil-toggle-fold-all-items-nonint (&optional fold)
-  "Toggle fold/unfold all items."
+  "Internal helper to fold/unfold all items when FOLD is non-nil."
   (if fold
       (progn (gams-sil-fold-all-items)
              (setq gams-sil-fold-all-items-p t))
@@ -10639,6 +10651,7 @@ If PREV is non-nil, move up after toggle."
     (setq gams-sil-fold-all-items-p nil)))
 
 (defun gams-sil-fold-all-items-first ()
+  "Mark the initial fold regions for SIL list display."
   (let ((buffer-read-only nil)
         beg end po)
     (save-excursion
@@ -10691,6 +10704,7 @@ If PREV is non-nil, move up after toggle."
     (setq gams-sil-fold-all-items-p t)))
 
 (defun gams-sil-unfold-all-items ()
+  "Unfold every folded item in the SIL buffer."
   (let ((buffer-read-only nil)
         reg beg end)
     (save-excursion
@@ -10750,6 +10764,7 @@ If PREV is non-nil, move up after toggle."
         (beginning-of-line)))))
 
 (defun gams-sil-toggle-fold-item-internal (&optional po)
+  "Helper that folds/unfolds the tree at optional position PO."
   (interactive)
   (let* ((reg (get-text-property (point) :region))
          (beg (nth 1 reg))
@@ -10784,7 +10799,7 @@ If PREV is non-nil, move up after toggle."
       (goto-char cpo))))
 
 (defun gams-sil-previous-tree ()
-  "Move to next tree."
+  "Move to previous tree."
   (interactive)
   (let ((cpo (point)))
     (forward-char -1)
@@ -10799,25 +10814,29 @@ If PREV is non-nil, move up after toggle."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defconst gams-sid-mess-1
-      (concat
-       "[?]help,[d]ecl,[n]ext,[p]rev,"
-       "[e]copy,[r]escan,"
-       "[ ]restore,[ENT]jump,[TAB]jump+keep"))
+  (concat
+   "[?]help,[d]ecl,[n]ext,[p]rev,"
+   "[e]copy,[r]escan,"
+   "[ ]restore,[ENT]jump,[TAB]jump+keep")
+  "Status message displayed while browsing SID results.")
 
 (defvar gams-regexp-declaration-sub
-      "\\(parameter[s]?\\)[
-(]+")
+  "\\(parameter[s]?\\)[
+(]+"
+  "Regexp used to locate parameter subsections.")
 
 (defvar gams-regexp-declaration-3
-      (concat
-       "^[ \t]*\\("
-       "parameter[s]?\\|singleton[ ]+set[s]?\\|set[s]?\\|scalar[s]?\\|table\\|alias"
-       "\\|acronym[s]?\\|\\(free\\|positive"
-       "\\|negative\\|binary\\|integer\\|nonnegative\\)*[ ]*variable[s]?"
-       "\\|equation[s]?\\|model[s]?\\|$model:"
-       "\\)[ \t\n(]*"))
+  (concat
+   "^[ \t]*\\("
+   "parameter[s]?\\|singleton[ ]+set[s]?\\|set[s]?\\|scalar[s]?\\|table\\|alias"
+   "\\|acronym[s]?\\|\\(free\\|positive"
+   "\\|negative\\|binary\\|integer\\|nonnegative\\)*[ ]*variable[s]?"
+   "\\|equation[s]?\\|model[s]?\\|$model:"
+   "\\)[ \t\n(]*")
+  "Comprehensive regexp matching declaration starters.")
 
-(defconst gams-sid-tree-buffer "*GAMS-TREE*")
+(defconst gams-sid-tree-buffer "*GAMS-TREE*"
+  "Name of the buffer holding the SID tree view.")
 
 (defun gams-sid-return-block-end (beg)
   "Return the point of the end of the block."
@@ -10864,6 +10883,7 @@ If PREV is non-nil, move up after toggle."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defsubst gams-get-included-filename ()
+  "Return the file name at point for $include/$batinclude."
   (let ((f-name (thing-at-point 'filename)))
     (set-text-properties 0 (length f-name) nil f-name)
     f-name))
@@ -10902,6 +10922,7 @@ $batinclude or $include."
 (put 'gams-get-identifier-name-history 'no-default t)
 
 (defun gams-sid-query-get-name ()
+  "Prompt for an identifier name to search in SID."
   (interactive)
   (let ((prev (car gams-get-identifier-name-history))
         name)
@@ -10918,12 +10939,14 @@ $batinclude or $include."
     (list (point) name "s")))
 
 (defun gams-sid-read-key ()
+  "Read a single event for SID navigation."
   (interactive)
   (let (key)
     (setq key (read-event))
     key))
 
 (defun gams-sid-show-help ()
+  "Display a help buffer describing SID key bindings."
   (interactive)
   (let ((temp-buf (get-buffer-create "*SD-HELP"))
         key)
@@ -11069,33 +11092,13 @@ Return the starting point of the alias if in alias block."
     beg-po))
 
 (defun gams-show-identifier (&optional arg)
-  "Show the declaration (definition or first) place of the
-identifier under the cursor.  You can also show and move to the various
-places.  Execute this command with the cursor on the identifier.  Or
-execute this command with the universal-argument and you will be asked
-the identifier name you want to search.
-
-When you are reading or editing a GAMS program, you may often go back to
-the declaration place of an identifier so as to see its definition.  Or
-you may go to the place where an identifier is assigned some value.
-
-In such a case, you could use, for example, `isearch-backward' and
-`isearch-forward' command or something to search the identifier.  But if
-the identifier is used many times at the different places of the
-program, it is difficult to find the declaration place of the
-identifier.  Or if the identifier is declared in a subroutine file, it
-is quite messy to search the declaration place.  This command enables
-you to search the identifier easily.
-
-This command parses the whole identifier structure and thus may open
-many files simultaneously.
-
-This command cannot search aliased set identifer."
+  "Display the declaration/definition of the identifier at point.
+With prefix ARG, prompt for the identifier name."
   (interactive "P")
   (gams-show-identifier-internal arg))
 
 (defun gams-show-identifier-rescan (&optional arg)
-  "Execute `gams-show-identifier' with rescaning the identifer information."
+  "Run `gams-show-identifier' after rescanning identifier information."
   (interactive "P")
   (gams-show-identifier-internal arg t))
 
@@ -11111,6 +11114,7 @@ This command cannot search aliased set identifer."
       (gams-show-identifier-sub beg name type))))
 
 (defsubst gams-sid-get-file-structure ()
+  "Return the file structure list for the current master file."
   (let* ((mfile gams-master-file)
          (mbuf (gams-sil-get-file-buffer-force mfile)))
     (with-current-buffer
@@ -11119,6 +11123,7 @@ This command cannot search aliased set identifer."
             (gams-sil-create-file-structure gams-id-structure gams-file-list)))))
 
 (defun gams-sid-create-id-structure (&optional rescan)
+  "Ensure SID structures exist; RESCAN forces rebuilding."
   (gams-set-master-filename)
   (let ((mfile gams-master-file)
         mbuf)
@@ -11153,9 +11158,7 @@ This command cannot search aliased set identifer."
     flag))
 
 (defun gams-show-identifier-sub (beg name &optional type)
-  "BEG: The point of the identifier
-NAME: The name of the identifier
-TYPE: The type of the identifier"
+  "Display the identifier NAME starting at BEG, optionally scoped by TYPE."
   ;; update master file info.
   ;; (gams-set-master-filename)
 
@@ -11315,8 +11318,7 @@ TYPE: The type of the identifier"
         (gams-highline-off)))))
 
 (defun gams-sid-return-def-position (name idst)
-  "Return the place of identifier NAME.
-Returned value is the list of file number type marker position."
+  "Return (FILE TYPE MARKER POS) of identifier NAME from IDST."
   (let (ele res name_)
     (catch 'found
       (while idst
@@ -11383,12 +11385,8 @@ END: the end of searching."
                 (or end (1+ (line-end-position)))))
 
 (defun gams-sid-show-result (po len fnum flist cbuf cpo)
-  "PO is the point of the matched identifier.
-LEN is the length of the identifier.
-FNUM is the file number where the matched identifier exists.
-FLIST is the `gams-file-list'.
-CBUF: the original buffer.
-CPO: the original point of the original buffer."
+  "Display identifier at PO of length LEN in file number FNUM.
+Use FLIST/CBUF/CPO to restore the original context."
   (let ((fname (cdr (assoc fnum flist))))
     (other-window 2)
     (set-buffer gams-sid-tree-buffer)
@@ -11409,7 +11407,7 @@ CPO: the original point of the original buffer."
     (sit-for 0)))
 
 (defun gams-convert-decltype (decltype)
-  "Convert type of identifier."
+  "Return a human-readable string for DECLTYPE."
   (let (type)
     (setq type
           (cond
@@ -11422,13 +11420,7 @@ CPO: the original point of the original buffer."
     type))
 
 (defun gams-sid-show-result-alt (name po len fnum flist cbuf cpo decltype)
-  "PO is the point of the matched identifier.
-LEN is the length of the identifier.
-FNUM is the file number where the matched identifier exists.
-FLIST is the `gams-file-list'.
-CBUF: the original buffer.
-CPO: the original point of the original buffer.
-DECLTYPE: Type of declaration if the declaration place exists."
+  "Display NAME at PO/len LEN in FNUM, highlighting DECLTYPE if available."
   (let ((fname (cdr (assoc fnum flist))))
     (delete-other-windows)
     (switch-to-buffer gams-sid-tree-buffer)
@@ -11551,8 +11543,7 @@ Return the alist for `gams-file-structure'."
     fst))
 
 (defsubst gams-sid-get-current-part (fst flist)
-  "Return the index of the current point.
-Index is determined by `gams-file-structure'."
+  "Return the index of the current point from FST/FLIST."
   (let* ((cpo (point))
          (cfile (buffer-file-name))
          (cfnum (car (rassoc cfile flist)))
@@ -11577,6 +11568,7 @@ Index is determined by `gams-file-structure'."
   cpart))
 
 (defun gams-sid-show-result-next (name type flist fst)
+  "Display the next occurrence of NAME of TYPE using FLIST/FST."
   (let (cpo cbuf res)
     (setq cpo (point)
           cbuf (current-buffer))
@@ -11650,6 +11642,7 @@ FST: file structure."
     res))
 
 (defun gams-sid-show-result-prev (name type flist fst def)
+  "Display the previous occurrence of NAME using FLIST/FST/DEF."
   (let (cpo cbuf def-po def-fnum res)
     (setq cpo (point)
           cbuf (current-buffer)
@@ -11735,6 +11728,7 @@ FST: file structure."
     res))
 
 (defun gams-sid-show-result-original (name po fnum flist cbuf cpo)
+  "Show NAME at PO in file number FNUM and restore CBUF/CPO context."
   (let ((len (length name)))
 
     (other-window 2)
@@ -11747,8 +11741,8 @@ FST: file structure."
       gams-sid-mess-1))))
 
 (defun gams-sid-show-result-def (name res flist &optional nomess)
-  "NOMESS -> no message.
-DEF is t if declaration place exists."
+  "Display declaration of NAME described by RES/FLIST.
+Optional NOMESS suppresses the informational message."
   (let ((cpo (point))
         (cbuf (current-buffer))
         (cfnum (car (rassoc (buffer-file-name) flist)))
@@ -11773,8 +11767,7 @@ DEF is t if declaration place exists."
                     gams-sid-mess-1)))))))
 
 (defun gams-sid-show-result-first (name po fnum flist cbuf cpo)
-  "NOMESS -> no message.
-DEF is t if declaration place exists."
+  "Display the first usage of NAME at PO in file number FNUM."
   (let ((len (length name)))
     (other-window 2)
     (gams-sid-show-result po len fnum flist cbuf cpo)
