@@ -8034,8 +8034,7 @@ adding or updating an entry."
           (kill-buffer (current-buffer)))))))
 
 (defun gams-temp-write-alist-to-file ()
-  "Save the content of `gams-user-template-alist' into
-the file `gams-user-template-alist'."
+  "Persist `gams-user-template-alist' to `gams-template-file'."
   (interactive)
   (save-excursion
     (when gams-user-template-alist
@@ -8310,7 +8309,7 @@ If RECREATE is non-nil, rebuild cached structures."
     (gams-sil-display-list gams-sil-id-str (buffer-file-name mbuf))))
 
 (defun gams-sid-create-id-list-for-completion (ids)
-  "Create ID list for completion."
+  "Create an ID completion list from IDS."
   (let (ele al id)
     (while ids
       (setq ele (car ids))
@@ -8607,9 +8606,11 @@ This command cannot identify aliased set identifer."
     [ "Help." gams-sil-help t]))
 
 (defconst gams-sil-mess-1
-      (concat "[ ]=show,[r]escan,[?]help,[q]uit,[k]=kill"))
+  (concat "[ ]=show,[r]escan,[?]help,[q]uit,[k]=kill")
+  "Default message displayed in the GAMS-SIL buffer.")
 
 (defsubst gams-sil-show-mess ()
+  "Display the default GAMS-SIL key binding message."
   (message gams-sil-mess-1))
 
 (defun gams-sil-show-click (click)
@@ -8771,8 +8772,8 @@ after use."
     (gams-sil-show-other-window-internal)))
 
 (defun gams-sil-quit (&optional buffer)
-  "Just return to GMS buffer from SIL bufffer.
-It does not kill SIL buffer."
+  "Return to the GMS buffer from the SIL buffer.
+Optional BUFFER specifies a SIL buffer to kill afterward."
   (interactive)
   (switch-to-buffer gams-sil-gms-buffer)
   (delete-other-windows)
@@ -8844,16 +8845,19 @@ It does not kill SIL buffer."
     (setq gams-gms-original-point nil)))
 
 (defun gams-sil-scroll-up ()
+  "Scroll the SIL list upward and refresh the status message."
   (interactive)
   (gams-sil-scroll)
   (gams-sil-show-mess))
 
 (defun gams-sil-scroll-down ()
+  "Scroll the SIL list downward and refresh the status message."
   (interactive)
   (gams-sil-scroll t)
   (gams-sil-show-mess))
 
 (defun gams-sil-help ()
+  "Display a help buffer describing SIL key bindings."
   (interactive)
   (let ((temp-buf (get-buffer-create "*SIL-HELP")))
     (pop-to-buffer temp-buf)
@@ -8962,6 +8966,8 @@ If PAGE is non-nil, page scroll."
     str))
 
 (defun gams-sil-text-color-2 (type &optional col)
+  "Color the current line based on TYPE.
+Optional COL indicates whether to offset the highlight."
   (let ((beg (if col (+ 3 (point)) (point)))
         (end (line-end-position)))
     (cond
@@ -8969,7 +8975,7 @@ If PAGE is non-nil, page scroll."
       (put-text-property beg end 'face gams-comment-face)))))
 
 (defun gams-sil-text-color-3 (type)
-  "Color the current line."
+  "Return a TYPE label with appropriate face properties."
   (let* ((str (upcase (symbol-name type)))
          (len (length str)))
     (cond
@@ -9011,6 +9017,7 @@ If PAGE is non-nil, page scroll."
     str))
 
 (defsubst gams-sil-display-list-message (buffer)
+  "Return the header message for BUFFER's identifier list."
   (format
    "Identifier list on %s
 SPC=view, TAB=goto, ENT=goto+hide, [q]uit, [r]escan, ?=Help
@@ -9018,7 +9025,7 @@ SPC=view, TAB=goto, ENT=goto+hide, [q]uit, [r]escan, ?=Help
    buffer))
 
 (defun gams-sil-display-list (alist buffer)
-  "Display the identifier list."
+  "Display identifier ALIST for BUFFER in sequential order."
   (let* ((idlist alist)
          (coln gams-sil-display-column-num)
          (col -3)
@@ -9120,7 +9127,7 @@ There are 2 types:
     (setq buffer-read-only t)))
 
 (defun gams-sil-display-list-by-type (alist buffer)
-  "Display the identifier list by type."
+  "Display identifier ALIST for BUFFER grouped by type."
   (let* ((idlist alist)
          (type-pre nil)
          (sign "-")
@@ -9187,8 +9194,10 @@ There are 2 types:
     (gams-sil-toggle-fold-all-items-nonint gams-sil-fold-all-items-p)
     (setq buffer-read-only t)))
 
-(defvar gams-sil-regexp-declaration-light nil)
+(defvar gams-sil-regexp-declaration-light nil
+  "Cached regexp matching identifier declarations for SIL.")
 (defsubst gams-sil-regexp-declaration-light ()
+  "Return the regexp that matches basic identifier declarations."
   (setq gams-sil-regexp-declaration-light
         (concat
          "\\("
@@ -9201,8 +9210,10 @@ There are 2 types:
          "^[ \t]*\\(parameter[s]?\\|singleton[ ]+set[s]?\\|set[s]?\\|scalar[s]?\\|table\\|alias\\|acronym[s]?\\|\\(free\\|positive\\|negative\\|binary\\|integer\\|nonnegative\\)*[ \t]*variable[s]?\\|equation[s]?\\|model[s]?\\)[ \t\n(]+\\|" ; 5
          "\\(^$model:\\)[a-zA-Z]+")))      ; 7
 
-(defvar gams-sil-regexp-declaration-temp nil)
+(defvar gams-sil-regexp-declaration-temp nil
+  "Cached regexp that includes temporary SIL declaration patterns.")
 (defsubst gams-sil-regexp-declaration-temp ()
+  "Return the extended regexp used when scanning declarations."
   (setq gams-sil-regexp-declaration-temp
         (concat gams-sil-regexp-declaration-light "\\|"
                 "\\(^$[ ]*[s]?title[ \t]+\\|^$[ ]*label[ \t]+\\)\\|"                                  ; 8
@@ -9213,19 +9224,30 @@ There are 2 types:
                 "[$][ ]*\\(gdxin\\|gdxout\\|sysinclude\\|libinclude\\)\\|"  ; 13
                 "\\(execute_unload\\|execute_load\\)")))                     ; 14
 
-(defvar gams-sil-regexp-declaration nil)
+(defvar gams-sil-regexp-declaration nil
+  "Cached regexp covering all SIL declaration patterns.")
 
-(defvar gams-sil-key-on "j")
-(defvar gams-sil-key-on-prev "i")
-(defvar gams-sil-key-off "h")
-(defvar gams-sil-key-off-prev "u")
-(defvar gams-sil-key-on-all "d")
-(defvar gams-sil-key-off-all "f")
-(defvar gams-sil-key-quit "q")
-(defvar gams-sil-key-add "a")
-(defvar gams-sil-key-select "\r")
+(defvar gams-sil-key-on "j"
+  "Key binding for toggling the current SIL item on.")
+(defvar gams-sil-key-on-prev "i"
+  "Key binding for toggling the previous SIL item on.")
+(defvar gams-sil-key-off "h"
+  "Key binding for toggling the current SIL item off.")
+(defvar gams-sil-key-off-prev "u"
+  "Key binding for toggling the previous SIL item off.")
+(defvar gams-sil-key-on-all "d"
+  "Key binding for toggling all SIL items on.")
+(defvar gams-sil-key-off-all "f"
+  "Key binding for toggling all SIL items off.")
+(defvar gams-sil-key-quit "q"
+  "Key binding for leaving the SIL selection buffer.")
+(defvar gams-sil-key-add "a"
+  "Key binding for adding a new SIL item configuration.")
+(defvar gams-sil-key-select "\r"
+  "Key binding for selecting the highlighted SIL entry.")
 
-(defvar gams-sil-select-mode-map (make-keymap) "keymap.")
+(defvar gams-sil-select-mode-map (make-keymap)
+  "Keymap used while selecting SIL view items.")
 (let ((map gams-sil-select-mode-map))
   (define-key map " " 'gams-sil-toggle)
   (define-key map gams-sil-key-on 'gams-sil-toggle-on)
@@ -9239,6 +9261,7 @@ There are 2 types:
   (define-key map gams-sil-key-off-all 'gams-sil-toggle-all-off))
 
 (defsubst gams-sil-regexp-update ()
+  "Refresh cached regular expressions for SIL parsing."
   (gams-sil-regexp-declaration-light)
   (gams-sil-regexp-declaration-temp)
   (setq gams-sil-regexp-declaration
@@ -9270,6 +9293,7 @@ Return the new file number."
     num))
 
 (defsubst gams-sil-get-alist-title (fnum)
+  "Return an entry describing a title in file FNUM."
   (let ((cont
          (gams-buffer-substring
           (point) (line-end-position))))
@@ -9278,6 +9302,7 @@ Return the new file number."
      (set-marker (make-marker) (point)))))
 
 (defsubst gams-sil-get-alist-exit (fnum)
+  "Return an entry describing an $exit statement in file FNUM."
   (let* ((con (copy-sequence "EXIT !!!"))
          (len (length con)))
     (put-text-property 0 len 'face gams-lst-warning-face con)
@@ -9286,6 +9311,7 @@ Return the new file number."
      (set-marker (make-marker) (point)))))
 
 (defsubst gams-sil-get-alist-dollar (fnum dollar beg)
+  "Return an entry for a dollar control DOLLAR in file FNUM at BEG."
   (let ((cpo (point))
         (line-epo (line-end-position))
         epo cont)
@@ -9300,6 +9326,7 @@ Return the new file number."
           (set-marker (make-marker) beg))))
 
 (defsubst gams-sil-get-alist-fil (fnum dollar beg)
+  "Return an entry for a FILE include DOLLAR in file FNUM at BEG."
   (let ((cpo (point))
         (line-epo (line-end-position))
         epo cont)
@@ -9316,6 +9343,7 @@ Return the new file number."
           (set-marker (make-marker) beg))))
 
 (defsubst gams-sil-get-alist-fil-alt (fnum beg)
+  "Return an entry for a $ginclude directive in file FNUM at BEG."
   (let ((cpo (point))
         (line-epo (line-end-position))
         epo cont)
@@ -9332,6 +9360,7 @@ Return the new file number."
           (set-marker (make-marker) beg))))
 
 (defsubst gams-sil-get-alist-special-comment (fnum)
+  "Return an entry for a special comment in file FNUM."
   (let ((cpo (point))
         cont)
     (setq cont
@@ -9342,6 +9371,7 @@ Return the new file number."
           (set-marker (make-marker) cpo))))
 
 (defsubst gams-sil-get-alist-solve (fnum)
+  "Return an entry describing a SOLVE statement in file FNUM."
   (let ((cpo (point))
         name)
     (skip-chars-forward "a-zA-Z0-9_")
@@ -9350,6 +9380,7 @@ Return the new file number."
           (set-marker (make-marker) cpo))))
 
 (defsubst gams-sil-get-alist-func (fnum)
+  "Return an entry describing a function definition in file FNUM."
   (let (end name)
     (save-excursion
       (skip-chars-backward "= \t")
@@ -9361,6 +9392,7 @@ Return the new file number."
             (set-marker (make-marker) (point))))))
 
 (defsubst gams-sil-get-alist-macro (fnum)
+  "Return an entry describing a macro definition in file FNUM."
   (let (beg end name)
     (save-excursion
       (setq beg (point))
@@ -9371,6 +9403,7 @@ Return the new file number."
             (set-marker (make-marker) beg)))))
 
 (defsubst gams-sil-get-alist-def (fnum)
+  "Return an entry describing a DEFINE block in file FNUM."
   (let (cpo beg end name)
     (save-excursion
       (skip-chars-backward " \t[.]")
@@ -9385,9 +9418,11 @@ Return the new file number."
       (list 'def fnum beg name nil
             (set-marker (make-marker) beg)))))
 
-(defvar gams-sil-buffers-to-kill nil)
+(defvar gams-sil-buffers-to-kill nil
+  "Internal list of buffers created while building the SIL table.")
 
 (defsubst gams-sil-get-filename (file &optional dir)
+  "Return FILE resolved relative to DIR, adding .gms extensions as needed."
   (let ((ofname (expand-file-name file dir))
         fname)
     (if (file-exists-p ofname)
@@ -9430,6 +9465,7 @@ Return the new file number."
     idstr))
 
 (defsubst gams-sil-counter (co)
+  "Return a small counter glyph derived from CO."
   (let ((co- (% (/ co 50) 4)))
     (concat
      (make-string (min (/ co 50) (- fill-column 20)) ?-)
