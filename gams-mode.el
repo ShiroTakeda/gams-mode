@@ -10630,7 +10630,7 @@ If PREV is non-nil, move up after toggle."
     (overlay-put ov 'gams-sil t)))
 
 (defun gams-sil-visible-item (beg)
-  "Remove the SIL overlay that starts around BEG."
+  "Remove the SIL overlay that begins near BEG."
   (let ((ov (gams-sil-overlay-at (1+ beg))))
     (when ov (delete-overlay ov))))
 
@@ -10839,7 +10839,7 @@ If PREV is non-nil, move up after toggle."
   "Name of the buffer holding the SID tree view.")
 
 (defun gams-sid-return-block-end (beg)
-  "Return the point of the end of the block."
+  "Return the point where the block starting at BEG ends."
   (let (temp flag mstr)
     (save-excursion
       (goto-char beg)
@@ -11045,7 +11045,7 @@ Otherwise nil."
 
 ;;; From highline.el
 (defun gams-highlight-current-line (&optional beg end)
-  "Highlight current line."
+  "Highlight the current line between optional BEG and END."
   (unless gams-highline-overlay
     (setq gams-highline-overlay (make-overlay 1 1)) ; Hide it for now
     (overlay-put gams-highline-overlay 'hilit t)
@@ -11092,17 +11092,35 @@ Return the starting point of the alias if in alias block."
     beg-po))
 
 (defun gams-show-identifier (&optional arg)
-  "Display the declaration/definition of the identifier at point.
-With prefix ARG, prompt for the identifier name."
+  "Display the declaration or definition for the identifier at point or ARG.
+With the `universal-argument', prompt for the identifier name to search.
+
+When you are reading or editing a GAMS program, you may often go back to
+the declaration place of an identifier so as to see its definition.  Or
+you may go to the place where an identifier is assigned some value.
+
+In such a case, you could use, for example, `isearch-backward' and
+`isearch-forward' command or something to search the identifier.  But if
+the identifier is used many times at the different places of the
+program, it is difficult to find the declaration place of the
+identifier.  Or if the identifier is declared in a subroutine file, it
+is quite messy to search the declaration place.  This command enables
+you to search the identifier easily.
+
+This command parses the whole identifier structure and thus may open
+many files simultaneously.
+
+This command cannot search aliased set identifer."
   (interactive "P")
   (gams-show-identifier-internal arg))
 
 (defun gams-show-identifier-rescan (&optional arg)
-  "Run `gams-show-identifier' after rescanning identifier information."
+  "Run `gams-show-identifier' with prefix ARG after rescanning identifiers."
   (interactive "P")
   (gams-show-identifier-internal arg t))
 
 (defun gams-show-identifier-internal (arg &optional rescan)
+  "Implementation of `gams-show-identifier' for ARG and optional RESCAN."
   (let* (beg name type temp)
     (gams-sid-create-id-structure rescan)
     (setq temp (if arg (gams-sid-query-get-name) (gams-sid-get-name)))
@@ -11123,7 +11141,8 @@ With prefix ARG, prompt for the identifier name."
             (gams-sil-create-file-structure gams-id-structure gams-file-list)))))
 
 (defun gams-sid-create-id-structure (&optional rescan)
-  "Ensure SID structures exist; RESCAN forces rebuilding."
+  "Ensure SID structures exist.
+When RESCAN is non-nil, rebuild all identifier metadata."
   (gams-set-master-filename)
   (let ((mfile gams-master-file)
         mbuf)
@@ -11139,6 +11158,7 @@ With prefix ARG, prompt for the identifier name."
         (setq gams-file-structure (gams-sid-get-file-structure))))))
 
 (defsubst gams-sid-return-first-position (name type flist fst)
+  "Return the first position of NAME of TYPE using FLIST/FST structures."
   (let ((len (length name))
         temp)
     (switch-to-buffer (get-file-buffer (cdr (assoc 1 flist))))
@@ -11341,10 +11361,8 @@ With prefix ARG, prompt for the identifier name."
 
 (defun gams-sid-search-id-in-current-file (name &optional type beg end)
   "Search the identifier NAME and return its point.
-NAME: the name of the identifier
-TYPE: the type of the identifier
-BEG: the beginning of searching.
-END: the end of searching."
+Optional TYPE limits the search to declarations, and BEG/END bound the
+search region."
   (let ((reg (concat "[^a-zA-Z0-9_.]+\\(" name "\\)[^a-zA-Z0-9_]+"))
         (case-fold-search t)
         po-beg po)
@@ -11420,7 +11438,7 @@ Use FLIST/CBUF/CPO to restore the original context."
     type))
 
 (defun gams-sid-show-result-alt (name po len fnum flist cbuf cpo decltype)
-  "Display NAME at PO/len LEN in FNUM, highlighting DECLTYPE if available."
+  "Display NAME at PO/LEN LEN in FNUM using FLIST/CBUF/CPO/DECLTYPE."
   (let ((fname (cdr (assoc fnum flist))))
     (delete-other-windows)
     (switch-to-buffer gams-sid-tree-buffer)
@@ -11528,7 +11546,7 @@ Return the alist for `gams-file-structure'."
           (setq fst-- (cons ele3 fst--))
           (setq ele1 ele3))
         (setq fst- (cdr fst-))))
-    (setq fst (reverse fst--))
+      (setq fst (reverse fst--))
 
     ;; Add index:
     (let ((co 1))
@@ -11587,12 +11605,7 @@ Return the alist for `gams-file-structure'."
       (goto-char cpo))))
 
 (defun gams-sid-search-identifier-next (name type flist fst)
-  "Search the identifier NAME.
-
-NAME: identifier name.
-TYPE: identifier type.
-FLIST: file list.
-FST: file structure."
+  "Return the next occurrence of NAME of TYPE using FLIST/FST metadata."
   (let ((case-fold-search t)
         (reg
          (if type
@@ -11665,13 +11678,7 @@ FST: file structure."
       (goto-char cpo))))
 
 (defun gams-sid-search-identifier-prev (name type def flist fst)
-  "Search the identifier NAME.
-
-NAME: identifier name.
-TYPE: identifier type.
-DEF: (def-fnum . def-po).
-FLIST: file list.
-FST: file structure."
+  "Return the previous occurrence of NAME using DEF/FLIST/FST metadata."
   (let ((case-fold-search t)
         (reg
          (if type
@@ -11767,7 +11774,7 @@ Optional NOMESS suppresses the informational message."
                     gams-sid-mess-1)))))))
 
 (defun gams-sid-show-result-first (name po fnum flist cbuf cpo)
-  "Display the first usage of NAME at PO in file number FNUM."
+  "Display the first usage of NAME at PO in FNUM using FLIST/CBUF/CPO."
   (let ((len (length name)))
     (other-window 2)
     (gams-sid-show-result po len fnum flist cbuf cpo)
@@ -11776,8 +11783,7 @@ Optional NOMESS suppresses the informational message."
               gams-sid-mess-1))))
 
 (defun gams-sid-copy-explanatory-text (po-def len)
-  "Copy (extract) the explanatory text of the identifier from the declaration
-place."
+  "Copy explanatory text near PO-DEF for an identifier of length LEN."
   (let ((case-fold-search t)
         fl_q fl_e beg end etxt)
 
@@ -11835,7 +11841,7 @@ place."
 (setq-default gams-sid-tree-structure nil)
 
 (defun gams-sid-tree-mode ()
-  "GAMS-SID tree buffer."
+  "Major mode for the GAMS-SID tree buffer."
   (kill-all-local-variables)
   (setq major-mode 'gams-sid-tree-mode)
   (setq mode-name "GAMS-TREE")
@@ -11846,8 +11852,7 @@ place."
   (setq buffer-read-only t))
 
 (defun gams-sid-create-tree-buffer-sub (cfnum cpo flist fst)
-  "CFNUM: Orignal file number.
-CPO: Original point."
+  "Populate the SID tree buffer for CFNUM/ CPO using FLIST/FST."
   (let ((part 0)
         (col-base 1)
         (col-aug 2)
@@ -11950,6 +11955,7 @@ CPO: Original point."
     (setq buffer-read-only t)))
 
 (defun gams-sid-show-current-position-in-tree (cfnum cpo)
+  "Highlight the tree node for CFNUM at position CPO."
   (let* ((part (gams-sid-return-current-position-in-tree cfnum cpo))
          (str gams-sid-position-symbol)
          (len (length str))
@@ -11975,8 +11981,7 @@ CPO: Original point."
     (setq buffer-read-only t)))
 
 (defun gams-sid-return-current-position-in-tree (cfnum cpo)
-  "Return the current place index.
-Place index is determined by `gams-sid-tree-structure'."
+  "Return the current tree index for CFNUM/CPO."
   (let ((tree gams-sid-tree-structure)
         ele part)
     (catch 'found
@@ -12005,8 +12010,7 @@ Place index is determined by `gams-sid-tree-structure'."
 (setq gams-user-outline-item-alist-initial gams-user-outline-item-alist)
 
 (defvar gams-outline-item-alist nil
-  "The list of combinations of options in which
-`gams-process-command-option' and `gams-user-option-alist' are combined.")
+  "The list of combinations of options combining process and user prefs.")
 
 (defun gams-ol-item-make-alist (alist)
   "Combine `gams-process-command-option' and `gams-user-option-alist'."
@@ -12083,9 +12087,9 @@ Type ? in the OUTLINE buffer for the help."
       )))
 
 (defun gams-ol-get-alist (&optional buffer view)
-  "Return the value of `gams-ol-alist' or `gams-ol-alist-tempo'.
-If BUFFER is non-nil, the current buffer is OL buffer, not LST buffer.
-If VIEW is non-nil, return the value of `gams-ol-alist-tempo'."
+  "Return `gams-ol-alist' or `gams-ol-alist-tempo'.
+If BUFFER is non-nil, treat the current buffer as the OL buffer.
+If VIEW is non-nil, return the temporary view alist."
   (let ((cur-buf (if buffer (current-buffer) nil))
         alist)
     ;; The current buffer is LST buffer or OL buffer?
@@ -12201,7 +12205,8 @@ If VIEW is non-nil, return the value of `gams-ol-alist-tempo'."
     ["Choose font-lock level." gams-choose-font-lock-level t]
     ["Fontify block." font-lock-fontify-block t]))
 
-(defvar gams-ol-view-item-default nil)
+(defvar gams-ol-view-item-default nil
+  "Default outline view configuration.")
 
 (defun gams-ol-mode (lst-file-buf)
   "The GAMS-OUTLINE mode.
@@ -12323,7 +12328,7 @@ The followings are page scroll commands.  Just changed to upper cases.
         (font-lock-mode -1)))) ;;; ends.
 
 (defsubst gams-ol-count-line ()
-  "Calculate the current line number in the OUTLINE buffer."
+  "Return the current line number in the OUTLINE buffer."
   (count-lines (point-min)
                (min (point-max) (1+ (point)))))
 
@@ -12343,6 +12348,7 @@ The followings are page scroll commands.  Just changed to upper cases.
     (setq gams-lst-ol-buffer-point po-ol)))
 
 (defun gams-ol-help ()
+  "Show help for GAMS-OUTLINE mode."
   (interactive)
   (let ((temp-buf (get-buffer-create "*OL-HELP")))
     (pop-to-buffer temp-buf)
@@ -12444,9 +12450,8 @@ For details, see the help of `gams-ol-toggle-display-style'."
   :group 'gams)
 
 (defcustom gams-ol-width 40
-"The default width of the GAMS-OUTLINE buffer.
-You can change the width of the OUTLINE buffer with
-`gams-ol-narrow-one-line' and `gams-ol-widen-one-line'."
+  "The default width of the GAMS-OUTLINE buffer.
+Change the width using `gams-ol-narrow-one-line' or `gams-ol-widen-one-line'."
   :type 'integer
   :group 'gams)
 
@@ -12546,7 +12551,7 @@ o horizontal-horizontal
      (format "Switched to %s-%s display style." mess-main mess-sub))))
 
 (defun gams-ol-view-base ()
-  "Show the content of the item on the current line in the another window."
+  "Show the content of the item on the current line in another window."
   (interactive)
   (let* ((line-num (gams-ol-count-line))
          (list-par (assoc line-num (gams-ol-get-alist t t)))
@@ -12619,13 +12624,13 @@ o horizontal-horizontal
         (pop-to-buffer cur-buf)))))
 
 (defun gams-ol-view-base-click (click)
-  "Show the content of an item on the current line."
+  "Handle mouse CLICK to view the current outline item."
   (interactive "e")
   (mouse-set-point click)
   (gams-ol-view-base))
 
 (defun gams-ol-mark-click (click)
-  "Mark or unmark an item on the current line."
+  "Handle mouse CLICK to mark the outline item."
   (interactive "e")
   (mouse-set-point click)
   (let ((line-num (gams-ol-count-line))
