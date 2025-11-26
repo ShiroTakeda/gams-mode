@@ -1877,16 +1877,19 @@ LIMIT specifies the search limit."
       po)))
 
 (defsubst gams-sid-get-alist-double-quote ()
+  "Return the point of the next double quote on the current line."
   (let ((end (line-end-position)))
     (forward-char 1)
     (or (re-search-forward "\"" end t) (point))))
 
 (defsubst gams-sid-get-alist-single-quote ()
+  "Return the point of the next single quote on the current line."
   (let ((end (line-end-position)))
     (forward-char 1)
     (or (re-search-forward "'" end t) (point))))
 
 (defsubst gams-sid-goto-inline-comment-end ()
+  "Move to the end of the current inline comment and return point."
   (let ((end (line-end-position)))
     (forward-char 1)
     (or (re-search-forward (regexp-quote gams-inlinecom-symbol-end) end t) end)))
@@ -3628,15 +3631,15 @@ of errors."
 
 (defun gams-view-lst (&optional pop)
   "Switch to the LST file buffer and show the error message.
-If you attach the universal-argument, this command splits the window and
-displays the LST file buffer in other windows."
+If POP (or `universal-argument') is non-nil, split the window and
+display the LST buffer in another window."
   (interactive "P")
   (gams-jump-to-lst-sub pop t))
 
 (defun gams-jump-to-lst (&optional pop)
   "Switch to the LST file buffer.
-If you attach the universal-argument, this command splits the window and
-displays the LST file buffer in other windows."
+If POP (or `universal-argument') is non-nil, split the window and
+display the LST buffer in another window."
   (interactive "P")
   (gams-jump-to-lst-sub pop nil))
 
@@ -3654,7 +3657,8 @@ displays the LST file buffer in other windows."
 ;;;;; fill-paragraph.
 
 (defun gams-fill-paragraph (&optional justify)
-  "`fill-paragraph' function for GAMS mode."
+  "`fill-paragraph' implementation for GAMS mode.
+If JUSTIFY is non-nil, justify text as `fill-paragraph' would."
   (interactive)
   (let ((org-po (point))
         beg end mk)
@@ -4144,7 +4148,7 @@ If ASK is non-nil, you can edit command line."
 
       (gams-start-process-other-window
        (if ask
-	   (progn 
+	   (progn
              (setq newarg (read-string "Edit command if you want:  " arg))
              (if (and builtin
                       (not (string= newarg arg))
@@ -4202,6 +4206,8 @@ Possible values include: `browse-url', `browse-url-generic',
   "History of searched commands of gams-view-doc.")
 
 (defun gams-view-doc-read-string (prompt &optional init history default inherit)
+  "Read a documentation query using PROMPT and completion history.
+INIT, HISTORY, DEFAULT, and INHERIT are passed to `read-string'."
   (read-string
    (if default
        (concat prompt " (default = " default "): ")
@@ -4209,6 +4215,7 @@ Possible values include: `browse-url', `browse-url-generic',
    init history default inherit))
 
 (defun gams-view-doc-get-command ()
+  "Return the command name at point or prompt for it."
   (let* ((sym (symbol-at-point))
          default)
     (when sym
@@ -4221,6 +4228,7 @@ Possible values include: `browse-url', `browse-url-generic',
      nil 'gams-view-doc-input-history default t)))
 
 (defun gams-view-doc-search-command (command &optional search-url)
+  "Look up COMMAND in the documentation, optionally using SEARCH-URL."
   (let* ((browse-result
           (funcall gams-browse-url-function
                    (format (concat (or search-url gams-docs-url)
@@ -4229,14 +4237,15 @@ Possible values include: `browse-url', `browse-url-generic',
     browse-result))
 
 (defun gams-view-document (&optional command)
-  "This command opens GAMS Documentation Center through a web browser.
+  "Open the GAMS documentation center in a browser.
 
-The current GAMS system offers manuals in html format (GAMS
-Documentation Center).  This command enables you to open manuals from
-GAMS mode.  You can choose online documents or offline documents.  If
-you attach the universal argument \\[universal-argument]C-cC-m, then you
-can search a command under the cursor in the documentation center (this
-command search function is available only in the online manual).
+Optional COMMAND, or \\[universal-argument], searches the symbol at
+point in the online manual.  The current GAMS system offers manuals in
+HTML format (GAMS Documentation Center).  This command enables you to
+open manuals from GAMS mode.  You can choose online or offline
+documents.  If you attach the universal argument `universal-argument'
+`C-c C-m', you can search a command under the cursor in the
+documentation center (this search function is available only online).
 
 The directory of the local GAMS documents is determined by the variable
 `gams-docs-directory'.  By default, `gams-docs-directory' is set to
@@ -5003,14 +5012,17 @@ BUFF is buffer name."
   (setq buffer-read-only t))
 
 (defun gams-command-add-new-command ()
+  "Add a new command entry to the options buffer."
   (interactive)
   (gams-opt-add-new-option t))
 
 (defun gams-command-change ()
+  "Change the currently selected command entry."
   (interactive)
   (gams-opt-change t))
 
 (defun gams-command-edit ()
+  "Edit the command entry at point."
   (interactive)
   (gams-opt-edit t))
 
@@ -5186,22 +5198,28 @@ If STRING contains only spaces, return null string."
     (if num (substring string num) "")))
 
 (defun gams-minibuffer-insert-space ()
+  "Insert a literal space while completing statements."
   (interactive)
   (insert " "))
 
 ;;; Define variables to store histories.
-(defvar gams-st-hist-statement nil)
-(defvar gams-st-hist-solve-model nil)
-(defvar gams-st-hist-solve-solver nil)
-(defvar gams-st-hist-solve-maximin nil)
+(defvar gams-st-hist-statement nil
+  "History of statement names entered in the minibuffer.")
+(defvar gams-st-hist-solve-model nil
+  "History of model names supplied to SOLVE statements.")
+(defvar gams-st-hist-solve-solver nil
+  "History of solver names used in SOLVE statements.")
+(defvar gams-st-hist-solve-maximin nil
+  "History of max/min selections for SOLVE statements.")
 (put 'gams-st-hist-statement 'no-default t)
 (put 'gams-st-hist-solve-model 'no-default t)
 (put 'gams-st-hist-solve-solver 'no-default t)
 (put 'gams-st-hist-solve-maximin 'no-default t)
 
 (defun gams-read-statement-ext (prompt completion &optional history initial)
-  "Read a GAMS statements with completion."
- (gams-remove-spaces-from-string
+  "Read a GAMS statement using PROMPT and COMPLETION.
+HISTORY and INITIAL are forwarded to `completing-read'."
+  (gams-remove-spaces-from-string
    (completing-read
     prompt completion nil nil initial history)))
 
@@ -5226,6 +5244,7 @@ If STRING contains only spaces, return null string."
     (downcase str)))
 
 (defun gams-insert-post-option ()
+  "Insert option definitions for statements."
   (let ((opt-def
          (or gams-insert-option-previous
              gams-insert-option-default))
@@ -5271,6 +5290,7 @@ If STRING contains only spaces, return null string."
           (throw 'flag t))))))
 
 (defun gams-insert-post-loop (name)
+  "Insert the argument block for the LOOP/IF/WHILE/FOR statement NAME."
   (let (type mess arg-1 po-beg)
     (setq type (downcase name))
     (setq mess
@@ -5291,6 +5311,7 @@ If STRING contains only spaces, return null string."
       (insert arg-1))))
 
 (defun gams-insert-post-solve-modname (alist)
+  "Return the list of model names extracted from identifier ALIST."
   (let (al ele mod)
     (while alist
       (setq ele (car alist))
@@ -5301,6 +5322,7 @@ If STRING contains only spaces, return null string."
     al))
 
 (defun gams-insert-post-solve-varname (alist)
+  "Return the list of variable names extracted from identifier ALIST."
   (let (al ele var)
     (while alist
       (setq ele (car alist))
@@ -5312,6 +5334,7 @@ If STRING contains only spaces, return null string."
     al))
 
 (defun gams-insert-post-solve ()
+  "Insert the interactive body of a SOLVE statement."
   (let ((def-solv (or gams-insert-solver-type-previous
                      gams-insert-solver-type-default))
         mod-name sol-type maxmin maximand guess)
@@ -5381,6 +5404,7 @@ If STRING contains only spaces, return null string."
       (delete-char -1) (insert ";")))))
 
 (defun gams-insert-model-components-eqname (alist)
+  "Return equation identifiers extracted from identifier ALIST."
   (let ((cfnum (gams-sil-return-file-num
                 (buffer-file-name
                  (current-buffer))))
@@ -5401,6 +5425,7 @@ If STRING contains only spaces, return null string."
     (nreverse al)))
 
 (defun gams-insert-model-components ()
+  "Interactively insert equation labels for the current model."
   (let* (eq-comp ele)
     (save-excursion
       (beginning-of-line)
@@ -5436,6 +5461,7 @@ If STRING contains only spaces, return null string."
            (t (insert (concat ele ", ")))))))))
 
 (defun gams-insert-post-model ()
+  "Insert the skeleton of a MODEL statement."
   (let (m-name m-exp key)
     (insert " ")
     (catch 'flag
@@ -5465,6 +5491,7 @@ If STRING contains only spaces, return null string."
           (throw 'flag t))))))
 
 (defun gams-insert-post-file ()
+  "Insert an interactive FILE statement."
   (let ((f-comp (gams-list-to-alist
                  (directory-files default-directory)))
         f-label f-exp f-name)
@@ -5494,6 +5521,7 @@ If STRING contains only spaces, return null string."
       (insert ";"))))
 
 (defun gams-insert-post-put ()
+  "Insert a PUT statement by prompting for an existing file label."
   (let* ((f-comp
           (gams-list-to-alist
            (gams-store-file-label (point-min) (point))))
@@ -5591,7 +5619,8 @@ BEG and END are points."
   (nreverse f-list)))
 
 (defun gams-insert-statement-extended (&optional cmd)
-  "Insert GAMS statement with extended features.
+  "Insert a GAMS statement with extended features.
+If optional CMD is non-nil, use it instead of prompting for a statement.
 This command has various extended features than the normal
 `gams-insert-statement'.  Types of statements you can insert with this
 command are:
@@ -6827,61 +6856,75 @@ If PAGE is non-nil, page scroll."
 
 ;;; line scroll.
 (defun gams-lst-scroll-1 ()
+  "Scroll the LST buffer by one unit."
   (interactive)
   (gams-lst-scroll))
 
 (defun gams-lst-scroll-down-1 ()
+  "Scroll the LST buffer downward by one unit."
   (interactive)
   (gams-lst-scroll t))
 
 (defun gams-lst-scroll-2 ()
+  "Scroll the LST buffer by two units."
   (interactive)
   (gams-lst-scroll nil "2"))
 
 (defun gams-lst-scroll-down-2 ()
+  "Scroll the LST buffer downward by two units."
   (interactive)
   (gams-lst-scroll t "2"))
 
 (defun gams-lst-scroll-double ()
+  "Scroll the LST buffer by the \"double\" amount."
   (interactive)
   (gams-lst-scroll nil "d"))
 
 (defun gams-lst-scroll-down-double ()
+  "Scroll the LST buffer downward by the \"double\" amount."
   (interactive)
   (gams-lst-scroll t "d"))
 
 ;;; Page scroll
 (defun gams-lst-scroll-page-1 ()
+  "Scroll one page upward in the LST buffer."
   (interactive)
   (gams-lst-scroll nil nil t))
 
 (defun gams-lst-scroll-page-down-1 ()
+  "Scroll one page downward in the LST buffer."
   (interactive)
   (gams-lst-scroll t nil t))
 
 (defun gams-lst-scroll-page-2 ()
+  "Scroll two pages upward in the LST buffer."
   (interactive)
   (gams-lst-scroll nil "2" t))
 
 (defun gams-lst-scroll-page-down-2 ()
+  "Scroll two pages downward in the LST buffer."
   (interactive)
   (gams-lst-scroll t "2" t))
 
 (defun gams-lst-scroll-page-double ()
+  "Scroll the \"double\" page amount upward in the LST buffer."
   (interactive)
   (gams-lst-scroll nil "d" t))
 
 (defun gams-lst-scroll-page-down-double ()
+  "Scroll the \"double\" page amount downward in the LST buffer."
   (interactive)
   (gams-lst-scroll t "d" t))
 
-(defvar gams-ifs-lst-buffer nil)
+(defvar gams-ifs-lst-buffer nil
+  "GAMS LST buffer associated with the Include File Summary window.")
 (setq-default gams-ifs-lst-buffer nil)
 
 ;; Added `gams-lst-file-summary' command to GAMS-LST mode. This command shows
 ;; the include file summary.
 
 (defun gams-lst-file-summary-display-list (buf falist)
+  "Display FALIST for BUF in the Include File Summary buffer."
   (setq buffer-read-only nil)
   (erase-buffer)
   (goto-char (point-min))
@@ -6988,6 +7031,7 @@ If PAGE is non-nil, page scroll."
   (setq truncate-lines t))
 
 (defun gams-lst-create-file-list ()
+  "Return an alist describing include files in the current buffer."
   (let (f-alist
         col-fn v-seq
         v-gol v-type v-pare
@@ -7042,7 +7086,7 @@ If PAGE is non-nil, page scroll."
 (defvar gams-align-dummy-heading-item "xyz0abc1")
 
 (defun gams-align-block (beg end)
-  "Align a region according to GAMS systax."
+  "Align the region between BEG and END according to GAMS syntax."
   (interactive
    (append
     (list (region-beginning) (region-end))))
@@ -7072,6 +7116,8 @@ If PAGE is non-nil, page scroll."
           (gams-align-other-block beg end)))))))
 
 (defun gams-align-table-block (beg end sp)
+  "Align a GAMS TABLE block between BEG and END.
+SP is the spacing used between columns."
   (let (rule)
     (unwind-protect
         (progn
@@ -7110,6 +7156,8 @@ If PAGE is non-nil, page scroll."
       (widen))))
 
 (defun gams-align-return-point-mpsge (limit)
+  "Return the spacing region before \\=\"!\\=\" up to LIMIT.
+This is used when aligning MPSGE blocks."
   (let (beg end flag)
     (when (re-search-forward "\\([ \t]+\\)!" limit t)
       (throw 'found t)
@@ -7121,6 +7169,7 @@ If PAGE is non-nil, page scroll."
     flag))
 
 (defun gams-align-mpsge-block (beg end sp)
+  "Align an MPSGE block bounded by BEG and END using spacing SP."
   (let (rule rule2)
     (setq rule
           (list (list nil
@@ -7157,6 +7206,7 @@ If PAGE is non-nil, page scroll."
       (widen))))
 
 (defun gams-align-other-block (beg end)
+  "Align a non-table, non-MPSGE block between BEG and END."
   (let (rule)
     (unwind-protect
         (progn
@@ -7196,17 +7246,26 @@ If PAGE is non-nil, page scroll."
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar gams-template-file-already-loaded nil)
+(defvar gams-template-file-already-loaded nil
+  "Non-nil if the template file was already loaded.")
 
-(defvar gams-user-template-alist nil)
-(defconst gams-temp-buffer "*GAMS Template List*")
-(defconst gams-temp-edit-buffer "*GAMS Template Edit*")
-(defconst gams-temp-cont-buffer "*GAMS Template Content*")
-(defvar gams-prog-file-buff nil)
-(defvar gams-user-template-alist-init nil)
-(defvar gams-user-template-alist-init-alt nil)
+(defvar gams-user-template-alist nil
+  "Alist describing the registered GAMS templates.")
+(defconst gams-temp-buffer "*GAMS Template List*"
+  "Name of the buffer showing template entries.")
+(defconst gams-temp-edit-buffer "*GAMS Template Edit*"
+  "Name of the buffer used to edit templates.")
+(defconst gams-temp-cont-buffer "*GAMS Template Content*"
+  "Name of the buffer displaying template contents.")
+(defvar gams-prog-file-buff nil
+  "Buffer containing the originating GAMS program file.")
+(defvar gams-user-template-alist-init nil
+  "Initial value of `gams-user-template-alist'.")
+(defvar gams-user-template-alist-init-alt nil
+  "Alternate initial template alist used for rollback.")
 
-(defvar gams-add-template-file nil)
+(defvar gams-add-template-file nil
+  "Path to the template file being added.")
 (setq-default gams-add-template-file nil)
 
 (defun gams-temp-load-template-file (file)
@@ -7384,6 +7443,7 @@ The following commands are available in this mode.
         (gams-temp-show-message)))))
 
 (defun gams-temp-show-message ()
+  "Display a message explaining how to add templates."
   (message
    (concat "No template is registered!"
            " `a'=add, `q'=quit, `?'=help.")))
