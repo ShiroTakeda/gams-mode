@@ -5451,7 +5451,7 @@ HISTORY and INITIAL are forwarded to `completing-read'."
           (setq al (cons (list def) al)))
         (setq alist (cdr alist))
         (unless alist (throw 'flag t))))
-    (nreverse al)))
+    (delete-dups (nreverse al))))
 
 (defun gams-insert-model-components ()
   "Interactively insert equation labels for the current model."
